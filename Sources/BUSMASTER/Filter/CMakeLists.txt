@@ -1,7 +1,6 @@
 set(sources
   Filter.cpp
   FilterConfigDlg.cpp
-  FlexListCtrl.cpp
   MainSubListDlg.cpp
   ../Application/MultiLanguage.cpp)
 
@@ -11,7 +10,6 @@ set(headers
   Filter_resource.h
   Filter_stdafx.h
   FilterConfigDlg.h
-  FlexListCtrl.h
   MainSubListDlg.h
   ../Application/MultiLanguage.h)
 

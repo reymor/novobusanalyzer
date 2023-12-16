@@ -7,12 +7,9 @@ set(sources
   SignalWatchListBox.cpp
   MsgSignalSelect.cpp
   SignalWatch_LIN.cpp
-  SigWatchAddDelDlg.cpp
   SigWatchDlg.cpp)
 
 set(headers
-  BaseSignalWatch_CAN.h
-  BaseSignalWatch_J1939.h
   ../Application/MultiLanguage.h
   CheckBoxTree.h
   SignalWatch.h
@@ -25,7 +22,6 @@ set(headers
   SignalWatch_stdafx.h
   SignalWatchDefs.h
   SignalWatchListBox.h
-  SigWatchAddDelDlg.h
   SigWatchDlg.h)
 
 set(resources

@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.27)
 project(BUSMASTER)
 
 #
 # BUSMASTER version
 #
-set(BUSMASTER_VER 2.5.0)
+set(BUSMASTER_VER 3.2.2)
 add_definitions(-DBUSMASTER_VER=\"${BUSMASTER_VER}\")
 set(CMAKE_BUILD_TYPE Release)
 
@@ -16,7 +16,7 @@ include(FindPackageHandleStandardArgs)
 # bison
 find_path(BISON_PATH
   bison.exe
-  PATHS ../Tools/bison)
+  PATHS ../../Tools/bison)
 find_program(BISON_EXECUTABLE
   NAMES bison.exe
   PATHS ${BISON_PATH})
@@ -26,7 +26,7 @@ find_package_handle_standard_args(BISON
 # flex
 find_path(FLEX_PATH
   flex.exe
-  PATHS ../Tools/flex)
+  PATHS ../../Tools/flex)
 find_program(FLEX_EXECUTABLE
   NAMES flex.exe
   PATHS ${FLEX_PATH})
@@ -47,17 +47,17 @@ find_package_handle_standard_args(GETTEXT
   REQUIRED_VARS GETTEXT_LIBRARY GETTEXT_INCLUDE_DIR)
 
 # iconv
-find_path(ICONV_PATH
-  lib/iconv.lib
-  PATHS EXTERNAL/iconv)
-find_library(ICONV_LIBRARY
-  NAMES iconv
-  PATHS ${ICONV_PATH}/lib)
-find_path(ICONV_INCLUDE_DIR
-  NAMES iconv.h
-  PATHS ${ICONV_PATH}/include)
-find_package_handle_standard_args(ICONV
-  REQUIRED_VARS ICONV_LIBRARY ICONV_INCLUDE_DIR)
+# find_path(ICONV_PATH
+#   lib/iconv.lib
+#   PATHS EXTERNAL/iconv)
+# find_library(ICONV_LIBRARY
+#   NAMES iconv
+#   PATHS ${ICONV_PATH}/lib)
+# find_path(ICONV_INCLUDE_DIR
+#   NAMES iconv.h
+#   PATHS ${ICONV_PATH}/include)
+# find_package_handle_standard_args(ICONV
+#   REQUIRED_VARS ICONV_LIBRARY ICONV_INCLUDE_DIR)
 
 # libxml2
 find_path(LIBXML2_PATH
@@ -72,35 +72,36 @@ find_path(LIBXML2_INCLUDE_DIR
 find_package_handle_standard_args(LIBXML2
   REQUIRED_VARS LIBXML2_LIBRARY LIBXML2_INCLUDE_DIR)
 
-# atl
-find_path(ATL_PATH
-  lib/ATL/i386/atl.lib
-  PATHS C:/WinDDK/7600.16385.1)
-set(ATL_INCLUDE_DIRS
-  ${ATL_PATH}/inc/atl71)
-set(ATL_LIBRARIES
-  ${ATL_PATH}/lib/ATL/i386/atl.lib
-  ${ATL_PATH}/lib/ATL/i386/atls.lib
-  ${ATL_PATH}/lib/ATL/i386/atlthunk.lib)
+# # atl
+# find_path(ATL_PATH
+#   lib/ATL/i386/atl.lib
+#   PATHS C:/WinDDK/7600.16385.1)
+# set(ATL_INCLUDE_DIRS
+#   ${ATL_PATH}/inc/atl71)
+# set(ATL_LIBRARIES
+#   ${ATL_PATH}/lib/ATL/i386/atl.lib
+#   ${ATL_PATH}/lib/ATL/i386/atls.lib
+#   ${ATL_PATH}/lib/ATL/i386/atlthunk.lib)
 
-# mfc
-find_path(MFC_PATH
-  lib/Mfc/i386/mfc42.lib
-  PATHS C:/WinDDK/7600.16385.1)
-set(MFC_INCLUDE_DIRS
-  ${MFC_PATH}/inc/mfc42)
-set(MFC_LIBRARIES
-  ${MFC_PATH}/lib/Mfc/i386/mfc42.lib
-  ${MFC_PATH}/lib/Mfc/i386/mfcs42.lib)
+# # mfc
+# find_path(MFC_PATH
+#   C:/Windows/System32/mfc42.lib
+#   PATHS C:/Windows/System32)
+# set(MFC_INCLUDE_DIRS
+#   ${MFC_PATH}/inc/mfc42)
+# set(MFC_LIBRARIES
+#   ${MFC_PATH}/mfc42.lib
+#   ${MFC_PATH}/mfcs42.lib)
 
 #
 # common compiler/linker settings
 #
-add_definitions(-DWINVER=0x0500) # Windows 2000
+# add_definitions(-DWINVER=0x0500) # Windows 2000
 #add_definitions(-DWINVER=0x0501) # Windows XP
 #add_definitions(-DWINVER=0x0502) # Windows Server 2003
 #add_definitions(-DWINVER=0x0600) # Windows Vista
 #add_definitions(-DWINVER=0x0601) # Windows 7
+add_definitions(-DWINVER=0x19044) # Windows 10, Version 21H2
 #add_definitions(-D_VC80_UPGRADE=0x0710)
 link_directories(
   ${ATL_PATH}/lib/ATL/i386
@@ -127,11 +128,11 @@ add_subdirectory(CAN_Vector_XL)
 add_subdirectory(CAN_VSCOM)
 add_subdirectory(CommonClass)
 add_subdirectory(DataTypes)
-add_subdirectory(DIL_Interface)
-add_subdirectory(DIL_J1939)
+# add_subdirectory(DIL_Interface)
+# add_subdirectory(DIL_J1939)
 add_subdirectory(EXTERNAL)
 add_subdirectory(Filter)
-add_subdirectory(FLEXRAY_ETAS_BOA)
+# add_subdirectory(FLEXRAY_ETAS_BOA)
 # add_subdirectory(Format Converter)
 add_subdirectory(FrameProcessor)
 add_subdirectory(LIN_ETAS_BOA)
@@ -151,6 +152,8 @@ add_subdirectory(TestSetupEditorGUI)
 add_subdirectory(TestSetupEditorLib)
 add_subdirectory(TestSuiteExecutorGUI)
 add_subdirectory(TXWindow)
-add_subdirectory(TXWindowFlexRay)
+# add_subdirectory(TXWindowFlexRay)
 add_subdirectory(UDS_Protocol)
 add_subdirectory(Utility)
+# add_subdirectory(Include)
+add_subdirectory(LIN_Kvaser)

@@ -1,8 +1,7 @@
 set(sources
   ../DIL_Interface/CommanDIL_LIN.cpp
   LIN_ETAS_BOA.cpp
-  LIN_ETAS_BOA_stdafx.cpp
-  HardwareListing.cpp)
+  LIN_ETAS_BOA_stdafx.cpp)
 
 set(headers
   ../DIL_Interface/CommanDIL_LIN.h
@@ -10,8 +9,7 @@ set(headers
   LIN_ETAS_BOA_Defs.h
   LIN_ETAS_BOA_Extern.h
   LIN_ETAS_BOA_Resource.h
-  LIN_ETAS_BOA_stdafx.h
-  HardwareListing.h)
+  LIN_ETAS_BOA_stdafx.h)
 
 set(resources
   LIN_ETAS_BOA.rc)

@@ -2,7 +2,6 @@ set(sources
   ListCtrlEx.cpp
   ../Application/MultiLanguage.cpp
   TreeViewEx.cpp
-  TSEditorGUI.cpp
   TSEditorGUI_ChildFrame.cpp
   TSEditorGUI_PropertyView.cpp
   TSEditorGUI_SettingsDlg.cpp)

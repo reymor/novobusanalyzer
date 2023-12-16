@@ -1,6 +1,5 @@
 set(sources
   ../DIL_Interface/CommanDIL_LIN.cpp
-  HardwareListing.cpp
   LIN_PEAK_USB.cpp
   LIN_PEAK_USB_Channel.cpp
   LIN_PEAK_USB_Network.cpp
@@ -8,7 +7,6 @@ set(sources
 
 set(headers
   ../DIL_Interface/CommanDIL_LIN.h
-  HardwareListing.h
   EXTERNAL/PLinApi.h
   LIN_PEAK_USB.h
   LIN_PEAK_USB_Channel.h

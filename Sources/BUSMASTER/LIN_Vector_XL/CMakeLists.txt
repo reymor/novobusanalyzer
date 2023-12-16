@@ -1,14 +1,10 @@
 set(sources
   ../DIL_Interface/CommanDIL_LIN.cpp
-  HardwareListing.cpp
   LIN_Vector_XL.cpp
   LIN_Vector_XL_stdafx.cpp)
 
 set(headers
   ../DIL_Interface/CommanDIL_LIN.h
-  ChangeRegDefines.h
-  ChangeRegisters.h
-  HardwareListing.h
   LIN_Vector_XL.h
   LIN_Vector_XL_Defines.h
   LIN_Vector_XL_Extern.h

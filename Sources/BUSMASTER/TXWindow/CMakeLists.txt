@@ -1,52 +1,17 @@
 set(sources
   CCheckColumnTreeCtrl.cpp
-  ConfigDetails.cpp
-  FlexListCtrl.cpp
-  HeaderCtrlEx.cpp
-  CHexEdit/HexEdit.cpp
-  LinFlexListCtrl.cpp
   LINScheduleDataStore.cpp
   ScheduleTableCfgDlg.cpp
-  TransmitMsg.cpp
-  TransmitMsg_LIN.cpp
-  TxLINDataStore.cpp
   Tx_MDIChildBase.cpp
-  TxFlagsFlexRay.cpp
-  TxFlexRayDataStore.cpp
-  TxFlexrayMsgHandlerDlg.cpp
-  TxListComboBox.cpp
-  TxMsgChildFrame.cpp
-  TxMsgList.cpp
-  TXWindowFlexRay.cpp
-  TxWindowFlexRay_stdafx.cpp)
+  TxMsgChildFrame.cpp)
 
 set(headers
   CCheckColumnTreeCtrl.h
-  ConfigDetails.h
-  FlexListCtrl.h
   HashDefines.h
-  HeaderCtrlEx.h
-  CHexEdit/HexEdit.h
-  LinFlexListCtrl.h
   LINScheduleDataStore.h
   ScheduleTableCfgDlg.h
-  TransmitMsg.h
-  TransmitMsg_LIN.h
-  TxLINDataStore.h
   Tx_MDIChildBase.h
-  TxFlagsFlexRay.h
-  TxFlexRayDataStore.h
-  TxFlexrayMsgHandlerDlg.h
-  TxListComboBox.h
-  TxMsgChildFrame.h
-  TxMsgList.h
-  TxWindowFlexRay_resource.h
-  TxWindowFlexRay_stdafx.h
-  TXWndFlexRay_Defines.h
-  TxWndFlexRay_Extern.h)
-
-set(resources
-  TXWindowFlexRay.rc)
+  TxMsgChildFrame.h)
 
 add_library(TXWindowFlexRay SHARED ${sources} ${headers} ${resources})
 

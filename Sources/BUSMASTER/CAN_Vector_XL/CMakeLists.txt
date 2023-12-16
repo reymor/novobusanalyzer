@@ -3,7 +3,6 @@ set(sources
   CAN_Vector_XL.cpp
   CANRegAnalysis.cpp
   ChangeRegisters.cpp
-  HardwareListing.cpp
   ../Application/MultiLanguage.cpp)
 
 set(headers
@@ -15,7 +14,6 @@ set(headers
   ChangeRegDefines.h
   ChangeRegisters.h
   ContrConfigPeakUsbDefs.h
-  HardwareListing.h
   ../Application/MultiLanguage.h)
 
 set(resources

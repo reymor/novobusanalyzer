@@ -6,7 +6,6 @@ set(sources
   ColumnTreeCtrl.cpp
   ColumnTreeWnd.cpp
   ComboItem.cpp
-  ComputeCheckSum.cpp
   EditItem.cpp
   FFListCtrl.cpp
   FlexListCtrl.cpp
@@ -34,7 +33,6 @@ set(headers
   ColumnTreeCtrl.h
   ColumnTreeWnd.h
   ComboItem.h
-  ComputeCheckSum.h
   EditItem.h
   FFListCtrl.h
   FlexListCtrl.h

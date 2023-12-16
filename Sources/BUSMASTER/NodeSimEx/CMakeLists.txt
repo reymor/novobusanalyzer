@@ -5,7 +5,6 @@ set(sources
   AppServicesLIN.cpp
   BuildProgram.cpp
   BusEventHandlerDlg.cpp
-  ../Utility/ComputeCheckSum.cpp
   DefineTimerHandler.cpp
   DLLHandlerDlg.cpp
   EditFrameWnd.cpp
@@ -16,7 +15,6 @@ set(sources
   ExecuteManager.cpp
   ExploreMsgSg.cpp
   FileView.cpp
-  Flags.cpp
   FnsTreeView.cpp
   FunctionEditorBase.cpp
   FunctionEditorDoc.cpp
@@ -36,13 +34,10 @@ set(sources
   SelectFunctions.cpp
   SetResetTimer.cpp
   Sim_MDIChildBase.cpp
-  SimSysConfigDetails.cpp
-  SimSysDetView.cpp
   SimSysManager.cpp
   SimSysNodeInfo.cpp
   SimSysTreeView.cpp
   SimSysWnd.cpp
-  SplFileDlg.cpp
   UtlityDlg.cpp)
 
 set(headers
@@ -53,7 +48,6 @@ set(headers
   BaseNodeSim.h
   BuildProgram.h
   BusEventHandlerDlg.h
-  ../Utility/ComputeCheckSum.h
   DefineTimerHandler.h
   DLLHandlerDlg.h
   EditFrameWnd.h
@@ -67,7 +61,6 @@ set(headers
   Export_UserDllCAN.h
   Export_UserDllJ1939.h
   FileView.h
-  Flags.h
   FnsTreeView.h
   FunctionEditorBase.h
   FunctionEditorDoc.h
@@ -89,13 +82,10 @@ set(headers
   SelectFunctions.h
   SetResetTimer.h
   Sim_MDIChildBase.h
-  SimSysConfigDetails.h
-  SimSysDetView.h
   SimSysManager.h
   SimSysNodeInfo.h
   SimSysTreeView.h
   SimSysWnd.h
-  SplFileDlg.h
   UtlityDlg.h)
 
 set(resources

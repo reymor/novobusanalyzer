@@ -1,17 +1,15 @@
 set(sources
   ../DIL_Interface/CommanDIL_LIN.cpp
   LIN_Kvaser.cpp
-  LIN_Kvaser_stdafx.cpp
-  HardwareListing.cpp)
+  LIN_Kvaser_stdafx.cpp)
 
 set(headers
   ../DIL_Interface/CommanDIL_LIN.h
   LIN_Kvaser.h
-  LIN_Kvaser_Defs.h
+  LIN_Kvaser_Defines.h
   LIN_Kvaser_Extern.h
   LIN_Kvaser_Resource.h
-  LIN_Kvaser_stdafx.h
-  HardwareListing.h)
+  LIN_Kvaser_stdafx.h)
 
 set(resources
   LIN_Kvaser.rc)

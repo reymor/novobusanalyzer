@@ -1,8 +1,8 @@
 set(sources
   src/about.c
-  src/can_setup.c
-  src/gui_util.c
-  src/mhsbmcfg.c
+  src/can_setup.cpp
+  src/gui_util.cpp
+  src/mhsbmcfg.cpp
   src/util.c)
 
 set(headers
