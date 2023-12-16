@@ -117,23 +117,18 @@ if(MSVC)
         >
         /DEBUG;
         /SUBSYSTEM:WINDOWS;
-        "$(SolutionDir)Bin/$(Configuration)/BusmasterDBNetwork.lib"
+        "$(SolutionDir)/$(Configuration)/BusmasterDBNetwork.lib"
     )
 endif()
 
 ################################################################################
 # Post build events
 ################################################################################
-add_custom_command_if(
+add_custom_command(
     TARGET ${PROJECT_NAME}
     POST_BUILD
-    COMMANDS
-    COMMAND $<CONFIG:busmaster_debug> md "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
-    COMMAND $<CONFIG:busmaster_debug> copy "$<SHELL_PATH:$<TARGET_FILE:${PROJECT_NAME}>>" "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
-    COMMAND           $<CONFIG:Debug> md "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
-    COMMAND           $<CONFIG:Debug> copy "$<SHELL_PATH:$<TARGET_FILE:${PROJECT_NAME}>>" "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
-    COMMAND         $<CONFIG:Release> md "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
-    COMMAND         $<CONFIG:Release> copy "$<SHELL_PATH:$<TARGET_FILE:${PROJECT_NAME}>>" "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
+    COMMAND ${CMAKE_COMMAND} -E make_directory ARGS "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
+    COMMAND ${CMAKE_COMMAND} -E copy ARGS "$<SHELL_PATH:$<TARGET_FILE:${PROJECT_NAME}>>" "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
 )
 
 ################################################################################

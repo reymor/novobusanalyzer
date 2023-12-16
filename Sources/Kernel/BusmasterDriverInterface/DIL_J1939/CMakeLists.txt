@@ -145,7 +145,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     ARCHIVE_OUTPUT_NAME_RELEASE         "${OUTPUT_DIRECTORY}DIL_J1939"
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    PDB_OUTPUT_DIRECTORY                 "${CMAKE_SOURCE_DIR}//bin/DumpFiles/${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}//PDB"
+    PDB_OUTPUT_DIRECTORY                 "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}s/PDB"
 )
 ################################################################################
 # MSVC runtime library
@@ -199,6 +199,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     "_USRDLL;"
     "WINVER=0x0502;"
     "_MBCS"
+    "_AFXDLL"
 )
 
 ################################################################################
@@ -253,16 +254,11 @@ endif()
 ################################################################################
 # Post build events
 ################################################################################
-add_custom_command_if(
+add_custom_command(
     TARGET ${PROJECT_NAME}
     POST_BUILD
-    COMMANDS
-    COMMAND $<CONFIG:busmaster_debug> md $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>..\\BIN\\$<CONFIG>\\
-    COMMAND $<CONFIG:busmaster_debug> copy $<SHELL_PATH:$<TARGET_FILE:${PROJECT_NAME}>> $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>..\\BIN\\$<CONFIG>\\
-    COMMAND           $<CONFIG:Debug> md "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
-    COMMAND           $<CONFIG:Debug> copy "$<SHELL_PATH:$<TARGET_FILE:${PROJECT_NAME}>>" "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
-    COMMAND         $<CONFIG:Release> md "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
-    COMMAND         $<CONFIG:Release> copy "$<SHELL_PATH:$<TARGET_FILE:${PROJECT_NAME}>>" "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
+    COMMAND ${CMAKE_COMMAND} -E make_directory ARGS "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
+    COMMAND ${CMAKE_COMMAND} -E copy ARGS "$<SHELL_PATH:$<TARGET_FILE:${PROJECT_NAME}>>" "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
 )
 
 ################################################################################
