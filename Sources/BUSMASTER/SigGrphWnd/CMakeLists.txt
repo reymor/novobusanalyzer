@@ -12,8 +12,7 @@ set(sources
   MDIChildBase.cpp
   MessageList.cpp
   ../Application/MultiLanguage.cpp
-  SigGrphWnd.cpp
-  TimeManager.cpp)
+  SigGrphWnd.cpp)
 
 set(headers
   GraphBottomView.h
@@ -32,8 +31,7 @@ set(headers
   SigGrphWnd_Defines.h
   SigGrphWnd_Extern.h
   SigGrphWnd_Resource.h
-  SigGrphWnd_stdafx.h
-  TimeManager.h)
+  SigGrphWnd_stdafx.h)
 
 set(resources
   SigGrphWnd.rc)

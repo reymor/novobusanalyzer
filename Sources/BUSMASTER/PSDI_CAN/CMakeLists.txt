@@ -1,13 +1,11 @@
 set(sources
   MsgContainer_CAN.cpp
-  MsgContainer_FlexRay.cpp
   MsgContainer_J1939.cpp
   MsgContainer_LIN.cpp
   PSDI_CAN.cpp)
 
 set(headers
   MsgContainer_CAN.h
-  MsgContainer_FlexRay.h
   MsgContainer_J1939.h
   MsgContainer_LIN.h
   PSDI_CAN.h

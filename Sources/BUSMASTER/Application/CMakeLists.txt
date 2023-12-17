@@ -7,25 +7,16 @@ set(sources
   BusStatisticLIN.cpp
   BusStatistics.cpp
   BusStatisticsDlg.cpp
-  CGCtrl.cpp
   CNVTCImageList.cpp
   CNVTCToolBar.cpp
-  ConfigAdapter.cpp
   ConfigData.cpp
-  ConfigDetails.cpp
   ConfigMsgDispPropPg.cpp
-  ConfigMsgLogDlg.cpp
   DatabaseDissociateDlg.cpp
   DisplayIntMsg.cpp
   DriverInfoDlg.cpp
   ElementSelection.cpp
-  FibexClass.cpp
   ChannelConfigurationDlg.cpp
-  FIBEX_Structs.cpp
   Flags.cpp
-  FlexRayDatabaseDissociateDlg.cpp
-  FlexRayNetworkStats.cpp
-  FlexRayNetworkStatsDlg.cpp
   FlexTxHandler.cpp
   GraphConfiguration.cpp
   GraphElement.cpp
@@ -54,27 +45,22 @@ set(sources
   MsgWndThread.cpp
   MultiLanguage.cpp
   NetworkStatistics.cpp
-  NodeUtil_Flexray.cpp
   NotificListbox.cpp
   NotificWnd.cpp
-  ParserHelper.cpp
   PPageMessage.cpp
   Properties.cpp
   RxMsgList.cpp
   SigGrphConfigDlg.cpp
   SigGrphWndHandler.cpp
   SignalDetailsDlg.cpp
-  SignalMatrix.cpp
   Splash.cpp
   SplFileDlg.cpp
   StdAfx.cpp
   Struct.cpp
-  TimeManager.cpp
   TreeItemParam.cpp
   TSEditorHandler.cpp
   TSExecutorHandler.cpp
   TxHandler.cpp
-  TxHandlerLIN.cpp
   TxMsgWndJ1939.cpp
   UIThread.cpp
   Utility.cpp
@@ -95,29 +81,18 @@ set(headers
   BusStatistics.h
   BusStatisticsDlg.h
   CFilesDefs_CAN.h
-  CGCtrl.h
   CNVTCImageList.h
   CNVTCToolBar.h
   common.h
-  ConfigAdapter.h
   ConfigData.h
-  ConfigDetails.h
-  ConfigMsgLogDlg.h
   CSignalGeneration.h
   DatabaseDissociateDlg.h
   DataType.h
   DisplayIntMsg.h
   DriverInfoDlg.h
   ElementSelection.h
-  FibexClass.h
-  FibexClass_extern.h
   ChannelConfigurationDlg.h
-  Fibex_Defs.h
-  FIBEX_Structs.h
   Flags.h
-  FlexRayDatabaseDissociateDlg.h
-  FlexRayNetworkStats.h
-  FlexRayNetworkStatsDlg.h
   FlexTxHandler.h
   GraphConfiguration.h
   GraphElement.h
@@ -146,10 +121,8 @@ set(headers
   MsgWndThread.h
   MultiLanguage.h
   NetworkStatistics.h
-  NodeUtil_Flexray.h
   NotificListbox.h
   NotificWnd.h
-  ParserHelper.h
   PPageMessage.h
   Properties.h
   PSDI_Extern.h
@@ -159,17 +132,14 @@ set(headers
   SigGrphConfigDlg.h
   SigGrphWndHandler.h
   SignalDetailsDlg.h
-  SignalMatrix.h
   Splash.h
   SplFileDlg.h
   StdAfx.h
   Struct.h
-  TimeManager.h
   TreeItemParam.h
   TSEditorHandler.h
   TSExecutorHandler.h
   TxHandler.h
-  TxHandlerLIN.h
   TxMsgWndJ1939.h
   UIThread.h
   Utility.h

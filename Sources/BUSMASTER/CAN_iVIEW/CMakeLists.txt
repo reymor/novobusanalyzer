@@ -2,8 +2,7 @@ set(sources
   AcceptanceFilterDlg.cpp
   CAN_i-VIEW.cpp
   CANRegAnalysis.cpp
-  ChangeRegisters.cpp
-  HardwareListing.cpp)
+  ChangeRegisters.cpp)
 
 set(headers
   AcceptanceFilterDlg.h

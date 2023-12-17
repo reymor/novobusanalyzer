@@ -4,7 +4,6 @@ set(sources
   CAN_NSI_stdafx.cpp
   CANRegAnalysis.cpp
   ChangeRegisters.cpp
-  HardwareListing.cpp
   ../Application/MultiLanguage.cpp)
 
 set(headers
@@ -15,7 +14,6 @@ set(headers
   CAN_NSI_stdafx.h
   ChangeRegDefines.h
   ChangeRegisters.h
-  HardwareListing.h
   ../Application/MultiLanguage.h)
 
 set(resources

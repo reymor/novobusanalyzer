@@ -1,6 +1,5 @@
 set(sources
   EVE_LIN_Controller.cpp
-  HardwareListing.cpp
   LIN_ISOLAR_EVE_VLIN.cpp
   LIN_ISOLAR_EVE_VLIN_stdafx.cpp
   SocketUDP.cpp)
@@ -8,7 +7,6 @@ set(sources
 set(headers
   Common.h
   EVE_LIN_Controller.h
-  HardwareListing.h
   LIN_ISOLAR_EVE_VLIN.h
   LIN_ISOLAR_EVE_VLIN_Defines.h
   LIN_ISOLAR_EVE_VLIN_Extern.h

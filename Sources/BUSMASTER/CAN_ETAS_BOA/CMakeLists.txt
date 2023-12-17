@@ -1,7 +1,6 @@
 set(sources
   CAN_ETAS_BOA.cpp
   ChangeRegisters_CAN_ETAS_BOA.cpp
-  HardwareListing.cpp
   ../Application/MultiLanguage.cpp)
 
 set(headers
@@ -11,7 +10,6 @@ set(headers
   CAN_ETAS_BOA_stdafx.h
   ChangeRegDefines.h
   ChangeRegisters_CAN_ETAS_BOA.h
-  HardwareListing.h
   ../Application/MultiLanguage.h)
 
 set(resources

@@ -5,7 +5,6 @@ set(sources
   CAN_ICS_neoVI_stdafx.cpp
   CANRegAnalysis_CAN_ICS_neoVI.cpp
   ChangeRegisters_CAN_ICS_neoVI.cpp
-  HardwareListing.cpp
   ../Application/MultiLanguage.cpp)
 
 set(headers
@@ -18,7 +17,6 @@ set(headers
   ChangeRegDefines.h
   ChangeRegisters_CAN_ICS_neoVI.h
   ContrConfigPeakUsbDefs.h
-  HardwareListing.h
   ../Application/MultiLanguage.h)
 
 set(resources

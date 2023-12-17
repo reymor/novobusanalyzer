@@ -6,7 +6,6 @@ set(sources
   ClientBuffer.cpp
   ClientList.cpp
   DIL_CAN_IXXAT_VCI.cpp
-  HardwareListing.cpp
   IxxatCanChannel.cpp
   ../Application/MultiLanguage.cpp
   vcinpldynl.cpp)
@@ -21,7 +20,6 @@ set(headers
   ClientBuffer.h
   ClientList.h
   DIL_CAN_IXXAT_VCI.h
-  HardwareListing.h
   IxxatCanChannel.h
   ../Application/MultiLanguage.h
   Resource.h
