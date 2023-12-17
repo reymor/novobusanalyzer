@@ -39,9 +39,15 @@ target_link_libraries(UDS_Protocol
   Utils
   DataTypes)
 
-# installer options
+################################################################################
+# Post build events
+################################################################################
 add_custom_command(
   TARGET UDS_Protocol
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
   COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:UDS_Protocol> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+
+################################################################################
+# Dependencies
+################################################################################

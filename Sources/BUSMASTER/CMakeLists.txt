@@ -1,16 +1,16 @@
 cmake_minimum_required(VERSION 3.27)
 project(BUSMASTER)
 
-#
+################################################################################
 # BUSMASTER version
-#
+################################################################################
 set(BUSMASTER_VER 3.2.2)
 add_definitions(-DBUSMASTER_VER=\"${BUSMASTER_VER}\")
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 
-#
+################################################################################
 # required tools
-#
+################################################################################
 include(FindPackageHandleStandardArgs)
 
 # bison
@@ -93,9 +93,9 @@ find_package_handle_standard_args(LIBXML2
 #   ${MFC_PATH}/mfc42.lib
 #   ${MFC_PATH}/mfcs42.lib)
 
-#
+################################################################################
 # common compiler/linker settings
-#
+################################################################################
 # add_definitions(-DWINVER=0x0500) # Windows 2000
 #add_definitions(-DWINVER=0x0501) # Windows XP
 #add_definitions(-DWINVER=0x0502) # Windows Server 2003
@@ -109,9 +109,23 @@ link_directories(
 set(CMAKE_MFC_FLAG 2) # shared MFC library
 add_definitions(-D_CRT_SECURE_NO_WARNINGS -wd4996) # warning C4996: '...': This function or variable may be unsafe. Consider using ... instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 
-#
-# sub projects
-#
+
+
+################################################################################
+# Global include directories
+################################################################################
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}/../Kernel/ProtocolDefinitions/
+  ${CMAKE_CURRENT_SOURCE_DIR}/../Kernel/BusmasterDriverInterface/Include/
+  ${CMAKE_CURRENT_SOURCE_DIR}/../Kernel/BusmasterDBNetwork/Include/
+  ${CMAKE_CURRENT_SOURCE_DIR}/../Kernel/Utilities/
+  ${CMAKE_CURRENT_SOURCE_DIR}/../Kernel/BusmasterKernel/
+  ${CMAKE_CURRENT_SOURCE_DIR}/../Kernel/BusmasterDBNetwork/
+)
+
+################################################################################
+# Sub-projects
+################################################################################
 add_subdirectory(Application)
 add_subdirectory(BusEmulation)
 add_subdirectory(CAN_ETAS_BOA)
