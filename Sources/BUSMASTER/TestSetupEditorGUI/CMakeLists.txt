@@ -36,6 +36,7 @@ add_definitions(-D_AFXEXT)
 # linker options
 set_target_properties(TestSetupEditorGUI PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
 target_link_libraries(TestSetupEditorGUI
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/BusmasterDBNetwork.lib"
   HTMLHELP
   DataTypes
   TestSetupEditorLib

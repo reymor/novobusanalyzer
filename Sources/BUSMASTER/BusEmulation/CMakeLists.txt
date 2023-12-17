@@ -37,6 +37,8 @@ set(CMAKE_MFC_FLAG 0)
 # linker options
 set_target_properties(BusEmulation PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
 target_link_libraries(BusEmulation
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
   RpcRT4
   comctl32
   DataTypes

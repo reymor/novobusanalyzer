@@ -110,7 +110,6 @@ set(CMAKE_MFC_FLAG 2) # shared MFC library
 add_definitions(-D_CRT_SECURE_NO_WARNINGS -wd4996) # warning C4996: '...': This function or variable may be unsafe. Consider using ... instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 
 
-
 ################################################################################
 # Global include directories
 ################################################################################

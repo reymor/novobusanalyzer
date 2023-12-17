@@ -62,7 +62,8 @@ target_link_libraries(TestSuiteExecutorGUI
   DataTypes
   TestSetupEditorLib
   Utils
-  DIL_Interface)
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
+)
 
 # installer options
 add_custom_command(

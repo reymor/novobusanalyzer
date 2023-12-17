@@ -54,7 +54,9 @@ set_target_properties(SigGrphWnd PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
 target_link_libraries(SigGrphWnd
   DMGraph
   DataTypes
-  Utils)
+  Utils
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
+)
 
 # installer options
 add_custom_command(

@@ -2,11 +2,6 @@ add_subdirectory(AdvancedUIPlugin)
 add_subdirectory(DmGraph)
 
 add_custom_command(
-  OUTPUT ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/iconv.dll
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/iconv/bin/iconv.dll ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
-
-add_custom_command(
   OUTPUT ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/intl.dll
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
   COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/GetText/bin/intl.dll ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)

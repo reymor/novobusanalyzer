@@ -32,13 +32,6 @@ include_directories(
 # compiler options
 add_definitions(-D_AFXEXT)
 
-# linker options
-target_link_libraries(UDS_Protocol
-  Winmm
-  DIL_Interface
-  Utils
-  DataTypes)
-
 ################################################################################
 # Post build events
 ################################################################################
@@ -51,3 +44,11 @@ add_custom_command(
 ################################################################################
 # Dependencies
 ################################################################################
+# linker options
+target_link_libraries(UDS_Protocol
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
+  HTMLHELP
+  Winmm
+  Utils
+  DataTypes
+)

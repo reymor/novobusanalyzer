@@ -29,7 +29,7 @@ target_link_libraries(PSDI_CAN
   CommonClass
   DataTypes
   Utils
-  DIL_Interface
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
   UDS_Protocol)
 
 # installer options

@@ -43,7 +43,7 @@ set_target_properties(Replay PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
 target_link_libraries(Replay
   DataTypes
   Utils
-  DIL_Interface
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
   Filter
   Winmm)
 

@@ -1,5 +1,6 @@
 set(sources
   ../Application/MultiLanguage.cpp
+  BaseSignalWatchImp.cpp
   CheckBoxTree.cpp
   SignalWatch.cpp
   SignalWatch_CAN.cpp
@@ -44,7 +45,9 @@ set_target_properties(SignalWatch PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
 target_link_libraries(SignalWatch
   DataTypes
   Utils
-  DIL_Interface)
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
+)
 
 # installer options
 add_custom_command(

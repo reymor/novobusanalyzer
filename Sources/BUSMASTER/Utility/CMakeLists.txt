@@ -23,6 +23,7 @@ set(sources
   Utility.cpp
   Utility_Structs.cpp
   Utility_Thread.cpp
+  TimeManager.cpp
   WaitIndicator.cpp)
 
 set(headers
