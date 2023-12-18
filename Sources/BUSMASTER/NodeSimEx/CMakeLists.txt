@@ -73,6 +73,8 @@ set(headers
   KeyValue.h
   MsgHandlerDlg.h
   ../Application/MultiLanguage.h
+  ../Application/CNVTCToolBar.cpp
+  ../Application/CNVTCImageList.cpp
   NodeDetailsDlg.h
   NodeSim.h
   NodeSimEx_Extern.h
