@@ -59,10 +59,11 @@ add_definitions(-D_AFXEXT)
 # linker options
 set_target_properties(TestSuiteExecutorGUI PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
 target_link_libraries(TestSuiteExecutorGUI
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/BusmasterDBNetwork.lib"
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
   DataTypes
   TestSetupEditorLib
   Utils
-  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
 )
 
 # installer options
