@@ -2,7 +2,9 @@ set(sources
   MsgContainer_CAN.cpp
   MsgContainer_J1939.cpp
   MsgContainer_LIN.cpp
-  PSDI_CAN.cpp)
+  PSDI_CAN.cpp
+  ../Application/MessageAttrib.cpp
+)
 
 set(headers
   MsgContainer_CAN.h
@@ -10,7 +12,8 @@ set(headers
   MsgContainer_LIN.h
   PSDI_CAN.h
   stdafx_CAN.h
-  ../Utility/Utility_Thread.h)
+  ../Utility/Utility_Thread.h
+)
 
 add_library(PSDI_CAN SHARED ${sources} ${headers})
 
@@ -29,6 +32,7 @@ target_link_libraries(PSDI_CAN
   CommonClass
   DataTypes
   Utils
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
   UDS_Protocol)
 
