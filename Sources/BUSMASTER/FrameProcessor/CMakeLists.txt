@@ -1,4 +1,8 @@
 set(sources
+  ConfigMsgLogDlg.cpp
+  ConfigMsgLogCANDlg.cpp
+  ConfigMsgLogLINDlg.cpp
+  ConfigMsgLogJ1939Dlg.cpp
   BaseLogObject.cpp
   Format/FormatMsgCAN.cpp
   Format/FormatMsgCommon.cpp
@@ -51,6 +55,8 @@ set_target_properties(FrameProcessor PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouui
 target_link_libraries(FrameProcessor
   DataTypes
   Utils
+  Filter
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
   CommonClass)
 

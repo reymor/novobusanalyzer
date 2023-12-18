@@ -6,6 +6,7 @@ set(sources
   ColumnTreeCtrl.cpp
   ColumnTreeWnd.cpp
   ComboItem.cpp
+  DirectoryWatcher.cpp
   EditItem.cpp
   FFListCtrl.cpp
   FlexListCtrl.cpp

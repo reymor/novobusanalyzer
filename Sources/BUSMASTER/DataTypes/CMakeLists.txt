@@ -4,6 +4,7 @@ set(sources
   Log_Datatypes.cpp
   MainSubEntry.cpp
   MsgSignal_Datatypes.cpp
+  NodeSimCodeGenerator.cpp
   ProjConfig_DataTypes.cpp
   Struct_BUS.cpp
   UDS_DataTypes.cpp)

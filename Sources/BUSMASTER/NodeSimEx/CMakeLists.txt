@@ -6,6 +6,7 @@ set(sources
   BuildProgram.cpp
   BusEventHandlerDlg.cpp
   DefineTimerHandler.cpp
+  ConvertCpp.cpp
   DLLHandlerDlg.cpp
   EditFrameWnd.cpp
   ErrHandlerDlg.cpp
@@ -108,6 +109,7 @@ set_target_properties(NodeSimEx PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
 target_link_libraries(NodeSimEx
   DataTypes
   Utils
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
   Winmm)
 
