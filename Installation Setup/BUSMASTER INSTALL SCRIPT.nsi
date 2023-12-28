@@ -409,7 +409,7 @@ Section "BUSMASTER"
   Delete "$INSTDIR\FTL.txt"
   Delete "$INSTDIR\ReleaseNotes.txt"
   RMDir /r "$INSTDIR\SimulatedSystems"
-  Delete "$INSTDIR\Readme.txt"
+  Delete "$INSTDIR\README.md"
   Delete "$INSTDIR\DBManager_License.txt"
   Delete "$INSTDIR\DMGraph.dll"
   Delete "$INSTDIR\ETASneo40.dll"
@@ -435,9 +435,9 @@ Section "BUSMASTER"
   Delete "$INSTDIR\LDFViewer.exe"
   Delete "$INSTDIR\DBManager.dll"
   RMDir /r "$INSTDIR\platforms"
-  Delete "$INSTDIR\icudt52.dll"
-  Delete "$INSTDIR\icuin52.dll"
-  Delete "$INSTDIR\icuuc52.dll"
+  Delete "$INSTDIR\icudt54.dll"
+  Delete "$INSTDIR\icuin54.dll"
+  Delete "$INSTDIR\icuuc54.dll"
   Delete "$INSTDIR\qdds.dll"
   Delete "$INSTDIR\qgif.dll"
   Delete "$INSTDIR\qicns.dll"
@@ -451,7 +451,6 @@ Section "BUSMASTER"
   Delete "$INSTDIR\Qt5Core.dll"
   Delete "$INSTDIR\Qt5Gui.dll"
   Delete "$INSTDIR\Qt5Widgets.dll"
-  Delete "$INSTDIR\qtaccessiblewidgets.dll"
   Delete "$INSTDIR\qtga.dll"
   Delete "$INSTDIR\qtiff.dll"
   Delete "$INSTDIR\qwbmp.dll"
@@ -525,9 +524,9 @@ Section "BUSMASTER"
   File ..\Sources\BUSMASTER\BIN\Release\LDFEditor.exe
   File ..\Sources\BUSMASTER\BIN\Release\LDFViewer.exe
   File ..\Sources\BUSMASTER\BIN\Release\DBManager.dll
-  File ..\Sources\BUSMASTER\BIN\Release\icudt52.dll
-  File ..\Sources\BUSMASTER\BIN\Release\icuin52.dll
-  File ..\Sources\BUSMASTER\BIN\Release\icuuc52.dll
+  File ..\Sources\BUSMASTER\BIN\Release\icudt54.dll
+  File ..\Sources\BUSMASTER\BIN\Release\icuin54.dll
+  File ..\Sources\BUSMASTER\BIN\Release\icuuc54.dll
   File ..\Sources\BUSMASTER\BIN\Release\qdds.dll
   File ..\Sources\BUSMASTER\BIN\Release\qgif.dll
   File ..\Sources\BUSMASTER\BIN\Release\qicns.dll
@@ -541,7 +540,6 @@ Section "BUSMASTER"
   File ..\Sources\BUSMASTER\BIN\Release\Qt5Core.dll
   File ..\Sources\BUSMASTER\BIN\Release\Qt5Gui.dll
   File ..\Sources\BUSMASTER\BIN\Release\Qt5Widgets.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qtaccessiblewidgets.dll
   File ..\Sources\BUSMASTER\BIN\Release\qtga.dll
   File ..\Sources\BUSMASTER\BIN\Release\qtiff.dll
   File ..\Sources\BUSMASTER\BIN\Release\qwbmp.dll
@@ -593,7 +591,7 @@ Section "BUSMASTER"
   File ..\FTL.txt
 
   ; Readme
-  File ..\Readme.txt
+  File ..\README.md
   File ..\DBManager_License.txt
   File ..\ReleaseNotes.txt
   
