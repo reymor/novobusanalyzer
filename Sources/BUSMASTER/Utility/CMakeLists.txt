@@ -20,6 +20,7 @@ set(sources
   OffScreenDC.cpp
   RadixEdit.cpp
   SignalMatrix.cpp
+  SignalDetailsDlg.cpp
   UtilFunctions.cpp
   Utility.cpp
   Utility_Structs.cpp

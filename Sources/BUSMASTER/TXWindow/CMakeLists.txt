@@ -1,9 +1,17 @@
 set(sources
   CCheckColumnTreeCtrl.cpp
+  CANTxFormView.cpp
+  CANTransmitter.cpp
+  CANTxMsgItem.cpp
+  TxDataStore.cpp
   LINScheduleDataStore.cpp
+  LINTxFormView.cpp
+  LinTransmitter.cpp
+  LINTxMsgItem.cpp
+  ITxFormView.cpp
   ScheduleTableCfgDlg.cpp
   Tx_MDIChildBase.cpp
-  TxMsgChildFrame.cpp)
+)
 
 set(headers
   CCheckColumnTreeCtrl.h
@@ -11,9 +19,10 @@ set(headers
   LINScheduleDataStore.h
   ScheduleTableCfgDlg.h
   Tx_MDIChildBase.h
-  TxMsgChildFrame.h)
+  TxMsgChildFrame.h
+)
 
-add_library(TXWindowFlexRay SHARED ${sources} ${headers} ${resources})
+add_library(TXWindow SHARED ${sources} ${headers} ${resources})
 
 include_directories(
   ..
@@ -26,15 +35,16 @@ include_directories(
 add_definitions(-D_AFXEXT)
 
 # linker options
-target_link_libraries(TXWindowFlexRay
+target_link_libraries(TXWindow
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
+  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"  
   Winmm
-  DIL_Interface
   Utils
   DataTypes)
 
 # installer options
 add_custom_command(
-  TARGET TXWindowFlexRay
+  TARGET TXWindow
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:TXWindowFlexRay> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:TXWindow> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
