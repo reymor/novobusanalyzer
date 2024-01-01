@@ -1,4 +1,11 @@
-set(sources
+set(PROJECT_NAME TXWindow)
+
+################################################################################
+# Source, header and resources files
+################################################################################
+set(SOURCE_LIST
+  TXWindow_Extern.cpp
+  TxMsgChildFrame.cpp
   CCheckColumnTreeCtrl.cpp
   CANTxFormView.cpp
   CANTransmitter.cpp
@@ -10,19 +17,40 @@ set(sources
   LINTxMsgItem.cpp
   ITxFormView.cpp
   ScheduleTableCfgDlg.cpp
+  stdafx.cpp
   Tx_MDIChildBase.cpp
 )
 
-set(headers
+set(HEADER_LIST
   CCheckColumnTreeCtrl.h
+  CANTxFormView.h
+  CANTransmitter.h
+  CANTxMsgItem.h
   HashDefines.h
+  LINTxMsgItem.h
   LINScheduleDataStore.h
+  LINTxFormView.h
+  LINTransmitter.h
+  ITxFormView.h
+  ITxMsgItem.h
+  ITransmitter.h
   ScheduleTableCfgDlg.h
   Tx_MDIChildBase.h
+  TxDataStore.h
   TxMsgChildFrame.h
+  TXWindow_Extern.h
+  resource.h
+  stdafx.h
 )
 
-add_library(TXWindow SHARED ${sources} ${headers} ${resources})
+set(RESOURCE_LIST
+  TXWindow.rc
+)
+
+################################################################################
+# Target
+################################################################################
+add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST} ${HEADER_LIST} ${RESOURCE_LIST})
 
 include_directories(
   ..
@@ -31,20 +59,26 @@ include_directories(
   ${ATL_INCLUDE_DIRS}
   ${MFC_INCLUDE_DIRS})
 
-# compiler options
+################################################################################
+# Compile definitions
+################################################################################
 add_definitions(-D_AFXEXT)
 
-# linker options
-target_link_libraries(TXWindow
+################################################################################
+# Compile and link options
+################################################################################
+target_link_libraries(${PROJECT_NAME}
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"  
   Winmm
   Utils
   DataTypes)
 
-# installer options
+################################################################################
+# Post build events
+################################################################################
 add_custom_command(
-  TARGET TXWindow
+  TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:TXWindow> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
