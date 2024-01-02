@@ -1,4 +1,9 @@
-set(sources
+set(PROJECT_NAME NodeSimEx)
+
+################################################################################
+# Source, header and resources files
+################################################################################
+set(SOURCE_LIST
   AppServices.cpp
   AppServicesCAN.cpp
   AppServicesJ1939.cpp
@@ -39,9 +44,10 @@ set(sources
   SimSysNodeInfo.cpp
   SimSysTreeView.cpp
   SimSysWnd.cpp
-  UtlityDlg.cpp)
+  UtlityDlg.cpp
+)
 
-set(headers
+set(HEADER_LIST
   AppServices.h
   AppServicesCAN.h
   AppServicesJ1939.h
@@ -89,35 +95,49 @@ set(headers
   SimSysNodeInfo.h
   SimSysTreeView.h
   SimSysWnd.h
-  UtlityDlg.h)
+  UtlityDlg.h
+)
 
-set(resources
-  NodeSimEx.rc)
+set(RESOURCE_LIST
+  NodeSimEx.rc
+)
 
-add_library(NodeSimEx SHARED ${sources} ${headers} ${resources})
+################################################################################
+# Target
+################################################################################
+add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST} ${HEADER_LIST} ${RESOURCE_LIST})
 
 include_directories(
   ..
   ${ICONV_INCLUDE_DIR}
   ${LIBXML2_INCLUDE_DIR}
   ${ATL_INCLUDE_DIRS}
-  ${MFC_INCLUDE_DIRS})
+  ${MFC_INCLUDE_DIRS}
+)
 
-# compiler options
+################################################################################
+# Compile definitions
+################################################################################
 add_definitions(-D_AFXEXT)
 
-# linker options
-set_target_properties(NodeSimEx PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(NodeSimEx
+################################################################################
+# Compile and link options
+################################################################################
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   DataTypes
   Utils
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
-  Winmm)
+  Winmm
+)
 
-# installer options
+################################################################################
+# Post build events
+################################################################################
 add_custom_command(
-  TARGET NodeSimEx
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:NodeSimEx> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+)

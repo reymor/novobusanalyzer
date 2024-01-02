@@ -1,12 +1,18 @@
-set(sources
+set(PROJECT_NAME UDS_Protocol)
+
+################################################################################
+# Source, header and resources files
+################################################################################
+set(SOURCE_LIST
   stdafx.cpp
   UDS_NegRespMng.cpp
   UDS_Protocol.cpp
   UDS_TimmingWnd.cpp
   UDSMainWnd.cpp
-  UDSSettingsWnd.cpp)
+  UDSSettingsWnd.cpp
+)
 
-set(headers
+set(HEADER_LIST
   resource.h
   stdafx.h
   UDS_Extern.h
@@ -16,39 +22,47 @@ set(headers
   UDS_TimmingWnd.h
   UDSMainWnd.h
   UDSSettingsWnd.h
-  UDSWnd_Defines.h)
+  UDSWnd_Defines.h
+)
 
-set(resources
-  uds.rc)
+set(RESOURCE_LIST
+  uds.rc
+)
 
-add_library(UDS_Protocol SHARED ${sources} ${headers} ${resources})
+################################################################################
+# Target
+################################################################################
+add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST} ${HEADER_LIST} ${RESOURCE_LIST})
 
 include_directories(
   ..
   ${ICONV_INCLUDE_DIR}
   ${LIBXML2_INCLUDE_DIR}
-  ${MFC_INCLUDE_DIRS})
+  ${MFC_INCLUDE_DIRS}
+)
 
-# compiler options
+################################################################################
+# Compile definitions
+################################################################################
 add_definitions(-D_AFXEXT)
-
-################################################################################
-# Post build events
-################################################################################
-add_custom_command(
-  TARGET UDS_Protocol
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:UDS_Protocol> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
 
 ################################################################################
 # Dependencies
 ################################################################################
-# linker options
-target_link_libraries(UDS_Protocol
+target_link_libraries(${PROJECT_NAME}
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
   HTMLHELP
   Winmm
   Utils
   DataTypes
+)
+
+################################################################################
+# Post build events
+################################################################################
+add_custom_command(
+  TARGET ${PROJECT_NAME}
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
 )

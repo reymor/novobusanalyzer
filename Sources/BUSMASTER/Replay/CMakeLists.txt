@@ -1,4 +1,9 @@
-set(sources
+set(PROJECT_NAME Replay)
+
+################################################################################
+# Source, header and resources files
+################################################################################
+set(SOURCE_LIST
   MsgReplayWnd.cpp
   ../Application/MultiLanguage.cpp
   OwnerDataListCtrl.cpp
@@ -7,9 +12,10 @@ set(sources
   ReplayFileConfigDlg.cpp
   ReplayManager.cpp
   ReplayProcess.cpp
-  Utility_Replay.cpp)
+  Utility_Replay.cpp
+)
 
-set(headers
+set(HEADER_LIST
   MsgReplayWnd.h
   ../Application/MultiLanguage.h
   OwnerDataListCtrl.h
@@ -21,35 +27,48 @@ set(headers
   ReplayFileConfigDlg.h
   ReplayManager.h
   ReplayProcess.h
-  Utility_Replay.h)
+  Utility_Replay.h
+)
 
-set(resources
+set(RESOURCE_LIST
   Replay.rc)
 
-add_library(Replay SHARED ${sources} ${headers} ${resources})
+################################################################################
+# Target
+################################################################################
+add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST} ${HEADER_LIST} ${RESOURCE_LIST})
 
 include_directories(
   ..
   ${ICONV_INCLUDE_DIR}
   ${LIBXML2_INCLUDE_DIR}
   ${ATL_INCLUDE_DIRS}
-  ${MFC_INCLUDE_DIRS})
+  ${MFC_INCLUDE_DIRS}
+)
 
-# compiler options
+################################################################################
+# Compile definitions
+################################################################################
 add_definitions(-D_AFXEXT)
 
-# linker options
-set_target_properties(Replay PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(Replay
+################################################################################
+# Compile and link options
+################################################################################
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   DataTypes
   Utils
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
   Filter
-  Winmm)
+  Winmm
+)
 
-# installer options
+################################################################################
+# Post build events
+################################################################################
 add_custom_command(
-  TARGET Replay
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:Replay> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+)

@@ -1,6 +1,12 @@
-set(sources
+set(PROJECT_NAME BUSMASTER)
+
+################################################################################
+# Source, header and resources files
+################################################################################
+set(SOURCE_LIST
   Application.cpp
   AppServices_Impl.cpp
+  AboutDlg.cpp
   BUSMASTER.cpp
   BusmasterDump.cpp
   BusStatisticCAN.cpp
@@ -11,6 +17,8 @@ set(sources
   CNVTCToolBar.cpp
   ConfigData.cpp
   ConfigMsgDispPropPg.cpp
+  ClientManager.cpp
+  CANSignalExtractor.cpp
   DatabaseDissociateDlg.cpp
   DisplayIntMsg.cpp
   DriverInfoDlg.cpp
@@ -23,12 +31,13 @@ set(sources
   GraphList.cpp
   GraphParameters.cpp
   InterfaceGetter.cpp
+  ImportLogToolbar.cpp
   J1939TimeOutCfg.cpp
-  LDFLexer.c
-  LDFParser.cpp
   LINBusStatisticsDlg.cpp
+  LINSignalExtractor.cpp
   MainFrm.cpp
   MDIChildBase.cpp
+  MessageWindowSettingsDialog.cpp
   MessageAttrib.cpp
   MessageDetailsDlg.cpp
   MessageInterpretation.cpp
@@ -43,14 +52,17 @@ set(sources
   MsgSignalDBWnd.cpp
   MsgWndHdrInfo.cpp
   MsgWndThread.cpp
+  MFCRibbonBarEx.cpp
   MultiLanguage.cpp
   NetworkStatistics.cpp
   NotificListbox.cpp
   NotificWnd.cpp
   PPageMessage.cpp
   Properties.cpp
+  ProgressBarDlg.cpp
   RxMsgList.cpp
   SigGrphConfigDlg.cpp
+  BusmasterPluginManager.cpp
   SigGrphWndHandler.cpp
   SignalDetailsDlg.cpp
   Splash.cpp
@@ -60,21 +72,31 @@ set(sources
   TreeItemParam.cpp
   TSEditorHandler.cpp
   TSExecutorHandler.cpp
-  TxHandler.cpp
   TxMsgWndJ1939.cpp
+  UI/MenuCreator.cpp
+  UI/Menus.cpp
+  UI/BusmasterMenuItem.cpp
+  UI/IdGenerator.cpp
+  UI/IIdGenerator.cpp
+  UI/UICreator.cpp
   UIThread.cpp
   Utility.cpp
   ValueDescriptionDlg.cpp
+  VariableLayer.cpp
   WaveFormDataHandler.cpp
   WaveformSelectionDlg.cpp
   WaveformTransmitter.cpp
-  WrapperErrorLogger.cpp)
+  WrapperErrorLogger.cpp
+)
 
-set(headers
+set(HEADER_LIST
   AppServices_Impl.h
   BaseBusStatisticCAN.h
   BaseBusStatisticLIN.h
   BUSMASTER.h
+  AboutDlg.h
+  StdAfx.h
+  BusmasterEvents.h
   BusmasterDump.h
   BusStatisticCAN.h
   BusStatisticLIN.h
@@ -85,6 +107,8 @@ set(headers
   CNVTCToolBar.h
   common.h
   ConfigData.h
+  CANSignalExtractor.h
+  ClientManager.h
   CSignalGeneration.h
   DatabaseDissociateDlg.h
   DataType.h
@@ -100,9 +124,13 @@ set(headers
   GraphParameters.h
   HashDefines.h
   InterfaceGetter.h
+  IBusmasterBusPlugin.h
+  IMenuInterface.h
+  IVariableLayer.h
   J1939TimeOutCfg.h
-  LDFParser.h
   LINBusStatisticsDlg.h
+  LINSignalExtractor.h
+  LinChannelParam.h
   MainFrm.h
   MDIChildBase.h
   MessageAttrib.h
@@ -117,9 +145,14 @@ set(headers
   MsgSgTreeView.h
   MsgSignal.h
   MsgSignalDBWnd.h
+  MFCRibbonBarEx.h
   MsgWndHdrInfo.h
   MsgWndThread.h
   MultiLanguage.h
+  IBusmasterPluginInterface.h
+  IBusmasterPlugInManager.h
+  IBusmasterPluginConnection.h
+  IBusmasterPlugin.h
   NetworkStatistics.h
   NotificListbox.h
   NotificWnd.h
@@ -134,7 +167,6 @@ set(headers
   SignalDetailsDlg.h
   Splash.h
   SplFileDlg.h
-  StdAfx.h
   Struct.h
   TreeItemParam.h
   TSEditorHandler.h
@@ -143,57 +175,79 @@ set(headers
   TxMsgWndJ1939.h
   UIThread.h
   Utility.h
+  UI/IMenuCreator.h
+  UI/MenuCreator.h
+  UI/Menus.h
+  UI/BusmasterMenuItem.h
+  UI/IdGenerator.h
+  UI/IUICreator.h
+  UI/UICreator.h
+  UI/ToolBarCreator.h
   ValueDescriptionDlg.h
+  VariableLayer.h
   WaveFormDataHandler.h
   WaveformSelectionDlg.h
   WaveformTransmitter.h
-  WrapperErrorLogger.h)
+  WrapperErrorLogger.h
+)
 
-set(resources
+set(MIDL_FILE BUSMASTER.idl)
+
+set(RESOURCE_LIST
   BUSMASTER.rc
-  BUSMASTER.idl)
+  ${MIDL_FILE}
+  "${CMAKE_SOURCE_DIR}/BIN/Release/BUSMASTER.exe.manifest"
+)
 
-add_executable(BUSMASTER WIN32 ${sources} ${headers} ${resources})
+set(PCH_HEADER_FILES
+  StdAfx.cpp
+)
 
-add_custom_command(
-  OUTPUT LDFLexer.c
-  COMMAND ${FLEX_EXECUTABLE}
-  ARGS -i -L -oLDFLexer.c ${CMAKE_CURRENT_SOURCE_DIR}/LDFLexer.l
-  DEPENDS LDFLexer.l)
+################################################################################
+# Target
+################################################################################
+add_executable(${PROJECT_NAME} WIN32 ${SOURCE_LIST} ${HEADER_LIST} ${RESOURCE_LIST})
 
-add_custom_command(
-  OUTPUT LDFParser.cpp LDFParser.h
-  COMMAND ${BISON_EXECUTABLE}
-  ARGS -d -l -o${CMAKE_CURRENT_BINARY_DIR}/LDFParser.cpp ${CMAKE_CURRENT_SOURCE_DIR}/LDFParser.y
-  DEPENDS LDFParser.y
-  WORKING_DIRECTORY ${BISON_PATH})
+target_precompile_headers(${PROJECT_NAME} PRIVATE ${PCH_HEADER_FILES})
+
+set_property(SOURCE ${MIDL_FILE} PROPERTY VS_SETTINGS 
+            "InterfaceIdentifierFileName=BUSMASTER_Interface.c" 
+            "HeaderFileName=BUSMASTER_Interface.h"
+            "DllDataFileName=dlldata.c"
+            "TypeLibraryName=BUSMASTER.tlb"
+)
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}/$(IntDir)
-  ${CMAKE_CURRENT_BINARY_DIR}/../BusEmulation/BusEmulation.dir/${CMAKE_BUILD_TYPE}/ # workaround to find BusEmulation.h
+  ${CMAKE_CURRENT_BINARY_DIR}/../BusEmulation/BusEmulation.dir/$<CONFIG>/ # workaround to find BusEmulation.h
   ..
   ${MFC_INCLUDE_DIRS}
   ${ATL_INCLUDE_DIRS}
   ${LIBXML2_INCLUDE_DIR}
   ${ICONV_INCLUDE_DIR}
-  ../Include)
+  ../Include
+)
 
 add_dependencies(BUSMASTER
-  BusEmulation)
+  BusEmulation
+)
 
-# compiler options
+################################################################################
+# Compile definitions
+################################################################################
 add_definitions(-Od -GF)
 
-# linker options
-set_target_properties(BUSMASTER PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(BUSMASTER
+################################################################################
+# Compile and link options
+################################################################################
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid /MANIFEST:NO")
+target_link_libraries(${PROJECT_NAME}
   Winmm shlwapi htmlhelp psapi
   CommonClass
   DataTypes
   Utils
-  DIL_Interface
   Filter
   FrameProcessor
   NodeSimEx
@@ -203,22 +257,22 @@ target_link_libraries(BUSMASTER
   SigGrphWnd
   SignalDefiner
   SignalWatch
-  TestSetupEditorGUI
   TestSuiteExecutorGUI
   TXWindow
-  UDS_Protocol)
+  UDS_Protocol
+)
 
-# installer options
+################################################################################
+# Post build events
+################################################################################
 add_custom_command(
-  TARGET BUSMASTER
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:BUSMASTER> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/GCCDLLMakeTemplate_CAN ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/GCCDLLMakeTemplate_J1939 ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/GCCDLLMakeTemplate_LIN ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/Res/Splsh16.bmp ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/BUSMASTER.exe.manifest ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_BINARY_DIR}/BUSMASTER.dir/${CMAKE_CFG_INTDIR}/BUSMASTER.tlb ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/BUSMASTER.tlb
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_BINARY_DIR}/BUSMASTER.dir/${CMAKE_CFG_INTDIR}/BUSMASTER.h ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/BUSMASTER_Interface.h
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_BINARY_DIR}/BUSMASTER.dir/${CMAKE_CFG_INTDIR}/BUSMASTER_i.c ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/BUSMASTER_Interface.c)
+  COMMAND ${CMAKE_COMMAND} -E make_directory ARGS ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/Res/Splsh16.bmp ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/BUSMASTER.exe.manifest ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_BINARY_DIR}/BUSMASTER.dir/${CMAKE_CFG_INTDIR}/BUSMASTER.tlb ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/BUSMASTER.tlb
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_BINARY_DIR}/BUSMASTER.dir/${CMAKE_CFG_INTDIR}/BUSMASTER.h ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/BUSMASTER_Interface.h
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_BINARY_DIR}/BUSMASTER.dir/${CMAKE_CFG_INTDIR}/BUSMASTER_i.c ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/BUSMASTER_Interface.c
+)

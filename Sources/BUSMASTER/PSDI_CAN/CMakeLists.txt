@@ -1,4 +1,9 @@
-set(sources
+set(PROJECT_NAME PSDI_CAN)
+
+################################################################################
+# Source, header and resources files
+################################################################################
+set(SOURCE_LIST
   MsgContainer_CAN.cpp
   MsgContainer_J1939.cpp
   MsgContainer_LIN.cpp
@@ -6,7 +11,7 @@ set(sources
   ../Application/MessageAttrib.cpp
 )
 
-set(headers
+set(HEADER_LIST
   MsgContainer_CAN.h
   MsgContainer_J1939.h
   MsgContainer_LIN.h
@@ -15,30 +20,42 @@ set(headers
   ../Utility/Utility_Thread.h
 )
 
-add_library(PSDI_CAN SHARED ${sources} ${headers})
+################################################################################
+# Target
+################################################################################
+add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST} ${HEADER_LIST})
 
 include_directories(
   ..
   ${ICONV_INCLUDE_DIR}
   ${LIBXML2_INCLUDE_DIR}
-  ${MFC_INCLUDE_DIRS})
+  ${MFC_INCLUDE_DIRS}
+)
 
-# compiler options
+################################################################################
+# Compile definitions
+################################################################################
 add_definitions(-D_USRDLL)
 
-# linker options
-set_target_properties(PSDI_CAN PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(PSDI_CAN
+################################################################################
+# Compile and link options
+################################################################################
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   CommonClass
   DataTypes
   Utils
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
-  UDS_Protocol)
+  UDS_Protocol
+)
 
-# installer options
+################################################################################
+# Post build events
+################################################################################
 add_custom_command(
-  TARGET PSDI_CAN
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:PSDI_CAN> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+)

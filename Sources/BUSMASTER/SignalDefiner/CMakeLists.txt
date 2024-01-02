@@ -1,41 +1,60 @@
-set(sources
+set(PROJECT_NAME SignalDefiner)
+
+################################################################################
+# Source, header and resources files
+################################################################################
+set(SOURCE_LIST
   ../Application/MultiLanguage.cpp
   SignalDefiner.cpp
-  SignalDefinerDlg.cpp)
+  SignalDefinerDlg.cpp
+)
 
-set(headers
+set(HEADER_LIST
   ../Application/MultiLanguage.h
   SignalDefiner.h
   SignalDefiner_Extern.h
   SignalDefiner_Resource.h
   SignalDefiner_stdafx.h
-  SignalDefinerDlg.h)
+  SignalDefinerDlg.h
+)
 
-set(resources
-  SignalDefiner.rc)
+set(RESOURCE_LIST
+  SignalDefiner.rc
+)
 
-add_library(SignalDefiner SHARED ${sources} ${headers} ${resources})
+################################################################################
+# Target
+################################################################################
+add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST} ${HEADER_LIST} ${RESOURCE_LIST})
 
 include_directories(
   ..
-  ${CMAKE_CURRENT_BINARY_DIR}/../EXTERNAL/DMGraph/DMGraph.dir/${CMAKE_BUILD_TYPE}/ # workaround to find DMGraph.tlb
+  ${CMAKE_CURRENT_BINARY_DIR}/../EXTERNAL/DMGraph/DMGraph.dir/$<CONFIG>/ # workaround to find DMGraph.tlb
   ${ICONV_INCLUDE_DIR}
   ${LIBXML2_INCLUDE_DIR}
   ${ATL_INCLUDE_DIRS}
   ${MFC_INCLUDE_DIRS})
 
-add_dependencies(SignalDefiner
-  DMGraph)
+add_dependencies(${PROJECT_NAME}
+  DMGraph
+)
 
-# compiler options
+################################################################################
+# Compile definitions
+################################################################################
 add_definitions(-D_USRDLL)
 
-# linker options
-set_target_properties(SignalDefiner PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+################################################################################
+# Compile and link options
+################################################################################
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
 
-# installer options
+################################################################################
+# Post build events
+################################################################################
 add_custom_command(
-  TARGET SignalDefiner
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:SignalDefiner> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+)

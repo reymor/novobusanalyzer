@@ -1,4 +1,9 @@
-set(sources
+set(PROJECT_NAME FrameProcessor)
+
+################################################################################
+# Source, header and resources files
+################################################################################
+set(SOURCE_LIST
   ConfigMsgLogDlg.cpp
   ConfigMsgLogCANDlg.cpp
   ConfigMsgLogLINDlg.cpp
@@ -15,9 +20,10 @@ set(sources
   FrameProcessor_LIN.cpp
   LogObjectCAN.cpp
   LogObjectJ1939.cpp
-  LogObjectLIN.cpp)
+  LogObjectLIN.cpp
+)
 
-set(headers
+set(HEADER_LIST
   BaseFrameProcessor_CAN.h
   BaseFrameProcessor_J1939.h
   BaseFrameProcessor_LIN.h
@@ -36,33 +42,46 @@ set(headers
   Logger_CommonDataTypes.h
   LogObjectCAN.h
   LogObjectJ1939.h
-  LogObjectLIN.h)
+  LogObjectLIN.h
+)
 
-add_library(FrameProcessor SHARED ${sources} ${headers})
+################################################################################
+# Target
+################################################################################
+add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST} ${HEADER_LIST})
 
 include_directories(
   ..
   ${ICONV_INCLUDE_DIR}
   ${LIBXML2_INCLUDE_DIR}
   ${ATL_INCLUDE_DIRS}
-  ${MFC_INCLUDE_DIRS})
+  ${MFC_INCLUDE_DIRS}
+)
 
-# compiler options
+################################################################################
+# Compile definitions
+################################################################################
 add_definitions(-D_USRDLL)
 
-# linker options
-set_target_properties(FrameProcessor PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(FrameProcessor
+################################################################################
+# Compile and link options
+################################################################################
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   DataTypes
   Utils
   Filter
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
-  CommonClass)
+  CommonClass
+)
 
-# installer options
+################################################################################
+# Post build events
+################################################################################
 add_custom_command(
-  TARGET FrameProcessor
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:FrameProcessor> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/$<CONFIG>/
+)
