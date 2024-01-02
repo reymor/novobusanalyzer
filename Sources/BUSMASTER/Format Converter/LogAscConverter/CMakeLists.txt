@@ -1,20 +1,28 @@
-set(sources
+set(PROJECT_NAME LogAscConverter)
+
+################################################################################
+# Source, header and resources files
+################################################################################
+set(SOURCE_LIST
   Log_Asc_Lexer.c
   Log_Asc_Parser.c
   LogAscConverter.cpp
   LogAscConverterDLL.cpp
   Utility.cpp
-  ../../Utility/MultiLanguageSupport.cpp)
+  ../../Utility/MultiLanguageSupport.cpp
+)
 
-set(headers
+set(HEADER_LIST
   Log_Asc_Parser.h
   LogAscConverter.h
-  ../../Utility/MultiLanguageSupport.h)
+  ../../Utility/MultiLanguageSupport.h
+)
 
-set(resources
-  LogAscConverter.rc)
+set(RESOURCE_LIST
+  LogAscConverter.rc
+)
 
-add_library(LogAscConverter SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST} ${HEADER_LIST} ${RESOURCE_LIST})
 
 add_custom_command(OUTPUT Log_Asc_Lexer.c
   COMMAND ${FLEX_EXECUTABLE}
@@ -34,13 +42,17 @@ include_directories(
   ${MFC_INCLUDE_DIRS})
 
 # linker options
-target_link_libraries(LogAscConverter
+target_link_libraries(${PROJECT_NAME}
   ${GETTEXT_LIBRARY}
-  ${MFC_LIBRARIES} -NODEFAULTLIB:atls)
+  ${MFC_LIBRARIES}
+)
 
-# installer options
+################################################################################
+# Post build events
+################################################################################
 add_custom_command(
-  TARGET LogAscConverter
+  TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:LogAscConverter> ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/
+)

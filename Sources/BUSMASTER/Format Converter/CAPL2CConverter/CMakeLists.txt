@@ -1,4 +1,9 @@
-set(sources
+set(PROJECT_NAME CAPL2CConverter)
+
+################################################################################
+# Source, header and resources files
+################################################################################
+set(SOURCE_LIST
   CAPL2CConverter.cpp
   CAPL2CConverterDLL.cpp
   CAPL2CPropertyPage.cpp
@@ -6,9 +11,10 @@ set(sources
   SymbolTable.cpp
   ../FormatConverterApp/MultiLanguage.cpp
   ../../Utility/MultiLanguageSupport.cpp
-  ../../Utility/WaitIndicator.cpp)
+  ../../Utility/WaitIndicator.cpp
+)
 
-set(headers
+set(HEADER_LIST
   CAPL_C_Lexer.h
   CAPL2CConverter.h
   CAPL2CConverter_Definitions.h
@@ -22,33 +28,40 @@ set(headers
   SymbolTable.h
   ../FormatConverterApp/MultiLanguage.h
   ../../Utility/MultiLanguageSupport.h
-  ../../Utility/WaitIndicator.h)
+  ../../Utility/WaitIndicator.h
+)
 
-set(resources
+set(RESOURCE_LIST
   Resource.rc)
 
-add_library(CAPL2CConverter SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST} ${HEADER_LIST} ${RESOURCE_LIST})
 
 add_custom_command(OUTPUT CAPL_C_Lexer.h
   COMMAND ${FLEX_EXECUTABLE}
   ARGS -i -L -oCAPL_C_Lexer.h ${CMAKE_CURRENT_SOURCE_DIR}/lexer_rule.l
-  DEPENDS lexer_rule.l)
+  DEPENDS lexer_rule.l
+)
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
   ${GETTEXT_INCLUDE_DIR}
-  ${MFC_INCLUDE_DIRS})
+  ${MFC_INCLUDE_DIRS}
+)
 
 # linker options
-target_link_libraries(CAPL2CConverter
+target_link_libraries(${PROJECT_NAME}
   DBC2DBFConverterLibrary
   ${GETTEXT_LIBRARY}
-  ${MFC_LIBRARIES} -NODEFAULTLIB:atls)
+  ${MFC_LIBRARIES}
+)
 
-# installer options
+################################################################################
+# Post build events
+################################################################################
 add_custom_command(
-  TARGET CAPL2CConverter
+  TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:CAPL2CConverter> ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/
+)
