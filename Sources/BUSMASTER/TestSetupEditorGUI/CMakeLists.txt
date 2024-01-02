@@ -1,14 +1,21 @@
-set(sources
+set(PROJECT_NAME TestSetupEditorGUI)
+
+################################################################################
+# Source, header and resources files
+################################################################################
+set(SOURCE_LIST
   ListCtrlEx.cpp
-  ../Application/MultiLanguage.cpp
   TreeViewEx.cpp
+  TestAutomationEditor.cpp
   TSEditorGUI_ChildFrame.cpp
   TSEditorGUI_PropertyView.cpp
-  TSEditorGUI_SettingsDlg.cpp)
+  TSEditorGUI_SettingsDlg.cpp
+  TestAutomationEditorDoc.cpp
+  stdafx.cpp
+)
 
-set(headers
+set(HEADER_LIST
   ListCtrlEx.h
-  ../Application/MultiLanguage.h
   TreeViewEx.h
   TSEditorGUI_ChildFrame.h
   TSEditorGUI_Definitions.h
@@ -16,35 +23,53 @@ set(headers
   TSEditorGUI_PropertyView.h
   TSEditorGUI_resource.h
   TSEditorGUI_SettingsDlg.h
-  TSEditorGUI_stdafx.h)
+  TSEditorGUI_stdafx.h
+  TestAutomationEditor.h
+  TestAutomationEditorDoc.h
+  Resource.h
+  stdafx.h
+)
 
-set(resources
-  TSEditorGUI_resource.rc)
+set(RESOURCE_LIST
+  TestSetupEditorGUI.rc
+)
 
-add_library(TestSetupEditorGUI SHARED ${sources} ${headers} ${resources})
+################################################################################
+# Target
+################################################################################
+add_executable(${PROJECT_NAME} WIN32 ${SOURCE_LIST} ${HEADER_LIST} ${RESOURCE_LIST})
 
 include_directories(
   ..
   ${ICONV_INCLUDE_DIR}
   ${LIBXML2_INCLUDE_DIR}
   ${ATL_INCLUDE_DIRS}
-  ${MFC_INCLUDE_DIRS})
+  ${MFC_INCLUDE_DIRS}
+)
 
-# compiler options
+################################################################################
+# Compile definitions
+################################################################################
 add_definitions(-D_AFXEXT)
 
-# linker options
-set_target_properties(TestSetupEditorGUI PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(TestSetupEditorGUI
+################################################################################
+# Compile and link options
+################################################################################
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid /MANIFEST:NO")
+target_link_libraries(${PROJECT_NAME}
   "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/BusmasterDBNetwork.lib"
   HTMLHELP
   DataTypes
   TestSetupEditorLib
-  Utils)
+  Utils
+)
 
-# installer options
+################################################################################
+# Post build events
+################################################################################
 add_custom_command(
-  TARGET TestSetupEditorGUI
+  TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:TestSetupEditorGUI> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
+)
