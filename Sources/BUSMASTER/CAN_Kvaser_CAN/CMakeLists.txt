@@ -1,9 +1,13 @@
+set(PROJECT_NAME CAN_Kvaser_CAN)
+
 set(sources
   AcceptanceFilterDlg.cpp
   CAN_Kvaser_CAN.cpp
   CANRegAnalysis.cpp
   ChangeRegisters.cpp
-  ../Application/MultiLanguage.cpp)
+  ../Application/MultiLanguage.cpp
+  ../DIL_Interface/HardwareListingCAN.cpp
+)
 
 set(headers
   AcceptanceFilterDlg.h
@@ -19,7 +23,7 @@ set(headers
 set(resources
   CAN_Kvaser_CAN.rc)
 
-add_library(CAN_Kvaser_CAN SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers} ${resources})
 
 include_directories(
   ..
@@ -32,8 +36,8 @@ include_directories(
 add_definitions(-D_USRDLL)
 
 # linker options
-set_target_properties(CAN_Kvaser_CAN PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(CAN_Kvaser_CAN
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   ${CMAKE_CURRENT_SOURCE_DIR}/EXTERNAL/Lib/MS/canlib32.lib
   CommonClass
   DataTypes
@@ -41,8 +45,8 @@ target_link_libraries(CAN_Kvaser_CAN
 
 # installer options
 add_custom_command(
-  TARGET CAN_Kvaser_CAN
+  TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:CAN_Kvaser_CAN> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/EXTERNAL/bin/canlib32.dll ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
+)

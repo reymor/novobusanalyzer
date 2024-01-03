@@ -1,3 +1,5 @@
+set(PROJECT_NAME CAN_IXXAT_VCI)
+
 set(sources
   CAN_IXXAT_VCI.cpp
   CAN_IXXAT_VCI_stdafx.cpp
@@ -8,6 +10,7 @@ set(sources
   DIL_CAN_IXXAT_VCI.cpp
   IxxatCanChannel.cpp
   ../Application/MultiLanguage.cpp
+  ../DIL_Interface/HardwareListingCAN.cpp
   vcinpldynl.cpp)
 
 set(headers
@@ -29,12 +32,12 @@ set(headers
 set(resources
   CAN_IXXAT_VCI.rc)
 
-add_library(CAN_IXXAT_VCI SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers} ${resources})
 
 include_directories(
-  EXTERNAL/inc
   ..
   ../Include
+  EXTERNAL/inc
   ${ICONV_INCLUDE_DIR}
   ${LIBXML2_INCLUDE_DIR}
   ${ATL_INCLUDE_DIRS}
@@ -44,13 +47,13 @@ include_directories(
 add_definitions(-D_USRDLL)
 
 # linker options
-set_target_properties(CAN_IXXAT_VCI PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(CAN_IXXAT_VCI
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   Utils)
 
 # installer options
 add_custom_command(
-  TARGET CAN_IXXAT_VCI
+  TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:CAN_IXXAT_VCI> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)

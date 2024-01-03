@@ -1,3 +1,6 @@
+
+set(PROJECT_NAME MHS_CNFG)
+
 set(sources
   src/about.c
   src/can_setup.cpp
@@ -14,11 +17,11 @@ set(headers
 set(resources
   Res/mhsbmcfg.rc)
 
-add_library(mhsbmcfg STATIC ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} STATIC ${sources} ${headers} ${resources})
 
 include_directories(
   Res
-  ..
+  .
   ${MFC_INCLUDE_DIRS})
 
 # compiler options
@@ -26,6 +29,6 @@ set(CMAKE_MFC_FLAG 0)
 add_definitions(-D_USRDLL -DMHSBMCFG_EXPORTS)
 
 # linker options
-set_target_properties(mhsbmcfg PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(mhsbmcfg
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   comctl32)

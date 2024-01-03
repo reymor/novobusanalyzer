@@ -1,7 +1,9 @@
 set(sources
   CAN_ETAS_BOA.cpp
   ChangeRegisters_CAN_ETAS_BOA.cpp
-  ../Application/MultiLanguage.cpp)
+  ../Application/MultiLanguage.cpp
+  ../DIL_Interface/HardwareListingCAN.cpp
+)
 
 set(headers
   CAN_ETAS_BOA.h
@@ -10,7 +12,9 @@ set(headers
   CAN_ETAS_BOA_stdafx.h
   ChangeRegDefines.h
   ChangeRegisters_CAN_ETAS_BOA.h
-  ../Application/MultiLanguage.h)
+  ../Application/MultiLanguage.h
+  ../DIL_Interface/HardwareListingCAN.h
+)
 
 set(resources
   CAN_ETAS_BOA.rc)

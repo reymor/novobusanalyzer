@@ -1,3 +1,5 @@
+set(PROJECT_NAME CAN_ISOLAR_EVE_VCAN)
+
 set(sources
   CAN_ISOLAR_EVE_VCAN.cpp
   CAN_ISOLAR_EVE_VCAN_stdafx.cpp)
@@ -8,7 +10,7 @@ set(headers
   CAN_ISOLAR_EVE_VCAN_Extern.h
   CAN_ISOLAR_EVE_VCAN_stdafx.h)
 
-add_library(CAN_ISOLAR_EVE_VCAN SHARED ${sources} ${headers})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers})
 
 include_directories(
   ..
@@ -21,17 +23,16 @@ include_directories(
 add_definitions(-D_USRDLL)
 
 # linker options
-set_target_properties(CAN_ISOLAR_EVE_VCAN PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(CAN_ISOLAR_EVE_VCAN
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   Advapi32
   DataTypes
   Utils)
 
 # installer options
 add_custom_command(
-  TARGET CAN_ISOLAR_EVE_VCAN
+  TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:CAN_ISOLAR_EVE_VCAN> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/Controller_0.dll ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/Controller_1.dll ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
+)

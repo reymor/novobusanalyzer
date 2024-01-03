@@ -1,8 +1,12 @@
+set(PROJECT_NAME CAN_i-VIEW)
+
 set(sources
+  ../DIL_Interface/HardwareListingCAN.cpp
   AcceptanceFilterDlg.cpp
   CAN_i-VIEW.cpp
   CANRegAnalysis.cpp
-  ChangeRegisters.cpp)
+  ChangeRegisters.cpp
+)
 
 set(headers
   AcceptanceFilterDlg.h
@@ -18,7 +22,7 @@ set(headers
 set(resources
   CAN_i-VIEW.rc)
 
-add_library(CAN_i-VIEW SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers} ${resources})
 
 include_directories(
   ..
@@ -31,14 +35,14 @@ include_directories(
 add_definitions(-D_USRDLL)
 
 # linker options
-set_target_properties(CAN_i-VIEW PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(CAN_i-VIEW
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   Ws2_32
   Utils)
 
 # installer options
 add_custom_command(
-  TARGET CAN_i-VIEW
+  TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:CAN_i-VIEW> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)

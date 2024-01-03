@@ -1,3 +1,5 @@
+set(PROJECT_NAME CAN_ICS_neoVI)
+
 set(sources
   CAN_ICS_neoVI.cpp
   CAN_ICS_neoVI_Channel.cpp
@@ -5,7 +7,9 @@ set(sources
   CAN_ICS_neoVI_stdafx.cpp
   CANRegAnalysis_CAN_ICS_neoVI.cpp
   ChangeRegisters_CAN_ICS_neoVI.cpp
-  ../Application/MultiLanguage.cpp)
+  ../Application/MultiLanguage.cpp
+  ../DIL_Interface/HardwareListingCAN.cpp
+)
 
 set(headers
   CAN_ICS_neoVI.h
@@ -22,7 +26,7 @@ set(headers
 set(resources
   CAN_ICS_neoVI.rc)
 
-add_library(CAN_ICS_neoVI SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers} ${resources})
 
 include_directories(
   ..
@@ -35,16 +39,15 @@ include_directories(
 add_definitions(-D_USRDLL)
 
 # linker options
-set_target_properties(CAN_ICS_neoVI PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(CAN_ICS_neoVI
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   DataTypes
   Utils)
 
 # installer options
 add_custom_command(
-  TARGET CAN_ICS_neoVI
+  TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:CAN_ICS_neoVI> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/EXTERNAL/icsneo40.dll ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/EXTERNAL/ETASneo40.dll ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
+)

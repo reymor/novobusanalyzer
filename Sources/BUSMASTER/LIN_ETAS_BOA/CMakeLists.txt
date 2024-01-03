@@ -1,5 +1,6 @@
 set(sources
   ../DIL_Interface/CommanDIL_LIN.cpp
+  ../DIL_Interface/HardwareListing.cpp
   LIN_ETAS_BOA.cpp
   LIN_ETAS_BOA_stdafx.cpp)
 

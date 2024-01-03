@@ -1,5 +1,8 @@
+set(PROJECT_NAME LIN_PEAK_USB)
+
 set(sources
   ../DIL_Interface/CommanDIL_LIN.cpp
+  ../DIL_Interface/HardwareListing.cpp
   LIN_PEAK_USB.cpp
   LIN_PEAK_USB_Channel.cpp
   LIN_PEAK_USB_Network.cpp
@@ -18,7 +21,7 @@ set(headers
 set(resources
   LIN_PEAK_USB.rc)
 
-add_library(LIN_PEAK_USB SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers} ${resources})
 
 include_directories(
   ..
@@ -31,14 +34,14 @@ include_directories(
 add_definitions(-D_USRDLL)
 
 # linker options
-set_target_properties(LIN_PEAK_USB PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(LIN_PEAK_USB
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   DataTypes
   Utils)
 
 # installer options
 add_custom_command(
-  TARGET LIN_PEAK_USB
+  TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:LIN_PEAK_USB> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
