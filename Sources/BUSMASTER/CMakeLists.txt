@@ -6,7 +6,7 @@ project(BUSMASTER)
 ################################################################################
 set(BUSMASTER_VER 3.2.2)
 add_definitions(-DBUSMASTER_VER=\"${BUSMASTER_VER}\")
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 
 ################################################################################
 # required tools
@@ -100,8 +100,8 @@ find_package_handle_standard_args(LIBXML2
 #add_definitions(-DWINVER=0x0501) # Windows XP
 #add_definitions(-DWINVER=0x0502) # Windows Server 2003
 #add_definitions(-DWINVER=0x0600) # Windows Vista
-#add_definitions(-DWINVER=0x0601) # Windows 7
-add_definitions(-DWINVER=0x19044) # Windows 10, Version 21H2
+# add_definitions(-DWINVER=0x0601) # Windows 7
+# add_definitions(-DWINVER=0x19044) # Windows 10, Version 21H2
 #add_definitions(-D_VC80_UPGRADE=0x0710)
 link_directories(
   ${ATL_PATH}/lib/ATL/i386
@@ -135,7 +135,7 @@ add_subdirectory(CAN_IXXAT_VCI)
 add_subdirectory(CAN_Kvaser_CAN)
 add_subdirectory(CAN_MHS)
 add_subdirectory(CAN_NSI)
-add_subdirectory(CAN_PEAK_USB)
+# add_subdirectory(CAN_PEAK_USB)
 add_subdirectory(CAN_STUB)
 add_subdirectory(CAN_Vector_XL)
 add_subdirectory(CAN_VSCOM)
@@ -143,7 +143,8 @@ add_subdirectory(CommonClass)
 add_subdirectory(DataTypes)
 # add_subdirectory(DIL_Interface)
 # add_subdirectory(DIL_J1939)
-add_subdirectory(EXTERNAL)
+add_subdirectory(EXTERNAL/DmGraph)
+add_subdirectory(EXTERNAL/AdvancedUIPlugin)
 add_subdirectory(Filter)
 # add_subdirectory(FLEXRAY_ETAS_BOA)
 # add_subdirectory(Format Converter)
