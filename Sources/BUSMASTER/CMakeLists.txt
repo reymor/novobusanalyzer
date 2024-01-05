@@ -72,6 +72,20 @@ find_path(LIBXML2_INCLUDE_DIR
 find_package_handle_standard_args(LIBXML2
   REQUIRED_VARS LIBXML2_LIBRARY LIBXML2_INCLUDE_DIR)
 
+# zlib
+find_path(ZLIB_PATH
+  lib/zlib.lib
+  PATHS EXTERNAL/zlib)
+find_library(ZLIB_LIBRARY
+  NAMES zlib
+  PATHS ${ZLIB_PATH}/lib)
+find_path(ZLIB_INCLUDE_DIR
+  NAMES zlib.h
+  PATHS ${ZLIB_PATH}/include)
+find_package_handle_standard_args(ZLIB
+  REQUIRED_VARS ZLIB_LIBRARY ZLIB_INCLUDE_DIR)
+
+
 # # atl
 # find_path(ATL_PATH
 #   lib/ATL/i386/atl.lib
@@ -147,7 +161,7 @@ add_subdirectory(EXTERNAL/DmGraph)
 add_subdirectory(EXTERNAL/AdvancedUIPlugin)
 add_subdirectory(Filter)
 # add_subdirectory(FLEXRAY_ETAS_BOA)
-# add_subdirectory(Format Converter)
+add_subdirectory(FormatConverter)
 add_subdirectory(FrameProcessor)
 add_subdirectory(LIN_ETAS_BOA)
 add_subdirectory(LIN_ISOLAR_EVE_VLIN)
