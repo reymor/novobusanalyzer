@@ -109,7 +109,7 @@ link_directories(
 set(CMAKE_MFC_FLAG 2) # shared MFC library
 add_definitions(-D_CRT_SECURE_NO_WARNINGS -wd4996) # warning C4996: '...': This function or variable may be unsafe. Consider using ... instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 
-
+cmake_policy(SET CMP0020 NEW)
 ################################################################################
 # Global include directories
 ################################################################################
@@ -171,3 +171,5 @@ add_subdirectory(UDS_Protocol)
 add_subdirectory(Utility)
 # add_subdirectory(Include)
 add_subdirectory(LIN_Kvaser)
+add_subdirectory(LDFEditor)
+add_subdirectory(LDFViewer)
