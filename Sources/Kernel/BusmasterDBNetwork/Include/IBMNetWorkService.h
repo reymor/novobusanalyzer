@@ -1,5 +1,5 @@
 #pragma once
-#include "../../ProtocolDefinitions/ICluster.h"
+#include "ICluster.h"
 #include "IBMNetWorkGetService.h"
 class IBMNetWorkService : public IBMNetWorkGetService
 {

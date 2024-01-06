@@ -2,9 +2,9 @@
 #include <Windows.h>
 #include <string>
 #include <list>
-//#include "../Include/BaseDefs.h"
 #include <string>
-#include "../ProtocolDefinitions/ICluster.h"
+#include "ICluster.h"
+
 class AccessDBManager
 {
     typedef ERRORCODE( *PARSEDBFILE )( std::string strFileName, ETYPE_BUS clusterType, std::list<ClusterResult>& ouClusterResultList );

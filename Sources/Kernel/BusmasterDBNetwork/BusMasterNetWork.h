@@ -1,10 +1,10 @@
 #pragma once
 
 //#include "Cluster.h"
-#include "Include/IBMNetWorkService.h"
+#include "IBMNetWorkService.h"
 #include <algorithm>
 #include "AccessDBManager.h"
-#include "../BusmasterDriverInterface/Include/DeviceListInfo.h"
+#include "DeviceListInfo.h"
 
 
 

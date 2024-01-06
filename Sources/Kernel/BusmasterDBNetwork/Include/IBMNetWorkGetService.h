@@ -3,10 +3,11 @@
 //#include
 //Settings may be inherited from some common interface
 #include <list>
-#include "../../ProtocolDefinitions/CommonDefines.h"
-#include "../../ProtocolDefinitions/ProtocolsDefinitions.h"
-#include "../../ProtocolDefinitions/FlexRayDefines.h"
-#include "../../ProtocolDefinitions/ICluster.h"
+//ProtocolDefinitions
+#include "CommonDefines.h"
+#include "ProtocolsDefinitions.h"
+#include "FlexRayDefines.h"
+#include "ICluster.h"
 
 class CanChannelSettings
 {

@@ -33,7 +33,14 @@ set(ALL_FILES
 ################################################################################
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
-use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
+target_include_directories(${PROJECT_NAME}
+    PUBLIC Include
+)
+
+target_link_libraries(${PROJECT_NAME}
+    PUBLIC ProtocolDefinitions BusmasterDriverInterface
+)
+
 set(ROOT_NAMESPACE BusmasterDBNetwork)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -47,18 +54,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     TARGET_NAME_DEBUG           "${TARGET_NAME}$ENV{TargetExt}"
     TARGET_NAME_RELEASE         "${TARGET_NAME}$ENV{TargetExt}"
 )
-################################################################################
-# Output directory
-################################################################################
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    OUTPUT_DIRECTORY_BUSMASTER_DEBUG "${CMAKE_SOURCE_DIR}/Bin/$<CONFIG>"
-    OUTPUT_DIRECTORY_DEBUG           "${CMAKE_SOURCE_DIR}/Bin/$<CONFIG>"
-    OUTPUT_DIRECTORY_RELEASE         "${CMAKE_SOURCE_DIR}/Bin/$<CONFIG>"
-)
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    INTERPROCEDURAL_OPTIMIZATION_BUSMASTER_DEBUG "TRUE"
-    INTERPROCEDURAL_OPTIMIZATION_RELEASE         "TRUE"
-)
+
 ################################################################################
 # Compile definitions
 ################################################################################
