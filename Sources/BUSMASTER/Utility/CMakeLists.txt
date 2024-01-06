@@ -1,3 +1,5 @@
+set(PROJECT_NAME Utils)
+
 set(sources
   AlphaChar.cpp
   AlphanumiricEdit.cpp
@@ -55,9 +57,10 @@ set(headers
   Utility_Thread.h
   Utils_stdafx.h
   WaitIndicator.h
-  XMLUtils.h)
+  XMLUtils.h
+)
 
-add_library(Utils STATIC ${sources} ${headers})
+add_library(${PROJECT_NAME} STATIC ${sources} ${headers})
 
 include_directories(
   ..
@@ -70,6 +73,6 @@ include_directories(
 add_definitions(-D_LIB)
 
 # linker options
-target_link_libraries(Utils
+target_link_libraries(${PROJECT_NAME}
   ${LIBXML2_LIBRARY}
   ${GETTEXT_LIBRARY})

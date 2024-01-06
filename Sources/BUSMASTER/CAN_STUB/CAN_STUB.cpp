@@ -35,8 +35,8 @@
 //#include "Include/DIL_CommonDefs.h"
 
 //#include "DataTypes/MsgBufAll_DataTypes.h"
-#include "BusEmulation/BusEmulation.h"
-#include "BusEmulation/BusEmulation_i.c"
+#include "BusEmulation.h"
+#include "BusEmulation_i.c"
 //#include "DataTypes/DIL_DataTypes.h"
 #include "Utility/Utility_Thread.h"
 #include "Utility/Utility.h"

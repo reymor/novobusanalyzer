@@ -1,3 +1,5 @@
+set(PROJECT_NAME SigGrphWnd)
+
 set(sources
   GraphBottomView.cpp
   GraphChildFrame.cpp
@@ -36,7 +38,7 @@ set(headers
 set(resources
   SigGrphWnd.rc)
 
-add_library(SigGrphWnd SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers} ${resources})
 
 include_directories(
   ..
@@ -50,17 +52,18 @@ include_directories(
 add_definitions(-D_AFXEXT)
 
 # linker options
-set_target_properties(SigGrphWnd PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(SigGrphWnd
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   DMGraph
   DataTypes
   Utils
-  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
+  Utilities
 )
 
 # installer options
 add_custom_command(
-  TARGET SigGrphWnd
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:SigGrphWnd> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
+)

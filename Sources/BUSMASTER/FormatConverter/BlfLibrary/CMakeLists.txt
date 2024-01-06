@@ -1,3 +1,5 @@
+set(PROJECT_NAME BlfLibrary)
+
 set(sources
   Src/Kernel/BinHelper.cpp
   Src/Kernel/BlfLibrary.cpp
@@ -13,7 +15,11 @@ set(headers
   Src/Kernel/Out.h
   Src/Kernel/Strings.h)
 
-add_library(BlfLibrary SHARED ${sources} ${headers})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers})
+
+target_include_directories(${PROJECT_NAME} 
+  INTERFACE Src
+)
 
 include_directories(
   ${ZLIB_INCLUDE_DIR})
@@ -22,12 +28,13 @@ include_directories(
 add_definitions(-DBLFLIBRARY_EXPORTS -D_WINDLL)
 
 # linker options
-target_link_libraries(BlfLibrary
+target_link_libraries(${PROJECT_NAME}
   ${ZLIB_LIBRARY})
 
 # installer options
 add_custom_command(
-  TARGET BlfLibrary
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:BlfLibrary> ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
+)

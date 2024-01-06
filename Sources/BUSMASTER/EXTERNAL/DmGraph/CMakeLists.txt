@@ -1,3 +1,5 @@
+set(PROJECT_NAME DMGraph)
+
 set(sources
   AnnoPropPage.cpp
   ColPickerBtn.cpp
@@ -49,7 +51,7 @@ set(resources
   DMGraph.idl
   DMGraph.rc)
 
-add_library(DMGraph SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers} ${resources})
 
 include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
@@ -61,13 +63,14 @@ add_definitions(-Gy -GF -MT)
 remove_definitions(-GR -MD)
 
 # linker options
-set_target_properties(DMGraph PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid /NXCOMPAT:NO")
-target_link_libraries(DMGraph
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid /NXCOMPAT:NO")
+target_link_libraries(${PROJECT_NAME}
   comctl32)
 
 # installer options
 add_custom_command(
-  TARGET DMGraph
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:DMGraph> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
+)

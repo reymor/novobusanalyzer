@@ -1,3 +1,5 @@
+set(PROJECT_NAME DBC2DBFConverterLibrary)
+
 set(sources
   dbc_dbf_Lexer.c
   DBC2DBFConverterDLL.cpp
@@ -29,7 +31,7 @@ set(headers
   Utility.h
   ../../Utility/MultiLanguageSupport.h)
 
-add_library(DBC2DBFConverterLibrary SHARED ${sources} ${headers})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers})
 
 add_custom_command(OUTPUT dbc_dbf_Lexer.c
   COMMAND ${FLEX_EXECUTABLE}
@@ -44,13 +46,14 @@ include_directories(
   ${MFC_INCLUDE_DIRS})
 
 # linker options
-target_link_libraries(DBC2DBFConverterLibrary
+target_link_libraries(${PROJECT_NAME}
   ${GETTEXT_LIBRARY}
   ${MFC_LIBRARIES} -NODEFAULTLIB:daouuid)
 
 # installer options
 add_custom_command(
-  TARGET DBC2DBFConverterLibrary
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:DBC2DBFConverterLibrary> ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
+)

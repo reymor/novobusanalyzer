@@ -1,3 +1,5 @@
+set(PROJECT_NAME BusEmulation)
+
 set(sources
   BusEmulation.cpp
   SimENG.cpp
@@ -20,7 +22,7 @@ set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/BusEmulation.dir/${CMAKE
 set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/BusEmulation.dir/${CMAKE_CFG_INTDIR}/BusEmulation.h PROPERTIES GENERATED TRUE)
 set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/BusEmulation.dir/${CMAKE_CFG_INTDIR}/dlldata.c PROPERTIES GENERATED TRUE)
 
-add_executable(BusEmulation WIN32 ${sources} ${headers} ${resources})
+add_executable(${PROJECT_NAME} WIN32 ${sources} ${headers} ${resources})
 
 include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
@@ -35,18 +37,20 @@ include_directories(
 set(CMAKE_MFC_FLAG 0)
 
 # linker options
-set_target_properties(BusEmulation PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(BusEmulation
-  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/$(Configuration)/Utilities.lib"
-  "${CMAKE_SOURCE_DIR}/../Kernel/Bin/BusmasterKernel/$(Configuration)/BusmasterKernel.lib"
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
+  Utilities
+  BusmasterKernel
   RpcRT4
   comctl32
   DataTypes
-  Utils)
+  Utils
+)
 
 # installer options
 add_custom_command(
-  TARGET BusEmulation
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:BusEmulation> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
+)

@@ -10,7 +10,7 @@ add_library(CAN_STUB SHARED ${sources} ${headers})
 
 include_directories(
   ..
-  ${CMAKE_CURRENT_BINARY_DIR}/../BusEmulation/BusEmulation.dir/${CMAKE_BUILD_TYPE}/ # workaround to find BusEmulation.h
+  ${CMAKE_BINARY_DIR}/Sources/BUSMASTER/BusEmulation/BusEmulation.dir/${CMAKE_BUILD_TYPE}/ # workaround to find BusEmulation.h
   ${ICONV_INCLUDE_DIR}
   ${LIBXML2_INCLUDE_DIR}
   ${ATL_INCLUDE_DIRS}
@@ -32,5 +32,6 @@ target_link_libraries(CAN_STUB
 add_custom_command(
   TARGET CAN_STUB
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:CAN_STUB> ${PROJECT_SOURCE_DIR}/BIN/${CMAKE_BUILD_TYPE}/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:CAN_STUB> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
+)

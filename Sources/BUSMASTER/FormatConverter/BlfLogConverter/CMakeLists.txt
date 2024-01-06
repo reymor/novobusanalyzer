@@ -1,3 +1,5 @@
+set(PROJECT_NAME BlfLogConverter)
+
 set(sources
   BlfLogConverter.cpp
   BlfLogConverterDLL.cpp
@@ -11,21 +13,21 @@ set(headers
 set(resources
   BlfLogConverter.rc)
 
-add_library(BlfLogConverter SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers} ${resources})
 
 include_directories(
-  ../BlfLibrary/Src
   ${GETTEXT_INCLUDE_DIR}
   ${MFC_INCLUDE_DIRS})
 
-target_link_libraries(BlfLogConverter
+target_link_libraries(${PROJECT_NAME}
   BlfLibrary
   ${GETTEXT_LIBRARY}
   ${MFC_LIBRARIES})
 
 # installer options
 add_custom_command(
-  TARGET BlfLogConverter
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:BlfLogConverter> ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
+)

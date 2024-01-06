@@ -1,13 +1,3 @@
-cmake_minimum_required(VERSION 3.27)
-project(BUSMASTER)
-
-################################################################################
-# BUSMASTER version
-################################################################################
-set(BUSMASTER_VER 3.2.2)
-add_definitions(-DBUSMASTER_VER=\"${BUSMASTER_VER}\")
-set(CMAKE_BUILD_TYPE Release)
-
 ################################################################################
 # required tools
 ################################################################################
@@ -46,19 +36,6 @@ find_path(GETTEXT_INCLUDE_DIR
 find_package_handle_standard_args(GETTEXT
   REQUIRED_VARS GETTEXT_LIBRARY GETTEXT_INCLUDE_DIR)
 
-# iconv
-# find_path(ICONV_PATH
-#   lib/iconv.lib
-#   PATHS EXTERNAL/iconv)
-# find_library(ICONV_LIBRARY
-#   NAMES iconv
-#   PATHS ${ICONV_PATH}/lib)
-# find_path(ICONV_INCLUDE_DIR
-#   NAMES iconv.h
-#   PATHS ${ICONV_PATH}/include)
-# find_package_handle_standard_args(ICONV
-#   REQUIRED_VARS ICONV_LIBRARY ICONV_INCLUDE_DIR)
-
 # libxml2
 find_path(LIBXML2_PATH
   lib/libxml2.lib
@@ -84,28 +61,6 @@ find_path(ZLIB_INCLUDE_DIR
   PATHS ${ZLIB_PATH}/include)
 find_package_handle_standard_args(ZLIB
   REQUIRED_VARS ZLIB_LIBRARY ZLIB_INCLUDE_DIR)
-
-
-# # atl
-# find_path(ATL_PATH
-#   lib/ATL/i386/atl.lib
-#   PATHS C:/WinDDK/7600.16385.1)
-# set(ATL_INCLUDE_DIRS
-#   ${ATL_PATH}/inc/atl71)
-# set(ATL_LIBRARIES
-#   ${ATL_PATH}/lib/ATL/i386/atl.lib
-#   ${ATL_PATH}/lib/ATL/i386/atls.lib
-#   ${ATL_PATH}/lib/ATL/i386/atlthunk.lib)
-
-# # mfc
-# find_path(MFC_PATH
-#   C:/Windows/System32/mfc42.lib
-#   PATHS C:/Windows/System32)
-# set(MFC_INCLUDE_DIRS
-#   ${MFC_PATH}/inc/mfc42)
-# set(MFC_LIBRARIES
-#   ${MFC_PATH}/mfc42.lib
-#   ${MFC_PATH}/mfcs42.lib)
 
 ################################################################################
 # common compiler/linker settings

@@ -12,4 +12,4 @@ set(CMAKE_BUILD_TYPE Release)
 # Sub-projects
 ################################################################################
 add_subdirectory(Sources/Kernel)
-# add_subdirectory(Sources/BUSMASTER)
+add_subdirectory(Sources/BUSMASTER)

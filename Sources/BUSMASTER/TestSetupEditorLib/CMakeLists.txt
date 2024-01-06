@@ -1,3 +1,5 @@
+set(PROJECT_NAME TestSetupEditorLib)
+
 set(sources
   BaseEntityTA.cpp
   DataBaseMsgList.cpp
@@ -28,7 +30,7 @@ set(headers
 set(resources
   TestSetupEditorLib.rc)
 
-add_library(TestSetupEditorLib STATIC ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} STATIC ${sources} ${headers} ${resources})
 
 include_directories(
   ..

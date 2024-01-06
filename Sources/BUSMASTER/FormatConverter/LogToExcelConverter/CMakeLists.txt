@@ -1,3 +1,5 @@
+set(PROJECT_NAME LogToExcelConverter)
+
 set(sources
   ExportLogFileDlg.cpp
   LogToExcel.cpp
@@ -17,20 +19,21 @@ set(headers
 set(resources
   LogToExcelConverter.rc)
 
-add_library(LogToExcelConverter SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers} ${resources})
 
 include_directories(
   ${GETTEXT_INCLUDE_DIR}
   ${MFC_INCLUDE_DIRS})
 
 # linker options
-target_link_libraries(LogToExcelConverter
+target_link_libraries(${PROJECT_NAME}
   ${GETTEXT_LIBRARY}
   ${MFC_LIBRARIES})
 
 # installer options
 add_custom_command(
-  TARGET LogToExcelConverter
+  TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:LogToExcelConverter> ${PROJECT_SOURCE_DIR}/../BIN/${CMAKE_BUILD_TYPE}/ConverterPlugins/)
+  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
+)
