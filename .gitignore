@@ -391,6 +391,19 @@ Sources/BUSMASTER/LDFEditor/GeneratedFiles
 Sources/BUSMASTER/LDFViewer/GeneratedFiles
 Sources/BUSMASTER/LDFViewer/GeneratedFiles
 
+Sources/BUSMASTER/BIN/Release/LIN_Kvaser.dll
+Sources/BUSMASTER/BIN/Release/mhstcan.dll
+Sources/BUSMASTER/BIN/Release/ConverterPlugins
+
+# CMake build dirs
+Sources/BUSMASTER/BIN/*.sln
+Sources/BUSMASTER/BIN/*.vcxproj*
+Sources/BUSMASTER/BIN/Sources
+Sources/BUSMASTER/BIN/Win32
+Sources/BUSMASTER/BIN/CMakeFiles
+Sources/BUSMASTER/BIN/*.cmake
+Sources/BUSMASTER/BIN/*.txt
+
 # Installation Setup
 Installation Setup/BUSMASTER_Cleanup_Registry.exe
 Installation Setup/BUSMASTER_Installer_Ver_*.exe
