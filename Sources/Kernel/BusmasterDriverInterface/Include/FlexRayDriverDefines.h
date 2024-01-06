@@ -5,8 +5,8 @@
 #pragma once
 #include <string>
 #include "DeviceListInfo.h"
-#include "../../ProtocolDefinitions/FlexRayEnums.h"
-#include "../../Utilities/BaseMsgBufAll.h"
+#include "FlexRayEnums.h"
+#include "BaseMsgBufAll.h"
 
 #define def_MAX_CYCLES                  63
 

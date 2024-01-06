@@ -1,8 +1,8 @@
 #pragma once
 #include <Windows.h>
 #include "IBusMasterKernel.h"
-#include "../BusmasterDriverInterface/Include/BusmasterDriverInterface.h"
-#include "../BusmasterDBNetwork/Include/IBMNetWorkService.h"
+#include "BusmasterDriverInterface.h"
+#include "IBMNetWorkService.h"
 class BusMasterKernel : public IBusMasterKernel
 {
     pDIL_GetInterface mDIL_GetInterface;

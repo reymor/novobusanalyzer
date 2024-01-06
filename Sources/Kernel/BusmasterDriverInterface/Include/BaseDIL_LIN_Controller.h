@@ -24,7 +24,7 @@
 #pragma once
 
 #include "LINDriverDefines.h"
-#include "../../BusmasterDBNetwork/Include/IBMNetWorkGetService.h"
+#include "IBMNetWorkGetService.h"
 class CBaseDIL_LIN_Controller
 {
 public:

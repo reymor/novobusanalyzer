@@ -7,7 +7,7 @@
 #pragma once
 
 #include "FlexRayDriverDefines.h"
-#include "../../BusmasterDBNetwork/Include/IBMNetWorkGetService.h"
+#include "IBMNetWorkGetService.h"
 #include "IBusService.h"
 #include <list>
 

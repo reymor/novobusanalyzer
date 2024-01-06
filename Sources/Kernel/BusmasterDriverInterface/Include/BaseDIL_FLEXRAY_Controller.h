@@ -5,7 +5,7 @@
 #pragma once
 #include <windows.h>
 #include "FlexRayDriverDefines.h"
-#include "../../BusmasterDBNetwork/Include/IBMNetWorkGetService.h"
+#include "IBMNetWorkGetService.h"
 class CBaseDIL_FLEXRAY_Controller
 {
 public:

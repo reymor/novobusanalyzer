@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "DILL_Dummy.h"
 #include "DIL_LIN.h"
-#include "include/Error.h"
+#include "Error.h"
 
 typedef HRESULT (*GETIDIL_LIN_CONTROLLER)(void** ppvInterface);
 static GETIDIL_LIN_CONTROLLER pfGetIDILLIN_Controller;

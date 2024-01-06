@@ -3,7 +3,7 @@
 #include <string>
 #include <list>
 #include <Windows.h>
-#include "../../Utilities/BaseMsgBufAll.h"
+#include "BaseMsgBufAll.h"
 
 #define LIN_MONITOR_NODE "LIN_MONITOR"
 const int LIN_MONITOR_NODE_INDEX = 0;

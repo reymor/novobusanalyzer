@@ -10,11 +10,9 @@ source_group("" FILES ${no_group_source_files})
 
 set(Header_Files
     "BaseMsgBufAll.h"
-    "MsgBufAll_DataTypes.h"
     "MsgBufCANVFSE.h"
     "MsgBufFSE.h"
     "MsgBufLINVFSE.h"
-    "MsgBufVFSE.h"
     "MsgBufVSE.h"
     "MsgBufVVSE.h"
     "Utility_Thread.h"
@@ -39,32 +37,20 @@ set(ALL_FILES
 ################################################################################
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
-use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 set(ROOT_NAMESPACE Utilities)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     VS_GLOBAL_KEYWORD "Win32Proj"
 )
+
 ################################################################################
-# Target name
+# Include directories
 ################################################################################
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    TARGET_NAME_BUSMASTER_DEBUG "${TARGET_NAME}$ENV{TargetExt}"
-    TARGET_NAME_DEBUG           "${TARGET_NAME}$ENV{TargetExt}"
-    TARGET_NAME_RELEASE         "${TARGET_NAME}$ENV{TargetExt}"
+target_include_directories(${PROJECT_NAME} 
+    PUBLIC .
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../BusmasterDriverInterface/Include/
 )
-################################################################################
-# Output directory
-################################################################################
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    OUTPUT_DIRECTORY_BUSMASTER_DEBUG "${CMAKE_SOURCE_DIR}/Bin/$<CONFIG>"
-    OUTPUT_DIRECTORY_DEBUG           "${CMAKE_SOURCE_DIR}/Bin/$<CONFIG>"
-    OUTPUT_DIRECTORY_RELEASE         "${CMAKE_SOURCE_DIR}/Bin/$<CONFIG>"
-)
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    INTERPROCEDURAL_OPTIMIZATION_BUSMASTER_DEBUG "TRUE"
-    INTERPROCEDURAL_OPTIMIZATION_RELEASE         "TRUE"
-)
+
 ################################################################################
 # Compile definitions
 ################################################################################

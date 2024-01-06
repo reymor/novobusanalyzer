@@ -2,7 +2,7 @@
 #include <string>
 #include "DeviceListInfo.h"
 #include <windows.h>
-#include "../../Utilities\BaseMsgBufAll.h"
+#include "BaseMsgBufAll.h"
 #include "DILPluginHelperDefs.h"
 
 

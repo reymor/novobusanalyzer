@@ -58,36 +58,12 @@ set(ALL_FILES
 ################################################################################
 add_library(${PROJECT_NAME} SHARED ${ALL_FILES})
 
-target_precompile_headers(${PROJECT_NAME} PRIVATE
-    "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/stdafx.h>"
-)
-
-use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 set(ROOT_NAMESPACE BusmasterDriverInterface)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     VS_GLOBAL_KEYWORD "Win32Proj"
 )
-################################################################################
-# Target name
-################################################################################
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    TARGET_NAME_BUSMASTER_DEBUG "${TARGET_NAME}$ENV{TargetExt}"
-    TARGET_NAME_DEBUG           "${TARGET_NAME}$ENV{TargetExt}"
-    TARGET_NAME_RELEASE         "${TARGET_NAME}$ENV{TargetExt}"
-)
-################################################################################
-# Output directory
-################################################################################
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    OUTPUT_DIRECTORY_BUSMASTER_DEBUG "$<CONFIG>"
-    OUTPUT_DIRECTORY_DEBUG           "$<CONFIG>"
-    OUTPUT_DIRECTORY_RELEASE         "$<CONFIG>"
-)
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    INTERPROCEDURAL_OPTIMIZATION_BUSMASTER_DEBUG "TRUE"
-    INTERPROCEDURAL_OPTIMIZATION_RELEASE         "TRUE"
-)
+
 ################################################################################
 # MSVC runtime library
 ################################################################################
@@ -99,6 +75,13 @@ string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
     $<$<NOT:$<OR:$<CONFIG:Debug>>>:${MSVC_RUNTIME_LIBRARY_DEFAULT}>
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_LIBRARY_STR})
+
+################################################################################
+# Include directories
+################################################################################
+target_include_directories(${PROJECT_NAME}
+    PRIVATE Include ${CMAKE_CURRENT_SOURCE_DIR}/../BusmasterDBNetwork/Include
+)
 
 ################################################################################
 # Compile definitions
@@ -146,7 +129,6 @@ if(MSVC)
     string(CONCAT FILE_CL_OPTIONS
         "/Y-"
     )
-    source_file_compile_options(dllmain.cpp ${FILE_CL_OPTIONS})
     target_link_options(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:busmaster_debug>:
             /OPT:REF;
@@ -166,21 +148,16 @@ if(MSVC)
     )
 endif()
 
+target_link_libraries(${PROJECT_NAME} 
+    PUBLIC DIL_J1939
+)
+
 ################################################################################
 # Post build events
 ################################################################################
 add_custom_command(
     TARGET ${PROJECT_NAME}
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory ARGS "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
-    COMMAND ${CMAKE_COMMAND} -E copy ARGS "$<SHELL_PATH:$<TARGET_FILE:${PROJECT_NAME}>>" "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
+    COMMAND ${CMAKE_COMMAND} -E make_directory ARGS ${CMAKE_SOURCE_DIR}/Sources/BUSMASTER/BIN/${CMAKE_BUILD_TYPE}/
+    COMMAND ${CMAKE_COMMAND} -E copy ARGS $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_SOURCE_DIR}/Sources/BUSMASTER/BIN/${CMAKE_BUILD_TYPE}/
 )
-
-################################################################################
-# Dependencies
-################################################################################
-# Link with other targets.
-target_link_libraries(${PROJECT_NAME} PUBLIC
-    DIL_J1939
-)
-

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../ProtocolDefinitions/ProtocolsDefinitions.h"
-#include "../BusmasterDBNetwork/Include/IBMNetWorkService.h"
-#include "../BusmasterDriverInterface/Include/IBusService.h"
+#include "ProtocolsDefinitions.h"
+#include "IBMNetWorkService.h"
+#include "IBusService.h"
 
 class IBusMasterKernel
 {

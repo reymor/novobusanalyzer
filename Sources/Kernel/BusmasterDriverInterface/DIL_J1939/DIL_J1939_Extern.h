@@ -39,14 +39,14 @@
 #define USAGEMODE   __declspec(dllimport)
 #endif
 
-#include "../Include/J1939DriverDefines.h"
+#include "J1939DriverDefines.h"
 //#include "Datatypes/J1939_DataTypes.h"
 #include "J1939_UtilityFuncs.h"
-#include "../../Utilities/BaseMsgBufAll.h"
+#include "BaseMsgBufAll.h"
 //#include "DataTypes/BaseMsgBufAll.h"
 //#include "DataTypes/Dil_Datatypes.h"
 //#include "DataTypes/Base_WrapperErrorLogger.h"
-#include "../Include/BaseDIL_CAN.h"
+#include "BaseDIL_CAN.h"
 //#include "DIL_Interface/BaseDIL_CAN.h"
 
 
@@ -59,8 +59,8 @@ extern "C" {  // only need to export C interface if used by C++ source code
 
     /*Initializes J1939 network
     Parameters:
-    1.pouSAE_J1939 – Pointer to the object which contains list of all SAE defined PGNS and SPNs.
-    2.pILog – pointer to wrapper_error object.
+    1.pouSAE_J1939 ï¿½ Pointer to the object which contains list of all SAE defined PGNS and SPNs.
+    2.pILog ï¿½ pointer to wrapper_error object.
     Return value:
     1.S_OK for success or
     2.S_FALSE for failure.

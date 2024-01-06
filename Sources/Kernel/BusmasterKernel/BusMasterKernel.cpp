@@ -1,11 +1,11 @@
 #include "BusMasterKernel.h"
-#include "../BusmasterDBNetwork\BusMasterNetWork.h"
+#include "BusMasterNetWork.h"
 #define defBusmaster_Dil_Dll_Name       "BusmasterDriverInterface.dll"
 #define defBusmaster_Dil_GetDil_Func    "GetDilInterface"
-#include "..\BusmasterDriverInterface\Include\BaseDIL_CAN.h"
-#include "..\BusmasterDriverInterface\Include\BaseDIL_LIN.h"
-#include "..\BusmasterDriverInterface\Include\BaseDIL_FLEXRAY.h"
-#include "..\BusmasterDriverInterface\Include\BaseDIL_J1939.h"
+#include "BaseDIL_CAN.h"
+#include "BaseDIL_LIN.h"
+#include "BaseDIL_FLEXRAY.h"
+#include "BaseDIL_J1939.h"
 
 BusMasterKernel* BusMasterKernel::mKernel = nullptr;
 

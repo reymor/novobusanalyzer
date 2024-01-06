@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include "../BusmasterDriverInterface/include/Error.h"
+#include "Error.h"
 #include "BaseMsgBufAll.h"
 
 const int SIZE_APP_LIN_BUFFER       = 5000;

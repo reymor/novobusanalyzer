@@ -43,8 +43,8 @@
 #pragma once
 
 #include "ConnectionDet.h"
-#include "../../Utilities/MsgBufVSE.h"
-#include "../../Utilities/MsgBufFSE.h"
+#include "MsgBufVSE.h"
+#include "MsgBufFSE.h"
 //#include "DataTypes/MsgBufVSE.h"
 
 #define DEF_MAX_CON_OF_A_NODE           15

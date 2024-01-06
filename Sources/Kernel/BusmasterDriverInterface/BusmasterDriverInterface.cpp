@@ -27,12 +27,12 @@
 #include "stdafx.h"
 
 #define USAGE_EXPORT
-#include "Include\BusmasterDriverInterface.h"
+#include "BusmasterDriverInterface.h"
 
 #include "DIL_CAN.h"
 #include "DIL_LIN.h"
 #include "DILI_J1939.h"
-#include "Include\BaseDIL_FLEXRAY.h"
+#include "BaseDIL_FLEXRAY.h"
 
 static CBaseDIL_CAN* sg_pouDIL_CAN = nullptr;
 static CBaseDIL_LIN* sg_pouDIL_LIN = nullptr;

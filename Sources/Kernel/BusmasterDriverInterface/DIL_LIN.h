@@ -25,9 +25,9 @@
 #pragma once
 
 
-#include "Include/LINDriverDefines.h"
-#include "Include/BaseDIL_LIN.h"
-#include "Include/BaseDIL_LIN_Controller.h"
+#include "LINDriverDefines.h"
+#include "BaseDIL_LIN.h"
+#include "BaseDIL_LIN_Controller.h"
 
 class CDIL_LIN : public CBaseDIL_LIN
 {

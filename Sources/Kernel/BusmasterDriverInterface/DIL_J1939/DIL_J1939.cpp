@@ -24,15 +24,15 @@
 #include "DIL_J1939_stdafx.h"
 #include "J1939_UtilityFuncs.h"
 //#include "DIL_Interface/BaseDIL_CAN.h"
-#include "../Include/BaseDIL_CAN.h"
+#include "BaseDIL_CAN.h"
 #define USAGE_EXPORT
 
-#include "../Include/J1939DriverDefines.h"
+#include "J1939DriverDefines.h"
 //#include "Datatypes/J1939_DataTypes.h"
 #include "DIL_J1939_Extern.h"
 #include "DIL_J1939.h"
 #include "NetworkMgmt.h"
-#include "../Include/Error.h"
+#include "Error.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

@@ -23,7 +23,7 @@
 */
 
 #pragma once
-#include "../../ProtocolDefinitions/ProtocolsDefinitions.h"
+#include "ProtocolsDefinitions.h"
 #include "IBusService.h"
 
 

@@ -38,7 +38,7 @@
 
 #pragma once
 
-#include "../Include/J1939DriverDefines.h"
+#include "J1939DriverDefines.h"
 #include "J1939_UtilityFuncs.h"
 
 class CConnectionDet

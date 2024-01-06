@@ -28,7 +28,7 @@
 #include "TransferLayer.h"
 #include "NetworkMgmt.h"
 #include "NodeConManager.h"
-#include "../Include/BaseDIL_CAN.h"
+#include "BaseDIL_CAN.h"
 //#include "DIL_Interface/BaseDIL_CAN.h"
 // Forward declarations
 class CConnectionDet;

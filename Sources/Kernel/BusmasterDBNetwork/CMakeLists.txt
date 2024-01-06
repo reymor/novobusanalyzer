@@ -34,25 +34,18 @@ set(ALL_FILES
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
 target_include_directories(${PROJECT_NAME}
-    PUBLIC Include
+    PUBLIC Include .
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../BusmasterDriverInterface/Include
 )
 
 target_link_libraries(${PROJECT_NAME}
-    PUBLIC ProtocolDefinitions BusmasterDriverInterface
+    PUBLIC ProtocolDefinitions
 )
 
 set(ROOT_NAMESPACE BusmasterDBNetwork)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     VS_GLOBAL_KEYWORD "Win32Proj"
-)
-################################################################################
-# Target name
-################################################################################
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    TARGET_NAME_BUSMASTER_DEBUG "${TARGET_NAME}$ENV{TargetExt}"
-    TARGET_NAME_DEBUG           "${TARGET_NAME}$ENV{TargetExt}"
-    TARGET_NAME_RELEASE         "${TARGET_NAME}$ENV{TargetExt}"
 )
 
 ################################################################################

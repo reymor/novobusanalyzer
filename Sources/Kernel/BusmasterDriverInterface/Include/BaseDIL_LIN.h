@@ -25,7 +25,7 @@
 #define BASEDIL_LIN_H__INCLUDED_
 
 #include "LINDriverDefines.h"
-#include "../../BusmasterDBNetwork/Include/IBMNetWorkGetService.h"
+#include "IBMNetWorkGetService.h"
 #include "IBusService.h"
 class CBaseDIL_LIN : public IBusService
 {

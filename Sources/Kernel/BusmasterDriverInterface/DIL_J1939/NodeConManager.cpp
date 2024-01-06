@@ -54,7 +54,7 @@
 #include "DIL_J1939_stdafx.h"
 //#include "Include/BaseDefs.h"
 #include "DIL_J1939_Extern.h"
-#include "../Include/BaseDIL_CAN.h"
+#include "BaseDIL_CAN.h"
 //#include "DIL_Interface/BaseDIL_CAN.h"
 //#include "DIL_Interface/BaseDIL_CAN.h"
 #include "J1939_UtilityFuncs.h"
@@ -62,8 +62,8 @@
 #include "NetworkMgmt.h"
 #include "TransferLayer.h"
 #include "../../../BUSMASTER/Utility/MultiLanguageSupport.h"
-#include "../Include/J1939DriverDefines.h"
-#include "../../ProtocolDefinitions/ProtocolsDefinitions.h"
+#include "J1939DriverDefines.h"
+#include "ProtocolsDefinitions.h"
 
 /******************************************************************************
 Function Name  :  TP_RxMsgThreadProc

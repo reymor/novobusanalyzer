@@ -21,7 +21,7 @@
 ******************************************************************************/
 
 #pragma once
-#include "../Include/BaseDIL_CAN.h"
+#include "BaseDIL_CAN.h"
 //#include "DIL_Interface/BaseDIL_CAN.h"
 
 class CTransferLayer

@@ -22,9 +22,9 @@
 #pragma once
 
 //#include "Include/BaseDefs.h"
-#include "../Include/J1939DriverDefines.h"
+#include "J1939DriverDefines.h"
 //#include "DataTypes/MsgBufAll_DataTypes.h"
-#include "../../Utilities/Utility_Thread.h"
+#include "Utility_Thread.h"
 
 const UCHAR ucWD_MSG_LEN                  = 2;
 const UCHAR ucCONTEST_MSG_LEN             = 2;

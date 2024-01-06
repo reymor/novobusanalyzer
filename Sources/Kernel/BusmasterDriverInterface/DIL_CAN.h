@@ -24,9 +24,9 @@
 
 #pragma once
 
-#include "Include\CANDriverDefines.h"
-#include "Include\BaseDIL_CAN.h"
-#include "Include\BaseDIL_CAN_Controller.h"
+#include "CANDriverDefines.h"
+#include "BaseDIL_CAN.h"
+#include "BaseDIL_CAN_Controller.h"
 
 class CDIL_CAN : public CBaseDIL_CAN
 {

@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include "../BusmasterDriverInterface/include/Error.h"
+#include "Error.h"
 #include "BaseMsgBufAll.h"
 #include "..\..\Busmaster\Application\Hashdefines.h"
 

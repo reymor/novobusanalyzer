@@ -27,7 +27,7 @@
 #include "BaseMsgBufAll.h"
 #include "include/Utils_macro.h"
 //#include "DataTypes_stdafx.h"
-#include "../BusmasterDriverInterface/include/Error.h"
+#include "Error.h"
 #include <map>
 
 typedef std::map<__int64, int> CSlotIndexMapType;

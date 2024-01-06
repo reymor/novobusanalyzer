@@ -27,7 +27,7 @@
 /* See http://stackoverflow.com/questions/3051992/compiler-warning-at-c-template-base-class for why this is disabled. */
 #pragma warning(disable:4505)
 
-#include "../BusmasterDriverInterface/include/Error.h"
+#include "Error.h"
 #include "BaseMsgBufAll.h"
 
 const int SIZE_APP_BUFFER = 20000;

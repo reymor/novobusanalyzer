@@ -26,7 +26,7 @@
 #include <Windows.h>
 #include "MsgBufVVSE.h"
 //Error definition
-#include "../BusmasterDriverInterface/include/Error.h"
+#include "Error.h"
 
 
 

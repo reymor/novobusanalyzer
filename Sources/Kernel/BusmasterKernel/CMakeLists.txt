@@ -27,32 +27,20 @@ set(ALL_FILES
 ################################################################################
 add_library(${PROJECT_NAME} SHARED ${ALL_FILES})
 
-use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 set(ROOT_NAMESPACE BusmasterKernel)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     VS_GLOBAL_KEYWORD "Win32Proj"
 )
+
 ################################################################################
-# Target name
+# Include directories
 ################################################################################
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    TARGET_NAME_BUSMASTER_DEBUG "${TARGET_NAME}$ENV{TargetExt}"
-    TARGET_NAME_DEBUG           "${TARGET_NAME}$ENV{TargetExt}"
-    TARGET_NAME_RELEASE         "${TARGET_NAME}$ENV{TargetExt}"
+target_include_directories(${PROJECT_NAME}
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../BusmasterDriverInterface/Include/
+            ${CMAKE_CURRENT_SOURCE_DIR}/../Utilities/
 )
-################################################################################
-# Output directory
-################################################################################
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    OUTPUT_DIRECTORY_BUSMASTER_DEBUG "$<CONFIG>"
-    OUTPUT_DIRECTORY_DEBUG           "$<CONFIG>"
-    OUTPUT_DIRECTORY_RELEASE         "$<CONFIG>"
-)
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    INTERPROCEDURAL_OPTIMIZATION_BUSMASTER_DEBUG "TRUE"
-    INTERPROCEDURAL_OPTIMIZATION_RELEASE         "TRUE"
-)
+
 ################################################################################
 # Compile definitions
 ################################################################################
@@ -100,7 +88,6 @@ if(MSVC)
     string(CONCAT FILE_CL_OPTIONS
         "/Y-"
     )
-    source_file_compile_options(dllmain.cpp ${FILE_CL_OPTIONS})
     target_link_options(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:busmaster_debug>:
             /OPT:REF;
@@ -117,9 +104,13 @@ if(MSVC)
         >
         /DEBUG;
         /SUBSYSTEM:WINDOWS;
-        "$(SolutionDir)/$(Configuration)/BusmasterDBNetwork.lib"
     )
 endif()
+
+target_link_libraries(${PROJECT_NAME} 
+    PRIVATE ProtocolDefinitions
+    PRIVATE BusmasterDBNetwork
+)
 
 ################################################################################
 # Post build events
@@ -127,14 +118,6 @@ endif()
 add_custom_command(
     TARGET ${PROJECT_NAME}
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory ARGS "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
-    COMMAND ${CMAKE_COMMAND} -E copy ARGS "$<SHELL_PATH:$<TARGET_FILE:${PROJECT_NAME}>>" "$<SHELL_PATH:${CMAKE_SOURCE_DIR}/>..\\BUSMASTER\\BIN\\$<CONFIG>\\"
+    COMMAND ${CMAKE_COMMAND} -E make_directory ARGS ${CMAKE_SOURCE_DIR}/Sources/BUSMASTER/BIN/${CMAKE_BUILD_TYPE}/
+    COMMAND ${CMAKE_COMMAND} -E copy ARGS $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_SOURCE_DIR}/Sources/BUSMASTER/BIN/${CMAKE_BUILD_TYPE}/
 )
-
-################################################################################
-# Dependencies
-################################################################################
-add_dependencies(${PROJECT_NAME}
-    BusmasterDBNetwork
-)
-

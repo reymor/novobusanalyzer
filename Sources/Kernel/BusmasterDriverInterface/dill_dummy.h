@@ -24,7 +24,7 @@
 
 //#include "..\DataTypes/MsgBufAll_DataTypes.h"
 //#include "DataTypes/DIL_DataTypes.h"
-#include "Include\BaseDIL_LIN_Controller.h"
+#include "BaseDIL_LIN_Controller.h"
 /* CDIL_LIN_DUMMY class definition */
 class CDIL_LIN_DUMMY : public CBaseDIL_LIN_Controller
 {
