@@ -57,5 +57,5 @@ add_definitions(-D_LIB)
 # Compile and link options
 ################################################################################
 target_link_libraries(${PROJECT_NAME}
-  ${GETTEXT_LIBRARY}
+  ${GETTEXT_LIBRARY} ProtocolDefinitions
 )

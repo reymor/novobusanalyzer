@@ -74,5 +74,5 @@ add_definitions(-D_LIB)
 
 # linker options
 target_link_libraries(${PROJECT_NAME}
-  ${LIBXML2_LIBRARY}
-  ${GETTEXT_LIBRARY})
+  PUBLIC ${LIBXML2_LIBRARY} ${GETTEXT_LIBRARY} ProtocolDefinitions
+)

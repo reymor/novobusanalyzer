@@ -41,3 +41,5 @@ include_directories(
 
 # compiler options
 add_definitions(-D_LIB)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC ProtocolDefinitions)

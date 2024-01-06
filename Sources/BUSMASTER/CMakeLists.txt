@@ -83,7 +83,6 @@ cmake_policy(SET CMP0020 NEW)
 # Global include directories
 ################################################################################
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/../Kernel/ProtocolDefinitions/
   ${CMAKE_CURRENT_SOURCE_DIR}/../Kernel/BusmasterDriverInterface/Include/
   ${CMAKE_CURRENT_SOURCE_DIR}/../Kernel/BusmasterDBNetwork/Include/
   ${CMAKE_CURRENT_SOURCE_DIR}/../Kernel/Utilities/
