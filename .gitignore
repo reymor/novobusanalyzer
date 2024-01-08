@@ -391,6 +391,8 @@ Sources/BUSMASTER/LDFEditor/GeneratedFiles
 Sources/BUSMASTER/LDFViewer/GeneratedFiles
 Sources/BUSMASTER/LDFViewer/GeneratedFiles
 
+Sources/BUSMASTER/BIN/Release/canal.dll
+Sources/BUSMASTER/BIN/Release/CAN_RUSOKU.dll
 Sources/BUSMASTER/BIN/Release/LIN_Kvaser.dll
 Sources/BUSMASTER/BIN/Release/mhstcan.dll
 Sources/BUSMASTER/BIN/Release/ConverterPlugins
