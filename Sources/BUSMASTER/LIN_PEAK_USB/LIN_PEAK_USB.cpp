@@ -784,7 +784,7 @@ static int nCreateHwNetMap( HLINHW hDevices[],
 static int nCreateSingleHardwareNetwork()
 {
     USES_CONVERSION;
-    int nReturn = -1;
+    int nReturn = S_OK;
     // Get Hardware Network Map
     SHWNETLIST sHwNetList[ 1 ];
     // Create Hardware - Network association map
