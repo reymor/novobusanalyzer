@@ -4,7 +4,6 @@
 #include <iostream>
 #include <stdio.h>
 
-using namespace std;
 
 char pchWriteDirectory[MAX_PATH] = {'\0'};
 char pchReadDirectory[MAX_PATH] = {'\0'};
@@ -14,7 +13,7 @@ extern "C" IMAGE_DOS_HEADER __ImageBase;
 void InitialiseDllPath()
 {
     char pchDllPath[MAX_PATH];
-    static const basic_string <char>::size_type npos = -1;
+    static const std::basic_string <char>::size_type npos = -1;
     GetModuleFileName(((HINSTANCE)&__ImageBase), pchDllPath, MAX_PATH);
 
     char path_buffer[_MAX_PATH];
