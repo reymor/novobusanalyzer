@@ -14,12 +14,17 @@
  */
 
 /**
- * \brief     Header script for BUSMASTER installer
+ * \brief     Header script for NovoBusAnalyzer installer
  * \author    Arunkumar Karri
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
  * \date      28/06/2013
  *
- * Header script for BUSMASTER installer
+ * Header script for NovoBusAnalyzer installer
+ */
+
+/**
+ * \notice This file has been changed to rename from BusMaster to NovoBusAnalyzer
+ * \date 12/01/2024
  */
 
 !include nsDialogs.nsh
@@ -30,5 +35,5 @@
 
 !define StrStr "!insertmacro StrStr"
 
-/* BUSMASTER Version to be updated for every release */
-!define VERSION "3.2.2"
+/* NovoBusAnalyzer Version to be updated for every release */
+!define VERSION "0.0.1"

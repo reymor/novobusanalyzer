@@ -14,34 +14,39 @@
  */
 
 /**
- * \brief     Source script for BUSMASTER Clean Registry
+ * \brief     Source script for NovoBusAnalyzer Clean Registry
  * \author    Saravanan K S
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
  * \date      27/03/2013
  *
- * Source script for BUSMASTER Clean Registry
+ * Source script for NovoBusAnalyzer Clean Registry
  */
- 
+
+/**
+ * \notice This file has been changed to rename from BusMaster to NovoBusAnalyzer
+ * \date 12/01/2024
+ */
+
 !include "NSISHeaders.nsh"
 
 RequestExecutionLevel user
 
 ; Title of this installation
-Name "BUSMASTER Registry Cleanup"
+Name "NovoBusAnalyzer Registry Cleanup"
 
 ; Do a CRC check when initializing setup
 CRCCheck On
 
 ; Output filename
-Outfile "BUSMASTER_Cleanup_Registry.exe"
+Outfile "NovoBusAnalyzer_Cleanup_Registry.exe"
 
 SectionGroup "Main"
 
-Section "BUSMASTER"
-	IfFileExists Software\RBEI-ETAS\BUSMASTER_v${VERSION} bRegEntryMruExists
+Section "NovoBusAnalyzer"
+	IfFileExists Software\NovoBusAnalyzer_v${VERSION} bRegEntryMruExists
 	 bRegEntryMruExists:
-	 DeleteRegKey HKCU "Software\RBEI-ETAS\BUSMASTER_v${VERSION}\BUSMASTER"
-	 DeleteRegKey HKCU "Software\RBEI-ETAS\BUSMASTER_v${VERSION}\Files"
-	 DeleteRegKey HKCU "Software\RBEI-ETAS\BUSMASTER_v${VERSION}\MainWnd"	
+	 DeleteRegKey HKCU "Software\NovoBusAnalyzer_v${VERSION}\NovoBusAnalyzer"
+	 DeleteRegKey HKCU "Software\NovoBusAnalyzer_v${VERSION}\Files"
+	 DeleteRegKey HKCU "Software\NovoBusAnalyzer_v${VERSION}\MainWnd"
 SectionEnd
 SectionGroupEnd

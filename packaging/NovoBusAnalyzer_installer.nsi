@@ -14,12 +14,17 @@
  */
 
 /**
- * \brief     Source script for BUSMASTER installer
+ * \brief     Source script for NovoBusAnalyzer installer
  * \author    Arunkumar Karri
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
  * \date      11/08/2011
  *
- * Source script for BUSMASTER installer.
+ * Source script for NovoBusAnalyzer installer.
+ */
+
+/**
+ * \notice This file has been changed to rename from BusMaster to NovoBusAnalyzer
+ * \date 12/01/2024
  */
 
 !include "NSISHeaders.nsh"
@@ -28,7 +33,7 @@
 !include "Sections.nsh"
 
 !define MUI_WELCOMEFINISHPAGE_BITMAP "welcomefinishpage.bmp"
-!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of BUSMASTER on your system."
+!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of NovoBusAnalyzer on your system."
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_BITMAP "headerimage.bmp"
 !define MUI_ICON  "..\Sources\BUSMASTER\Application\Res\BUSMASTER.ico"
@@ -165,20 +170,17 @@ FunctionEnd
 !define StrContains '!insertmacro "_StrContainsConstructor"'
 
 ; Title of this installation
-Name "BUSMASTER"
+Name "NovoBusAnalyzer"
 
 ; Version Information
 ; (see http://msdn.microsoft.com/en-us/library/windows/desktop/aa381058%28v=vs.85%29.aspx)
 VIProductVersion "${VERSION}.0" ; windows apps require four numbers. let's just set the fourth to zero.
 VIAddVersionKey "Comments" "Bus Monitoring and Analysis Tool"
-VIAddVersionKey "CompanyName" "Robert Bosch Engineering and Business Solutions (RBEI)"
-VIAddVersionKey "FileDescription" "BUSMASTER"
+VIAddVersionKey "FileDescription" "NovoBusAnalyzer"
 VIAddVersionKey "FileVersion" "${VERSION}"
-VIAddVersionKey "InternalName" "BUSMASTER_Installer_Ver_${VERSION}.exe"
-VIAddVersionKey "LegalCopyright" "Copyright Robert Bosch Engineering and Business Solutions (RBEI)"
-VIAddVersionKey "LegalTrademarks" "BUSMASTER is a registered trademark of ETAS GmbH"
+VIAddVersionKey "InternalName" "NovoBusAnalyzer_Installer_Ver_${VERSION}.exe"
 VIAddVersionKey "PrivateBuild" "" ; e.g. Built by TESTER1 on \TESTBED
-VIAddVersionKey "ProductName" "BUSMASTER"
+VIAddVersionKey "ProductName" "NovoBusAnalyzer"
 VIAddVersionKey "ProductVersion" "${VERSION}"
 VIAddVersionKey "SpecialBuild" "" ; e.g. Private build for TESTER1 solving mouse problems on M250 and M250E computers
 
@@ -186,7 +188,7 @@ VIAddVersionKey "SpecialBuild" "" ; e.g. Private build for TESTER1 solving mouse
 CRCCheck On
 
 ; Output filename
-Outfile "BUSMASTER_Installer_Ver_${VERSION}.exe"
+Outfile "NovoBusAnalyzer_Installer_Ver_${VERSION}.exe"
 RequestExecutionLevel admin ; Request for admin rights of installation and uninstallation 
 
 Function .onInit
@@ -206,7 +208,7 @@ Function .onInit
 FunctionEnd
 
 ; The default installation folder
-InstallDir "$PROGRAMFILES\BUSMASTER_v${VERSION}"
+InstallDir "$PROGRAMFILES\NovoBusAnalyzer_v${VERSION}"
 
 ; Folder selection prompt
 DirText "Please select an installation folder."
@@ -249,7 +251,7 @@ NETFrameworkInstalled:
   Pop $Label
   ${NSD_OnClick} $Label onClickMinGWLink
   ${NSD_CreateLabel}  0 140 100% 20 "use it to download and install required GCC (C,C++) compilers."
-  ${NSD_CreateLink}   0 160 100% 30 "Refer BUSMASTER Help file MinGW section for detailed information."
+  ${NSD_CreateLink}   0 160 100% 30 "Refer NovoBusAnalyzer Help file MinGW section for detailed information."
   Pop $Label
   ${NSD_OnClick} $Label onClickBMHelpLink
 
@@ -281,22 +283,22 @@ FunctionEnd
 
 ; Checks for the version if it is already installed
 Function CheckVersion
-  ; Read the BUSMASTER version installed
-  ReadRegStr $1 HKLM "SOFTWARE\Wow6432Node" BUSMASTER_v${VERSION}"
+  ; Read the NovoBusAnalyzer version installed
+  ReadRegStr $1 HKLM "SOFTWARE\Wow6432Node" NovoBusAnalyzer_v${VERSION}"
   StrCmp $1 "v${VERSION}" 0 Confirm ;StrCmp str1 str2 jump_if_equal [jump_if_not_equal]
 
 Confirm:
   ; If the version is already installed, get the the installtion path
-  ReadRegStr $1 HKLM "SOFTWARE\Wow6432Node\BUSMASTER_v${VERSION}" Install_Dir
+  ReadRegStr $1 HKLM "SOFTWARE\Wow6432Node\NovoBusAnalyzer_v${VERSION}" Install_Dir
   StrCmp $1 $INSTDIR 0 Exit
-  MessageBox MB_YESNO|MB_ICONEXCLAMATION  'BUSMASTER_v${VERSION} is already installed. Do you wish to overwrite ?' IDYES Install
+  MessageBox MB_YESNO|MB_ICONEXCLAMATION  'NovoBusAnalyzer_v${VERSION} is already installed. Do you wish to overwrite ?' IDYES Install
   Quit
 
 Exit:
   StrCmp $1 "" Install Stop
 
 Stop:
-  MessageBox MB_OK|MB_ICONSTOP 'BUSMASTER_v${VERSION} is already installed in a different path. Please uninstall the previous version. Installation will be aborted.'
+  MessageBox MB_OK|MB_ICONSTOP 'NovoBusAnalyzer_v${VERSION} is already installed in a different path. Please uninstall the previous version. Installation will be aborted.'
   Quit
 
 Install:
@@ -328,7 +330,7 @@ InstType "Minimal"
 
 SectionGroup "Main"
 
-Section "BUSMASTER"
+Section "NovoBusAnalyzer"
   Call CheckVersion
   SectionIn RO 1 2 3
   SetOutPath $INSTDIR
@@ -348,7 +350,7 @@ Section "BUSMASTER"
   Delete "$INSTDIR\BusmasterDriverInterface.dll"
   
   Delete "$INSTDIR\BusEmulation.exe"
-  Delete "$INSTDIR\BUSMASTER.exe"
+  Delete "$INSTDIR\NovoBusAnalyzer.exe"
   Delete "$INSTDIR\BUSMASTER.exe.manifest"
   Delete "$INSTDIR\BUSMASTER.tlb"
   Delete "$INSTDIR\BUSMASTER_Interface.c"
@@ -418,6 +420,8 @@ Section "BUSMASTER"
   Delete "$INSTDIR\mhstcan.dll"
   Delete "$INSTDIR\CanApi2.dll"
   Delete "$INSTDIR\vxlapi.dll"
+  Delete "$INSTDIR\CAN_RUSOKU.dll"
+  Delete "$INSTDIR\canal.dll"
   Delete "$INSTDIR\iconv.dll"
   Delete "$INSTDIR\libxml2.dll"
   Delete "$INSTDIR\zlib1.dll"
@@ -425,7 +429,7 @@ Section "BUSMASTER"
   RMDir /r "$INSTDIR\JPN"
   RMDir /r "$INSTDIR\MinGW"
   Delete "$INSTDIR\uninst.exe"
-  Delete "$INSTDIR\BUSMASTER_Cleanup_Registry.exe"
+  Delete "$INSTDIR\NovoBusAnalyzer_Cleanup_Registry.exe"
   Delete "$INSTDIR\AdvancedUIPlugIn.dll"
   Delete "$INSTDIR\LIN_ISOLAR_EVE_VLIN.dll"
   Delete "$INSTDIR\TXWindowLIN.dll"
@@ -484,9 +488,9 @@ Section "BUSMASTER"
   ; Driver Interface
   File ..\Sources\BUSMASTER\BIN\Release\BusmasterDriverInterface.dll
 
-  ; BUSMASTER
+  ; NovoBusAnalyzer
   File ..\Sources\BUSMASTER\BIN\Release\BusEmulation.exe
-  File ..\Sources\BUSMASTER\BIN\Release\BUSMASTER.exe
+  File ..\Sources\BUSMASTER\BIN\Release\NovoBusAnalyzer.exe
   File ..\Sources\BUSMASTER\BIN\Release\BUSMASTER.exe.manifest
   File ..\Sources\BUSMASTER\Application\BUSMASTER.tlb
   File ..\Sources\BUSMASTER\Application\BUSMASTER_Interface.c
@@ -651,37 +655,33 @@ Section "BUSMASTER"
 ;NoInstall:
 
   ; create desktop shortcut
-  CreateShortCut "$DESKTOP\BUSMASTER v${VERSION}.lnk" "$INSTDIR\BUSMASTER.exe" ""
+  CreateShortCut "$DESKTOP\NovoBusAnalyzer v${VERSION}.lnk" "$INSTDIR\NovoBusAnalyzer.exe" ""
 
   ; Registry entries for uninstaller
-  WriteRegStr HKLM "Software\BUSMASTER_v${VERSION}" "Install_Dir" "$INSTDIR"
-  WriteRegStr HKLM "Software\BUSMASTER_v${VERSION}" "Flexray_Key" "${Flexray_Key}"
-  WriteRegStr HKLM "Software\BUSMASTER_v${VERSION}" "Instruments_Key" "${Instruments_Key}"
-  WriteRegStr HKLM "Software\BUSMASTER_v${VERSION}" "CANFD_Key" "${CANFD_Key}"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BUSMASTER_v${VERSION}" "DisplayName" "BUSMASTER Ver ${VERSION}"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BUSMASTER_v${VERSION}" "UninstallString" "$INSTDIR\uninst.exe"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BUSMASTER_v${VERSION}" "InstallLocation " "$INSTDIR\"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BUSMASTER_v${VERSION}" "DisplayIcon" "$INSTDIR\BUSMASTER.exe"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BUSMASTER_v${VERSION}" "Publisher" "Robert Bosch Engineering and Business Solutions"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BUSMASTER_v${VERSION}" "HelpLink" "http://rbei-etas.github.io/busmaster/"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BUSMASTER_v${VERSION}" "URLUpdateInfo" "http://rbei-etas.github.io/busmaster/"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BUSMASTER_v${VERSION}" "URLInfoAbout" "http://rbei-etas.github.io/busmaster/"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BUSMASTER_v${VERSION}" "DisplayVersion" "${VERSION}"
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BUSMASTER_v${VERSION}" "NoModify" "1"
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BUSMASTER_v${VERSION}" "NoRepair" "1"
+  WriteRegStr HKLM "Software\NovoBusAnalyzer_v${VERSION}" "Install_Dir" "$INSTDIR"
+  WriteRegStr HKLM "Software\NovoBusAnalyzer_v${VERSION}" "Flexray_Key" "${Flexray_Key}"
+  WriteRegStr HKLM "Software\NovoBusAnalyzer_v${VERSION}" "Instruments_Key" "${Instruments_Key}"
+  WriteRegStr HKLM "Software\NovoBusAnalyzer_v${VERSION}" "CANFD_Key" "${CANFD_Key}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NovoBusAnalyzer_v${VERSION}" "DisplayName" "NovoBusAnalyzer Ver ${VERSION}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NovoBusAnalyzer_v${VERSION}" "UninstallString" "$INSTDIR\uninst.exe"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NovoBusAnalyzer_v${VERSION}" "InstallLocation " "$INSTDIR\"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NovoBusAnalyzer_v${VERSION}" "DisplayIcon" "$INSTDIR\NovoBusAnalyzer.exe"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NovoBusAnalyzer_v${VERSION}" "DisplayVersion" "${VERSION}"
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NovoBusAnalyzer_v${VERSION}" "NoModify" "1"
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NovoBusAnalyzer_v${VERSION}" "NoRepair" "1"
 
   ; Compatibility settings for Windows 7
   ReadRegStr $1 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion" CurrentVersion
   StrCmp $1 "6.1" 0 lbl ;StrCmp str1 str2 jump_if_equal [jump_if_not_equal]
   ; WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\BUSEmulation.exe" "WINXPSP3"
   ; WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\FormatConverter.exe" "WINXPSP3"
-  ; WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\BUSMASTER.exe" "RUNASADMIN"
+  ; WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\NovoBusAnalyzer.exe" "RUNASADMIN"
 
 lbl:
 
   ; Server registration
   ExecWait 'BusEmulation.exe /regserver'
-  ExecWait 'BUSMASTER.exe /regserver'
+  ExecWait 'NovoBusAnalyzer.exe /regserver'
 
   SetShellVarContext all
 
@@ -689,13 +689,13 @@ lbl:
   WriteUninstaller "uninst.exe"	
   
   ; Start menu entries
-  CreateDirectory "$SMPROGRAMS\BUSMASTER v${VERSION}"
-  CreateShortCut "$SMPROGRAMS\BUSMASTER v${VERSION}\BUSMASTER v${VERSION}.lnk" "$INSTDIR\BUSMASTER.exe" "" "$INSTDIR\BUSMASTER.exe" 0
-  CreateShortCut "$SMPROGRAMS\BUSMASTER v${VERSION}\BUSMASTER_Cleanup_Registry.lnk" "$INSTDIR\BUSMASTER_Cleanup_Registry.exe" "" "$INSTDIR\BUSMASTER_Cleanup_Registry.exe" 0
-  CreateShortCut "$SMPROGRAMS\BUSMASTER v${VERSION}\Uninstall.lnk" "$INSTDIR\uninst.exe" "" "$INSTDIR\uninst.exe" 0
-  CreateDirectory "$SMPROGRAMS\BUSMASTER v${VERSION}\Tools"
-  CreateShortCut "$SMPROGRAMS\BUSMASTER v${VERSION}\Tools\LIN Database Editor.lnk" "$INSTDIR\LDFEditor.exe" "" "$INSTDIR\LDFEditor.exe" 0
-  CreateShortCut "$SMPROGRAMS\BUSMASTER v${VERSION}\Tools\Format Converter.lnk" "$INSTDIR\FormatConverter.exe" "" "$INSTDIR\FormatConverter.exe" 0
+  CreateDirectory "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}"
+  CreateShortCut "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}\NovoBusAnalyzer v${VERSION}.lnk" "$INSTDIR\NovoBusAnalyzer.exe" "" "$INSTDIR\NovoBusAnalyzer.exe" 0
+  CreateShortCut "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}\NovoBusAnalyzer_Cleanup_Registry.lnk" "$INSTDIR\NovoBusAnalyzer_Cleanup_Registry.exe" "" "$INSTDIR\NovoBusAnalyzer_Cleanup_Registry.exe" 0
+  CreateShortCut "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}\Uninstall.lnk" "$INSTDIR\uninst.exe" "" "$INSTDIR\uninst.exe" 0
+  CreateDirectory "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}\Tools"
+  CreateShortCut "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}\Tools\LIN Database Editor.lnk" "$INSTDIR\LDFEditor.exe" "" "$INSTDIR\LDFEditor.exe" 0
+  CreateShortCut "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}\Tools\Format Converter.lnk" "$INSTDIR\FormatConverter.exe" "" "$INSTDIR\FormatConverter.exe" 0
 
 SectionEnd
 
@@ -752,6 +752,13 @@ Section "Peak USB"
   File ..\Sources\BUSMASTER\BIN\Release\CanApi2.dll
 SectionEnd
 
+Section "Rusoku TOUCAN"
+  SectionIn 1 2
+  SetOutPath $INSTDIR
+  File ..\Sources\BUSMASTER\BIN\Release\CAN_RUSOKU.dll
+  File ..\Sources\BUSMASTER\CAN_RUSOKU\EXTERNAL\canal.dll
+SectionEnd
+
 Section "Vector XL"
   SectionIn 1 2
   SetOutPath $INSTDIR
@@ -794,10 +801,10 @@ SectionGroupEnd
 
 SectionGroup "Registry Cleanup"
 
-Section "BUSMASTER Reg Cleanup"
+Section "NovoBusAnalyzer Reg Cleanup"
   SectionIn RO 1 2 3
   SetOutPath $INSTDIR
-  File BUSMASTER_Cleanup_Registry.exe
+  File NovoBusAnalyzer_Cleanup_Registry.exe
 SectionEnd
 
 SectionGroupEnd
@@ -828,15 +835,15 @@ StrCpy $COMP_ADD_ONS "0"
 FunctionEnd
 
 ; Uninstall section here...
-Section un.BUSMASTER Uninstall 
+Section un.NovoBusAnalyzer Uninstall 
   
   IntOp $COMP_BM $COMP_BM & ${SF_SELECTED}
    ${If} $COMP_BM != "0"
- ; Prompt user to close all instances of BUSMASTER.
+ ; Prompt user to close all instances of NovoBusAnalyzer.
   ${Do}
-  ${nsProcess::FindProcess} "BUSMASTER.exe" $R0
+  ${nsProcess::FindProcess} "NovoBusAnalyzer.exe" $R0
   ${If} $R0 == 0
-  MessageBox MB_OK|MB_ICONSTOP "Please close all instances of BUSMASTER and Click 'OK'"
+  MessageBox MB_OK|MB_ICONSTOP "Please close all instances of NovoBusAnalyzer and Click 'OK'"
   ${EndIf}
   ${LoopUntil} $R0 != 0
   
@@ -851,29 +858,22 @@ Section un.BUSMASTER Uninstall
   
     
   ExecWait 'BusEmulation.exe /unregserver'
-  ExecWait 'BUSMASTER.exe /unregserver'
+  ExecWait 'NovoBusAnalyzer.exe /unregserver'
 
   ; Delete registration entries
-  DeleteRegKey HKCU "Software\RBEI-ETAS\BUSMASTER_v${VERSION}"
-  ;Remove HKCU "Software\RBEI-ETAS" if the current version is the last version under this key
+  DeleteRegKey HKCU "Software\NovoBusAnalyzer_v${VERSION}"
   StrCpy $0 0
   loop:
-  EnumRegKey $1 HKCU Software\RBEI-ETAS $0
-  StrCmp $1 "" done
+  StrCmp $1 "" Finish
   IntOp $0 $0 + 1
   Goto loop
-  done:
-  IntCmp $0 0 is0 lessthan0 morethan0
-  lessthan0: Goto Finish
-  morethan0: Goto Finish
-  is0: DeleteRegKey HKCU "Software\RBEI-ETAS"
   Finish:
-  DeleteRegValue HKLM "Software\BUSMASTER_v${VERSION}" "Install_Dir"
-  DeleteRegKey HKLM "Software\BUSMASTER_v${VERSION}"
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BUSMASTER_v${VERSION}"
+  DeleteRegValue HKLM "Software\NovoBusAnalyzer_v${VERSION}" "Install_Dir"
+  DeleteRegKey HKLM "Software\NovoBusAnalyzer_v${VERSION}"
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NovoBusAnalyzer_v${VERSION}"
 
   ; Compatibility settings
-  ; DeleteRegValue HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\BUSMASTER.exe"
+  ; DeleteRegValue HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\NovoBusAnalyzer.exe"
   ; DeleteRegValue HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\BUSEmulation.exe"
   ; DeleteRegValue HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\FormatConverter.exe"
 
@@ -882,24 +882,24 @@ Section un.BUSMASTER Uninstall
   RMDir /r "$INSTDIR"
 
   ; Delete desktop shortcut
-  Delete "$DESKTOP\BUSMASTER v${VERSION}.lnk"
+  Delete "$DESKTOP\NovoBusAnalyzer v${VERSION}.lnk"
   ; Delete shortcut from start menu
-  Delete "$SMPROGRAMS\BUSMASTER v${VERSION}.lnk"
+  Delete "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}.lnk"
 
   SetShellVarContext all
 
   ; Delete start menu entries
-  Delete "$SMPROGRAMS\BUSMASTER v${VERSION}\Uninstall.lnk"
-  Delete "$SMPROGRAMS\BUSMASTER v${VERSION}\BUSMASTER v${VERSION}.lnk"
-  Delete "$SMPROGRAMS\BUSMASTER v${VERSION}\BUSMASTER_Cleanup_Registry.lnk"
+  Delete "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}\Uninstall.lnk"
+  Delete "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}\NovoBusAnalyzer v${VERSION}.lnk"
+  Delete "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}\NovoBusAnalyzer_Cleanup_Registry.lnk"
   
-  Delete "$SMPROGRAMS\BUSMASTER v${VERSION}\Tools\LIN Database Editor.lnk"
-  Delete "$SMPROGRAMS\BUSMASTER v${VERSION}\Tools\Format Converter.lnk"
+  Delete "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}\Tools\LIN Database Editor.lnk"
+  Delete "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}\Tools\Format Converter.lnk"
   
-  RMDir /r "$SMPROGRAMS\BUSMASTER v${VERSION}\Tools"
+  RMDir /r "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}\Tools"
   
-  ; Deleting If StartPrograms BUSMASTER dir exists
-  RMDir /r "$SMPROGRAMS\BUSMASTER v${VERSION}" 
+  ; Deleting If StartPrograms NovoBusAnalyzer dir exists
+  RMDir /r "$SMPROGRAMS\NovoBusAnalyzer v${VERSION}" 
   ${EndIf}
   
 SectionEnd
@@ -910,11 +910,11 @@ Section /o un.FlexRay Section_FlexRay
 IntOp $COMP_FLEXRAY $COMP_FLEXRAY & ${SF_SELECTED}
 ${if} $COMP_FLEXRAY == "1"
 
-  ; Prompt user to close all instances of BUSMASTER.
+  ; Prompt user to close all instances of NovoBusAnalyzer.
   ${Do}
-  ${nsProcess::FindProcess} "BUSMASTER.exe" $R0
+  ${nsProcess::FindProcess} "NovoBusAnalyzer.exe" $R0
   ${If} $R0 == 0
-  MessageBox MB_OK|MB_ICONSTOP "Please close all instances of BUSMASTER and Click 'OK'"
+  MessageBox MB_OK|MB_ICONSTOP "Please close all instances of NovoBusAnalyzer and Click 'OK'"
   ${EndIf}
   ${LoopUntil} $R0 != 0
   
@@ -933,7 +933,7 @@ ${If} $DeleteLicenseFiles == "1"
   ;RMDir /r "$INSTDIR\BusmasterPlugins"
   ${EndIf}  
   
-;ExecWait '"$PROGRAMFILES\BUSMASTER_v${VERSION}\BusmasterBusPlugins\FlexRay\uninst.exe" /S'
+;ExecWait '"$PROGRAMFILES\NovoBusAnalyzer_v${VERSION}\BusmasterBusPlugins\FlexRay\uninst.exe" /S'
 ExecWait '"$INSTDIR\BusmasterBusPlugins\FlexRay\uninst.exe" /S'
 
 ${EndIf}
@@ -944,11 +944,11 @@ Section /o un.Instruments Section_Instruments
 IntOp $COMP_Instruments $COMP_Instruments & ${SF_SELECTED}
 ${if} $COMP_Instruments == "1"
    
-  ; Prompt user to close all instances of BUSMASTER.
+  ; Prompt user to close all instances of NovoBusAnalyzer.
   ${Do}
-  ${nsProcess::FindProcess} "BUSMASTER.exe" $R0
+  ${nsProcess::FindProcess} "NovoBusAnalyzer.exe" $R0
   ${If} $R0 == 0
-  MessageBox MB_OK|MB_ICONSTOP "Please close all instances of BUSMASTER and Click 'OK'"
+  MessageBox MB_OK|MB_ICONSTOP "Please close all instances of NovoBusAnalyzer and Click 'OK'"
   ${EndIf}
   ${LoopUntil} $R0 != 0
   
@@ -976,11 +976,11 @@ Section /o un.CANFD Section_CANFD
 IntOp $COMP_CANFD $COMP_CANFD & ${SF_SELECTED}
 ${if} $COMP_CANFD == "1"
    
-  ; Prompt user to close all instances of BUSMASTER.
+  ; Prompt user to close all instances of NovoBusAnalyzer.
   ${Do}
-  ${nsProcess::FindProcess} "BUSMASTER.exe" $R0
+  ${nsProcess::FindProcess} "NovoBusAnalyzer.exe" $R0
   ${If} $R0 == 0
-  MessageBox MB_OK|MB_ICONSTOP "Please close all instances of BUSMASTER and Click 'OK'"
+  MessageBox MB_OK|MB_ICONSTOP "Please close all instances of NovoBusAnalyzer and Click 'OK'"
   ${EndIf}
   ${LoopUntil} $R0 != 0
   
@@ -1006,8 +1006,8 @@ SectionEnd
 
 SectionGroupEnd
 
-LangString DESC_BUSMASTER ${ENGLISH} "Select BusMaster to uninstall BusMaster including AddOns"
-LangString DESC_AddOns ${ENGLISH} "Select AddOns to uninstall BusMaster AddOns"
+LangString DESC_NovoBusAnalyzer ${ENGLISH} "Select NovoBusAnalyzer to uninstall NovoBusAnalyzer including AddOns"
+LangString DESC_AddOns ${ENGLISH} "Select AddOns to uninstall NovoBusAnalyzer AddOns"
 LangString DESC_AddOns_FlexRay ${ENGLISH} "Select FlexRay AddOn to uninstall only FlexRay AddOn"
 LangString DESC_AddOns_Instruments ${ENGLISH} "Select Instruments to uninstall only Instruments AddOn"
 LangString DESC_AddOns_CANFD ${ENGLISH} "Select CAN FD to uninstall only CAN FD AddOn"
@@ -1017,7 +1017,7 @@ LangString DESC_AddOns_CANFD ${ENGLISH} "Select CAN FD to uninstall only CAN FD 
   !insertmacro MUI_DESCRIPTION_TEXT ${Section_FlexRay} $(DESC_AddOns_FlexRay)
   !insertmacro MUI_DESCRIPTION_TEXT ${Section_Instruments} $(DESC_AddOns_Instruments)
   !insertmacro MUI_DESCRIPTION_TEXT ${Section_CANFD} $(DESC_AddOns_CANFD)
-  !insertmacro MUI_DESCRIPTION_TEXT ${Uninstall} $(DESC_BUSMASTER)
+  !insertmacro MUI_DESCRIPTION_TEXT ${Uninstall} $(DESC_NovoBusAnalyzer)
 !insertmacro MUI_UNFUNCTION_DESCRIPTION_END
 
 Function un.ComponentsPage_Pre
@@ -1049,7 +1049,7 @@ StrCpy $COMP_FLEXRAY "0"
 StrCpy $COMP_Instruments "0"
 StrCpy $COMP_CANFD "0"
 loop:
-  EnumRegKey $1 HKCU "SOFTWARE\RBEI-ETAS\BUSMASTER_v${VERSION}\Add-Ons" $0
+  EnumRegKey $1 HKCU "SOFTWARE\NovoBusAnalyzer_v${VERSION}\Add-Ons" $0
   StrCmp $1 "" done
   StrCpy $COMP_ADD_ONS "1"
   ${If} $1 == "FlexRay"
@@ -1094,7 +1094,7 @@ ${If} $COMP_ADD_ONS != "0"
   ${EndIf}  
   ${EndIf}
 	
-; Read the BUSMASTER version installed
+; Read the NovoBusAnalyzer version installed
 FunctionEnd
 
 Function un.DisableAddOns
