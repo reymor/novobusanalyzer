@@ -24,6 +24,7 @@
 
 /* Project includes */
 #include "AscLogConverter.h"
+#include <locale.h>
 
 extern "C" int nConvertFile(FILE* fpInputFile, FILE* fpOutputFile);
 extern "C" char gchErrorString[255];

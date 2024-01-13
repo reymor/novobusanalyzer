@@ -5,6 +5,7 @@
 #include "FormatConverterWnd.h"
 #include "DefConverterPage.h"
 #include <HtmlHelp.h>
+#include <locale.h>
 // CFormatConverterWnd
 
 IMPLEMENT_DYNAMIC(CFormatConverterWnd, CPropertySheet)

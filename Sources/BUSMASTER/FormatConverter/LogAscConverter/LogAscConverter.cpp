@@ -24,6 +24,7 @@
 
 /* Project includes */
 #include "LogAscConverter.h"
+#include <locale.h>
 
 extern "C" int nConvertFile(FILE* fpInputFile, FILE* fpOutputFile);
 
