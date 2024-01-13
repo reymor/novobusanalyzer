@@ -68,7 +68,7 @@ find_package_handle_standard_args(ZLIB
 # add_definitions(-DWINVER=0x0500) # Windows 2000
 #add_definitions(-DWINVER=0x0501) # Windows XP
 #add_definitions(-DWINVER=0x0502) # Windows Server 2003
-#add_definitions(-DWINVER=0x0600) # Windows Vista
+add_definitions(-DWINVER=0x0600) # Windows Vista
 # add_definitions(-DWINVER=0x0601) # Windows 7
 # add_definitions(-DWINVER=0x19044) # Windows 10, Version 21H2
 #add_definitions(-D_VC80_UPGRADE=0x0710)

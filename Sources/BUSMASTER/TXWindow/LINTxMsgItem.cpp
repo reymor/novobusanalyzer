@@ -293,6 +293,7 @@ int CLINTxMsgItem::GetSignalList(IBMNetWorkGetService* pouIBMNetwork, bool bIsHe
     }
     //Sort by start bit.
     lstSigDetails.sort(CLINTxMsgItem::sortByStartBit);
+    return hResult;
 }
 
 int CLINTxMsgItem::GetSignal(IBMNetWorkGetService* pouIBMNetwork, bool bIsHex, std::string strSigName, SIG_DETAILS& ouSignalDetails)
