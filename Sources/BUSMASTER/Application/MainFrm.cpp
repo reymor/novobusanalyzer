@@ -16790,7 +16790,8 @@ int CMainFrame::GetLicenseDetails(std::string strAddOn, CLicenseDetails &license
 	if (nullptr != mPluginManager)
 	{
 		return mPluginManager->getLicenseDetails(strAddOn, licenseDetails);
-	}	
+	}
+    return 0;
 }
 // This function is used to import a license from About Box
 int CMainFrame::ImportLicense()

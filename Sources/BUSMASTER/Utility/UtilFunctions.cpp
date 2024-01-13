@@ -31,6 +31,7 @@
 #define MAX_LEN 512
 #define ABS_START 3
 #define SLASH '\\'
+#define defCLOCK            ("16")
 
 CUtilFunctions::CUtilFunctions()
 {

@@ -30,7 +30,6 @@
 // Maximum list of values can be displayed in list box
 #define  defREG_VALUE_LIST_COUNT_MAX     200
 #define  defHEXADECIMAL                   16
-#define defCLOCK            ("16")
 
 // Defination of BTR0 Register
 struct sBTR0
