@@ -15,7 +15,6 @@ set(SOURCE_LIST
   NodeSimCodeGenerator.cpp
   J1939NsCodeGenHelper.cpp
   ProjConfig_DataTypes.cpp
-  Struct_BUS.cpp
   UDS_DataTypes.cpp
 )
 

@@ -365,7 +365,7 @@ ERRORCODE NodeSimCodeGenerator::GenerateObjectFile(std::string strCppFilePath, I
 
     omStrCommandParam = "g++ -DNO_INCLUDE_TEMPSTRUCT -c -I";
     omStrCommandParam += AddDoubleQuotes(strIncludeDir).c_str();
-    omStrCommandParam += "\ -xc++ ";
+    omStrCommandParam += "\\ -xc++ ";
     omStrCommandParam += AddDoubleQuotes(strCppFilePath).c_str();
     omStrCommandParam += " -o";
     omStrCommandParam += AddDoubleQuotes(strObjFile).c_str();
