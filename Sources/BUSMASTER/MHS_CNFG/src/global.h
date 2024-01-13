@@ -12,11 +12,7 @@
 #ifdef __WIN32__
 // ****** Windows
 #include <windows.h>
-
-#define int32_t __int32
-#define uint32_t unsigned __int32
-#define int16_t __int16
-#define uint16_t unsigned __int16
+#include <stdint.h>
 
 #define CALLBACK_TYPE CALLBACK
 #define DRV_LOCK_TYPE CRITICAL_SECTION
