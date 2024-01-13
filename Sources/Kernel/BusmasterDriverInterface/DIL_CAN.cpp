@@ -53,6 +53,7 @@ public:
 enum
 {
     DRIVER_CAN_STUB = 0,
+    DRIVER_CAN_RUSOKU_TOUCAN,
     DRIVER_CAN_PEAK_USB,
     DRIVER_CAN_ICS_NEOVI,
     DRIVER_CAN_ETAS_BOA,
@@ -88,6 +89,7 @@ static ENTRY_DIL sg_ListDIL[] =
     {DRIVER_CAN_MHS,        "&MHS Tiny-CAN"     },
     {DRIVER_CAN_NSI,        "&NSI CAN-API"      },
     {DRIVER_CAN_PEAK_USB,   "&PEAK USB"         },
+    {DRIVER_CAN_RUSOKU_TOUCAN, "&RUSOKU TouCAN" },
     {DRIVER_CAN_VECTOR_XL,  "&Vector XL"        },
     {DRIVER_CAN_VSCOM,      "VScom &CAN-API"    },
 };
@@ -306,6 +308,10 @@ HRESULT CDIL_CAN::DILC_SelectDriver(DWORD dwDriverID, HWND hWndOwner)
 
         switch(dwDriverID)
         {
+            case DRIVER_CAN_RUSOKU_TOUCAN:
+                m_hDll = LoadLibrary("CAN_RUSOKU.dll");
+                break;
+
             case DRIVER_CAN_PEAK_USB:
                 m_hDll = LoadLibrary("CAN_PEAK_USB.dll");
                 break;

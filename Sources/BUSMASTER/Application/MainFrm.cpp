@@ -181,6 +181,7 @@ SMSGENTRY* CTxMsgWndJ1939::m_psMsgRoot = nullptr;
 enum
 {
     DRIVER_CAN_STUB = 0,
+    DRIVER_CAN_RUSOKU_TOUCAN,
     DRIVER_CAN_PEAK_USB,
     DRIVER_CAN_ICS_NEOVI,
     DRIVER_CAN_ETAS_BOA,
@@ -13511,6 +13512,10 @@ INT CMainFrame::nGetControllerID(std::string strDriverName)
     else if(strDriverName == "PEAK USB")
     {
         nDriverID = DRIVER_CAN_PEAK_USB;
+    }
+    else if(strDriverName == "RUSOKU TouCAN")
+    {
+        nDriverID = DRIVER_CAN_RUSOKU_TOUCAN;
     }
     else
     {
