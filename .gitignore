@@ -1,6 +1,7 @@
 # Generic files
 *~
 *.orig
+*.a
 
 # Visual Studio intermediate files
 *.aps
@@ -39,6 +40,9 @@ qicns.dll
 icuuc52.dll
 icuin52.dll
 icudt52.dll
+icuuc54.dll
+icuin54.dll
+icudt54.dll
 qwindows.dll
 DBManager.dll
 Sources/BUSMASTER/Application/BUSMASTER_Interface.c
@@ -406,9 +410,9 @@ Sources/BUSMASTER/BIN/CMakeFiles
 Sources/BUSMASTER/BIN/*.cmake
 Sources/BUSMASTER/BIN/*.txt
 
-# Installation Setup
-Installation Setup/BUSMASTER_Cleanup_Registry.exe
-Installation Setup/BUSMASTER_Installer_Ver_*.exe
+# packaging
+packaging/NovoBusAnalyzer_Cleanup_Registry.exe
+packaging/NovoBusAnalyzer_Installer_Ver_*.exe
 
 # Documents
 Documents/1 Development Environment/out
