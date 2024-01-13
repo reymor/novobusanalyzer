@@ -208,7 +208,7 @@ int LINSignalExtractor::setVariableValue(VariableData* value, bool isPhysicalVal
 			}
 		}
 	}
-
+	return S_OK;
 }
 int LINSignalExtractor::onMessageRecieved(STLINDATA& canData)
 {

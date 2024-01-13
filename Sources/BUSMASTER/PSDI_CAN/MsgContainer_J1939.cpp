@@ -998,6 +998,7 @@ HRESULT CMsgContainerJ1939::GetMessageDetails(__int64 nMapIndex, unsigned int& m
             msgName.Format("0x%X", msgId);
         }
     }
+	return S_OK;
 }
 COLORREF CMsgContainerJ1939::getMessageColor(long long key, bool isAppendMode, CMessageAttrib* msgAttributes/*has to be removed*/)
 {

@@ -1017,6 +1017,7 @@ HRESULT CMsgContainerCAN::GetMessageDetails(__int64 nMapIndex, unsigned int& msg
     //Message Name
     GetMessageName(sCANMsg, msgName, formatHexForId);
 
+	return S_OK;
 }
 COLORREF CMsgContainerCAN::getMessageColor(long long key, bool isAppendMode, CMessageAttrib* msgAttributes/*has to be removed*/)
 {
