@@ -497,7 +497,7 @@ ERRORCODE BMChannelConfig::SetDB(ICluster* pouCluster)
     return EC_SUCCESS;
 }
 
-ERRORCODE BMChannelConfig::ReleaseDb(int dbIndex)
+ERRORCODE BMChannelConfig::ReleaseDb(unsigned int dbIndex)
 {
     if (dbIndex < m_ouDbList.size())
     {
@@ -519,7 +519,7 @@ ERRORCODE BMChannelConfig::GetDBCount(int& nCount)
     return EC_SUCCESS;
 }
 
-ERRORCODE BMChannelConfig::GetDB(int nIndex, ICluster** pCluster)
+ERRORCODE BMChannelConfig::GetDB(unsigned int nIndex, ICluster** pCluster)
 {
     if ( nullptr == pCluster )
     {

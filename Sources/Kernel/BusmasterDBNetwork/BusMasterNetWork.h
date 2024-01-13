@@ -21,9 +21,9 @@ public:
     ERRORCODE SetChannelSettings( ChannelSettings* );
     ERRORCODE AddDB(ICluster*);
     ERRORCODE SetDB(ICluster*);
-    ERRORCODE ReleaseDb(int nIndex);
+    ERRORCODE ReleaseDb(unsigned int nIndex);
     ERRORCODE GetDBCount(int& nCount);
-    ERRORCODE GetDB(int nIndex, ICluster**);
+    ERRORCODE GetDB(unsigned int nIndex, ICluster**);
     ERRORCODE GetDBList(std::list<ICluster*>&);
     ERRORCODE ClearDBServices();
     ERRORCODE GetSimulatedEcuList(std::list<IEcu*>&);
