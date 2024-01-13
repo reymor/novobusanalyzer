@@ -277,7 +277,7 @@ USAGEMODE HRESULT EvaluateMessage( STCAN_MSG  Mensaje  )
                     {
                         STMin = psMsg[initialByte+2];
                     }
-                    else if( 0xF1<=psMsg[initialByte+2]<=0xF9)
+                    else if ((0xF1 <= psMsg[initialByte + 2]) && (psMsg[initialByte + 2] <= 0xF9))
                     {
                         STMin = (psMsg[initialByte+2]&0x0F)*0.1;
                     }
