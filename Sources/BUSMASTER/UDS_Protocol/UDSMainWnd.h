@@ -107,49 +107,48 @@ public:
 
     CFont m_Font;
 
-    // Declaración de funciones
-    (void)vInitializeUDSfFields();
+    void vInitializeUDSfFields();
 
     /**
     * This function is called to set in the UDS_Main_Window the value of the CanID editor Box
     * It takes into account the Interface that has been chosen and the values os SA and TA
     */
-    (void)setValue();
+    void setValue();
 
     /**
     * This function is called by framework when user wants to Transmit a  message
     * it Filters the message so only the msg with a proper SA,TA and CANId can be sent
     */
-    (void)CUDSMainWnd::OnBnClickedSendUD();
+    void CUDSMainWnd::OnBnClickedSendUD();
 
     /**
     * This function is called by the framework when the user has pressed the TesterPresent's
     * check box to start the timer to send the tester present message or to stops its sending
     */
-    (void)CUDSMainWnd::OnBnClickedTesterPresent();
+    void CUDSMainWnd::OnBnClickedTesterPresent();
 
     /**
     * This function in called by the framework when the user modifies the Databytes section in the
     * Main Window. It's used to format the data inserted and to count the bytes and put the result
     * in the DLC editor box.
     */
-    (void)CUDSMainWnd::OnEnChangeData();
+    void CUDSMainWnd::OnEnChangeData();
     /**
     * This function in called by the framework when the user modifies the SA section in the
     * Main Window. It's used to set the the CAN identifier with the Source Address added
     */
-    (void) CUDSMainWnd::OnEnChangeSA();
+    void CUDSMainWnd::OnEnChangeSA();
 
     /**
     * This function in called by the framework when the user modifies the SA section in the
     * Main Window.
     */
-    (void) CUDSMainWnd::OnEnChangeTA();
+    void CUDSMainWnd::OnEnChangeTA();
 
     /**
     * This function is used to send any simple message
     */
-    (void) CUDSMainWnd::SendSimpleDiagnosticMessage(void);
+    void CUDSMainWnd::SendSimpleDiagnosticMessage(void);
 
     /**
     \brief  This function sends the first Message of a long request
@@ -159,7 +158,7 @@ public:
     \param psTxCanMsgUds is the general structure of the message
     \param              FInterface indicates the interface selected in the SettingsWnd
     */
-    (int) CUDSMainWnd::SendFirstFrame( CString omByteStr, unsigned char abByteArr[],mPSTXSELMSGDATA psTxCanMsgUds, UDS_INTERFACE FInterface);
+    int CUDSMainWnd::SendFirstFrame( CString omByteStr, unsigned char abByteArr[],mPSTXSELMSGDATA psTxCanMsgUds, UDS_INTERFACE FInterface);
 
     /**
     \brief It send continuos frame of a long request
@@ -169,7 +168,7 @@ public:
     \param  psTxCanMsgUds is the general structure of the message
     \param  FInterface indicates the interface selected in the SettingsWnd
     */
-    (void) CUDSMainWnd::SendContinuosFrames(unsigned char abByteArr[],mPSTXSELMSGDATA psTxCanMsgUds, UDS_INTERFACE FInterface);
+    void CUDSMainWnd::SendContinuosFrames(unsigned char abByteArr[],mPSTXSELMSGDATA psTxCanMsgUds, UDS_INTERFACE FInterface);
 
     /**
     \brief It prepares the message to be sent
@@ -180,11 +179,11 @@ public:
     \param  psTxCanMsgUds is the general structure of the message
     \param  ByteArrLen is the length of the message to send
     */
-    (void) CUDSMainWnd::PrepareDiagnosticMessage(CString omByteStr,mPSTXSELMSGDATA psTxCanMsgUds, unsigned char abByteArr[], UINT ByteArrLen /*, UDS_INTERFACE FInterface,UINT targetAddress*/ );
+    void CUDSMainWnd::PrepareDiagnosticMessage(CString omByteStr,mPSTXSELMSGDATA psTxCanMsgUds, unsigned char abByteArr[], UINT ByteArrLen /*, UDS_INTERFACE FInterface,UINT targetAddress*/ );
 
     /**
     *This function is called to send the flow control because it has been received a long response  */
-    (void) CUDSMainWnd::PrepareFlowControl(void);
+    void CUDSMainWnd::PrepareFlowControl(void);
 
 
     CWnd* pomGetTxMsgViewPointers() const;
