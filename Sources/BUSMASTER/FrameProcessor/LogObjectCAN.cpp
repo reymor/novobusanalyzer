@@ -26,8 +26,13 @@
 #include "CANDriverDefines.h"
 #include "LogObjectCAN.h"            // For CLogObjectCAN class declaration
 
+/*
+ * Modified version of BUSMASTER
+ * This version is distributed under the terms of the GNU General Public License, version 3 or later (GPL-3.0-or-later).
+ * The original code has been modified.
+ */
 
-#define CAN_VERSION           "***BUSMASTER Ver 3.0.0***"
+#define CAN_VERSION           "***NBA Ver 0.0.1***"
 #define CAN_LOG_HEADER        "***NOTE: PLEASE DO NOT EDIT THIS DOCUMENT***"
 #define CAN_LOG_START         "***[START LOGGING SESSION]***"
 #define CAN_LOG_STOP          "***[STOP LOGGING SESSION]***"

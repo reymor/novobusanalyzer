@@ -148,7 +148,7 @@ int nAddFunctionHeader()
 {
 	fseek(yyout, 0L, SEEK_SET );
 
-	fprintf(yyout, "***BUSMASTER Ver %s***\n", BUSMASTER_VER);
+	fprintf(yyout, "***Novo Bus Analyzer Ver %s***\n", BUSMASTER_VER);
 	fprintf(yyout, "***PROTOCOL CAN***\n");
 	fprintf(yyout, "***NOTE: PLEASE DO NOT EDIT THIS DOCUMENT***\n");
 	fprintf(yyout, "***[START LOGGING SESSION]***\n");

@@ -75,6 +75,7 @@ Sources/DBManager/LDFGrammerLexer.hpp
 Sources/DBManager/LDFGrammerParser.cpp
 Sources/DBManager/LDFGrammerParser.hpp
 Sources/DBManager/ANTLR3/include
+.vs
 
 # Release dirs (except BIN)
 Sources/BUSMASTER/Application/Release
@@ -148,6 +149,7 @@ Sources/Kernel/BusmasterDriverInterface/DIL_J1939/Release
 Sources/Kernel/BusmasterDriverInterface/Release
 Sources/Kernel/BusmasterKernel/Release
 Sources/Kernel/Utilities/Release
+Sources/BUSMASTER/BIN/Release/platforms/
 
 # Debug dirs (except BIN)
 Sources/BUSMASTER/Application/Debug

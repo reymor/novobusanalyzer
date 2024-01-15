@@ -22,6 +22,12 @@
  * This header file contains the standard include header files
  */
 
+/*
+ * Modified version of BUSMASTER
+ * This version is distributed under the terms of the GNU General Public License, version 3 or later (GPL-3.0-or-later).
+ * The original code has been modified.
+ */
+
 #pragma once
 
 #define VC_EXTRALEAN        // Exclude rarely-used stuff from Windows headers
@@ -66,9 +72,6 @@
 
 const float PI = (float) 3.14159265358979323846;
 
-//#include "include/BaseDefs.h"
-#//include "include/Error.h"
-//#include "../Kernel/IBusMasterKernel.h"
 #include <afx.h>
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
@@ -82,7 +85,7 @@ const float PI = (float) 3.14159265358979323846;
 #include "afxribbonbar.h"
 
 #include <afxcontrolbars.h>     // Added to support for ribbons and control bars
-//3.2.2
-const BYTE VERSION_MAJOR=3;
-const BYTE VERSION_MINOR=2;
-const BYTE VERSION_BUILD=2;
+//0.0.1
+const BYTE VERSION_MAJOR=0;
+const BYTE VERSION_MINOR=0;
+const BYTE VERSION_BUILD=1;

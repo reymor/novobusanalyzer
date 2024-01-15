@@ -112,9 +112,7 @@ BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,4,4,21,20
     LTEXT           "Copyright 2011 ETAS GmbH and Robert Bosch Engineering and Business Solutions Limited",IDC_STATIC_COPYRIGHT,5,138,242,19
     LTEXT           "This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.",IDC_STATIC_LICENSE_INFO,6,175,238,34
-    LTEXT           "For further support and services please visit",IDC_STATIC,8,216,140,10
     DEFPUSHBUTTON   "OK",IDOK,175,257,68,14
-    CONTROL         "<a>ETAS BUSMASTER</a>",IDC_CONTACT_LINK,"SysLink",WS_TABSTOP,149,215,77,14
     CONTROL         "",IDC_LIST_COMPONENTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,2,32,246,84
     LTEXT           "Copyright Information:",IDC_STATIC_CR,5,123,75,9
     LTEXT           "License Information:",IDC_STATIC_LI,6,161,67,10
@@ -478,7 +476,7 @@ BEGIN
     DEFPUSHBUTTON   "Continue",IDB_CONTINUE,164,15,50,14,WS_GROUP
     PUSHBUTTON      "Enter",IDB_LICENSE,23,135,50,14,WS_GROUP
     EDITTEXT        IDC_LOCKING_KEY,23,86,183,38,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN
-    LTEXT           "BUSMASTER is valid till ",IDC_STATIC_NOTICE,43,15,102,28
+    LTEXT           "NovoBusAnalyzer is valid till ",IDC_STATIC_NOTICE,43,15,102,28
     PUSHBUTTON      "OK",IDB_OK,163,162,50,14,WS_GROUP
     ICON            "",IDC_STATIC_PICTURE,14,15,21,20,SS_CENTERIMAGE | SS_REALSIZEIMAGE
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,16,58,197,1
@@ -717,14 +715,14 @@ BEGIN
         BEGIN
             VALUE "Comments", "Public Copy"
             VALUE "CompanyName", "RBEI, Bangalore"
-            VALUE "FileDescription", "BUSMASTER MFC Application"
-            VALUE "FileVersion", "Ver 3.2.2"
-            VALUE "InternalName", "BUSMASTER"
+            VALUE "FileDescription", "NovoBusAnalyzer MFC Application"
+            VALUE "FileVersion", "Ver 0.0.1"
+            VALUE "InternalName", "NovoBusAnalyzer"
             VALUE "LegalCopyright", "Copyright (C) 2011"
             VALUE "LegalTrademarks", "BOSCH"
-            VALUE "OriginalFilename", "BUSMASTER.EXE"
-            VALUE "ProductName", "BUSMASTER Application"
-            VALUE "ProductVersion", "Ver 3.2.2"
+            VALUE "OriginalFilename", "NovoBusAnalyzer.EXE"
+            VALUE "ProductName", "NovoBusAnalyzer Application"
+            VALUE "ProductVersion", "Ver 0.0.1"
         END
     END
     BLOCK "VarFileInfo"
@@ -1315,7 +1313,7 @@ BEGIN
         MENUITEM "&Help Topics\tF1",            ID_HELP_FINDER
         MENUITEM "&What's This?",               ID_CONTEXT_HELP
         MENUITEM SEPARATOR
-        MENUITEM "&About BUSMASTER...",         IDM_APP_ABOUT
+        MENUITEM "&About NovoBusAnalyzer...",         IDM_APP_ABOUT
     END
 END
 
@@ -1468,11 +1466,11 @@ IDR_BUSMASTER_RIBBON    RT_RIBBON_XML           "res\\ribbon1.mfcribbon-ms"
 
 STRINGTABLE
 BEGIN
-    IDR_MAINFRAME           "BUSMASTER"
+    IDR_MAINFRAME           "Novo Bus Analyzer (NBA)"
     IDR_NEWEDTYPE           "\nNewEd\nNewEd\nC Files\n.c\nNewEd.Document\nNewEditor "
     IDS_ERROR_LOCK_KEY_INCORRECT 
                             "Licence key is not correct \n Application will abort"
-    IDS_ERROR_VER_MISMATCH  "Installed BUSMASTER version is lower than that of the application. Application will abort."
+    IDS_ERROR_VER_MISMATCH  "Installed NovoBusAnalyzer version is lower than that of the application. Application will abort."
 END
 
 STRINGTABLE
@@ -1482,7 +1480,7 @@ END
 
 STRINGTABLE
 BEGIN
-    AFX_IDS_APP_TITLE       "BUSMASTER"
+    AFX_IDS_APP_TITLE       "NovoBusAnalyzer"
     AFX_IDS_IDLEMESSAGE     " "
     AFX_IDS_HELPMODEMESSAGE "Select an object on which to get Help"
 END
@@ -1602,7 +1600,7 @@ BEGIN
     IDS_INVALID_DB_PROMPT   "Invalid database filename"
     ID_ACTIVE_DATABASE_NAME " "
     IDS_MESSAGE_NAME        "Message Name"
-    IDS_VERSION             "Ver 3.2.2"
+    IDS_VERSION             "Ver 0.0.1"
     IDS_HEADER              "***NOTE: PLEASE DO NOT EDIT THIS DOCUMENT***\n\n\n***[START LOGGING SESSION]***\n"
     IDS_FOOTER              "***[END LOGGING SESSION]***"
     IDS_CONNECT             "Connect"
@@ -1781,7 +1779,7 @@ STRINGTABLE
 BEGIN
     IDM_CONFIGURE_DATABASE_SAVE "Save into database file\nSave"
     IDM_CONFIGURE_DATABASE_SAVEAS "Save as new database file\nSave as"
-    32869                   "Information about BUSMASTER version and copyrights\nInformation about BUSMASTER version and copyrights"
+    32869                   "Information about NovoBusAnalyzer version and copyrights\nInformation about NovoBusAnalyzer version and copyrights"
     IDM_FILTER_MESSAGEFILTEROFF_BUTTON 
                             "Enable or Disable Display filter\nEnable or Disable Display filter"
     IDM_FILTER_LOGFILTEROFF_BUTTON 
@@ -1812,8 +1810,8 @@ BEGIN
     IDM_SHOW_DATE           "Enable or Disable Display of Date\nDisplay Date"
     IDM_SEND_SEL_MSG        "Send selected message on CAN bus"
     IDM_DELETE_ALL_SEL_MSG  "Delete all selected message from the list"
-    IDM_CONFIG_NEW          "Create new BUSMASTER configuration file\nNew"
-    IDM_CONFIG_LOAD         "Load an existing BUSMASTER configuration file\nLoad"
+    IDM_CONFIG_NEW          "Create new NovoBusAnalyzer configuration file\nNew"
+    IDM_CONFIG_LOAD         "Load an existing NovoBusAnalyzer configuration file\nLoad"
     IDM_SAVE_CONFIG         "Save configuration file\nSave"
     IDM_SAVEAS_CONFIG       "Save configuration file with a new name\nSave As"
     IDM_EXECUTE_DLL_HANDLERS 
