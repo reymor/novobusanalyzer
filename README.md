@@ -12,4 +12,4 @@
 
 # Dependencies
 
-`Novo Bus Analyzer` inherits from `Busmaster` the build system and all dependencies. However, right now for compilation is possible to use `cmake` instead of `*.sln`. You could use `cmake` to generate the `Visual Studio` solution. I have tested it with `Visual Studio 2013`.
+`NBA` inherits from `Busmaster` the build system and all dependencies. However, right now for compilation is possible to use `cmake` instead of `*.sln` which is mainly based on `Visual Studio 2013` and `Qt5.5.1`. I have compile with `Visual Studio 2019` using `Qt5.15.2`
