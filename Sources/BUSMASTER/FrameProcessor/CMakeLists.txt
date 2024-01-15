@@ -45,10 +45,14 @@ set(HEADER_LIST
   LogObjectLIN.h
 )
 
+set(RESOURCE_LIST
+  FrameProcessor.rc
+)
+
 ################################################################################
 # Target
 ################################################################################
-add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST} ${HEADER_LIST})
+add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST} ${HEADER_LIST} ${RESOURCE_LIST})
 
 include_directories(
   ..
@@ -61,7 +65,7 @@ include_directories(
 ################################################################################
 # Compile definitions
 ################################################################################
-add_definitions(-D_USRDLL)
+add_definitions(-D_AFXEXT)
 
 ################################################################################
 # Compile and link options
