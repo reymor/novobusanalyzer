@@ -1325,7 +1325,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON                    "res\\BUSMASTER.ico"
+IDR_MAINFRAME           ICON                    "res\\novobusanalyzer.ico"
 IDR_PGM_EDTYPE          ICON                    "res\\BUSMASTERDoc.ico"
 IDI_ICON_MSGWND         ICON                    "Res\\MsgWnd.ico"
 IDI_ICO_WRITE           ICON                    "Res\\write.ico"

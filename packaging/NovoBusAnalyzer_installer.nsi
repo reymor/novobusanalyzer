@@ -36,7 +36,7 @@
 !define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of NovoBusAnalyzer on your system."
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_BITMAP "headerimage.bmp"
-!define MUI_ICON  "..\Sources\BUSMASTER\Application\Res\BUSMASTER.ico"
+!define MUI_ICON  "..\Sources\BUSMASTER\Application\Res\novobusanalyzer.ico"
 !define MUI_UNICON "..\Sources\BUSMASTER\Application\Res\Uninstaller.ico"
 
 !define Flexray_Key "1"
