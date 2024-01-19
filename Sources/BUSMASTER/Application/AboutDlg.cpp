@@ -16,7 +16,7 @@
 #define defSTR_COPYRIGHT         "Copyright 2017 ETAS GmbH and Robert Bosch Engineering and Business Solutions Private Limited. All Rights Reserved."
 #define defSTR_COPYRIGHT_INST    "Copyright 2017 Robert Bosch Engineering and Business Solutions Private Limited. All Rights Reserved."
 #define defSTR_LICENSE           "Your rights with respect to %s Add-On are subject to your acceptance of the End-User License Agreement (EULA) provided by the licensor and payment of requisite fee."
-#define defSTR_REGISTRY          "Software\\RBEI-ETAS\\BUSMASTER_v%d.%d.%d\\Add-Ons"
+#define defSTR_REGISTRY          "Software\\NovoBusAnalyzer_v%d.%d.%d\\Add-Ons"
 #define defSTR_BUSMASTER         "BUSMASTER"
 #define defSTR_OPEN_SOURCE       "Open Source"
 #define defSTR_Add_On_VERSION    "Version"

@@ -16834,7 +16834,7 @@ int CMainFrame::ImportLicense()
 			DWORD dwValue = 0;
 
 			CString strCompleteSubKey;
-			strCompleteSubKey.Format("Software\\BUSMASTER_v%d.%d.%d", VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD);
+			strCompleteSubKey.Format("Software\\NovoBusAnalyzer_v%d.%d.%d", VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD);
 			strValue = "";
 			lError = RegOpenKeyEx(hRootKey, strCompleteSubKey, 0, KEY_READ, &hKey);
 			// If the registry key open successfully, get the value in "path"

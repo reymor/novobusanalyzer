@@ -383,7 +383,7 @@ bool CCANMonitorApp::bWriteIntoRegistry(HKEY /* hRootKey */, CString strSubKey, 
 	DWORD dwDisp = 0;
 	LPDWORD lpdwDisp = &dwDisp;
 	CString strCompleteSubKey;
-	strCompleteSubKey.Format("Software\\RBEI-ETAS\\BUSMASTER_v%d.%d.%d\\%s", VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD, strSubKey);
+	strCompleteSubKey.Format("Software\\NovoBusAnalyzer_v%d.%d.%d\\%s", VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD, strSubKey);
 	LONG iSuccess = RegCreateKeyEx(HKEY_CURRENT_USER, strCompleteSubKey, 0L, nullptr, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &hKey, lpdwDisp);
 	LSTATUS ls = 0;
 	if (iSuccess == ERROR_SUCCESS)
@@ -414,7 +414,7 @@ bool CCANMonitorApp::bReadFromRegistry(HKEY hRootKey, CString strSubKey, CString
     DWORD dwSize = sizeof(BYTE[1024]) ;
 
     CString strCompleteSubKey;
-    strCompleteSubKey.Format("Software\\RBEI-ETAS\\BUSMASTER_v%d.%d.%d\\%s",VERSION_MAJOR,VERSION_MINOR,VERSION_BUILD,strSubKey);
+    strCompleteSubKey.Format("Software\\NovoBusAnalyzer_v%d.%d.%d\\%s",VERSION_MAJOR,VERSION_MINOR,VERSION_BUILD,strSubKey);
 	strValue = "";
     lError = RegOpenKeyEx( hRootKey, strCompleteSubKey, 0, KEY_READ, &hKey);
     // If the registry key open successfully, get the value in "path"
