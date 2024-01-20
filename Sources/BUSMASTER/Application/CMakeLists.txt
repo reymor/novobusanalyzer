@@ -231,6 +231,8 @@ include_directories(
 
 add_dependencies(${PROJECT_NAME}
   BusEmulation
+  BusmasterDriverInterface
+  CAN_STUB
 )
 
 ################################################################################
