@@ -1,22 +1,22 @@
-#pragma once
+#ifndef KERNEL_PROTOCOLDEFINITION_CCOMPUMETHOD_H_
+#define KERNEL_PROTOCOLDEFINITION_CCOMPUMETHOD_H_
+
 #include <vector>
-class  ValueRange
-{
+
+class  ValueRange {
 public:
     unsigned long long m_dwLowerLimit;      //RAW Value
     unsigned long long m_dwUpperLimit;
 };
 
-enum Validity
-{
+enum Validity {
     eValid,
     eNotValid,
     eNotAvailable,
     eValidityNone
 };
 
-typedef enum eCompuType
-{
+typedef enum eCompuType {
     IDENTICAL_ENUM = 0,              //No change
     LINEAR_ENUM,                     //Linear expression N0,N1,D1
     SCALE_LINEAR_ENUM,               //More than 1 Linear exp
@@ -26,18 +26,14 @@ typedef enum eCompuType
     FORMULA_ENUM                     //User defined formula
 };
 
-class  CompuIdenticalCode
-{
+class  CompuIdenticalCode {
 public:
     ValueRange   m_sRange;
     Validity m_eValidity;
-} ;
+};
 
-class  CompuLinearCode
-{
-
+class  CompuLinearCode {
 public:
-
     ValueRange m_sRange;
     double m_dN0;   // AppValue =
     double m_dN1;   // (m_dN0 // offset + m_dN1 //factor * Trans. Val) / m_dD0
@@ -45,13 +41,11 @@ public:
 };
 
 //For textable
-class  CompuTextable
-{
+class  CompuTextable {
 public:
     ValueRange m_sRange;
     std::string m_aTextName;
-    CompuTextable& CompuTextable::operator=(const CompuTextable& RefObj)
-    {
+    CompuTextable& CompuTextable::operator=(const CompuTextable& RefObj) {
         m_sRange = RefObj.m_sRange;
         m_aTextName = RefObj.m_aTextName;
         return *this;
@@ -59,46 +53,14 @@ public:
 };
 
 //For TAB-NOINTP
-class  CompuTabCode
-{
+class  CompuTabCode {
 public:
-
     ValueRange m_sRange;
     double m_dPhysVal;
 };
 
-/*class  FormulaOperands
-{
-    char m_cOperandName;
-    float m_fOperandValue;
-    FormulaOperands* m_pNextOpearnd;
-public:
-    FormulaOperands();
-    FormulaOperands& operator=(const FormulaOperands& RefObj);
-    ~FormulaOperands();
-};*/
-
-/*class  CompuFormula
-{
-    ValueRange m_sRange;
-    std::string m_omFormula;
-    FormulaOperands m_ouFirstOperand;
-public:
-    CompuFormula();
-
-    CompuFormula& operator=(const CompuFormula& RefObj);
-
-    ~CompuFormula();
-
-    std::string strGetEnggValue(unsigned long  dwRawValue);
-
-    bool bGetEnggValue(unsigned long  dwRawValue, double& dEnggValue) const;
-
-};*/
-
 //Only one of the above struct will be assigned to each element
-class  CCompuMethod
-{
+class  CCompuMethod {
 public:
     //CompuType
     eCompuType  m_eCompuType;
@@ -110,12 +72,10 @@ public:
 	std::vector<CompuIdenticalCode> m_ouIdenticalCode;
 	std::vector<CompuLinearCode> m_ouCompuScaleLinear;
     //CompuFormula m_ouFormula;
-    CCompuMethod& operator=(const CCompuMethod& RefObj)
-    {
+    CCompuMethod& operator=(const CCompuMethod& RefObj) {
         m_eCompuType = RefObj.m_eCompuType;
         m_ouLinearCode = RefObj.m_ouLinearCode;                 //TODO COPY
         m_ouIdenticalCode = RefObj.m_ouIdenticalCode;
-        //m_ouFormula = RefObj.m_ouFormula;
         m_ouTabCode = RefObj.m_ouTabCode;
         m_ouTextCode = RefObj.m_ouTextCode;
         m_ouCompuScaleLinear = RefObj.m_ouCompuScaleLinear;
@@ -123,3 +83,4 @@ public:
     }
 };
 
+#endif // KERNEL_PROTOCOLDEFINITION_CCOMPUMETHOD_H_

@@ -1,7 +1,8 @@
 /*
 * Copyright Robert Bosch Engineering and Business Solutions Private Limited. All Rights Reserved.
 */
-#pragma once
+#ifndef KERNEL_PROTOCOLDEFINITION_FLEXRAYDEFINES_H_
+#define KERNEL_PROTOCOLDEFINITION_FLEXRAYDEFINES_H_
 
 #include "FlexRayEnums.h"
 #include "CommonDefines.h"
@@ -9,23 +10,17 @@
 #include "IClusterProps.h"
 
 //FlexRay
-class  FlexRayCompuMethods : public CompuMethodProps
-{
+class  FlexRayCompuMethods : public CompuMethodProps {
 public:
-	FlexRayCompuMethods()
-	{
+	FlexRayCompuMethods() {
 		this->m_eType = eProtocolType::eFlexRayProtocol;
 	}
     CCompuMethod m_ouCompuMethod;
 };
 
-
-
-class FlexRayFrameProps : public FrameProps
-{
+class FlexRayFrameProps : public FrameProps {
 public:
-	FlexRayFrameProps()
-	{
+	FlexRayFrameProps() {
 		m_eProtocol = eProtocolType::eFlexRayProtocol;
         m_unBaseCycle = 0;
         m_unRepetition = 0;
@@ -35,11 +30,9 @@ public:
     unsigned int m_unRepetition;
     eFlexRayChannel m_oueChannel;
     eFlexRayFrameType m_oueFlexRayFrameType;
-
 };
 
-class WakeUp
-{
+class WakeUp {
 public:
     short m_shWAKE_UP_SYMBOL_RX_IDLE;   // 14 to 59 inclusive
     short m_shWAKE_UP_SYMBOL_RX_LOW;    // 10 to 55 inclusive
@@ -48,8 +41,7 @@ public:
     short m_shWAKE_UP_SYMBOL_TX_LOW;    // 15 to 60 inclusive
 };
 
-class FlexRaySettings
-{
+class FlexRaySettings {
 public:
     std::string m_omProtocolVersion;
     std::string m_omName;
@@ -163,11 +155,9 @@ public:
     short m_shCLUSTER_DRIFT_DAMPING;
 };
 
-class FlexRayEcuProperties : public EcuProperties
-{
+class FlexRayEcuProperties : public EcuProperties {
 public:
-	FlexRayEcuProperties()
-	{
+	FlexRayEcuProperties() {
 		m_eProtocol = eProtocolType::eFlexRayProtocol;
 		m_eKeySlotUsage = eNone;
 	}
@@ -252,33 +242,26 @@ public:
     void Clear();
 };
 
-
-class FlexRayFrameId
-{
+class FlexRayFrameId {
 public:
 	unsigned int m_unSlotId;
 	unsigned int m_unBaseCycle;
 	eFlexRayChannel m_oueChannel;
 };
 
-
-class FlexRaySignalProps : public SignalProps
-{
+class FlexRaySignalProps : public SignalProps {
 public:
-	FlexRaySignalProps()
-	{
+	FlexRaySignalProps() {
 		eType = eProtocolType::eFlexRayProtocol;
 	}
-    //eLinSignalValueType m_ouValueType;
 };
 
-
-class FlexRayPduProps : public PduProps
-{
+class FlexRayPduProps : public PduProps {
 public:
     eFlexRayChannel m_oueChannel;
-	FlexRayPduProps()
-	{
+	FlexRayPduProps() {
 		eType = eProtocolType::eFlexRayProtocol;
 	}
 };
+
+#endif // KERNEL_PROTOCOLDEFINITION_FLEXRAYDEFINES_H_

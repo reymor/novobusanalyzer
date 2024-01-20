@@ -1,17 +1,15 @@
-#pragma once
-//#define   PROTOCOL_EXPORTS 1
+#ifndef KERNEL_PROTOCOLDEFINITION_COMMONDEFINES_H_
+#define KERNEL_PROTOCOLDEFINITION_COMMONDEFINES_H_
+
 #ifdef PROTOCOL_EXPORTS
 #define EXPORTS __declspec(dllexport)
 #else
 #define EXPORTS
 #endif
 
-//#define   EXPORTS
-
-
-typedef unsigned __int64        UID_ELEMENT;
-typedef int                     ERRORCODE;
-typedef int                     STARTBIT;
+typedef unsigned __int64 UID_ELEMENT;
+typedef int ERRORCODE;
+typedef int STARTBIT;
 
 #define EC_SUCCESS                  0
 #define EC_WARNING_SUCCESS          0x80000000
@@ -23,23 +21,18 @@ typedef int                     STARTBIT;
 #define EC_INVALID_PROTOCOL         0x08000007
 #define EC_NA                       0x80000008
 
-
-
 #define INVALID_UID_ELEMENT         0
 #define MAX_LIN_FRAME_LENGTH        8
-#define DIRECTION_TX                      0
-#define DIRECTION_RX                      1
-#define DIRECTION_ALL                     2
+#define DIRECTION_TX                0
+#define DIRECTION_RX                1
+#define DIRECTION_ALL               2
 #define MAX_SUPPORTED_STRING        256
 
-#define INVALID_DATA            -1
-#define EMPTY_STRING            ""
-#define defBITS_IN_BYTE         8
+#define INVALID_DATA                -1
+#define EMPTY_STRING                ""
+#define defBITS_IN_BYTE             8
 
-
-
-enum eDiagType
-{
+enum eDiagType {
     eLIN_NORMAL_FRAME_ID,
     eLIN_MASTER_FRAME_ID,
     eLIN_SLAVE_FRAME_ID,
@@ -56,8 +49,7 @@ enum eDiagType
     eLIN_SID_NONE,
 };
 
-const std::string m_omDialType[eLIN_SID_ALL] =
-{
+const std::string m_omDialType[eLIN_SID_ALL] = {
     "UnConditional",
     "Master Request",
     "Slave Response",
@@ -72,15 +64,12 @@ const std::string m_omDialType[eLIN_SID_ALL] =
     "ReadyByIdentifier"
 };
 
-enum eSignalType
-{
+enum eSignalType {
     eSignalNormal,
     eSignalDiag
 };
 
-
-enum eSignalDataType
-{
+enum eSignalDataType {
 	Invalid,
     eSigned,
     eUnsigned,
@@ -88,27 +77,23 @@ enum eSignalDataType
 	Double,
 	ByteArray
 };
-enum eEndianess
-{
+
+enum eEndianess {
     eMotorola,
     eIntel
 };
 
-
-enum eProtocolType
-{
+enum eProtocolType {
     eCANProtocol,
     eLINProtocol,
     eFlexRayProtocol,
     eInvalidProtocol
 };
 
-
-enum eFormat
-{
+enum eFormat {
     HEXADECIMAL = 0,
     DEC
 };
 typedef eFormat EFORMAT;
 
-
+#endif // KERNEL_PROTOCOLDEFINITION_COMMONDEFINES_H_

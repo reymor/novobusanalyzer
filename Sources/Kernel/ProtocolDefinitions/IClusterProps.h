@@ -1,6 +1,5 @@
-#pragma once
-
-
+#ifndef KERNEL_PROTOCOLDEFINITION_ICLUSTERPROPS_H_
+#define KERNEL_PROTOCOLDEFINITION_ICLUSTERPROPS_H_
 
 #include <map>
 #include <string>
@@ -9,8 +8,7 @@
 #include "CommonDefines.h"
 #include "ProtocolsDefinitions.h"
 
-enum eAction
-{
+enum eAction {
 	eModify,
 	eNameChange,
 	eTxNodeAdded,
@@ -21,22 +19,19 @@ enum eAction
 	eDeleted
 };
 
-enum eErrorSeverity
-{
+enum eErrorSeverity {
 	eError,
 	eWarning
 };
 
-enum eMultiplexSignalIndicator
-{
+enum eMultiplexSignalIndicator {
 	eMultiplexSwitch,
 	eMutiplexedSignal,
 	eBoth,
 	eNA
 };
 
-enum ePropertyType
-{
+enum ePropertyType {
     eCANClusterProperties,
     eLINClusterProperties,
     eFlexRayClusterProperties,
@@ -45,8 +40,7 @@ enum ePropertyType
     eLdfDyanmicFrameList
 };
 
-enum eClusterElementType
-{
+enum eClusterElementType {
     eFrameElement,
     eSignalElement,
     eEcuElement,
@@ -59,16 +53,13 @@ enum eClusterElementType
     eInvalidElement,
 };
 
-
-enum eDIR
-{
+enum eDIR {
     eTx = DIRECTION_TX,
     eRx = DIRECTION_RX,
     eAllDir = DIRECTION_ALL
 };
 
-class ParsingResults
-{
+class ParsingResults {
 public:
 	eErrorSeverity m_ouErrorType;
 	unsigned int m_unErrorCode;
@@ -76,24 +67,20 @@ public:
 	unsigned int m_unLineNum;
 	std::string m_strErrorDesc;
 	std::string m_strActionTaken;
-
-
 };
 
-class SignalInstanse
-{
+class SignalInstanse {
 public:
     int m_nStartBit;
     eEndianess m_ouSignalEndianess;
     int m_nUpdateBitPos;
 };
-class SignalValue
-{
+
+class SignalValue {
 public:
 	std::string mName;
 	std::string mUnit;
-	union
-	{
+	union {
 		unsigned __int64 mUnValue = 0;
 		signed __int64 mValue;
 	};
@@ -101,8 +88,7 @@ public:
 	double mPhyicalValue = 0;
 };
 
-class InterpreteSignals
-{
+class InterpreteSignals {
 public:
     std::string m_omSigName;
     std::string m_omRawValue;
@@ -110,58 +96,43 @@ public:
     std::string m_omUnit;
 };
 
-class PduInstanse
-{
+class PduInstanse {
 public:
     int m_nStartBit;
     eEndianess m_ooPduEndianess;
     int m_nUpdateBitPos;
 };
 
-
-
-class EcuProperties
-{
+class EcuProperties {
 public:
 	eProtocolType m_eProtocol;
 
-
-	EcuProperties()
-{
+	EcuProperties() {
 		m_eProtocol = eProtocolType::eInvalidProtocol;
 	}
 };
 
-class FrameProps
-{
+class FrameProps {
 public:
-	FrameProps()
-
-{
+	FrameProps() {
 		m_eProtocol = eProtocolType::eInvalidProtocol;
-    //...
 	}
 	eProtocolType m_eProtocol;
 	unsigned int m_nMsgId;
 	unsigned int m_unMsgSize;
 };
 
-
-class SignalGroupProps
-{
+class SignalGroupProps {
 public:
-	SignalGroupProps()
-	{
+	SignalGroupProps() {
 		eType = eProtocolType::eInvalidProtocol;
 	}
     eProtocolType eType;
 };
 
-class SignalProps
-{
+class SignalProps {
 public:
-	SignalProps()
-	{
+	SignalProps() {
 		eType = eProtocolType::eInvalidProtocol;
 	}
     eProtocolType eType;
@@ -175,43 +146,27 @@ public:
 	std::string m_omUnit;
 };
 
-
-class PduProps
-{
+class PduProps {
 public:
-	PduProps()
-	{
+	PduProps() {
 		eType = eProtocolType::eInvalidProtocol;
 	}
     eProtocolType eType;
 	unsigned int m_unByteLength;
 };
 
-
-
-
-class CompuMethodProps
-{
+class CompuMethodProps {
 public:
-	CompuMethodProps()
-	{
+	CompuMethodProps() {
 		m_eType = eProtocolType::eInvalidProtocol;
 	}
     eProtocolType m_eType;
 };
 
-
-
-class eNameChangeActionData
-{
+class eNameChangeActionData {
 public:
     std::string m_strOldName;
     std::string m_strNewName;
 };
 
-
-
-
-
-
-
+#endif // KERNEL_PROTOCOLDEFINITION_ICLUSTERPROPS_H_

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef KERNEL_PROTOCOLDEFINITION_ICLUSTER_H_
+#define KERNEL_PROTOCOLDEFINITION_ICLUSTER_H_
 
 #include <memory>
 
@@ -24,16 +25,12 @@ class IScheduleTable;
 class IFlexRayDBManager;
 class CFibexCluster;
 
-
-
-class INotifyClusterChange
-{
+class INotifyClusterChange {
 public:
     virtual ERRORCODE OnClusterChange(eAction eActionType, UID_ELEMENT nId, eClusterElementType& ouElementType, void* pAcionData, void* pUserData) = 0;
 };
 
-class ICluster
-{
+class ICluster {
 public:
     ICluster(void) {};
     virtual ~ICluster(void) {};
@@ -80,32 +77,26 @@ public:
 
 };
 
-class IElement
-{
+class IElement {
 protected:
     eClusterElementType m_oueElementType;
     std::string m_strName;
     ICluster* m_pBaseCluster;
     UID_ELEMENT m_nUnId;
 
-
-
-    IElement(ICluster* pCluster)
-    {
+    IElement(ICluster* pCluster) {
         m_pBaseCluster = pCluster;
         m_pBaseCluster->GetNextUniqueId(m_nUnId);
         m_oueElementType = eInvalidElement;
     }
 
 public:
-    virtual ERRORCODE GetName(std::string& strName)
-    {
+    virtual ERRORCODE GetName(std::string& strName) {
         strName = m_strName;
         return EC_SUCCESS;
     }
 
-    virtual ERRORCODE SetName(std::string& strName)
-    {
+    virtual ERRORCODE SetName(std::string& strName) {
         //if ( m_strName != strName )
         {
             eNameChangeActionData ouData;
@@ -122,24 +113,20 @@ public:
         return EC_SUCCESS;
     }
 
-    virtual ERRORCODE GetUniqueId(UID_ELEMENT& unId)
-    {
+    virtual ERRORCODE GetUniqueId(UID_ELEMENT& unId) {
         unId = m_nUnId;
         return EC_SUCCESS;
     }
 
-    virtual UID_ELEMENT GetUniqueId()
-    {
+    virtual UID_ELEMENT GetUniqueId() {
         return m_nUnId;
     }
 
-    virtual eClusterElementType GetElementType()
-    {
+    virtual eClusterElementType GetElementType() {
         return m_oueElementType;
     }
 
-    virtual ERRORCODE SetElementType(eClusterElementType& ouElementType)
-    {
+    virtual ERRORCODE SetElementType(eClusterElementType& ouElementType) {
         m_oueElementType = ouElementType;
         return EC_SUCCESS;
     }
@@ -148,8 +135,7 @@ public:
 
 };
 
-class IEcu : public IElement
-{
+class IEcu : public IElement {
 protected:
     IEcu(ICluster* pBaseCluster):IElement(pBaseCluster) {};
     virtual ~IEcu() {};
@@ -162,7 +148,6 @@ public:
     virtual ERRORCODE MapSignal(eDIR eDir, UID_ELEMENT& nId) = 0;
     virtual ERRORCODE UnMapSignal(eDIR eDir, UID_ELEMENT& nId) = 0;
 
-
     //Interpretation
     virtual ERRORCODE GetFrameList(eDIR eDir, std::list<IFrame*>& ouFrames) = 0;
     virtual ERRORCODE GetFrame(UID_ELEMENT& nId, void* pProtocolSpecParam, IFrame** ouFrame) = 0;
@@ -174,8 +159,7 @@ public:
 };
 
 
-class IFrame:  public IElement
-{
+class IFrame:  public IElement {
 protected:
     IFrame(ICluster* pBaseCluster):IElement(pBaseCluster) {};
     virtual ~IFrame() {};
@@ -207,8 +191,7 @@ public:
 	virtual ERRORCODE InterpretSignals(const unsigned char*, int nSize, std::vector<SignalValue>& ouSignalInfoList) = 0;
 };
 
-class IPdu : public IElement
-{
+class IPdu : public IElement {
 protected:
     IPdu(ICluster* pBaseCluster):IElement(pBaseCluster) {};
     virtual ~IPdu() {};
@@ -229,13 +212,11 @@ public:
 
 };
 
-class ISignal : public IElement
-{
+class ISignal : public IElement {
 protected:
     ISignal(ICluster* pBaseCluster):IElement(pBaseCluster) {};
     virtual ~ISignal() {};
 public:
-
     virtual ERRORCODE GetEcus(eDIR eDirection, std::list<IEcu*>& ouNodes) = 0;
     virtual ERRORCODE GetLength(unsigned int& unSignalLength) = 0;
     virtual ERRORCODE GetMinMaxValue(unsigned __int64& unMinValue, unsigned __int64& unMaxValue) = 0;
@@ -257,19 +238,14 @@ public:
 };
 
 
-class ICoding : public IElement
-{
+class ICoding : public IElement {
 protected:
     ICoding(ICluster* pBaseCluster):IElement(pBaseCluster) {};
     virtual ~ICoding() {};
 
 public:
-
-
     virtual ERRORCODE GetProperties(CompuMethodProps&) = 0;
     virtual ERRORCODE SetProperties(CompuMethodProps&) = 0;
-
-
     virtual ERRORCODE GetValueDescriptions(std::map<int, std::string>&) = 0;
     virtual ERRORCODE SetValueDescriptions(std::map<int, std::string>&) = 0;
 
@@ -284,8 +260,7 @@ public:
     virtual ERRORCODE GetRawValue(double dEngValue, unsigned __int64& unRawValue) = 0;
 };
 
-class ISignalGroup : public IElement
-{
+class ISignalGroup : public IElement {
 protected:
     ISignalGroup(ICluster* pBaseCluster):IElement(pBaseCluster) {};
     virtual ~ISignalGroup() {};
@@ -300,12 +275,7 @@ public:
     virtual ERRORCODE GetSignalList(std::map<ISignal*, SignalInstanse>& mapSignals) = 0;
 };
 
-
-
-
-
-class IScheduleTable: public IElement
-{
+class IScheduleTable: public IElement {
 protected:
     IScheduleTable(ICluster* pBaseCluster):IElement(pBaseCluster) {};
     virtual ~IScheduleTable() {};
@@ -314,15 +284,12 @@ public:
     virtual ERRORCODE SetProperties(ScheduleTableProps&) = 0;
 };
 
-class CLINSheduleTable : public IScheduleTable, public INotifyClusterChange
-{
+class CLINSheduleTable : public IScheduleTable, public INotifyClusterChange {
     ScheduleTableProps m_ouSheduleTableProps;
     friend class CLINSheduleTableContainer;
 protected:
     CLINSheduleTable(ICluster*);
 public:
-
-
     ERRORCODE GetProperties(ScheduleTableProps&);
     ERRORCODE SetProperties(ScheduleTableProps&);
     ERRORCODE OnClusterChange(eAction eActionType, UID_ELEMENT nId, eClusterElementType& ouElementType, void* pAcionData, void* pUserData);
@@ -333,11 +300,7 @@ private:
     ERRORCODE HandleEcuChanges(UID_ELEMENT nId, eAction eActionType);
 };
 
-
-
-
-class INodeConfiguration : public IElement
-{
+class INodeConfiguration : public IElement {
 protected:
     INodeConfiguration(ICluster* pBaseCluster):IElement(pBaseCluster) {};
     virtual ~INodeConfiguration() {};
@@ -346,31 +309,26 @@ public:
     virtual ERRORCODE SetCompositeNodes(std::list<CompositeNode>& ouCompositeNodeList) = 0;
 };
 
-
-
-
-class ClusterResult
-{
+class ClusterResult {
 public:
     ICluster* m_pCluster;
     std::list<ParsingResults> m_pErrors;
     std::list<ParsingResults> m_pWarnings;
-    bool operator==(const ClusterResult& obj)
-    {
+    bool operator==(const ClusterResult& obj) {
         return ( m_pCluster == obj.m_pCluster );
     }
 
-    bool operator > (const ClusterResult& obj)
-    {
+    bool operator > (const ClusterResult& obj) {
         return ( m_pCluster > obj.m_pCluster );
     }
 
-    bool operator < (const ClusterResult& obj)
-    {
+    bool operator < (const ClusterResult& obj) {
         return ( m_pCluster < obj.m_pCluster );
     }
 };
 
-extern "C" __declspec( dllexport ) ERRORCODE ParseDBFile( std::string strFileName, ETYPE_BUS clusterType, std::list<ClusterResult>& ouClusterResultList );
+extern "C" __declspec(dllexport) ERRORCODE ParseDBFile( std::string strFileName, ETYPE_BUS clusterType, std::list<ClusterResult>& ouClusterResultList );
 extern "C" __declspec(dllexport) ERRORCODE FreeCluster( ICluster* pCluster );
 extern "C" __declspec(dllexport) ERRORCODE CreateLDFCluster(ICluster** pouLdfCluster);
+
+#endif // KERNEL_PROTOCOLDEFINITION_ICLUSTER_H_

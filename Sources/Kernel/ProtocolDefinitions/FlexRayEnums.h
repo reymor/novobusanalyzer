@@ -1,24 +1,23 @@
 /*
 * Copyright Robert Bosch Engineering and Business Solutions Private Limited. All Rights Reserved.
 */
+#ifndef KERNEL_PROTOCOLDEFINITION_FLEXRAYENUMS_H_
+#define KERNEL_PROTOCOLDEFINITION_FLEXRAYENUMS_H_
 
-#pragma once
-
-enum eFlexRayChannel
-{
+enum eFlexRayChannel {
     eFlexRayChannelNone,
     eFlexRayChannelA,
     eFlexRayChannelB,
     eFlexRayChannelAB,
     eFlexRayChannelTotal
 };
-enum eFlexRaySlotType
-{
+
+enum eFlexRaySlotType {
     eStatic,
     eDynamic,
 };
-enum eFlexRayFrameType
-{
+
+enum eFlexRayFrameType {
     eFelxRayFrameNone,
     eNormal,
     eSync,
@@ -26,9 +25,10 @@ enum eFlexRayFrameType
     eSyncStartup,
 };
 
-enum eFlexRayKeySlotType
-{
+enum eFlexRayKeySlotType {
     eSyncType,
     eSyncStartupType,
     eNone
 };
+
+#endif // KERNEL_PROTOCOLDEFINITION_FLEXRAYENUMS_H_

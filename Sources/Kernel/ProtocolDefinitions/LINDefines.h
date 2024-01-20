@@ -1,20 +1,17 @@
-#pragma once
+#ifndef KERNEL_PROTOCOLDEFINITION_LINDEFINES_H_
+#define KERNEL_PROTOCOLDEFINITION_LINDEFINES_H_
 
 #include <list>
 #include <map>
 #include "CommonDefines.h"
 #include "IClusterProps.h"
 
-
-enum eLinSignalValueType
-{
+enum eLinSignalValueType {
     eScalar,
     eByteArray
 };
 
-
-class CLINSheduleTableItem
-{
+class CLINSheduleTableItem {
 public:
     UID_ELEMENT m_nFrameId;
     double m_dDelay;
@@ -22,39 +19,32 @@ public:
     UID_ELEMENT m_nNode;
     bool m_bEnabled;
     unsigned char m_chDataBytes[MAX_LIN_FRAME_LENGTH];
-
-
-
 };
 
-class ConfigFrameDetails
-{
+class ConfigFrameDetails {
 public:
     UID_ELEMENT m_uidFrame;
     unsigned int m_unConfigMsgId; // [0-0xFFFE] valid only for slave protocol version 2.0
 
-    ConfigFrameDetails()
-    {
+    ConfigFrameDetails() {
         m_uidFrame = INVALID_UID_ELEMENT;
         m_unConfigMsgId = 0;
     }
 
-    bool operator==(ConfigFrameDetails ouConfigFrame)
-    {
+    bool operator==(ConfigFrameDetails ouConfigFrame) {
         return (m_uidFrame == ouConfigFrame.m_uidFrame);
     }
-    bool operator < (ConfigFrameDetails& ouConfigFrame)
-    {
+
+    bool operator < (ConfigFrameDetails& ouConfigFrame) {
         return (m_uidFrame < ouConfigFrame.m_uidFrame);
     }
-    bool operator >(ConfigFrameDetails& ouConfigFrame)
-    {
+    
+    bool operator >(ConfigFrameDetails& ouConfigFrame) {
         return (m_uidFrame > ouConfigFrame.m_uidFrame);
     }
 };
 
-class LINSlaveProps
-{
+class LINSlaveProps {
 public:
     double m_fProtocolVersion;
     double m_dNASTimeout;
@@ -70,71 +60,62 @@ public:
     UID_ELEMENT m_nRespErrSignal;
 
     std::list<ConfigFrameDetails> m_nConfiurableFrameIdList;
-
 };
 
-class LINMasterProps
-{
+class LINMasterProps {
 public:
     double m_fJitter;
     double m_fTimeBase;
 };
 
-enum eLinEcuType
-{
+enum eLinEcuType {
 	eEcuNone,
 	eMaster,
 	eSlave
 };
-class LinEcuProps : public EcuProperties
-{
+
+class LinEcuProps : public EcuProperties {
 public:
-	LinEcuProps()
-	{
+	LinEcuProps() {
 		m_eProtocol = eProtocolType::eLINProtocol;
 	}
 	eLinEcuType m_eEcuType;
 	LINSlaveProps mSlaveProps;
 	LINMasterProps mMasterProps;
 };
-enum eLinFrameType
-{
+
+enum eLinFrameType {
 	eLinInvalidFrame,
 	eLinUnconditionalFrame,
 	eLinSporadicFrame,
 	eLinEventTriggeredFrame,
 	eLinDiagnosticFrame,
 };
-class LINUnConditionFrameProps
-{
+
+class LINUnConditionFrameProps {
 public:
 
 };
 
-class LINEventTrigFrameProps
-{
+class LINEventTrigFrameProps {
 public:
     std::map<UID_ELEMENT, UID_ELEMENT> m_pouUnconditionalFrame;
     UID_ELEMENT m_nCollisionResolveTable;
 };
 
-class LINSporadicFrameProps
-{
+class LINSporadicFrameProps {
 public:
     std::map<UID_ELEMENT, UID_ELEMENT> m_pouUnconditionalFrame;
 };
 
-class LINDiagnosticFrameProps
-{
+class LINDiagnosticFrameProps {
 public:
     eDiagType m_eDiagType;
 };
 
-class LinFrameProps : public FrameProps
-{
+class LinFrameProps : public FrameProps {
 public:
-	LinFrameProps()
-	{
+	LinFrameProps() {
 		m_eProtocol = eProtocolType::eLINProtocol;
 	}
 	eLinFrameType m_eLinFrameType;
@@ -144,49 +125,40 @@ public:
 	LINDiagnosticFrameProps m_ouLINDiagnosticFrameProps;
 };
 
-class LINSignalProps : public SignalProps
-{
+class LINSignalProps : public SignalProps {
 public:
-	LINSignalProps()
-	{
+	LINSignalProps() {
 		eType = eProtocolType::eLINProtocol;
 	}
     eLinSignalValueType m_ouValueType;
 };
 
-class LinSignalGroupProps : public SignalGroupProps
-{
+class LinSignalGroupProps : public SignalGroupProps {
 public:
-	LinSignalGroupProps()
-	{
+	LinSignalGroupProps() {
 		eType = eProtocolType::eLINProtocol;
 	}
     unsigned int m_nGroupSize;
 };
 
-class NodeComposition
-{
+class NodeComposition {
 public:
     UID_ELEMENT m_nUid;
     std::list<std::string> m_strLogicalNodes;
 };
 
-class NodeCompositionConfiguration
-{
+class NodeCompositionConfiguration {
 public:
-
     std::string m_strConfigName;
     std::list<NodeComposition> m_ouldfNodeConfigList;
 };
-class NodeCompositionConfigurationList
-{
+
+class NodeCompositionConfigurationList {
 public:
     std::list<NodeCompositionConfiguration> m_ouNodeConfiguration;
 };
 
-
-class PhysicalValue
-{
+class PhysicalValue {
 public:
     double m_dOffset;
     double m_dFactor;
@@ -196,25 +168,18 @@ public:
     std::string m_strTextInfo;
 };
 
-class LINCompuMethods : public CompuMethodProps
-{
+class LINCompuMethods : public CompuMethodProps {
 public:
-	LINCompuMethods()
-	{
+	LINCompuMethods() {
 		m_eType = eProtocolType::eLINProtocol;
 	}
     std::map<unsigned int, std::string> m_ouLogicalValueList;
     std::list<PhysicalValue> m_ouPhysicalValueList;
     bool m_bBCD;
     bool m_bASCII;
-    //LINCompuMethods();
-    //LINCompuMethods(const LINCompuMethods&);
 };
 
-
-
-class LIN_Settings
-{
+class LIN_Settings {
 public:
     double m_dProtocolVers;
     double m_dLanguageVers;
@@ -223,19 +188,17 @@ public:
     std::string m_strHeaderComment;     //Valid Only for Editor
 };
 
-
-class ScheduleTableProps
-{
+class ScheduleTableProps {
 public:
     //Name Only for Now
     std::string m_strTableName;
     std::list<CLINSheduleTableItem> m_ouCLINSheduleTableItem;
 };
 
-
-class CompositeNode
-{
+class CompositeNode {
 public:
     UID_ELEMENT m_uidNode;
     std::list<std::string> m_strLogicalNodes;
 };
+
+#endif // KERNEL_PROTOCOLDEFINITION_LINDEFINES_H_
