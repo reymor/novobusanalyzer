@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+// clang-format off
 /**
  * \file      MsgBufVSE.h
  * \brief     Defines concrete class for circular queue in VSE.
@@ -21,8 +21,10 @@
  *
  * Defines concrete class for circular queue in VSE.
  */
+// clang-format on
 
-#pragma once
+#ifndef KERNEL_UTILITIES_MSGBUFVSE_H_
+#define KERNEL_UTILITIES_MSGBUFVSE_H_
 
 #include "BaseMsgBufAll.h"
 
@@ -32,47 +34,49 @@ Class Name      :   CMsgBufVSE
 Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 ************************************************************************************/
-class CMsgBufVSE : public CBaseMsgBufVSE
-{
-private:
-    BYTE* m_pbyMsgBuffer;
-    CRITICAL_SECTION m_CritSectionForGB;
-    int m_nBufferSize, m_nIndexRead, m_nIndexWrite, m_nMsgCount, m_nMsgSkipped;
-    HANDLE m_hNotifyingEvent;
-    /* Helper function to advance the read index to next msg*/
-    int nAdvanceReadIndex(void);
-    /* Helper function to read current msg from the circular buffer*/
-    HRESULT ReadBuffer(INT& nType, BYTE* pbyMsg, INT& nSize);
-    /* Helper function to write msg into the circular buffer*/
-    int nWriteBuffer(INT nType, BYTE* pbyMsg, INT nSize);
-    /* Helper function construct header with TYPE and DATA LENGTH*/
-    int nConstructHeader(INT nType, INT nSize, BYTE* pbyHeader);
-    /* Helper function to get current message header */
-    int nGetCurrMsgHeader(BYTE* pbyHeader);
-    /* Helper function to handle buffer overrun*/
-    int nHandleBufferOverrun(INT nSize);
-public:
-    CMsgBufVSE();
-    ~CMsgBufVSE();
-    /* Reads current message from the buffer.
-    Caller has to allocate memory for the out parameter */
-    HRESULT ReadFromBuffer(INT& nType, BYTE* psMsg, INT& nSize);
-    /* Writes message into the buffer. Caller needs to allocate memory for the
-    out parameter */
-    int WriteIntoBuffer(INT nType, BYTE* ps_Msg, INT nSize);
-    // To get the buffer length
-    int GetBufferLength(void) const;
-    /* Clears the buffer and resets read & write indices */
-    void vClearMessageBuffer(void);
-    /* Caller can set the buffer size */
-    int nSetBufferSize(int& nSize);
-    /* Current message will be skipped and advances to next msg */
-    HRESULT AdvanceToNextMsg(void);
+class CMsgBufVSE : public CBaseMsgBufVSE {
+ private:
+  BYTE* m_pbyMsgBuffer;
+  CRITICAL_SECTION m_CritSectionForGB;
+  int m_nBufferSize, m_nIndexRead, m_nIndexWrite, m_nMsgCount, m_nMsgSkipped;
+  HANDLE m_hNotifyingEvent;
+  /* Helper function to advance the read index to next msg*/
+  int nAdvanceReadIndex(void);
+  /* Helper function to read current msg from the circular buffer*/
+  HRESULT ReadBuffer(INT& nType, BYTE* pbyMsg, INT& nSize);
+  /* Helper function to write msg into the circular buffer*/
+  int nWriteBuffer(INT nType, BYTE* pbyMsg, INT nSize);
+  /* Helper function construct header with TYPE and DATA LENGTH*/
+  int nConstructHeader(INT nType, INT nSize, BYTE* pbyHeader);
+  /* Helper function to get current message header */
+  int nGetCurrMsgHeader(BYTE* pbyHeader);
+  /* Helper function to handle buffer overrun*/
+  int nHandleBufferOverrun(INT nSize);
 
-    /* Gets the message count */
-    int GetMsgCount(void) const;
-    /* Gets the notifying event handler */
-    HANDLE hGetNotifyingEvent(void) const;
-    /* Gets no of skipped msgs because of buffer overrun */
-    int GetSkippedMsgCount(void) const;
+ public:
+  CMsgBufVSE();
+  ~CMsgBufVSE();
+  /* Reads current message from the buffer.
+  Caller has to allocate memory for the out parameter */
+  HRESULT ReadFromBuffer(INT& nType, BYTE* psMsg, INT& nSize);
+  /* Writes message into the buffer. Caller needs to allocate memory for the
+  out parameter */
+  int WriteIntoBuffer(INT nType, BYTE* ps_Msg, INT nSize);
+  // To get the buffer length
+  int GetBufferLength(void) const;
+  /* Clears the buffer and resets read & write indices */
+  void vClearMessageBuffer(void);
+  /* Caller can set the buffer size */
+  int nSetBufferSize(int& nSize);
+  /* Current message will be skipped and advances to next msg */
+  HRESULT AdvanceToNextMsg(void);
+
+  /* Gets the message count */
+  int GetMsgCount(void) const;
+  /* Gets the notifying event handler */
+  HANDLE hGetNotifyingEvent(void) const;
+  /* Gets no of skipped msgs because of buffer overrun */
+  int GetSkippedMsgCount(void) const;
 };
+
+#endif  // KERNEL_UTILITIES_MSGBUFVSE_H_

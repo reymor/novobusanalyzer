@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+// clang-format off
 /**
  * \file      MsgBufAll_DataTypes.h
  * \brief     Defines concrete class for data types of different buses.
@@ -21,24 +21,25 @@
  *
  * Defines concrete class for data types of different buses.
  */
+// clang-format on
 
-#pragma once
+#ifndef KERNEL_UTILITIES_MSGBUFALL_DATATYPES_H_
+#define KERNEL_UTILITIES_MSGBUFALL_DATATYPES_H_
 
-#include "include/Struct_CAN.h"
-#include "include/Struct_LIN.h"
-#include "include/BaseDefs.h"
-#include "DataTypes/J1939_DataTypes.h"
 #include "Base_FlexRay_Buffer.h"
-
+#include "DataTypes/J1939_DataTypes.h"
 #include "MsgBufFSE.h"
 #include "MsgBufVFSE.h"
+#include "include/BaseDefs.h"
+#include "include/Struct_CAN.h"
+#include "include/Struct_LIN.h"
 
 typedef CBaseMsgBufFSE<STCANDATA> CBaseCANBufFSE;
 typedef CMsgBufFSE<STCANDATA> CCANBufFSE;
 typedef CMsgBufFSE<STLINDATA> CLINBufFSE;
 typedef CMsgBufVFSE<STJ1939_MSG> CJ1939BufVFSE;
 typedef CBaseMsgBufFSE<STLINDATA> CBaseLINBufFSE;
-//typedef CMsgBufFSE<STLINDATA> CLINBufFSE;
-//typedef CMsgBufCANVFSE<STCANDATA> CCANBufCANVFSE;
 typedef CBaseMsgBufFSE<s_FLXMSG> CBaseFLEXBufFSE;
-typedef CMsgBufFSE<s_FLXMSG>     CFLEXBufFSE;
+typedef CMsgBufFSE<s_FLXMSG> CFLEXBufFSE;
+
+#endif  // KERNEL_UTILITIES_MSGBUFALL_DATATYPES_H_

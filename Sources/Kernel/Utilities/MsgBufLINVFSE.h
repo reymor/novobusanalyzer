@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+// clang-format off
 /**
  * \file      MsgBufLINVFSE.h
  * \brief     Defines and implements the template class for circular queue
@@ -21,53 +21,53 @@
  *
  * Defines and implements the template class for circular queue
  */
+// clang-format on
 
-#pragma once
+#ifndef KERNEL_UTILITIES_MSGBUFLINVFSE_H_
+#define KERNEL_UTILITIES_MSGBUFLINVFSE_H_
 
-#include "Error.h"
 #include "BaseMsgBufAll.h"
+#include "Error.h"
 
-const int SIZE_APP_LIN_BUFFER       = 5000;
+const int SIZE_APP_LIN_BUFFER = 5000;
 
 /* This is the concrete template class of a circular queue where each entry is
 of fixed size. Implemented as a template class so as to cater to any data type.
 Here SMSGBUFFER is the data type in operation. */
 template <typename SMSGBUFFER>
-class CMsgBufLINVFSE
-{
-protected:
+class CMsgBufLINVFSE {
+ protected:
+  SMSGBUFFER m_asMsgBuffer[SIZE_APP_LIN_BUFFER];  // The data buffer
+  CRITICAL_SECTION m_CritSectionForGB;            // To make it thread safe
 
-    SMSGBUFFER m_asMsgBuffer[SIZE_APP_LIN_BUFFER]; // The data buffer
-    CRITICAL_SECTION m_CritSectionForGB;       // To make it thread safe
+  int m_nIndexRead;          // Current read index
+  int m_nIndexWrite;         // Current write index
+  int m_nMsgCount;           // Number of message entries
+  int m_nMsgSize;            /* At the beginning we need to
+store size of a message entry. This information will be used frequently */
+  HANDLE m_hNotifyingEvent;  // Event to be signalled when
+                             // there is at least one message
 
-    int m_nIndexRead;                          // Current read index
-    int m_nIndexWrite;                         // Current write index
-    int m_nMsgCount;                           // Number of message entries
-    int m_nMsgSize;                            /* At the beginning we need to
-    store size of a message entry. This information will be used frequently */
-    HANDLE m_hNotifyingEvent;                  // Event to be signalled when
-    // there is at least one message
+ public:
+  // Short explanation on each member function is present in the base class.
+  // That's why information are not repeated unnecessarily.
 
-public:
-    // Short explanation on each member function is present in the base class.
-    // That's why information are not repeated unnecessarily.
+  CMsgBufLINVFSE();
+  ~CMsgBufLINVFSE();
 
-    CMsgBufLINVFSE();
-    ~CMsgBufLINVFSE();
+  int ReadFromBuffer(SMSGBUFFER* psMsgBuffer, __int64 nSlotId);
+  int ReadFromBuffer(SMSGBUFFER* psMsgBuffer, int nIndex);
+  int WriteIntoBuffer(const SMSGBUFFER* psMsg, __int64 nSlotId, int& nIndex);
+  int WriteIntoBuffer(const SMSGBUFFER* psMsg);
+  int GetBufferLength(void) const;
+  void vClearMessageBuffer(void);
+  HANDLE hGetNotifyingEvent(void) const;
+  void vDoSortBuffer(int nField, bool bAscending);
+  void vDoSortIndexMapArray();
+  void nGetMapIndexAtID(int nIndex, __int64& nMapIndex);
 
-    int ReadFromBuffer(SMSGBUFFER* psMsgBuffer,__int64 nSlotId);
-    int ReadFromBuffer(SMSGBUFFER* psMsgBuffer,int nIndex);
-    int WriteIntoBuffer(const SMSGBUFFER* psMsg, __int64 nSlotId, int& nIndex);
-    int WriteIntoBuffer(const SMSGBUFFER* psMsg);
-    int GetBufferLength(void) const;
-    void vClearMessageBuffer(void);
-    HANDLE hGetNotifyingEvent(void) const;
-    void vDoSortBuffer(int nField,bool bAscending);
-    void vDoSortIndexMapArray();
-    void nGetMapIndexAtID(int nIndex,__int64& nMapIndex);
-
-private:
-    CMap<__int64, __int64, int, int> m_omIdIndexMap;
+ private:
+  CMap<__int64, __int64, int, int> m_omIdIndexMap;
 };
 
 /******************************************************************************
@@ -83,12 +83,11 @@ private:
   Modification By  :
 ******************************************************************************/
 template <typename SMSGBUFFER>
-CMsgBufLINVFSE<SMSGBUFFER>::CMsgBufLINVFSE()
-{
-    m_nMsgSize = sizeof(SMSGBUFFER);
-    vClearMessageBuffer();
-    InitializeCriticalSection(&m_CritSectionForGB);
-    m_hNotifyingEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
+CMsgBufLINVFSE<SMSGBUFFER>::CMsgBufLINVFSE() {
+  m_nMsgSize = sizeof(SMSGBUFFER);
+  vClearMessageBuffer();
+  InitializeCriticalSection(&m_CritSectionForGB);
+  m_hNotifyingEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 }
 
 /******************************************************************************
@@ -104,11 +103,10 @@ CMsgBufLINVFSE<SMSGBUFFER>::CMsgBufLINVFSE()
   Modification By  :
 ******************************************************************************/
 template <typename SMSGBUFFER>
-CMsgBufLINVFSE<SMSGBUFFER>::~CMsgBufLINVFSE()
-{
-    CloseHandle(m_hNotifyingEvent);
-    m_hNotifyingEvent = nullptr;
-    DeleteCriticalSection(&m_CritSectionForGB);
+CMsgBufLINVFSE<SMSGBUFFER>::~CMsgBufLINVFSE() {
+  CloseHandle(m_hNotifyingEvent);
+  m_hNotifyingEvent = nullptr;
+  DeleteCriticalSection(&m_CritSectionForGB);
 }
 
 /******************************************************************************
@@ -123,14 +121,13 @@ CMsgBufLINVFSE<SMSGBUFFER>::~CMsgBufLINVFSE()
   Modification date:
   Modification By  :
 ******************************************************************************/
-template <typename SMSGBUFFER> void CMsgBufLINVFSE<SMSGBUFFER>::
-vClearMessageBuffer(void)
-{
-    memset((BYTE*) m_asMsgBuffer, 0, SIZE_APP_LIN_BUFFER * m_nMsgSize);
-    m_omIdIndexMap.RemoveAll();
-    m_nIndexRead = 0;
-    m_nIndexWrite = 0;
-    m_nMsgCount = 0;
+template <typename SMSGBUFFER>
+void CMsgBufLINVFSE<SMSGBUFFER>::vClearMessageBuffer(void) {
+  memset((BYTE*)m_asMsgBuffer, 0, SIZE_APP_LIN_BUFFER * m_nMsgSize);
+  m_omIdIndexMap.RemoveAll();
+  m_nIndexRead = 0;
+  m_nIndexWrite = 0;
+  m_nMsgCount = 0;
 }
 
 /******************************************************************************
@@ -148,78 +145,64 @@ vClearMessageBuffer(void)
   Modification By  :
 ******************************************************************************/
 template <typename SMSGBUFFER>
-int CMsgBufLINVFSE<SMSGBUFFER>::ReadFromBuffer(SMSGBUFFER* psMsg, int nIndex)
-{
-    HRESULT nResult = S_OK;
+int CMsgBufLINVFSE<SMSGBUFFER>::ReadFromBuffer(SMSGBUFFER* psMsg, int nIndex) {
+  HRESULT nResult = S_OK;
 
 #ifdef _DEBUG
-    ASSERT(psMsg != nullptr);
-    ASSERT(!(m_nIndexRead > SIZE_APP_LIN_BUFFER));
+  ASSERT(psMsg != nullptr);
+  ASSERT(!(m_nIndexRead > SIZE_APP_LIN_BUFFER));
 #endif
 
-    // Lock the buffer
-    EnterCriticalSection(&m_CritSectionForGB);
+  // Lock the buffer
+  EnterCriticalSection(&m_CritSectionForGB);
 
-    // Check entry indexed by m_nIndexRead. If this particular entry
-    if (m_nMsgCount == 0)
-    {
-        nResult = EMPTY_APP_BUFFER;
+  // Check entry indexed by m_nIndexRead. If this particular entry
+  if (m_nMsgCount == 0) {
+    nResult = EMPTY_APP_BUFFER;
+  } else if (nIndex >= SIZE_APP_LIN_BUFFER) {
+    nResult = ERR_INVALID_INDEX;
+  } else {
+    INT TempIndex = m_nIndexRead + nIndex;
+    if (m_nIndexRead + nIndex >= SIZE_APP_LIN_BUFFER) {
+      TempIndex -= SIZE_APP_LIN_BUFFER;
     }
-    else if (nIndex >= SIZE_APP_LIN_BUFFER)
-    {
-        nResult = ERR_INVALID_INDEX;
-    }
-    else
-    {
-        INT TempIndex = m_nIndexRead + nIndex;
-        if (m_nIndexRead + nIndex >= SIZE_APP_LIN_BUFFER)
-        {
-            TempIndex -= SIZE_APP_LIN_BUFFER;
-        }
-        *psMsg = m_asMsgBuffer[TempIndex];
-    }
-    // Unlock the buffer
-    LeaveCriticalSection(&m_CritSectionForGB);
+    *psMsg = m_asMsgBuffer[TempIndex];
+  }
+  // Unlock the buffer
+  LeaveCriticalSection(&m_CritSectionForGB);
 
-    return nResult;
+  return nResult;
 }
 
 template <typename SMSGBUFFER>
-int CMsgBufLINVFSE<SMSGBUFFER>::ReadFromBuffer(SMSGBUFFER* psMsg, __int64 nSlotId)
-{
-    HRESULT nResult = CALL_SUCCESS;
-    int nIndex;
+int CMsgBufLINVFSE<SMSGBUFFER>::ReadFromBuffer(SMSGBUFFER* psMsg,
+                                               __int64 nSlotId) {
+  HRESULT nResult = CALL_SUCCESS;
+  int nIndex;
 
 #ifdef _DEBUG
-    ASSERT(psMsg != nullptr);
-    ASSERT(!(m_nIndexRead > SIZE_APP_LIN_BUFFER));
+  ASSERT(psMsg != nullptr);
+  ASSERT(!(m_nIndexRead > SIZE_APP_LIN_BUFFER));
 #endif
 
-    // Lock the buffer
-    EnterCriticalSection(&m_CritSectionForGB);
+  // Lock the buffer
+  EnterCriticalSection(&m_CritSectionForGB);
 
-    // Check entry indexed by m_nIndexRead. If this particular entry
-    if (m_nMsgCount == 0)
-    {
-        nResult = EMPTY_APP_BUFFER;
+  // Check entry indexed by m_nIndexRead. If this particular entry
+  if (m_nMsgCount == 0) {
+    nResult = EMPTY_APP_BUFFER;
+  } else {
+    if (m_omIdIndexMap.Lookup(nSlotId, nIndex)) {
+      *psMsg = m_asMsgBuffer[nIndex];
+    } else {
+      nResult = ERR_INVALID_SLOT;
     }
-    else
-    {
-        if (m_omIdIndexMap.Lookup(nSlotId, nIndex))
-        {
-            *psMsg = m_asMsgBuffer[nIndex];
-        }
-        else
-        {
-            nResult = ERR_INVALID_SLOT;
-        }
-    }
-    // Unlock the buffer
-    LeaveCriticalSection(&m_CritSectionForGB);
+  }
+  // Unlock the buffer
+  LeaveCriticalSection(&m_CritSectionForGB);
 
-    return nResult;
+  return nResult;
 }
-
 
 /******************************************************************************
   Function Name    :  WriteIntoBuffer
@@ -235,75 +218,61 @@ int CMsgBufLINVFSE<SMSGBUFFER>::ReadFromBuffer(SMSGBUFFER* psMsg, __int64 nSlotI
 ******************************************************************************/
 template <typename SMSGBUFFER>
 int CMsgBufLINVFSE<SMSGBUFFER>::WriteIntoBuffer(const SMSGBUFFER* psMsg,
-        __int64 nSlotId, int& nIndex)
-
-{
-    int nResult = CALL_SUCCESS;
+                                                __int64 nSlotId, int& nIndex) {
+  int nResult = CALL_SUCCESS;
 
 #ifdef _DEBUG
-    ASSERT(psMsg != nullptr);
-    ASSERT(!(m_nIndexWrite > SIZE_APP_LIN_BUFFER));
+  ASSERT(psMsg != nullptr);
+  ASSERT(!(m_nIndexWrite > SIZE_APP_LIN_BUFFER));
 #endif
-
-    EnterCriticalSection(&m_CritSectionForGB); // Lock the buffer
-
-    if (m_nMsgCount == SIZE_APP_LIN_BUFFER) // Check for buffer overflow
-    {
-        nResult = ERR_FULL_APP_BUFFER;
+  // Lock the buffer
+  EnterCriticalSection(&m_CritSectionForGB);
+  // Check for buffer overflow
+  if (m_nMsgCount == SIZE_APP_LIN_BUFFER) {
+    nResult = ERR_FULL_APP_BUFFER;
+  } else {
+    if (m_omIdIndexMap.Lookup(nSlotId, nIndex)) {
+      m_asMsgBuffer[nIndex] = *psMsg;
+    } else {
+      nIndex = m_nMsgCount;
+      m_asMsgBuffer[m_nMsgCount] = *psMsg;
+      m_omIdIndexMap[nSlotId] = m_nMsgCount;
+      ++m_nMsgCount;
     }
-    else
-    {
-        if (m_omIdIndexMap.Lookup(nSlotId, nIndex))
-        {
-            m_asMsgBuffer[nIndex] = *psMsg;
-        }
-        else
-        {
-            nIndex = m_nMsgCount;
-            m_asMsgBuffer[m_nMsgCount] = *psMsg;
-            m_omIdIndexMap[nSlotId] = m_nMsgCount;
-            ++m_nMsgCount;
-        }
-        SetEvent(m_hNotifyingEvent);
-    }
+    SetEvent(m_hNotifyingEvent);
+  }
 
-    LeaveCriticalSection(&m_CritSectionForGB); // Unlock the buffer
+  LeaveCriticalSection(&m_CritSectionForGB);  // Unlock the buffer
 
-    return nResult;
+  return nResult;
 }
 template <typename SMSGBUFFER>
-int CMsgBufLINVFSE<SMSGBUFFER>::WriteIntoBuffer(const SMSGBUFFER* psMsg)
-
-{
-    int nResult = CALL_SUCCESS;
+int CMsgBufLINVFSE<SMSGBUFFER>::WriteIntoBuffer(const SMSGBUFFER* psMsg) {
+  int nResult = CALL_SUCCESS;
 
 #ifdef _DEBUG
-    ASSERT(psMsg != nullptr);
-    ASSERT(!(m_nIndexWrite > SIZE_APP_LIN_BUFFER));
+  ASSERT(psMsg != nullptr);
+  ASSERT(!(m_nIndexWrite > SIZE_APP_LIN_BUFFER));
 #endif
-
-    EnterCriticalSection(&m_CritSectionForGB); // Lock the buffer
-
-    if (m_nMsgCount == SIZE_APP_LIN_BUFFER) // Check for buffer overflow
-    {
-        m_asMsgBuffer[m_nIndexRead] = *psMsg;
-        m_nIndexRead++;
-        if (m_nIndexRead == SIZE_APP_LIN_BUFFER)
-        {
-            m_nIndexRead = 0;
-        }
-        nResult = ERR_FULL_APP_BUFFER;
+  // Lock the buffer
+  EnterCriticalSection(&m_CritSectionForGB);
+  // Check for buffer overflow
+  if (m_nMsgCount == SIZE_APP_LIN_BUFFER) {
+    m_asMsgBuffer[m_nIndexRead] = *psMsg;
+    m_nIndexRead++;
+    if (m_nIndexRead == SIZE_APP_LIN_BUFFER) {
+      m_nIndexRead = 0;
     }
-    else
-    {
-        m_asMsgBuffer[m_nMsgCount] = *psMsg;
-        ++m_nMsgCount;
-        SetEvent(m_hNotifyingEvent);
-    }
+    nResult = ERR_FULL_APP_BUFFER;
+  } else {
+    m_asMsgBuffer[m_nMsgCount] = *psMsg;
+    ++m_nMsgCount;
+    SetEvent(m_hNotifyingEvent);
+  }
 
-    LeaveCriticalSection(&m_CritSectionForGB); // Unlock the buffer
+  LeaveCriticalSection(&m_CritSectionForGB);  // Unlock the buffer
 
-    return nResult;
+  return nResult;
 }
 /******************************************************************************
   Function Name    :  GetBufferLength
@@ -317,10 +286,9 @@ int CMsgBufLINVFSE<SMSGBUFFER>::WriteIntoBuffer(const SMSGBUFFER* psMsg)
   Modification date:
   Modification By  :
 ******************************************************************************/
-template <typename SMSGBUFFER> int CMsgBufLINVFSE<SMSGBUFFER>::
-GetBufferLength(void) const
-{
-    return m_nMsgCount;
+template <typename SMSGBUFFER>
+int CMsgBufLINVFSE<SMSGBUFFER>::GetBufferLength(void) const {
+  return m_nMsgCount;
 }
 
 /******************************************************************************
@@ -336,10 +304,9 @@ GetBufferLength(void) const
   Modification date:
   Modification By  :
 ******************************************************************************/
-template <typename SMSGBUFFER> HANDLE CMsgBufLINVFSE<SMSGBUFFER>::
-hGetNotifyingEvent(void) const
-{
-    return m_hNotifyingEvent;
+template <typename SMSGBUFFER>
+HANDLE CMsgBufLINVFSE<SMSGBUFFER>::hGetNotifyingEvent(void) const {
+  return m_hNotifyingEvent;
 }
 
 /******************************************************************************
@@ -355,25 +322,11 @@ hGetNotifyingEvent(void) const
   Modification By  :
 ******************************************************************************/
 
-template <typename SMSGBUFFER> void CMsgBufLINVFSE<SMSGBUFFER>::
-vDoSortBuffer( int /*nField*/, bool /*bAscending*/ )
-{
-    //SMSGBUFFER::vSetSortField(nField);
-    //SMSGBUFFER::vSetSortAscending(bAscending);
-    //qsort((void*) m_asMsgBuffer, (size_t) GetBufferLength(),
-    //    sizeof( SMSGBUFFER ), SMSGBUFFER::DoCompareIndiv );
-    ////After sorting Start index has to be reset
-    //m_nIndexRead = 0;
+template <typename SMSGBUFFER>
+void CMsgBufLINVFSE<SMSGBUFFER>::vDoSortBuffer(int /*nField*/,
+                                               bool /*bAscending*/) {}
 
-    ////in case of Append Mode the count will be 0
-    //if(m_omIdIndexMap.GetCount() ==0)
-    //{
-    //    return;
-    //}
-
-    //vDoSortIndexMapArray();
-}
-
+// clang-format off
 /******************************************************************************
   Function Name    :  vDoSortIndexMapArray
   Input(s)         :
@@ -386,16 +339,16 @@ vDoSortBuffer( int /*nField*/, bool /*bAscending*/ )
   Modification date:
   Modification By  :
 ******************************************************************************/
-template <typename SMSGBUFFER> void CMsgBufLINVFSE<SMSGBUFFER>::
-vDoSortIndexMapArray()
-{
-    for(int nCnt = 0; nCnt< m_omIdIndexMap.GetCount(); nCnt++)
-    {
-        __int64 nSlotID = SMSGBUFFER::GetSlotID(m_asMsgBuffer[nCnt]);
-        m_omIdIndexMap.SetAt(nSlotID, nCnt);
-    }
+// clang-format on
+template <typename SMSGBUFFER>
+void CMsgBufLINVFSE<SMSGBUFFER>::vDoSortIndexMapArray() {
+  for (int nCnt = 0; nCnt < m_omIdIndexMap.GetCount(); nCnt++) {
+    __int64 nSlotID = SMSGBUFFER::GetSlotID(m_asMsgBuffer[nCnt]);
+    m_omIdIndexMap.SetAt(nSlotID, nCnt);
+  }
 }
 
+// clang-format off
 /******************************************************************************
   Function Name    :  nGetMapIndexAtID
   Input(s)         :  nIndex - The Index at which the SlotID needs to be pickef from.
@@ -408,19 +361,20 @@ vDoSortIndexMapArray()
   Modification date:
   Modification By  :
 ******************************************************************************/
-template <typename SMSGBUFFER> void CMsgBufLINVFSE<SMSGBUFFER>::
-nGetMapIndexAtID(int nIndex,__int64& nMapIndex)
-{
-    POSITION pos = m_omIdIndexMap.GetStartPosition();
-    int nLocalIndex=0;
-    __int64 nSlotID;
-    while( pos != nullptr )
-    {
-        m_omIdIndexMap.GetNextAssoc(pos, nSlotID, nLocalIndex);
-        if(nIndex == nLocalIndex)
-        {
-            nMapIndex = nSlotID;
-            return;
-        }
+// clang-format on
+template <typename SMSGBUFFER>
+void CMsgBufLINVFSE<SMSGBUFFER>::nGetMapIndexAtID(int nIndex,
+                                                  __int64& nMapIndex) {
+  POSITION pos = m_omIdIndexMap.GetStartPosition();
+  int nLocalIndex = 0;
+  __int64 nSlotID;
+  while (pos != nullptr) {
+    m_omIdIndexMap.GetNextAssoc(pos, nSlotID, nLocalIndex);
+    if (nIndex == nLocalIndex) {
+      nMapIndex = nSlotID;
+      return;
     }
+  }
 }
+
+#endif  // KERNEL_UTILITIES_MSGBUFLINVFSE_H_

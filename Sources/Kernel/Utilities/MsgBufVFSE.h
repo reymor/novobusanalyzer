@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+// clang-format off
 /**
  * \file      MsgBufVFSE.h
  * \brief     Defines a variant of circular queue class in FSE.
@@ -21,49 +21,52 @@
  *
  * Defines a variant of circular queue class in FSE.
  */
+// clang-format on
 
-#pragma once
+#ifndef KERNEL_UTILITIES_MSGBUFVFSE_H_
+#define KERNEL_UTILITIES_MSGBUFVFSE_H_
 
-#include "BaseMsgBufAll.h"
-#include "include/Utils_macro.h"
-//#include "DataTypes_stdafx.h"
-#include "Error.h"
 #include <map>
 
+#include "BaseMsgBufAll.h"
+#include "Error.h"
+#include "include/Utils_macro.h"
+
 typedef std::map<__int64, int> CSlotIndexMapType;
-const int TOTAL_SIZE_APP_BUFFER       = 200;
-const int MAX_MCNET_DATA_SIZE   = 0x7FFF;
+const int TOTAL_SIZE_APP_BUFFER = 200;
+const int MAX_MCNET_DATA_SIZE = 0x7FFF;
 
 template <typename SMSGBUFFER>
-class CMsgBufVFSE: public CBaseMsgBufFSE<SMSGBUFFER>
-{
-protected:
-    SMSGBUFFER* m_pasMsgBuffer;
-    CRITICAL_SECTION m_CritSectionForGB;
-    int m_nIndexRead, m_nIndexWrite, m_nMsgCount;
-    int m_nBufferSize, m_nMsgDataSize;
-    HANDLE m_hNotifyingEvent;
+class CMsgBufVFSE : public CBaseMsgBufFSE<SMSGBUFFER> {
+ protected:
+  SMSGBUFFER* m_pasMsgBuffer;
+  CRITICAL_SECTION m_CritSectionForGB;
+  int m_nIndexRead, m_nIndexWrite, m_nMsgCount;
+  int m_nBufferSize, m_nMsgDataSize;
+  HANDLE m_hNotifyingEvent;
 
-public:
-    CMsgBufVFSE();
-    ~CMsgBufVFSE();
+ public:
+  CMsgBufVFSE();
+  ~CMsgBufVFSE();
 
-    HRESULT ReadFromBuffer(SMSGBUFFER* psMsgBuffer);
-    HRESULT WriteIntoBuffer(SMSGBUFFER* psMsgBuffer);
-    HRESULT ReadFromBuffer(SMSGBUFFER* psMsgBuffer, __int64 nSlotId);
-    HRESULT ReadFromBuffer(SMSGBUFFER* psMsgBuffer, int nIndex);
-    HRESULT WriteIntoBuffer(const SMSGBUFFER* psMsgBuffer, __int64 nSlotId, int& nIndex);
-    int GetMsgCount(void) const;
-    void vClearMessageBuffer(void);
-    HANDLE hGetNotifyingEvent(void) const;
-    int nSetBufferMsgSize(int nMsgDataSize);
-    void vDoSortBuffer(int nField,bool bAscending);
-    void nGetMapIndexAtID(int nIndex,__int64& nMapIndex);
-private:
-    BYTE* m_pbyTempData;
-    CSlotIndexMapType m_stlIdIndexMap;
-    void vCopyMsg(SMSGBUFFER* psDestMsg, const SMSGBUFFER* psSrcMsg);
-    void vDoSortIndexMapArray();
+  HRESULT ReadFromBuffer(SMSGBUFFER* psMsgBuffer);
+  HRESULT WriteIntoBuffer(SMSGBUFFER* psMsgBuffer);
+  HRESULT ReadFromBuffer(SMSGBUFFER* psMsgBuffer, __int64 nSlotId);
+  HRESULT ReadFromBuffer(SMSGBUFFER* psMsgBuffer, int nIndex);
+  HRESULT WriteIntoBuffer(const SMSGBUFFER* psMsgBuffer, __int64 nSlotId,
+                          int& nIndex);
+  int GetMsgCount(void) const;
+  void vClearMessageBuffer(void);
+  HANDLE hGetNotifyingEvent(void) const;
+  int nSetBufferMsgSize(int nMsgDataSize);
+  void vDoSortBuffer(int nField, bool bAscending);
+  void nGetMapIndexAtID(int nIndex, __int64& nMapIndex);
+
+ private:
+  BYTE* m_pbyTempData;
+  CSlotIndexMapType m_stlIdIndexMap;
+  void vCopyMsg(SMSGBUFFER* psDestMsg, const SMSGBUFFER* psSrcMsg);
+  void vDoSortIndexMapArray();
 };
 
 /**********************************************************************************
@@ -78,22 +81,19 @@ Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
 template <typename SMSGBUFFER>
-CMsgBufVFSE<SMSGBUFFER>::CMsgBufVFSE()
-{
-    m_nBufferSize  = TOTAL_SIZE_APP_BUFFER;
-    m_nMsgDataSize = MAX_MCNET_DATA_SIZE;
-    m_pasMsgBuffer = new SMSGBUFFER[TOTAL_SIZE_APP_BUFFER];
-    for (int i = 0; i < TOTAL_SIZE_APP_BUFFER; i++)
-    {
-        m_pasMsgBuffer[i].vInitialize(m_nMsgDataSize);
-    }
-    vClearMessageBuffer(); // Clear the message buffer
-    InitializeCriticalSection(&m_CritSectionForGB);
-    m_hNotifyingEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
+CMsgBufVFSE<SMSGBUFFER>::CMsgBufVFSE() {
+  m_nBufferSize = TOTAL_SIZE_APP_BUFFER;
+  m_nMsgDataSize = MAX_MCNET_DATA_SIZE;
+  m_pasMsgBuffer = new SMSGBUFFER[TOTAL_SIZE_APP_BUFFER];
+  for (int i = 0; i < TOTAL_SIZE_APP_BUFFER; i++) {
+    m_pasMsgBuffer[i].vInitialize(m_nMsgDataSize);
+  }
+  vClearMessageBuffer();  // Clear the message buffer
+  InitializeCriticalSection(&m_CritSectionForGB);
+  m_hNotifyingEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
-    // For raw data bytes. It should be equal to the size of SMSGBUFFER
-    m_pbyTempData = new BYTE[MAX_MSG_LEN_J1939];
-
+  // For raw data bytes. It should be equal to the size of SMSGBUFFER
+  m_pbyTempData = new BYTE[MAX_MSG_LEN_J1939];
 }
 
 /**********************************************************************************
@@ -108,17 +108,15 @@ Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
 template <typename SMSGBUFFER>
-CMsgBufVFSE<SMSGBUFFER>::~CMsgBufVFSE()
-{
-    CloseHandle(m_hNotifyingEvent);
-    m_hNotifyingEvent = nullptr;
-    if (m_pasMsgBuffer != nullptr)
-    {
-        delete[] m_pasMsgBuffer;
-        m_pasMsgBuffer = nullptr;
-    }
-    DELETE_ARRAY(m_pbyTempData);
-    DeleteCriticalSection(&m_CritSectionForGB);
+CMsgBufVFSE<SMSGBUFFER>::~CMsgBufVFSE() {
+  CloseHandle(m_hNotifyingEvent);
+  m_hNotifyingEvent = nullptr;
+  if (m_pasMsgBuffer != nullptr) {
+    delete[] m_pasMsgBuffer;
+    m_pasMsgBuffer = nullptr;
+  }
+  DELETE_ARRAY(m_pbyTempData);
+  DeleteCriticalSection(&m_CritSectionForGB);
 }
 
 /**********************************************************************************
@@ -133,20 +131,18 @@ Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
 template <typename SMSGBUFFER>
-int CMsgBufVFSE<SMSGBUFFER>::nSetBufferMsgSize(int nMsgDataSize)
-{
-    int nReturn = -1;
-    vClearMessageBuffer();
+int CMsgBufVFSE<SMSGBUFFER>::nSetBufferMsgSize(int nMsgDataSize) {
+  int nReturn = -1;
+  vClearMessageBuffer();
 
-    for (int i = 0; i < TOTAL_SIZE_APP_BUFFER; i++)
-    {
-        m_pasMsgBuffer[i].vInitialize(nMsgDataSize);
-    }
-    m_nMsgDataSize = nMsgDataSize;
-    nReturn = 0;
-    m_pbyTempData = new BYTE[nMsgDataSize];
+  for (int i = 0; i < TOTAL_SIZE_APP_BUFFER; i++) {
+    m_pasMsgBuffer[i].vInitialize(nMsgDataSize);
+  }
+  m_nMsgDataSize = nMsgDataSize;
+  nReturn = 0;
+  m_pbyTempData = new BYTE[nMsgDataSize];
 
-    return nReturn;
+  return nReturn;
 }
 
 /**********************************************************************************
@@ -161,17 +157,15 @@ Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
 template <typename SMSGBUFFER>
-void CMsgBufVFSE<SMSGBUFFER>::vClearMessageBuffer(void)
-{
-    //memset((BYTE *) m_asMsgBuffer, 0, SIZE_APP_BUFFER * m_nMsgSize);
-    for( int i = 0; i < m_nBufferSize; i++)
-    {
-        m_pasMsgBuffer[i].vClear();
-    }
-    m_stlIdIndexMap.clear();
-    m_nIndexRead = 0;
-    m_nIndexWrite = 0;
-    m_nMsgCount = 0;
+void CMsgBufVFSE<SMSGBUFFER>::vClearMessageBuffer(void) {
+  // memset((BYTE *) m_asMsgBuffer, 0, SIZE_APP_BUFFER * m_nMsgSize);
+  for (int i = 0; i < m_nBufferSize; i++) {
+    m_pasMsgBuffer[i].vClear();
+  }
+  m_stlIdIndexMap.clear();
+  m_nIndexRead = 0;
+  m_nIndexWrite = 0;
+  m_nMsgCount = 0;
 }
 
 /**********************************************************************************
@@ -186,36 +180,29 @@ Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
 template <typename SMSGBUFFER>
-HRESULT CMsgBufVFSE<SMSGBUFFER>::ReadFromBuffer(SMSGBUFFER* psMsg, int nIndex)
-{
-    HRESULT nResult = S_OK;
+HRESULT CMsgBufVFSE<SMSGBUFFER>::ReadFromBuffer(SMSGBUFFER* psMsg, int nIndex) {
+  HRESULT nResult = S_OK;
 
 #ifdef _DEBUG
-    ASSERT(psMsg != nullptr);
-    ASSERT(!(m_nIndexRead > TOTAL_SIZE_APP_BUFFER));
+  ASSERT(psMsg != nullptr);
+  ASSERT(!(m_nIndexRead > TOTAL_SIZE_APP_BUFFER));
 #endif
 
-    // Lock the buffer
-    EnterCriticalSection(&m_CritSectionForGB);
+  // Lock the buffer
+  EnterCriticalSection(&m_CritSectionForGB);
 
-    // Check entry indexed by m_nIndexRead. If this particular entry
-    if (m_nMsgCount == 0)
-    {
-        nResult = EMPTY_APP_BUFFER;
-    }
-    else if (nIndex >= TOTAL_SIZE_APP_BUFFER)
-    {
-        nResult = ERR_INVALID_INDEX;
-    }
-    else
-    {
+  // Check entry indexed by m_nIndexRead. If this particular entry
+  if (m_nMsgCount == 0) {
+    nResult = EMPTY_APP_BUFFER;
+  } else if (nIndex >= TOTAL_SIZE_APP_BUFFER) {
+    nResult = ERR_INVALID_INDEX;
+  } else {
+    vCopyMsg(psMsg, &(m_pasMsgBuffer[nIndex]));
+  }
+  // Unlock the buffer
+  LeaveCriticalSection(&m_CritSectionForGB);
 
-        vCopyMsg(psMsg, &(m_pasMsgBuffer[nIndex]));
-    }
-    // Unlock the buffer
-    LeaveCriticalSection(&m_CritSectionForGB);
-
-    return nResult;
+  return nResult;
 }
 
 /**********************************************************************************
@@ -230,39 +217,36 @@ Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
 template <typename SMSGBUFFER>
-HRESULT CMsgBufVFSE<SMSGBUFFER>::ReadFromBuffer(SMSGBUFFER* psMsg, __int64 nSlotId)
-{
-    HRESULT nResult = ERR_INVALID_SLOT;
+HRESULT CMsgBufVFSE<SMSGBUFFER>::ReadFromBuffer(SMSGBUFFER* psMsg,
+                                                __int64 nSlotId) {
+  HRESULT nResult = ERR_INVALID_SLOT;
 
 #ifdef _DEBUG
-    ASSERT(psMsg != nullptr);
-    ASSERT(!(m_nIndexRead > TOTAL_SIZE_APP_BUFFER));
+  ASSERT(psMsg != nullptr);
+  ASSERT(!(m_nIndexRead > TOTAL_SIZE_APP_BUFFER));
 #endif
 
-    // Lock the buffer
-    EnterCriticalSection(&m_CritSectionForGB);
+  // Lock the buffer
+  EnterCriticalSection(&m_CritSectionForGB);
 
-    // Check entry indexed by m_nIndexRead. If this particular entry
-    if (m_nMsgCount == 0)
-    {
-        nResult = EMPTY_APP_BUFFER;
+  // Check entry indexed by m_nIndexRead. If this particular entry
+  if (m_nMsgCount == 0) {
+    nResult = EMPTY_APP_BUFFER;
+  } else {
+    CSlotIndexMapType::iterator iter;
+    iter = m_stlIdIndexMap.find(nSlotId);
+    if (iter != m_stlIdIndexMap.end()) {
+      vCopyMsg(psMsg, &(m_pasMsgBuffer[iter->second]));
+      nResult = CALL_SUCCESS;
     }
-    else
-    {
-        CSlotIndexMapType::iterator iter;
-        iter = m_stlIdIndexMap.find(nSlotId);
-        if (iter != m_stlIdIndexMap.end())
-        {
-            vCopyMsg(psMsg, &(m_pasMsgBuffer[iter->second]));
-            nResult = CALL_SUCCESS;
-        }
-    }
-    // Unlock the buffer
-    LeaveCriticalSection(&m_CritSectionForGB);
+  }
+  // Unlock the buffer
+  LeaveCriticalSection(&m_CritSectionForGB);
 
-    return nResult;
+  return nResult;
 }
 
+// clang-format off
 /**********************************************************************************
 Function Name   :   WriteIntoBuffer()
 Input           :
@@ -274,44 +258,39 @@ Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
+// clang-format on
 template <typename SMSGBUFFER>
-HRESULT CMsgBufVFSE<SMSGBUFFER>::WriteIntoBuffer(const SMSGBUFFER* psMsg, __int64 nSlotId, int& nIndex)
-{
-    int nResult = CALL_SUCCESS;
+HRESULT CMsgBufVFSE<SMSGBUFFER>::WriteIntoBuffer(const SMSGBUFFER* psMsg,
+                                                 __int64 nSlotId, int& nIndex) {
+  int nResult = CALL_SUCCESS;
 
 #ifdef _DEBUG
-    ASSERT(psMsg != nullptr);
-    ASSERT(!(m_nIndexWrite > TOTAL_SIZE_APP_BUFFER));
+  ASSERT(psMsg != nullptr);
+  ASSERT(!(m_nIndexWrite > TOTAL_SIZE_APP_BUFFER));
 #endif
 
-    EnterCriticalSection(&m_CritSectionForGB);
+  EnterCriticalSection(&m_CritSectionForGB);
 
-    //Check for buffer overflow
-    if (m_nMsgCount == TOTAL_SIZE_APP_BUFFER)
-    {
-        nResult = ERR_FULL_APP_BUFFER;
+  // Check for buffer overflow
+  if (m_nMsgCount == TOTAL_SIZE_APP_BUFFER) {
+    nResult = ERR_FULL_APP_BUFFER;
+  } else {
+    CSlotIndexMapType::iterator iter;
+    iter = m_stlIdIndexMap.find(nSlotId);
+    if (iter != m_stlIdIndexMap.end()) {
+      nIndex = iter->second;
+    } else {
+      nIndex = m_nMsgCount;
+      m_stlIdIndexMap.insert(std::pair<__int64, int>(nSlotId, nIndex));
+      ++m_nMsgCount;
     }
-    else
-    {
-        CSlotIndexMapType::iterator iter;
-        iter = m_stlIdIndexMap.find(nSlotId);
-        if (iter != m_stlIdIndexMap.end())
-        {
-            nIndex = iter->second;
-        }
-        else
-        {
-            nIndex = m_nMsgCount;
-            m_stlIdIndexMap.insert(std::pair<__int64, int>(nSlotId, nIndex));
-            ++m_nMsgCount;
-        }
-        vCopyMsg(&(m_pasMsgBuffer[nIndex]), psMsg);
-        SetEvent(m_hNotifyingEvent);
-    }
+    vCopyMsg(&(m_pasMsgBuffer[nIndex]), psMsg);
+    SetEvent(m_hNotifyingEvent);
+  }
 
-    LeaveCriticalSection(&m_CritSectionForGB);
+  LeaveCriticalSection(&m_CritSectionForGB);
 
-    return nResult;
+  return nResult;
 }
 /**********************************************************************************
 Function Name   :   GetMsgCount()
@@ -325,9 +304,8 @@ Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
 template <typename SMSGBUFFER>
-int CMsgBufVFSE<SMSGBUFFER>::GetMsgCount(void)const
-{
-    return m_nMsgCount;
+int CMsgBufVFSE<SMSGBUFFER>::GetMsgCount(void) const {
+  return m_nMsgCount;
 }
 
 /**********************************************************************************
@@ -342,11 +320,11 @@ Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
 template <typename SMSGBUFFER>
-HANDLE CMsgBufVFSE<SMSGBUFFER>::hGetNotifyingEvent(void) const
-{
-    return m_hNotifyingEvent;
+HANDLE CMsgBufVFSE<SMSGBUFFER>::hGetNotifyingEvent(void) const {
+  return m_hNotifyingEvent;
 }
 
+// clang-format off
 /**********************************************************************************
 Function Name   :   vCopyMsg()
 Input           :
@@ -358,12 +336,13 @@ Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
+// clang-format on
 template <typename SMSGBUFFER>
-void CMsgBufVFSE<SMSGBUFFER>::vCopyMsg(SMSGBUFFER* psDestMsg, const SMSGBUFFER* psSrcMsg)
-{
-    const SMSGBUFFER* psTempSrc = psSrcMsg;
-    psTempSrc->vGetDataStream(m_pbyTempData);
-    psDestMsg->vSetDataStream(m_pbyTempData);
+void CMsgBufVFSE<SMSGBUFFER>::vCopyMsg(SMSGBUFFER* psDestMsg,
+                                       const SMSGBUFFER* psSrcMsg) {
+  const SMSGBUFFER* psTempSrc = psSrcMsg;
+  psTempSrc->vGetDataStream(m_pbyTempData);
+  psDestMsg->vSetDataStream(m_pbyTempData);
 }
 
 /******************************************************************************
@@ -378,24 +357,11 @@ void CMsgBufVFSE<SMSGBUFFER>::vCopyMsg(SMSGBUFFER* psDestMsg, const SMSGBUFFER* 
   Modification date:
   Modification By  :
 ******************************************************************************/
-template <typename SMSGBUFFER> void CMsgBufVFSE<SMSGBUFFER>::
-vDoSortBuffer(int /*nField*/,bool /*bAscending*/)
-{
-    //SMSGBUFFER::vSetSortField(nField);
-    //SMSGBUFFER::vSetSortAscending(bAscending);
-    //qsort((void*) m_pasMsgBuffer, (size_t) GetMsgCount(),
-    //      sizeof(SMSGBUFFER), SMSGBUFFER::DoCompareIndiv);
-    ////After sorting Start index has to be reset
-    //m_nIndexRead = 0;
+template <typename SMSGBUFFER>
+void CMsgBufVFSE<SMSGBUFFER>::vDoSortBuffer(int /*nField*/,
+                                            bool /*bAscending*/) {}
 
-    //if(m_stlIdIndexMap.size() ==0)
-    //{
-    //    return;
-    //}
-
-    //vDoSortIndexMapArray();
-}
-
+// clang-format off
 /******************************************************************************
   Function Name    :  vDoSortIndexMapArray
   Input(s)         :
@@ -408,55 +374,45 @@ vDoSortBuffer(int /*nField*/,bool /*bAscending*/)
   Modification date:
   Modification By  :
 ******************************************************************************/
-template <typename SMSGBUFFER> void CMsgBufVFSE<SMSGBUFFER>::
-vDoSortIndexMapArray()
-{
-    UINT unSize = (UINT)m_stlIdIndexMap.size();
-    m_stlIdIndexMap.clear();
-    for(int nCnt = 0; (UINT)nCnt< unSize; nCnt++)
-    {
-        __int64 nSlotID = SMSGBUFFER::GetSlotID(m_pasMsgBuffer[nCnt]);
-        m_stlIdIndexMap.insert(std::pair<__int64, int>(nSlotID, nCnt));
-    }
+// clang-format on
+template <typename SMSGBUFFER>
+void CMsgBufVFSE<SMSGBUFFER>::vDoSortIndexMapArray() {
+  UINT unSize = (UINT)m_stlIdIndexMap.size();
+  m_stlIdIndexMap.clear();
+  for (int nCnt = 0; (UINT)nCnt < unSize; nCnt++) {
+    __int64 nSlotID = SMSGBUFFER::GetSlotID(m_pasMsgBuffer[nCnt]);
+    m_stlIdIndexMap.insert(std::pair<__int64, int>(nSlotID, nCnt));
+  }
 }
 
 /******************************************************************************
   Function Name    :  nGetMapIndexAtID
-  Input(s)         :  nIndex - The Index at which the SlotID needs to be pickef from.
-  Output           :  -
-  Functionality    :  Returns the Slot ID of the index specified in m_omIdIndexMap.
-  Member of        :  CMsgBufVFSE
-  Friend of        :  -
-  Author(s)        :  Arunkumar K
-  Date Created     :  04-03-2011
-  Modification date:
-  Modification By  :
+  Input(s)         :  nIndex - The Index at which the SlotID needs to be pickef
+from. Output           :  - Functionality    :  Returns the Slot ID of the index
+specified in m_omIdIndexMap. Member of        :  CMsgBufVFSE Friend of        :
+- Author(s)        :  Arunkumar K Date Created     :  04-03-2011 Modification
+date: Modification By  :
 ******************************************************************************/
-template <typename SMSGBUFFER> void CMsgBufVFSE<SMSGBUFFER>::
-nGetMapIndexAtID(int nIndex,__int64& nMapIndex)
-{
-    /*CSlotIndexMapType::iterator iter;
-    iter = std::find(m_stlIdIndexMap.begin(), m_stlIdIndexMap.end(), */
-    for (CSlotIndexMapType::const_iterator it = m_stlIdIndexMap.begin();
-            it != m_stlIdIndexMap.end(); ++it)
-    {
-        if (it->second == nIndex)
-        {
-            nMapIndex = it->first;
-            break;
-        }
-    }
-}
-//Read the oldest message from circular queue
 template <typename SMSGBUFFER>
-HRESULT CMsgBufVFSE<SMSGBUFFER>::ReadFromBuffer(SMSGBUFFER* /*psMsgBuffer*/)
-{
-    return ERR_NOT_SUPPORTED;
+void CMsgBufVFSE<SMSGBUFFER>::nGetMapIndexAtID(int nIndex, __int64& nMapIndex) {
+  for (CSlotIndexMapType::const_iterator it = m_stlIdIndexMap.begin();
+       it != m_stlIdIndexMap.end(); ++it) {
+    if (it->second == nIndex) {
+      nMapIndex = it->first;
+      break;
+    }
+  }
+}
+// Read the oldest message from circular queue
+template <typename SMSGBUFFER>
+HRESULT CMsgBufVFSE<SMSGBUFFER>::ReadFromBuffer(SMSGBUFFER* /*psMsgBuffer*/) {
+  return ERR_NOT_SUPPORTED;
 }
 
-//Write the message at the end of circular queue
+// Write the message at the end of circular queue
 template <typename SMSGBUFFER>
-HRESULT CMsgBufVFSE<SMSGBUFFER>::WriteIntoBuffer(SMSGBUFFER* /*psMsgBuffer*/)
-{
-    return ERR_NOT_SUPPORTED;
+HRESULT CMsgBufVFSE<SMSGBUFFER>::WriteIntoBuffer(SMSGBUFFER* /*psMsgBuffer*/) {
+  return ERR_NOT_SUPPORTED;
 }
+
+#endif  // KERNEL_UTILITIES_MSGBUFVFSE_H_

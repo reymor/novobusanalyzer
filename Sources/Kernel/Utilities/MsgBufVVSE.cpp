@@ -12,39 +12,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+// clang-format off
 /**
  * \file      MsgBufVVSE.cpp
  * \brief     Implements the variant of circular queue class in VSE.
  * \author    Pradeep Kadoor
- * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
+ * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business
+ * Solutions. All rights reserved.
  *
  * Implements the variant of circular queue class in VSE.
  */
+// clang-format on
 
 // Insert your headers here
-#include <Windows.h>
 #include "MsgBufVVSE.h"
-//Error definition
+
+// Error definition
 #include "Error.h"
 
-
-
-//type
-#define DATA_LEN   WORD
-#define TYPE       BYTE
+// type
+#define DATA_LEN WORD
+#define TYPE BYTE
 #define MAX_BUFFER_SIZE 200000
 #define MIN_BUFFER_SIZE 50000
 // Const variables
 const size_t DATA_LEN_SIZE = sizeof(DATA_LEN);
-const size_t TYPE_SIZE     = sizeof(TYPE);
-//length
+const size_t TYPE_SIZE = sizeof(TYPE);
+// length
 #define HEADER_LEN 3
 
-//offset
-#define TYPE_OFFSET     0
-#define MSGLEN_OFFSET   1
-
+// offset
+#define TYPE_OFFSET 0
+#define MSGLEN_OFFSET 1
 
 /**********************************************************************************
 Function Name   :   CMsgBufVVSE()
@@ -57,26 +56,23 @@ Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
-CMsgBufVVSE::CMsgBufVVSE(void)
-{
-    m_nBufferSize = MIN_BUFFER_SIZE;
-    m_pbyMsgBuffer = new BYTE[MIN_BUFFER_SIZE];// allocate memory first
-    vClearMessageBuffer(); // Clear the message buffer
-    InitializeCriticalSection(&m_CritSectionForGB);
-    m_hNotifyingEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
+CMsgBufVVSE::CMsgBufVVSE(void) {
+  m_nBufferSize = MIN_BUFFER_SIZE;
+  m_pbyMsgBuffer = new BYTE[MIN_BUFFER_SIZE];  // allocate memory first
+  vClearMessageBuffer();                       // Clear the message buffer
+  InitializeCriticalSection(&m_CritSectionForGB);
+  m_hNotifyingEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 }
 
-//Destructor deallocates memory
-CMsgBufVVSE::~CMsgBufVVSE(void)
-{
-    CloseHandle(m_hNotifyingEvent);
-    m_hNotifyingEvent = nullptr;
-    if (m_pbyMsgBuffer != nullptr)
-    {
-        delete[] m_pbyMsgBuffer;
-        m_pbyMsgBuffer = nullptr;
-    }
-    DeleteCriticalSection(&m_CritSectionForGB);
+// Destructor deallocates memory
+CMsgBufVVSE::~CMsgBufVVSE(void) {
+  CloseHandle(m_hNotifyingEvent);
+  m_hNotifyingEvent = nullptr;
+  if (m_pbyMsgBuffer != nullptr) {
+    delete[] m_pbyMsgBuffer;
+    m_pbyMsgBuffer = nullptr;
+  }
+  DeleteCriticalSection(&m_CritSectionForGB);
 }
 /**********************************************************************************
 Function Name   :   vClearMessageBuffer()
@@ -89,14 +85,13 @@ Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
-void CMsgBufVVSE::vClearMessageBuffer(void)
-{
-    memset(m_pbyMsgBuffer, 0, m_nBufferSize);
-    m_nIndexWrite   = 0;
-    m_nMsgCount     = 0;
-    m_nStartIndex   = 0;
-    m_nReadIndexTmp = 0;
-    m_nTmpMsgCount  = 0;
+void CMsgBufVVSE::vClearMessageBuffer(void) {
+  memset(m_pbyMsgBuffer, 0, m_nBufferSize);
+  m_nIndexWrite = 0;
+  m_nMsgCount = 0;
+  m_nStartIndex = 0;
+  m_nReadIndexTmp = 0;
+  m_nTmpMsgCount = 0;
 }
 
 /**********************************************************************************
@@ -104,31 +99,22 @@ Function Name   :   nSetStartPos
 Input           :   Entry Number - nIndex
 Output          :   CALL_SUCCESS for success.
                     ERR_INVALID_INDEX for invalid index.
-Functionality   :   Interface function. Sets the start pos to the 'nIndex'th entry.
-Member of       :   CMsgBufVVSE
-Friend of       :   -
-Authors         :   Pradeep Kadoor
-Date Created    :   10/11/2009
-Modifications   :   -
+Functionality   :   Interface function. Sets the start pos to the 'nIndex'th
+entry. Member of       :   CMsgBufVVSE Friend of       :   - Authors         :
+Pradeep Kadoor Date Created    :   10/11/2009 Modifications   :   -
 ************************************************************************************/
-HRESULT CMsgBufVVSE::SetStartPos(int nEntry)
-{
-    HRESULT Result = CALL_SUCCESS;
-    if (nEntry < 0 || nEntry > m_nMsgCount)
-    {
-        Result = ERR_INVALID_INDEX;
+HRESULT CMsgBufVVSE::SetStartPos(int nEntry) {
+  HRESULT Result = CALL_SUCCESS;
+  if (nEntry < 0 || nEntry > m_nMsgCount) {
+    Result = ERR_INVALID_INDEX;
+  } else {
+    m_nReadIndexTmp = m_nStartIndex;
+    for (int i = 0; i < nEntry; i++) {
+      nAdvanceReadIndex(m_nReadIndexTmp);
+      m_nTmpMsgCount++;
     }
-    else
-    {
-        m_nReadIndexTmp = m_nStartIndex;
-        for (int i = 0; i < nEntry; i++)
-        {
-            nAdvanceReadIndex(m_nReadIndexTmp);
-            m_nTmpMsgCount++;
-        }
-    }
-    return Result;
-
+  }
+  return Result;
 }
 /**********************************************************************************
 Function Name   :   ReadEntry
@@ -145,82 +131,65 @@ Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
-HRESULT CMsgBufVVSE::ReadEntry(int& nType, BYTE* pbyMsg, int& nSize, int nEntry, BOOL bSetNextIndexStartPos)
-{
-    // Lock the buffer
-    EnterCriticalSection(&m_CritSectionForGB);
+HRESULT CMsgBufVVSE::ReadEntry(int& nType, BYTE* pbyMsg, int& nSize, int nEntry,
+                               BOOL bSetNextIndexStartPos) {
+  // Lock the buffer
+  EnterCriticalSection(&m_CritSectionForGB);
 
-    HRESULT Result = CALL_SUCCESS;
-    if ((nEntry < 0) || ((nEntry + m_nTmpMsgCount) > m_nMsgCount))
-    {
-        Result = ERR_INVALID_INDEX;
+  HRESULT Result = CALL_SUCCESS;
+  if ((nEntry < 0) || ((nEntry + m_nTmpMsgCount) > m_nMsgCount)) {
+    Result = ERR_INVALID_INDEX;
+  } else {
+    int nTmpIndex = m_nReadIndexTmp;
+    for (int i = 0; i < nEntry; i++) {
+      nAdvanceReadIndex(nTmpIndex);
     }
-    else
-    {
-        int nTmpIndex = m_nReadIndexTmp;
-        for (int i = 0; i < nEntry; i++)
-        {
-            nAdvanceReadIndex(nTmpIndex);
-        }
-        Result = ReadBuffer(nType, pbyMsg, nSize, nTmpIndex);
-        if ((Result == CALL_SUCCESS) && (bSetNextIndexStartPos == TRUE))
-        {
-            m_nReadIndexTmp = nTmpIndex;
-            m_nTmpMsgCount += nEntry;
-        }
+    Result = ReadBuffer(nType, pbyMsg, nSize, nTmpIndex);
+    if ((Result == CALL_SUCCESS) && (bSetNextIndexStartPos == TRUE)) {
+      m_nReadIndexTmp = nTmpIndex;
+      m_nTmpMsgCount += nEntry;
     }
+  }
 
-    // Unlock the buffer
-    LeaveCriticalSection(&m_CritSectionForGB);
-    return Result;
+  // Unlock the buffer
+  LeaveCriticalSection(&m_CritSectionForGB);
+  return Result;
 }
 
 /**********************************************************************************
 Function Name   :   WriteIntoBuffer()
 Input           :   TYPE, SIZE, pointer to msg.
 Output          :   CALL_SUCCESS for success.
-                    ERR_WRITE_MSG_TOO_LARGE when caller specifies size of the msg
-                    more than buffer size.
-Functionality   :   Interface function. Writes msg into circular function.
-Member of       :   CMsgBufVVSE
-Friend of       :   -
+                    ERR_WRITE_MSG_TOO_LARGE when caller specifies size of the
+msg more than buffer size. Functionality   :   Interface function. Writes msg
+into circular function. Member of       :   CMsgBufVVSE Friend of       :   -
 Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
-int CMsgBufVVSE::WriteIntoBuffer(INT nType, BYTE* pbyMsg, INT nSize)
-{
-    int nResult = CALL_SUCCESS;
+int CMsgBufVVSE::WriteIntoBuffer(INT nType, BYTE* pbyMsg, INT nSize) {
+  int nResult = CALL_SUCCESS;
 
+  EnterCriticalSection(&m_CritSectionForGB);
+  // Check the size of the message
+  if (nSize > m_nBufferSize) {
+    nResult = ERR_WRITE_MSG_TOO_LARGE;
+  } else {
+    nResult = nHandleStartIndex(
+        nSize + HEADER_LEN);  // helper function to handle buffer overrun
+    nWriteBuffer(nType, pbyMsg, nSize);  // helper function to write buffer
+    ++m_nMsgCount;
+    SetEvent(m_hNotifyingEvent);
+  }
 
-    EnterCriticalSection(&m_CritSectionForGB);
-    // Check the size of the message
-    if (nSize > m_nBufferSize)
-    {
-        nResult = ERR_WRITE_MSG_TOO_LARGE;
-    }
-    else
-    {
-        nResult = nHandleStartIndex(nSize + HEADER_LEN);//helper function to handle buffer overrun
-        nWriteBuffer(nType, pbyMsg, nSize);//helper function to write buffer
-        ++m_nMsgCount;
-        SetEvent(m_hNotifyingEvent);
-    }
+  LeaveCriticalSection(&m_CritSectionForGB);
 
-    LeaveCriticalSection(&m_CritSectionForGB);
-
-    return nResult;
+  return nResult;
 }
 
-int CMsgBufVVSE::GetMsgCount(void) const
-{
-    return m_nMsgCount;
-}
+int CMsgBufVVSE::GetMsgCount(void) const { return m_nMsgCount; }
 
-HANDLE CMsgBufVVSE::hGetNotifyingEvent(void) const
-{
-    return m_hNotifyingEvent;
-}
+HANDLE CMsgBufVVSE::hGetNotifyingEvent(void) const { return m_hNotifyingEvent; }
 
 /**********************************************************************************
 Function Name   :   nSetBufferSize()
@@ -237,41 +206,33 @@ Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
 
-int CMsgBufVVSE::nSetBufferSize(int& nSize)
-{
-    int nResult = CALL_SUCCESS;
-    if (nSize < MIN_BUFFER_SIZE)
-    {
-        nSize = MIN_BUFFER_SIZE;
-        nResult =  WARN_BUFFER_SIZE_MIN_ASSUMED;
-    }
-    else if (nSize > MAX_BUFFER_SIZE)
-    {
-        nSize = MIN_BUFFER_SIZE;
-        nResult = WARN_BUFFER_SIZE_MAX_ASSUMED;
-    }
+int CMsgBufVVSE::nSetBufferSize(int& nSize) {
+  int nResult = CALL_SUCCESS;
+  if (nSize < MIN_BUFFER_SIZE) {
+    nSize = MIN_BUFFER_SIZE;
+    nResult = WARN_BUFFER_SIZE_MIN_ASSUMED;
+  } else if (nSize > MAX_BUFFER_SIZE) {
+    nSize = MIN_BUFFER_SIZE;
+    nResult = WARN_BUFFER_SIZE_MAX_ASSUMED;
+  }
 
-    EnterCriticalSection(&m_CritSectionForGB);
+  EnterCriticalSection(&m_CritSectionForGB);
 
-    if (m_pbyMsgBuffer != nullptr)
-    {
-        delete[] m_pbyMsgBuffer;
-    }
-    m_nBufferSize = nSize;
-    m_pbyMsgBuffer = new BYTE[nSize];
-    if (m_pbyMsgBuffer == nullptr)
-    {
-        nResult = ERR_CREATE_MEMORY_FAIL;
-        m_nBufferSize = 0;
-    }
-    else
-    {
-        vClearMessageBuffer();
-    }
+  if (m_pbyMsgBuffer != nullptr) {
+    delete[] m_pbyMsgBuffer;
+  }
+  m_nBufferSize = nSize;
+  m_pbyMsgBuffer = new BYTE[nSize];
+  if (m_pbyMsgBuffer == nullptr) {
+    nResult = ERR_CREATE_MEMORY_FAIL;
+    m_nBufferSize = 0;
+  } else {
+    vClearMessageBuffer();
+  }
 
-    LeaveCriticalSection(&m_CritSectionForGB);
+  LeaveCriticalSection(&m_CritSectionForGB);
 
-    return nResult;
+  return nResult;
 }
 /**********************************************************************************
 Function Name   :   AdvanceToNextMsg()
@@ -286,20 +247,16 @@ Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
-HRESULT CMsgBufVVSE::AdvanceToNextMsg()
-{
-    HRESULT Result = CALL_SUCCESS;
-    if (m_nMsgCount == 0)
-    {
-        Result = EMPTY_APP_BUFFER;
-    }
-    else
-    {
-        nAdvanceReadIndex(m_nStartIndex);//Helper function to advance the read index
-        //to the next msg.
-        m_nMsgCount--;
-    }
-    return Result;
+HRESULT CMsgBufVVSE::AdvanceToNextMsg() {
+  HRESULT Result = CALL_SUCCESS;
+  if (m_nMsgCount == 0) {
+    Result = EMPTY_APP_BUFFER;
+  } else {
+    // Helper function to advance the read index to the next msg.
+    nAdvanceReadIndex(m_nStartIndex);
+    m_nMsgCount--;
+  }
+  return Result;
 }
 /**********************************************************************************
 Function Name   :   nAdvanceReadIndex(int& nIndex)
@@ -312,23 +269,20 @@ Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
-int CMsgBufVVSE::nAdvanceReadIndex(int& nReadIndex)
-{
-    int nResult = CALL_SUCCESS;
-    static BYTE abyHeader[HEADER_LEN] = {0};
-    nGetCurrMsgHeader(nReadIndex, abyHeader); // Get current msg header TYPE, MSG LENGTH
+int CMsgBufVVSE::nAdvanceReadIndex(int& nReadIndex) {
+  int nResult = CALL_SUCCESS;
+  static BYTE abyHeader[HEADER_LEN] = {0};
+  // Get current msg header TYPE, MSG LENGTH
+  nGetCurrMsgHeader(nReadIndex, abyHeader);
 
-    int nMsgLen = 0;
-    memcpy(&nMsgLen, abyHeader + MSGLEN_OFFSET, DATA_LEN_SIZE);
-    if ((nReadIndex + HEADER_LEN + nMsgLen) < m_nBufferSize)
-    {
-        nReadIndex += (HEADER_LEN + nMsgLen);
-    }
-    else
-    {
-        nReadIndex = (nReadIndex + HEADER_LEN + nMsgLen) - m_nBufferSize;
-    }
-    return nResult;
+  int nMsgLen = 0;
+  memcpy(&nMsgLen, abyHeader + MSGLEN_OFFSET, DATA_LEN_SIZE);
+  if ((nReadIndex + HEADER_LEN + nMsgLen) < m_nBufferSize) {
+    nReadIndex += (HEADER_LEN + nMsgLen);
+  } else {
+    nReadIndex = (nReadIndex + HEADER_LEN + nMsgLen) - m_nBufferSize;
+  }
+  return nResult;
 }
 /**********************************************************************************
 Function Name   :   nWriteBuffer()
@@ -342,40 +296,41 @@ Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
-int CMsgBufVVSE::nWriteBuffer(INT nType, BYTE* pbyMsg, INT nSize)
-{
-    int nResult = CALL_SUCCESS;
-    static BYTE abyHeader[HEADER_LEN] = {0};
-    nResult = nConstructHeader(nType, nSize, abyHeader);//Helper function to construct header from TYPE, MSG LENGTH
+int CMsgBufVVSE::nWriteBuffer(INT nType, BYTE* pbyMsg, INT nSize) {
+  int nResult = CALL_SUCCESS;
+  static BYTE abyHeader[HEADER_LEN] = {0};
+  // Helper function to construct header from TYPE, MSG LENGTH
+  nResult = nConstructHeader(nType, nSize, abyHeader);
 
-    if ((m_nIndexWrite + HEADER_LEN + nSize) <= m_nBufferSize)
-    {
-        //Write header
-        memcpy(m_pbyMsgBuffer + m_nIndexWrite, abyHeader, HEADER_LEN);
-        //Write msg
-        memcpy(m_pbyMsgBuffer + m_nIndexWrite + HEADER_LEN, pbyMsg, nSize);
+  if ((m_nIndexWrite + HEADER_LEN + nSize) <= m_nBufferSize) {
+    // Write header
+    memcpy(m_pbyMsgBuffer + m_nIndexWrite, abyHeader, HEADER_LEN);
+    // Write msg
+    memcpy(m_pbyMsgBuffer + m_nIndexWrite + HEADER_LEN, pbyMsg, nSize);
 
-        m_nIndexWrite += (HEADER_LEN + nSize);
-    }
-    else if (m_nIndexWrite + HEADER_LEN <= m_nBufferSize)
-    {
-        memcpy(m_pbyMsgBuffer + m_nIndexWrite, abyHeader, HEADER_LEN);
-        // Write msg
-        memcpy(m_pbyMsgBuffer + m_nIndexWrite + HEADER_LEN, pbyMsg, (m_nBufferSize - m_nIndexWrite - HEADER_LEN));
-        memcpy(m_pbyMsgBuffer, pbyMsg +(m_nBufferSize - m_nIndexWrite - HEADER_LEN), nSize - (m_nBufferSize - m_nIndexWrite - HEADER_LEN));
+    m_nIndexWrite += (HEADER_LEN + nSize);
+  } else if (m_nIndexWrite + HEADER_LEN <= m_nBufferSize) {
+    memcpy(m_pbyMsgBuffer + m_nIndexWrite, abyHeader, HEADER_LEN);
+    // Write msg
+    memcpy(m_pbyMsgBuffer + m_nIndexWrite + HEADER_LEN, pbyMsg,
+           (m_nBufferSize - m_nIndexWrite - HEADER_LEN));
+    memcpy(m_pbyMsgBuffer,
+           pbyMsg + (m_nBufferSize - m_nIndexWrite - HEADER_LEN),
+           nSize - (m_nBufferSize - m_nIndexWrite - HEADER_LEN));
 
-        m_nIndexWrite = (nSize - (m_nBufferSize - m_nIndexWrite - HEADER_LEN));
-    }
-    else
-    {
-        //write the header
-        memcpy(m_pbyMsgBuffer + m_nIndexWrite, abyHeader, (m_nBufferSize - m_nIndexWrite));
-        memcpy(m_pbyMsgBuffer, abyHeader + (m_nBufferSize - m_nIndexWrite), HEADER_LEN - (m_nBufferSize - m_nIndexWrite));
-        //write the msg
-        memcpy(m_pbyMsgBuffer + (HEADER_LEN - (m_nBufferSize - m_nIndexWrite)), pbyMsg, nSize);
-        m_nIndexWrite = (HEADER_LEN - (m_nBufferSize - m_nIndexWrite)) + nSize;
-    }
-    return nResult;
+    m_nIndexWrite = (nSize - (m_nBufferSize - m_nIndexWrite - HEADER_LEN));
+  } else {
+    // write the header
+    memcpy(m_pbyMsgBuffer + m_nIndexWrite, abyHeader,
+           (m_nBufferSize - m_nIndexWrite));
+    memcpy(m_pbyMsgBuffer, abyHeader + (m_nBufferSize - m_nIndexWrite),
+           HEADER_LEN - (m_nBufferSize - m_nIndexWrite));
+    // write the msg
+    memcpy(m_pbyMsgBuffer + (HEADER_LEN - (m_nBufferSize - m_nIndexWrite)),
+           pbyMsg, nSize);
+    m_nIndexWrite = (HEADER_LEN - (m_nBufferSize - m_nIndexWrite)) + nSize;
+  }
+  return nResult;
 }
 
 /**********************************************************************************
@@ -391,43 +346,39 @@ Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
-HRESULT CMsgBufVVSE::ReadBuffer(INT& nType, BYTE* pbyMsg, INT& nSize, INT& nIndex)
-{
-    HRESULT Return = CALL_SUCCESS;
-    BYTE abyHeader[HEADER_LEN];
-    Return = nGetCurrMsgHeader(nIndex, abyHeader);
-    // It is expected to return CALL_SUCCESS
+HRESULT CMsgBufVVSE::ReadBuffer(INT& nType, BYTE* pbyMsg, INT& nSize,
+                                INT& nIndex) {
+  HRESULT Return = CALL_SUCCESS;
+  BYTE abyHeader[HEADER_LEN];
+  Return = nGetCurrMsgHeader(nIndex, abyHeader);
+  // It is expected to return CALL_SUCCESS
 
-    int nMsgLen = 0;
-    memcpy(&nType, (abyHeader + TYPE_OFFSET), TYPE_SIZE);
-    memcpy(&nMsgLen, (abyHeader + MSGLEN_OFFSET), DATA_LEN_SIZE);
-    if (nMsgLen > nSize)
-    {
-        Return = ERR_READ_MEMORY_SHORT;
-        nSize   = nMsgLen - nSize;
+  int nMsgLen = 0;
+  memcpy(&nType, (abyHeader + TYPE_OFFSET), TYPE_SIZE);
+  memcpy(&nMsgLen, (abyHeader + MSGLEN_OFFSET), DATA_LEN_SIZE);
+  if (nMsgLen > nSize) {
+    Return = ERR_READ_MEMORY_SHORT;
+    nSize = nMsgLen - nSize;
+  } else {
+    if ((nIndex + HEADER_LEN + nMsgLen) <= m_nBufferSize) {
+      memcpy(pbyMsg, (m_pbyMsgBuffer + nIndex + HEADER_LEN), nMsgLen);
+      nIndex += (HEADER_LEN + nMsgLen);
+    } else if ((nIndex + HEADER_LEN) <= m_nBufferSize) {
+      memcpy(pbyMsg, (m_pbyMsgBuffer + nIndex + HEADER_LEN),
+             (m_nBufferSize - nIndex - HEADER_LEN));
+      memcpy((pbyMsg + (m_nBufferSize - nIndex - HEADER_LEN)), m_pbyMsgBuffer,
+             (nMsgLen - (m_nBufferSize - nIndex - HEADER_LEN)));
+      nIndex = nMsgLen - (m_nBufferSize - nIndex - HEADER_LEN);
+    } else {
+      memcpy(pbyMsg, (m_pbyMsgBuffer + (nIndex + HEADER_LEN - m_nBufferSize)),
+             nMsgLen);
+      nIndex = (nIndex + HEADER_LEN - m_nBufferSize) + nMsgLen;
     }
-    else
-    {
-        if ((nIndex + HEADER_LEN + nMsgLen) <= m_nBufferSize)
-        {
-            memcpy(pbyMsg, (m_pbyMsgBuffer + nIndex + HEADER_LEN), nMsgLen);
-            nIndex += (HEADER_LEN + nMsgLen);
-        }
-        else if ((nIndex + HEADER_LEN) <= m_nBufferSize)
-        {
-            memcpy(pbyMsg, (m_pbyMsgBuffer + nIndex + HEADER_LEN), (m_nBufferSize - nIndex - HEADER_LEN));
-            memcpy((pbyMsg + (m_nBufferSize - nIndex - HEADER_LEN)), m_pbyMsgBuffer, (nMsgLen - (m_nBufferSize - nIndex - HEADER_LEN)));
-            nIndex = nMsgLen - (m_nBufferSize - nIndex - HEADER_LEN);
-        }
-        else
-        {
-            memcpy(pbyMsg, (m_pbyMsgBuffer + (nIndex + HEADER_LEN - m_nBufferSize)), nMsgLen);
-            nIndex = (nIndex + HEADER_LEN - m_nBufferSize) +  nMsgLen;
-        }
-        nSize = nMsgLen;
-    }
-    return Return;
+    nSize = nMsgLen;
+  }
+  return Return;
 }
+
 /**********************************************************************************
 Function Name   :   nConstructHeader()
 Input(s)        :   TYPE, SIZE, Array of byte where header will be stored.
@@ -439,11 +390,10 @@ Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
-int CMsgBufVVSE::nConstructHeader(INT nType, INT nSize, BYTE* pbyHeader)
-{
-    memcpy(pbyHeader + TYPE_OFFSET, &nType, TYPE_SIZE);
-    memcpy(pbyHeader + MSGLEN_OFFSET, &nSize, DATA_LEN_SIZE);
-    return CALL_SUCCESS;
+int CMsgBufVVSE::nConstructHeader(INT nType, INT nSize, BYTE* pbyHeader) {
+  memcpy(pbyHeader + TYPE_OFFSET, &nType, TYPE_SIZE);
+  memcpy(pbyHeader + MSGLEN_OFFSET, &nSize, DATA_LEN_SIZE);
+  return CALL_SUCCESS;
 }
 /**********************************************************************************
 Function Name   :   nGetCurrMsgHeader(int nIndex, BYTE* pbyHeader)
@@ -456,18 +406,15 @@ Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
-int CMsgBufVVSE::nGetCurrMsgHeader(int nIndex, BYTE* pbyHeader)
-{
-    if ((nIndex + HEADER_LEN) <= m_nBufferSize)
-    {
-        memcpy(pbyHeader, (m_pbyMsgBuffer + nIndex), HEADER_LEN);
-    }
-    else
-    {
-        memcpy(pbyHeader, (m_pbyMsgBuffer + nIndex), m_nBufferSize - nIndex);
-        memcpy(pbyHeader + (m_nBufferSize - nIndex), m_pbyMsgBuffer, (nIndex + HEADER_LEN) - m_nBufferSize);
-    }
-    return CALL_SUCCESS;
+int CMsgBufVVSE::nGetCurrMsgHeader(int nIndex, BYTE* pbyHeader) {
+  if ((nIndex + HEADER_LEN) <= m_nBufferSize) {
+    memcpy(pbyHeader, (m_pbyMsgBuffer + nIndex), HEADER_LEN);
+  } else {
+    memcpy(pbyHeader, (m_pbyMsgBuffer + nIndex), m_nBufferSize - nIndex);
+    memcpy(pbyHeader + (m_nBufferSize - nIndex), m_pbyMsgBuffer,
+           (nIndex + HEADER_LEN) - m_nBufferSize);
+  }
+  return CALL_SUCCESS;
 }
 
 /**********************************************************************************
@@ -482,33 +429,25 @@ Authors         :   Pradeep Kadoor
 Date Created    :   22/06/2009
 Modifications   :   -
 ************************************************************************************/
-int CMsgBufVVSE::nHandleStartIndex(int nSize)
-{
-    int nResult = CALL_SUCCESS;
-    if (m_nStartIndex < m_nIndexWrite)
-    {
-        if ((m_nStartIndex + m_nBufferSize) <=  (m_nIndexWrite + nSize))
-        {
-            nAdvanceReadIndex(m_nStartIndex);
-            m_nMsgCount--;
-            m_nReadIndexTmp = m_nStartIndex;
-            m_nTmpMsgCount = 0;
-            nHandleStartIndex(nSize);
-
-        }
+int CMsgBufVVSE::nHandleStartIndex(int nSize) {
+  int nResult = CALL_SUCCESS;
+  if (m_nStartIndex < m_nIndexWrite) {
+    if ((m_nStartIndex + m_nBufferSize) <= (m_nIndexWrite + nSize)) {
+      nAdvanceReadIndex(m_nStartIndex);
+      m_nMsgCount--;
+      m_nReadIndexTmp = m_nStartIndex;
+      m_nTmpMsgCount = 0;
+      nHandleStartIndex(nSize);
     }
-    else if (m_nStartIndex > m_nIndexWrite)
-    {
-        if ((m_nStartIndex) <=  (m_nIndexWrite + nSize))
-        {
-            nAdvanceReadIndex(m_nStartIndex);
-            m_nMsgCount--;
-            m_nReadIndexTmp = m_nStartIndex;
-            m_nTmpMsgCount = 0;
-            nHandleStartIndex(nSize);
-
-        }
+  } else if (m_nStartIndex > m_nIndexWrite) {
+    if ((m_nStartIndex) <= (m_nIndexWrite + nSize)) {
+      nAdvanceReadIndex(m_nStartIndex);
+      m_nMsgCount--;
+      m_nReadIndexTmp = m_nStartIndex;
+      m_nTmpMsgCount = 0;
+      nHandleStartIndex(nSize);
     }
+  }
 
-    return nResult;
+  return nResult;
 }
