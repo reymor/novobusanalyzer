@@ -1,3 +1,4 @@
+// clang-format off
 /******************************************************************************
   Project       :  Auto-SAT_Tools
   FileName      :  TransferLayer.h
@@ -19,43 +20,47 @@
   Modified By   :
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
+// clang-format on
 
-#pragma once
+#ifndef KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_TRANSFERLAYER_H_
+#define KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_TRANSFERLAYER_H_
+
 #include "BaseDIL_CAN.h"
-//#include "DIL_Interface/BaseDIL_CAN.h"
 
-class CTransferLayer
-{
-private:
-    CTransferLayer(void);
-    CBaseDIL_CAN* m_pIDIL_CAN;
-public:
-    ~CTransferLayer(void);
+class CTransferLayer {
+ private:
+  CTransferLayer(void);
+  CBaseDIL_CAN* m_pIDIL_CAN;
 
-    // CONNECTION SET-UP SERVICE -- START
-    // Request for connection establishment
-    LONG lTConnectReq(short sConNumber, char bBlockSize, eCON_MODE eSMmode);
-    // Confirmation of connection establishment
-    void vTConnectCon(short sConNumber, eCON_STATUS ConStatus,
-                      char bBlockSize, eCON_MODE bServiceMode);
-    // Indication of connection establishment
-    void vTConnectInd(short sConNumber, char bBlockSize, BOOL bIsSMEnhance);
-    // Indication of connection termination
-    void vTDisconnectInd(short sConNumber, eREASON eReason);
-    // CONNECTION SET-UP SERVICE -- END
+ public:
+  ~CTransferLayer(void);
 
-    // CONNECTION TEST SERVICE -- START
-    // Request for connection test
-    LONG lTConTestReq(short sConNumber);
-    // Confirmation of connection test
-    void vTConTestCon(short sConNumber, char cConnectionStatus, char cBlockSize, char cServiceMode);
-    void vTLongDataCon(short sConNumber, char cTransferResult);
-    void vTBroadDataInd(short sBroadcastChannel,short sDataLength, BYTE* pbData);
+  // CONNECTION SET-UP SERVICE -- START
+  // Request for connection establishment
+  LONG lTConnectReq(short sConNumber, char bBlockSize, eCON_MODE eSMmode);
+  // Confirmation of connection establishment
+  void vTConnectCon(short sConNumber, eCON_STATUS ConStatus, char bBlockSize,
+                    eCON_MODE bServiceMode);
+  // Indication of connection establishment
+  void vTConnectInd(short sConNumber, char bBlockSize, BOOL bIsSMEnhance);
+  // Indication of connection termination
+  void vTDisconnectInd(short sConNumber, eREASON eReason);
+  // CONNECTION SET-UP SERVICE -- END
 
-    //Singleton class
-    static CTransferLayer& ouGetTransLayerObj();
-    void vTransmitCANMsg(DWORD dwClientID, UINT unID,
-                         UCHAR ucDataLen, BYTE* pData, UINT unChannel);
-    void vSetIDIL_CAN(CBaseDIL_CAN* pIDIL_CAN);
+  // CONNECTION TEST SERVICE -- START
+  // Request for connection test
+  LONG lTConTestReq(short sConNumber);
+  // Confirmation of connection test
+  void vTConTestCon(short sConNumber, char cConnectionStatus, char cBlockSize,
+                    char cServiceMode);
+  void vTLongDataCon(short sConNumber, char cTransferResult);
+  void vTBroadDataInd(short sBroadcastChannel, short sDataLength, BYTE* pbData);
 
+  // Singleton class
+  static CTransferLayer& ouGetTransLayerObj();
+  void vTransmitCANMsg(DWORD dwClientID, UINT unID, UCHAR ucDataLen,
+                       BYTE* pData, UINT unChannel);
+  void vSetIDIL_CAN(CBaseDIL_CAN* pIDIL_CAN);
 };
+
+#endif  // KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_TRANSFERLAYER_H_

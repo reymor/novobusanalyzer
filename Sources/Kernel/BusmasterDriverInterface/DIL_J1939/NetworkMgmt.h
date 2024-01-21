@@ -1,4 +1,4 @@
-
+// clang-format off
 /******************************************************************************
   Project       :  Frame_McNet
   FileName      :  NetworkMgmt.h
@@ -48,93 +48,92 @@
   Modified By   :
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
+// clang-format on
 
-#pragma once
+#ifndef KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_NETWORKMGMTNETWORKMGMT_H_
+#define KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_NETWORKMGMTNETWORKMGMT_H_
 
-#include "NodeConManager.h"
-#include "DIL_J1939_Extern.h"
 #include "BaseDIL_CAN.h"
 #include "ConnectionDet.h"
+#include "DIL_J1939_Extern.h"
+#include "NodeConManager.h"
 #include "ReadCanMsg.h"
 
-typedef enum
-{
-    CB_CON_CON,
-    CB_CON_IND,
-    CB_CONTEST_CON,
-    CB_CONTEST_IND
+typedef enum {
+  CB_CON_CON,
+  CB_CON_IND,
+  CB_CONTEST_CON,
+  CB_CONTEST_IND
 } E_NW_CALLBK_TYPE;
 
 typedef CMap<UINT, UINT, short, short> CCombineLCsToConNoMap;
 typedef CMap<UINT64, UINT64, BYTE, BYTE> CNameAddressMap;
 
-class CNetworkMgmt
-{
-private:
-    CNetworkMgmt(void);
-    CReadCanMsg m_ouReadCANMsg;
-    CBaseDIL_CAN* m_pIDIL_CAN;
-    CNodeConManager* m_ConMgrArr[DEF_MAX_SIMULATED_NODE];
-    CCombineLCsToConNoMap m_LCsToConMap;
-    int m_nConMgrCnt;
-    CNameAddressMap m_odClaimedAdresMap;
-    BOOL m_bOnline;
-    DWORD m_dwCANMonitorNodeClientId;
+class CNetworkMgmt {
+ private:
+  CNetworkMgmt(void);
+  CReadCanMsg m_ouReadCANMsg;
+  CBaseDIL_CAN* m_pIDIL_CAN;
+  CNodeConManager* m_ConMgrArr[DEF_MAX_SIMULATED_NODE];
+  CCombineLCsToConNoMap m_LCsToConMap;
+  int m_nConMgrCnt;
+  CNameAddressMap m_odClaimedAdresMap;
+  BOOL m_bOnline;
+  DWORD m_dwCANMonitorNodeClientId;
 
-public:
-    static UINT sg_unTO_BROADCAST;
-    static UINT sg_unTO_RESPONSE;
-    static UINT sg_unTO_HOLDING;
-    static UINT sg_unTO_T1;
-    static UINT sg_unTO_T2;
-    static UINT sg_unTO_T3;
-    static UINT sg_unTO_T4;
+ public:
+  static UINT sg_unTO_BROADCAST;
+  static UINT sg_unTO_RESPONSE;
+  static UINT sg_unTO_HOLDING;
+  static UINT sg_unTO_T1;
+  static UINT sg_unTO_T2;
+  static UINT sg_unTO_T3;
+  static UINT sg_unTO_T4;
 
-    ~CNetworkMgmt(void);
+  ~CNetworkMgmt(void);
 
-    void vDoInit(void);
-    void vDoExit(void);
-    // chnaged for incorporrating Buad Rate change.
-    void vMInitReq(unsigned short BaudIndex);
-    void vMInitCon(char cInitResult);
-    void vMInitInd(char cInitResult,char cInitReason);
-    void vMExitReq(void);
-    void vMExitCon(char cExitResult);
-    void vMDisconnectInd(short sLocalLc, short sRemoteLc, eREASON eReason);
-    void vMErrorInd(short sLocalLc,short sRemoteLc,char cError);
-    void vMBaudRateChange(unsigned short BaudTemp);
-    void vMConnectionCon(short sLocalLc, short sRemoteLc, eCON_STATUS eConStatus);
-    void vMConnectionInd(short sLocalLc, short sRemoteLc, eCON_STATUS eConStatus);
-    ////////////////////////////////////////////////////////////////////
-    CNodeConManager* pouGetConMagrObj(DWORD dwClientId);
-    CNodeConManager* pouGetConMagrObj(char* pacClientName);
-    CNodeConManager* pouGetConMagrObj(BYTE byIndex);
-    BYTE byGetConMagrNumber(short shConNumber);
-    //Singleton Class
-    static CNetworkMgmt& ouGetNWManagementObj();
-    //
-    void vSetLogAndICANPtr(CBaseDIL_CAN* pouIDIL_CAN);
-    LONG lCreateNodeConManager(char* pacNodeName,
-                               UINT64 un64ECUName,
-                               BYTE byPrefAdres,
-                               DWORD& dwClientId);
-    void vRemoveAllNodes(void);
-    LONG lRemoveNodeConManager(DWORD dwClientId);
-    BOOL bRemoveConnectionFromConMap(short shConnectionNo);
-    HRESULT StartAdresClaimProc(void);
-    BYTE byGetUnclaimedAddress(int nStartFrom = 0);
-    void vReinitAdresClaimProc(DWORD dwClient);
-    void vUpdateAddressMap(UINT64 un64EcuName, BYTE byNodeAddress);
-    BOOL bIsAddressClaimed(BYTE byAddress);
-    void vGetNodeName(BYTE byAddress, char* acNodeName);
-    BYTE byGetNodeAddress(DWORD dwClient);
-    void vInitializeAllNodes(void);
-    void vUnInitializeAllNodes(void);
-    void vConfigureTimeOut(ETYPE_TIMEOUT eTimeOutType, UINT unMiliSeconds);
-    void vGetTimeOut(ETYPE_TIMEOUT eTimeOutType, UINT& unMiliSeconds);
-    HRESULT GetTimeModeMapping(SYSTEMTIME& CurrSysTime, UINT64& unAbsTime);
-    CBaseDIL_CAN* GetICANDIL(void);
-    HRESULT GoOnline(BOOL bStart);
-    HRESULT vClaimAddress();
-    BOOL bIsOnline(void);
+  void vDoInit(void);
+  void vDoExit(void);
+  // chnaged for incorporrating Baud Rate change.
+  void vMInitReq(unsigned short BaudIndex);
+  void vMInitCon(char cInitResult);
+  void vMInitInd(char cInitResult, char cInitReason);
+  void vMExitReq(void);
+  void vMExitCon(char cExitResult);
+  void vMDisconnectInd(short sLocalLc, short sRemoteLc, eREASON eReason);
+  void vMErrorInd(short sLocalLc, short sRemoteLc, char cError);
+  void vMBaudRateChange(unsigned short BaudTemp);
+  void vMConnectionCon(short sLocalLc, short sRemoteLc, eCON_STATUS eConStatus);
+  void vMConnectionInd(short sLocalLc, short sRemoteLc, eCON_STATUS eConStatus);
+  ////////////////////////////////////////////////////////////////////
+  CNodeConManager* pouGetConMagrObj(DWORD dwClientId);
+  CNodeConManager* pouGetConMagrObj(char* pacClientName);
+  CNodeConManager* pouGetConMagrObj(BYTE byIndex);
+  BYTE byGetConMagrNumber(short shConNumber);
+  // Singleton Class
+  static CNetworkMgmt& ouGetNWManagementObj();
+  void vSetLogAndICANPtr(CBaseDIL_CAN* pouIDIL_CAN);
+  LONG lCreateNodeConManager(char* pacNodeName, UINT64 un64ECUName,
+                             BYTE byPrefAdres, DWORD& dwClientId);
+  void vRemoveAllNodes(void);
+  LONG lRemoveNodeConManager(DWORD dwClientId);
+  BOOL bRemoveConnectionFromConMap(short shConnectionNo);
+  HRESULT StartAdresClaimProc(void);
+  BYTE byGetUnclaimedAddress(int nStartFrom = 0);
+  void vReinitAdresClaimProc(DWORD dwClient);
+  void vUpdateAddressMap(UINT64 un64EcuName, BYTE byNodeAddress);
+  BOOL bIsAddressClaimed(BYTE byAddress);
+  void vGetNodeName(BYTE byAddress, char* acNodeName);
+  BYTE byGetNodeAddress(DWORD dwClient);
+  void vInitializeAllNodes(void);
+  void vUnInitializeAllNodes(void);
+  void vConfigureTimeOut(ETYPE_TIMEOUT eTimeOutType, UINT unMiliSeconds);
+  void vGetTimeOut(ETYPE_TIMEOUT eTimeOutType, UINT& unMiliSeconds);
+  HRESULT GetTimeModeMapping(SYSTEMTIME& CurrSysTime, UINT64& unAbsTime);
+  CBaseDIL_CAN* GetICANDIL(void);
+  HRESULT GoOnline(BOOL bStart);
+  HRESULT vClaimAddress();
+  BOOL bIsOnline(void);
 };
+
+#endif  // KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_NETWORKMGMTNETWORKMGMT_H_

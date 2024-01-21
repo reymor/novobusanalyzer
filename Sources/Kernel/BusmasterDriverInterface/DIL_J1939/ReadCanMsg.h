@@ -1,3 +1,4 @@
+// clang-format off
 /******************************************************************************
   Project       :  Auto-SAT_Tools
   FileName      :  ReadCanMsg.h
@@ -15,42 +16,46 @@
   Modified By   :
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
+// clang-format on
 
-#pragma once
+#ifndef KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_READCANMSG_H_
+#define KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_READCANMSG_H_
 
 #define DEF_MAX_SIMULATED_NODE 32
 
-typedef CMap<HANDLE,HANDLE,BYTE,BYTE> CHandleToNodeMagrMap;
+typedef CMap<HANDLE, HANDLE, BYTE, BYTE> CHandleToNodeMagrMap;
 
-class CReadCanMsg
-{
-protected:
-    CPARAM_THREADPROC m_ouThreadUtil;
+class CReadCanMsg {
+ protected:
+  CPARAM_THREADPROC m_ouThreadUtil;
 
-    // To reset the object
-    void vReset(void);
-public:
-    HANDLE m_ahActionEvent[DEF_MAX_SIMULATED_NODE + 1]; // One additional
-    CHandleToNodeMagrMap m_omHandleToNodeMgrMap;
-    int m_nEvents;
+  // To reset the object
+  void vReset(void);
 
-public:
-    CReadCanMsg(void);
-    ~CReadCanMsg(void);
+ public:
+  HANDLE m_ahActionEvent[DEF_MAX_SIMULATED_NODE + 1];  // One additional
+  CHandleToNodeMagrMap m_omHandleToNodeMgrMap;
+  int m_nEvents;
 
-    // event handle is the action event of the thread. This'll be necessary
-    // while closing the thread.
-    void vRetrieveDataFromBuffer(BYTE byIndex);
+ public:
+  CReadCanMsg(void);
+  ~CReadCanMsg(void);
 
-    // To add event handle for a client
-    HRESULT AddEventHandle(HANDLE hHandle, BYTE byNodeMgrIndex);
+  // event handle is the action event of the thread. This'll be necessary
+  // while closing the thread.
+  void vRetrieveDataFromBuffer(BYTE byIndex);
 
-    // To remove event handle of a client
-    BOOL bDeleteEventHandle(HANDLE handle);
+  // To add event handle for a client
+  HRESULT AddEventHandle(HANDLE hHandle, BYTE byNodeMgrIndex);
 
-    // Do initialisation operations
-    void vDoInit(void);
+  // To remove event handle of a client
+  BOOL bDeleteEventHandle(HANDLE handle);
 
-    // Do closure operations
-    void vDoExit(void);
+  // Do initialisation operations
+  void vDoInit(void);
+
+  // Do closure operations
+  void vDoExit(void);
 };
+
+#endif  // KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_READCANMSG_H_

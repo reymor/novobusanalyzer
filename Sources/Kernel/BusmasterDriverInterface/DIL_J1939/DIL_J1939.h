@@ -1,4 +1,4 @@
-
+// clang-format off
 /******************************************************************************
   Project       :  Auto-SAT_Tools
   FileName      :  J1939Translator.h
@@ -15,30 +15,26 @@
   Modified By   :
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
+// clang-format on
 
-
-// J1939Translator.h : main header file for the MCNetTranslator DLL
-//
-
-#pragma once
+#ifndef KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_DIL_J1939_H_
+#define KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_DIL_J1939_H_
 
 #ifndef __AFXWIN_H__
 #error include 'stdafx.h' before including this file for PCH
 #endif
 
-
 // CMCNetTranslatorApp
 // See MCNetTranslator.cpp for the implementation of this class
-//
+class CJ1939TranslatorApp : public CWinApp {
+ public:
+  CJ1939TranslatorApp();
 
-class CJ1939TranslatorApp : public CWinApp
-{
-public:
-    CJ1939TranslatorApp();
+  // Overrides
+ public:
+  virtual BOOL InitInstance();
 
-    // Overrides
-public:
-    virtual BOOL InitInstance();
-
-    DECLARE_MESSAGE_MAP()
+  DECLARE_MESSAGE_MAP()
 };
+
+#endif  // KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_DIL_J1939_H_

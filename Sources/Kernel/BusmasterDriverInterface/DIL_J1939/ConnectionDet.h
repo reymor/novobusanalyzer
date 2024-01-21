@@ -1,4 +1,4 @@
-
+// clang-format off
 /******************************************************************************
   Project       :  Frame_McNet
   FileName      :  ConnectionDet.h
@@ -35,65 +35,66 @@
   Modified By   :
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
+// clang-format on
 
-#pragma once
+#ifndef KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_CONNECTIONDET_H_
+#define KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_CONNECTIONDET_H_
 
 #include "J1939DriverDefines.h"
 #include "J1939_UtilityFuncs.h"
 
-class CConnectionDet
-{
-private:
-    eCON_STATUS m_eConStatus;
-public:
-    //STJ1939_MSG m_sJ1939Msg;
-    //Only for long message
-    BYTE  m_byCurrPacket;
-    BYTE  m_byMaxPacketWOC2S;
-    BYTE m_byTxAckSeqNo;
-    BYTE m_byRxSeqNo;
+class CConnectionDet {
+ private:
+  eCON_STATUS m_eConStatus;
 
-    BYTE   m_RxLongData[MAX_DATA_LEN_J1939];             //RX long data storage
-    BYTE   m_BCRXLongData[MAX_DATA_LEN_J1939];
-    BYTE   m_TxLongData[MAX_DATA_LEN_J1939];             //TX long data storage
-    UINT   m_unTXLongDataLen;
-    UINT   m_unRXLongDataLen;
-    UINT   m_unRxTotalPackets;
-    UINT   m_unRxLastFrameLen;
-    UINT64 m_unTimeStamp;
-    HANDLE m_hDataAckWait;
-    HANDLE m_hDataRxWait;
-    HANDLE m_hClear2SendWait;
-    HANDLE m_hBCDataRXWait;
-    HANDLE m_hDataDelayWait; // Dummy handle just to wait till the delay expires
-    // instead of implementing timer function
-    UINT32 m_unPGN;
-    //STCAN_MSG m_sCanMsg;
+ public:
+  // Only for long message
+  BYTE m_byCurrPacket;
+  BYTE m_byMaxPacketWOC2S;
+  BYTE m_byTxAckSeqNo;
+  BYTE m_byRxSeqNo;
 
-    //All broadcast
-    UINT64 m_BCTimeStamp;
-    BYTE m_BCRxSeqVar;
-    BYTE m_BCTotalPackets;
-    eCON_MODE m_eRxConMode;
-    eCON_MODE m_eTxConMode;
-    UINT32 m_BCPGN;
-    UINT m_BCRXLongDataLen;
-    UINT m_BCLastFrameLen;
-public:
-    BYTE       m_bySrcAddress;             // Tx msg id for this connection
-    BYTE       m_byDestAddress;            // Rx msg id for this connection
+  BYTE m_RxLongData[MAX_DATA_LEN_J1939];  // RX long data storage
+  BYTE m_BCRXLongData[MAX_DATA_LEN_J1939];
+  BYTE m_TxLongData[MAX_DATA_LEN_J1939];  // TX long data storage
+  UINT m_unTXLongDataLen;
+  UINT m_unRXLongDataLen;
+  UINT m_unRxTotalPackets;
+  UINT m_unRxLastFrameLen;
+  UINT64 m_unTimeStamp;
+  HANDLE m_hDataAckWait;
+  HANDLE m_hDataRxWait;
+  HANDLE m_hClear2SendWait;
+  HANDLE m_hBCDataRXWait;
+  // Dummy handle just to wait till the delay expires instead of implementing
+  // timer function
+  HANDLE m_hDataDelayWait;
+  UINT32 m_unPGN;
 
-    BYTE       m_byResult;
-    UINT       m_unNextPacket;
+  // All broadcast
+  UINT64 m_BCTimeStamp;
+  BYTE m_BCRxSeqVar;
+  BYTE m_BCTotalPackets;
+  eCON_MODE m_eRxConMode;
+  eCON_MODE m_eTxConMode;
+  UINT32 m_BCPGN;
+  UINT m_BCRXLongDataLen;
+  UINT m_BCLastFrameLen;
 
-public:
-    CConnectionDet(BYTE bySrcAddress,
-                   BYTE byDestAddress);
-    ~CConnectionDet();
-    BOOL bIsMsgRxForThisConnection(UINT32 unExtId);
-    //BOOL  bGetAckFrame(BYTE &byData, BOOL bIsLong, BOOL bIsRxReady = TRUE);
-    void vInitializeMemberVar();
-    void vSetConStatus(eCON_STATUS eConStatus);
-    eCON_STATUS eGetConStatus(void);
+ public:
+  BYTE m_bySrcAddress;   // Tx msg id for this connection
+  BYTE m_byDestAddress;  // Rx msg id for this connection
 
+  BYTE m_byResult;
+  UINT m_unNextPacket;
+
+ public:
+  CConnectionDet(BYTE bySrcAddress, BYTE byDestAddress);
+  ~CConnectionDet();
+  BOOL bIsMsgRxForThisConnection(UINT32 unExtId);
+  void vInitializeMemberVar();
+  void vSetConStatus(eCON_STATUS eConStatus);
+  eCON_STATUS eGetConStatus(void);
 };
+
+#endif  // KERNEL_BUSMASTERDRIVERINTERFACE_DIL_J1939_CONNECTIONDET_H_
