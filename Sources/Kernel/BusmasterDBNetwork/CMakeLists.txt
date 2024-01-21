@@ -3,11 +3,6 @@ set(PROJECT_NAME BusmasterDBNetwork)
 ################################################################################
 # Source groups
 ################################################################################
-set(no_group_source_files
-    "ReadMe.txt"
-)
-source_group("" FILES ${no_group_source_files})
-
 set(Header_Files
     "AccessDBManager.h"
     "BusMasterNetWork.h"
@@ -23,7 +18,6 @@ set(Source_Files
 source_group("Source Files" FILES ${Source_Files})
 
 set(ALL_FILES
-    ${no_group_source_files}
     ${Header_Files}
     ${Source_Files}
 )
@@ -101,4 +95,3 @@ if(MSVC)
         /SUBSYSTEM:WINDOWS
     )
 endif()
-
