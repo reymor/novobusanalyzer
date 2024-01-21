@@ -16,47 +16,49 @@
 /**
  * \file      CAN_Error_Defs.h
  * \author    Pemmaiah BD
- * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
+ * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business
+ * Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef KERNEL_BUSMASTERDRIVERINTERFACE_CAN_ERROR_DEFS_H_
+#define KERNEL_BUSMASTERDRIVERINTERFACE_CAN_ERROR_DEFS_H_
 
-//Error Val Interpretation
-#define ERROR_BUS                       0x01
-#define ERROR_DEVICE_BUFF_OVERFLOW      0x02
-#define ERROR_DRIVER_BUFF_OVERFLOW      0x03
-#define ERROR_WARNING_LIMIT_REACHED     0x04
+// Error Val Interpretation
+#define ERROR_BUS 0x01
+#define ERROR_DEVICE_BUFF_OVERFLOW 0x02
+#define ERROR_DRIVER_BUFF_OVERFLOW 0x03
+#define ERROR_WARNING_LIMIT_REACHED 0x04
 #define ERROR_APPLICATION_BUFF_OVERFLOW 0x05
-#define ERROR_TX_TIMEOUT                0x06
-#define ERROR_INTERRUPT                 0x07
-#define ERROR_DLLMSG_BUFF_OVERFLOW      0x08
+#define ERROR_TX_TIMEOUT 0x06
+#define ERROR_INTERRUPT 0x07
+#define ERROR_DLLMSG_BUFF_OVERFLOW 0x08
 
-#define ERROR_UNKNOWN                   0xFF
+#define ERROR_UNKNOWN 0xFF
 
+#define BIT_ERROR_TX 0x00
+#define CRC_ERROR_TX 0x10
+#define FORM_ERROR_TX 0x40
+#define STUFF_ERROR_TX 0x80
+#define OTHER_ERROR_TX 0xC0
+#define BIT_ERROR_RX 0x20
+#define CRC_ERROR_RX 0xB0
+#define FORM_ERROR_RX 0x60
+#define STUFF_ERROR_RX 0xA0
+#define OTHER_ERROR_RX 0xE0
+#define ACK_ERROR_TX 0xF0
+#define ACK_ERROR_RX 0XF1
 
-#define BIT_ERROR_TX                       0x00
-#define CRC_ERROR_TX                       0x10
-#define FORM_ERROR_TX                      0x40
-#define STUFF_ERROR_TX                     0x80
-#define OTHER_ERROR_TX                     0xC0
-#define BIT_ERROR_RX                       0x20
-#define CRC_ERROR_RX                       0xB0
-#define FORM_ERROR_RX                      0x60
-#define STUFF_ERROR_RX                     0xA0
-#define OTHER_ERROR_RX                     0xE0
-#define ACK_ERROR_TX                       0xF0
-#define ACK_ERROR_RX                       0XF1
+#define DIL_OK 0x0000
+#define DIL_FAIL 0xFFFF
 
-#define DIL_OK                          0x0000
-#define DIL_FAIL                        0xFFFF
+// These codes are returned by DIL_nMsgWrite func
+#define DIL_ERR_WRITE_SYS 0xF001
+#define DIL_ERR_DEVICE_BUSY 0xF002
+#define DILC_WARN_PARAM_ADAPTED 0xF003
+// #define DIL_ERR_READ_BYTE_MISMATCH      0xF002
 
-//These codes are returned by DIL_nMsgWrite func
-#define DIL_ERR_WRITE_SYS               0xF001
-#define DIL_ERR_DEVICE_BUSY             0xF002
-#define DILC_WARN_PARAM_ADAPTED         0xF003
-//#define DIL_ERR_READ_BYTE_MISMATCH      0xF002
+// These error codes are returned by DIL_nMsgRead func
+#define DIL_ERR_READ_SYS 0xFFF0
+#define DIL_ERR_READ_BYTE_MISMATCH 0xFFF1
 
-
-//These error codes are returned by DIL_nMsgRead func
-#define DIL_ERR_READ_SYS                0xFFF0
-#define DIL_ERR_READ_BYTE_MISMATCH      0xFFF1
+#endif  // KERNEL_BUSMASTERDRIVERINTERFACE_CAN_ERROR_DEFS_H_

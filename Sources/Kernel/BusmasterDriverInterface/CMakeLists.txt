@@ -3,11 +3,6 @@ set(PROJECT_NAME BusmasterDriverInterface)
 ################################################################################
 # Source groups
 ################################################################################
-set(no_group_source_files
-    "ReadMe.txt"
-)
-source_group("" FILES ${no_group_source_files})
-
 set(Header_Files
     "DIL_CAN.h"
     "Include/BusmasterDriverInterface.h"
@@ -47,7 +42,6 @@ set(Source_Files
 source_group("Source Files" FILES ${Source_Files})
 
 set(ALL_FILES
-    ${no_group_source_files}
     ${Header_Files}
     ${Include}
     ${Source_Files}
