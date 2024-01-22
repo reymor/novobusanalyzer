@@ -1,23 +1,22 @@
-#pragma once
+#ifndef BUSMASTER_UDS_PROTOCOL_UDS_SETTINGSWND_H_
+#define BUSMASTER_UDS_PROTOCOL_UDS_SETTINGSWND_H_
 
 #include "UDS_Resource.h"
 
+class CUDS_SettingsWnd : public CDialog {
+  DECLARE_DYNAMIC(CUDS_SettingsWnd)
 
-// Cuadro de diálogo de CUDS_SettingsWnd
+ public:
+  CUDS_SettingsWnd(CWnd* pParent = NULL);
+  virtual ~CUDS_SettingsWnd();
 
-class CUDS_SettingsWnd : public CDialog
-{
-    DECLARE_DYNAMIC(CUDS_SettingsWnd)
+  enum { IDD = IDM_UDS };
 
-public:
-    CUDS_SettingsWnd(CWnd* pParent = NULL);   // Constructor estándar
-    virtual ~CUDS_SettingsWnd();
+ protected:
+  // DDX/DDV Compatibility
+  virtual void DoDataExchange(CDataExchange* pDX);
 
-    // Datos del cuadro de diálogo
-    enum { IDD = IDM_UDS };
-
-protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // Compatibilidad con DDX/DDV
-
-    DECLARE_MESSAGE_MAP()
+  DECLARE_MESSAGE_MAP()
 };
+
+#endif  // BUSMASTER_UDS_PROTOCOL_UDS_SETTINGSWND_H_

@@ -1,22 +1,22 @@
-#pragma once
+#ifndef BUSMASTER_UDS_PROTOCOL_UDS_TIMMINGWND_H_
+#define BUSMASTER_UDS_PROTOCOL_UDS_TIMMINGWND_H_
+
 #include "UDS_Resource.h"
 
+class CUDS_TimmingWnd : public CDialog {
+  DECLARE_DYNAMIC(CUDS_TimmingWnd)
 
-// Cuadro de diálogo de CUDS_TimmingWnd
+ public:
+  CUDS_TimmingWnd(CWnd* pParent = NULL);
+  virtual ~CUDS_TimmingWnd();
 
-class CUDS_TimmingWnd : public CDialog
-{
-    DECLARE_DYNAMIC(CUDS_TimmingWnd)
+  enum { IDD = IDD_TIMMING_UDS };
 
-public:
-    CUDS_TimmingWnd(CWnd* pParent = NULL);   // Constructor estándar
-    virtual ~CUDS_TimmingWnd();
+ protected:
+  // DDX/DDV Compatibility
+  virtual void DoDataExchange(CDataExchange* pDX);
 
-    // Datos del cuadro de diálogo
-    enum { IDD = IDD_TIMMING_UDS };
-
-protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // Compatibilidad con DDX/DDV
-
-    DECLARE_MESSAGE_MAP()
+  DECLARE_MESSAGE_MAP()
 };
+
+#endif  // BUSMASTER_UDS_PROTOCOL_UDS_TIMMINGWND_H_

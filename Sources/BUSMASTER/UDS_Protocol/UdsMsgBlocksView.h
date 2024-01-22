@@ -1,16 +1,12 @@
-#pragma once
+#ifndef BUSMASTER_UDS_PROTOCOL_UDSMSGBLOCKSVIEW_H_
+#define BUSMASTER_UDS_PROTOCOL_UDSMSGBLOCKSVIEW_H_
+
 #include "afxext.h"
-//#include "UDSWnd_Defines.h"
 
-class CUdsMsgBlocksView /*: public CFormView*/
-{
-public:
-    CUdsMsgBlocksView(void);
-    ~CUdsMsgBlocksView(void);
-
-
-
-
-
-
+class CUdsMsgBlocksView {
+ public:
+  CUdsMsgBlocksView(void);
+  ~CUdsMsgBlocksView(void);
 };
+
+#endif  // BUSMASTER_UDS_PROTOCOL_UDSMSGBLOCKSVIEW_H_

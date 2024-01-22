@@ -5,36 +5,36 @@
  * Designer:  Bentea Radu Mihai
  */
 
-#pragma once
+#ifndef BUSMASTER_UDS_PROTOCOL_UDSWND_DEFINES_H_
+#define BUSMASTER_UDS_PROTOCOL_UDSWND_DEFINES_H_
 
-//#include "include/struct_can.h"
 #include "CANDriverDefines.h"
+
 const int NO_OF_CHAR_IN_BYTE = 2;
 
-
 /** Message Structure */
-struct msTXMSGDATA
-{
-    UINT  m_unCount;              // Total array element in the point m_psTxMsg
-    PSTCAN_MSG m_psTxMsg;         // pointer to array of structure for
-    // Transmitting  the data.
+struct msTXMSGDATA {
+  UINT m_unCount;
+  PSTCAN_MSG m_psTxMsg;
 };
+
 typedef msTXMSGDATA mSTXSELMSGDATA;
 typedef msTXMSGDATA* mPSTXSELMSGDATA;
 
-#define defDIV_FACT_FOR_SECOND              10000.0
+#define defDIV_FACT_FOR_SECOND 10000.0
 #define defFORMAT_MSGID_DECIMAL "%d"
-#define TIME_UNABLE_SEND_BUTTON             10
-#define MASK_SA_ID_29Bits                   0x3FF800
+#define TIME_UNABLE_SEND_BUTTON 10
+#define MASK_SA_ID_29Bits 0x3FF800
 
-#define MASK_TA_ID_29Bits                   0x7FF
+#define MASK_TA_ID_29Bits 0x7FF
 
 /** It's used to change the SA from the Main Wnd */
-#define NEG_MASK_SA_ID_29Bits               0x1FC007FF
+#define NEG_MASK_SA_ID_29Bits 0x1FC007FF
 
 /** It's used to change the TA from the Main Wnd */
-#define NEG_MASK_TA_ID_29Bits               0x1FFFF800
+#define NEG_MASK_TA_ID_29Bits 0x1FFFF800
 
-#define MAX_VALUE_29BIT_ID                  0x1FFFFFFF
-#define MASK_TA_ID_29Bits_J1939             0xFF00
-//#define NUM_BYTES_SHOWN_RESP                16
+#define MAX_VALUE_29BIT_ID 0x1FFFFFFF
+#define MASK_TA_ID_29Bits_J1939 0xFF00
+
+#endif  // BUSMASTER_UDS_PROTOCOL_UDSWND_DEFINES_H_
