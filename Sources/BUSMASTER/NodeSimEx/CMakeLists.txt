@@ -132,6 +132,10 @@ target_link_libraries(${PROJECT_NAME}
   Winmm
 )
 
+if(MSVC)
+  target_link_options(${PROJECT_NAME} PRIVATE /DEBUG)
+endif()
+
 ################################################################################
 # Post build events
 ################################################################################

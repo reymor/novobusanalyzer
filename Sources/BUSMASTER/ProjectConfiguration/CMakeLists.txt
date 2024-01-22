@@ -32,6 +32,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouu
 target_link_libraries(${PROJECT_NAME}
   DataTypes)
 
+if(MSVC)
+  target_link_options(${PROJECT_NAME} PRIVATE /DEBUG)
+endif()
+
 # installer options
 add_custom_command(
   TARGET ${PROJECT_NAME}

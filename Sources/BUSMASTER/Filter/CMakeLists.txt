@@ -36,6 +36,10 @@ target_link_libraries(${PROJECT_NAME}
   DataTypes
   Utils)
 
+if(MSVC)
+  target_link_options(${PROJECT_NAME} PRIVATE /DEBUG)
+endif()
+
 # installer options
 add_custom_command(
   TARGET ${PROJECT_NAME}

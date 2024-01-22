@@ -49,6 +49,10 @@ add_definitions(-D_USRDLL)
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
 
+if(MSVC)
+  target_link_options(${PROJECT_NAME} PRIVATE /DEBUG)
+endif()
+
 ################################################################################
 # Post build events
 ################################################################################

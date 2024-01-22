@@ -42,4 +42,8 @@ include_directories(
 # compiler options
 add_definitions(-D_LIB)
 
+if(MSVC)
+  target_link_options(${PROJECT_NAME} PRIVATE /DEBUG)
+endif()
+
 target_link_libraries(${PROJECT_NAME} PUBLIC ProtocolDefinitions)

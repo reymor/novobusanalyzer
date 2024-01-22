@@ -76,3 +76,7 @@ add_definitions(-D_LIB)
 target_link_libraries(${PROJECT_NAME}
   PUBLIC ${LIBXML2_LIBRARY} ${GETTEXT_LIBRARY} ProtocolDefinitions
 )
+
+if(MSVC)
+  target_link_options(${PROJECT_NAME} PRIVATE /DEBUG)
+endif()
