@@ -47,8 +47,6 @@ add_executable(${PROJECT_NAME} ${ALL_FILES})
 ################################################################################
 # Includes for CMake from *.props
 ################################################################################
-set_target_properties(${PROJECT_NAME} PROPERTIES VS_USER_PROPS "../BUSMASTER_Settings/QTIncludes.props")
-
 set_target_properties(${PROJECT_NAME} PROPERTIES
     VS_GLOBAL_KEYWORD "Qt4VSv1.0"
 )
