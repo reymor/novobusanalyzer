@@ -1,3 +1,5 @@
+set(PROJECT_NAME Filter)
+
 set(sources
   Filter.cpp
   FilterConfigDlg.cpp
@@ -16,7 +18,7 @@ set(headers
 set(resources
   Filter.rc)
 
-add_library(Filter SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers} ${resources})
 
 include_directories(
   ..
@@ -29,15 +31,15 @@ include_directories(
 add_definitions(-D_AFXEXT)
 
 # linker options
-set_target_properties(Filter PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
-target_link_libraries(Filter
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid")
+target_link_libraries(${PROJECT_NAME}
   DataTypes
   Utils)
 
 # installer options
 add_custom_command(
-  TARGET Filter
+  TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:Filter> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
+  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
 )
