@@ -22,7 +22,8 @@
  * Interface file for CFilterConfigDlg class
  */
 
-#pragma once
+#ifndef BUSMASTER_FILTER_FILTERCONFIGDLG_H_
+#define BUSMASTER_FILTER_FILTERCONFIGDLG_H_
 
 #include "Utility/ComboItem.h"              // For Custom Combobox Implementation
 #include "Utility/EditItem.h"               // For Custom Editbox Implementation
@@ -199,3 +200,5 @@ public:
 
     afx_msg void OnBnClickedRadioNonDBMsg();
 };
+
+#endif //  BUSMASTER_FILTER_FILTERCONFIGDLG_H_

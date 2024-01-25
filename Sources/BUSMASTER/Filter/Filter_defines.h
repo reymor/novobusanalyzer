@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_FILTER_FILTER_DEFINES_H_
+#define BUSMASTER_FILTER_FILTER_DEFINES_H_
 
 /* C++ includes */
 #include <string>
@@ -146,3 +147,5 @@ struct sMESSAGEFILTERDETAILS
 };
 typedef sMESSAGEFILTERDETAILS   SMESSAGE_FILTER_DETAILS;
 typedef sMESSAGEFILTERDETAILS*   PSMESSAGE_FILTER_DETAILS;
+
+#endif //  BUSMASTER_FILTER_FILTER_DEFINES_H_

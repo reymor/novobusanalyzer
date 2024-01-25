@@ -22,9 +22,9 @@
  * Interface file for CMainSubListDlg class
  */
 
-#pragma once
+#ifndef BUSMASTER_FILTER_MAINSUBLISTDLG_H_
+#define BUSMASTER_FILTER_MAINSUBLISTDLG_H_
 
-// CMainSubListDlg.h : header file
 #include "Filter_Resource.h"
 #include "DataTypes/MainSubEntry.h"
 
@@ -46,18 +46,13 @@ public:
     //}}AFX_DATA
 
 
-    // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CMainSubListDlg)
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
 
     // Implementation
 protected:
 
     // Generated message map functions
-    //{{AFX_MSG(CMainSubListDlg)
     afx_msg void OnDestroy();
     virtual BOOL OnInitDialog();
     afx_msg void OnSelChangeMessageName();
@@ -73,7 +68,6 @@ protected:
     afx_msg void OnRClickSelSubEntryList(NMHDR* pNMHDR, LRESULT* pResult);
     virtual void OnOK();
     afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     // Pointer to Temp List
@@ -111,3 +105,5 @@ private:
     //Extract Id from Message name [MsgName0xID]
     UINT unGetMainEntryIDFromName(CString omMsgName);
 };
+
+#endif //  BUSMASTER_FILTER_MAINSUBLISTDLG_H_

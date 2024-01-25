@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_FILTER_FILTER_EXTERN_H_
+#define BUSMASTER_FILTER_FILTER_EXTERN_H_
 
 #if defined USAGEMODE
 #undef USAGEMODE
@@ -51,3 +52,5 @@ extern "C" {  // only need to export C interface if used by C++ source code
 #ifdef __cplusplus
 }
 #endif
+
+#endif //  BUSMASTER_FILTER_FILTER_EXTERN_H_

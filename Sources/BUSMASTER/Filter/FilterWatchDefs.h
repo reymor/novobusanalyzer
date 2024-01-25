@@ -18,6 +18,10 @@
  * \author    Pradeep Kadoor
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
+
+#ifndef BUSMASTER_FILTER_FILTERWATCHDEFS_H_
+#define BUSMASTER_FILTER_FILTERWATCHDEFS_H_
+
 #define WM_REMOVE_SIGNAL            WM_USER + 41
 #define defSTR_PHYSICAL_COLUMN      _T("Physical Value")
 #define defSTR_RAW_COLUMN           _T("Raw Value")
@@ -56,3 +60,5 @@
 #define defSTR_FORMAT_PHY_VALUE_WITH_UNIT  _T("%16s %s")
 
 #define defSIGNAL_ICON_SIZE               16
+
+#endif //  BUSMASTER_FILTER_FILTERWATCHDEFS_H_
