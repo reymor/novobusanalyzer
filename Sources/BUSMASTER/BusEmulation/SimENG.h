@@ -20,7 +20,9 @@
  */
 // SimENG.h : Declaration of the CSimENG
 
-#pragma once
+#ifndef BUSMASTER_BUS_EMULATION_SIMENG_H_
+#define BUSMASTER_BUS_EMULATION_SIMENG_H_
+
 #include "resource_BusSim.h"       // main symbols
 #include "BusEmulation.h"
 
@@ -70,3 +72,5 @@ public:
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(SimENG), CSimENG)
+
+#endif // BUSMASTER_BUS_EMULATION_SIMENG_H_

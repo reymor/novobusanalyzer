@@ -22,7 +22,8 @@
 // or project specific include files that are used frequently,
 // but are changed infrequently
 
-#pragma once
+#ifndef BUSMASTER_BUS_EMULATION_STDAFX_BUSSIM_H_
+#define BUSMASTER_BUS_EMULATION_STDAFX_BUSSIM_H_
 
 #ifndef STRICT
 #define STRICT
@@ -44,3 +45,5 @@ using namespace ATL;
 
 #include <map>
 #include <time.h>
+
+#endif //  BUSMASTER_BUS_EMULATION_STDAFX_BUSSIM_H_
