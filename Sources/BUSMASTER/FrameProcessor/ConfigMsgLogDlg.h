@@ -22,10 +22,13 @@
  * This is the class definition file for log configuration
  */
 
-#pragma once
-#include "FrameProcessor\IFrameProcessor_Common.h"
+#ifndef BUSMASTER_FRAMEPROCESSOR_CONFIGMSGLOGDLG_H_
+#define BUSMASTER_FRAMEPROCESSOR_CONFIGMSGLOGDLG_H_
+
+#include "FrameProcessor/IFrameProcessor_Common.h"
 #include "resource.h"
 #include "Utility/RadixEdit.h"
+
 typedef enum ECONTROLTYPE
 {
     EDITCTRL = 0, COMBOBOX, RADIOBUTTON, BUTTON, CHECKBOX, STATICTEXT,
@@ -196,3 +199,5 @@ public:
     void vResetAdvLogParameters();
 
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_CONFIGMSGLOGDLG_H_

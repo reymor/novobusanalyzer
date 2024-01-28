@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_CONFIGMSGLOGLINDLG_H_
+#define BUSMASTER_FRAMEPROCESSOR_CONFIGMSGLOGLINDLG_H_
+
 #include "ConfigMsgLogDlg.h"
 
 #include "ConfigMsgLogDlg.h"
@@ -17,3 +19,4 @@ public:
     virtual void InitialiseWindow();
 };
 
+#endif // BUSMASTER_FRAMEPROCESSOR_CONFIGMSGLOGLINDLG_H_

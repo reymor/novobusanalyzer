@@ -17,7 +17,8 @@
  * Definition of CParamLoggerBUS class.
  */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_LOGGER_COMMONDATATYPES_H_
+#define BUSMASTER_FRAMEPROCESSOR_LOGGER_COMMONDATATYPES_H_
 
 class CParamLoggerBUS
 {
@@ -48,3 +49,5 @@ public:
         return *this;
     }
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_LOGGER_COMMONDATATYPES_H_

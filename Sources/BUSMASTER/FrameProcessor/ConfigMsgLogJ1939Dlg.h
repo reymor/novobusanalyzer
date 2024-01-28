@@ -1,7 +1,10 @@
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_CONFIGMSGLOGJ1939DLG_H_
+#define BUSMASTER_FRAMEPROCESSOR_CONFIGMSGLOGJ1939DLG_H_
+
 #include "ConfigMsgLogDlg.h"
 #include "FrameProcessor/BaseFrameProcessor_J1939.h"
 #include "Datatypes/Filter_Datatypes.h"
+
 class CConfigMsgLogJ1939Dlg : public CConfigMsgLogDlg
 {
     CBaseFrameProcessor_J1939* mLinFrameprocessor;
@@ -14,3 +17,5 @@ public:
     virtual HRESULT HandleFilterSettings();
     virtual void InitialiseWindow();
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_CONFIGMSGLOGJ1939DLG_H_

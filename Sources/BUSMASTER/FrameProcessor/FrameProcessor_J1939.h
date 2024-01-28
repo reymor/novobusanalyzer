@@ -22,7 +22,8 @@
  * Definition file for CFrameProcessor_J1939 class.
  */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_J1939_H_
+#define BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_J1939_H_
 
 #include "BaseFrameProcessor_J1939.h"
 #include "FrameProcessor_Common.h"
@@ -85,3 +86,5 @@ public:
     void vSetMeasurementFileName();
     /* ENDS IMPLEMENTATION OF THE INTERFACE FUNCTIONS... */
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_J1939_H_

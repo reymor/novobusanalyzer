@@ -22,12 +22,14 @@
  * Definition file for CFrameProcessor_Common class realising
  */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_COMMON_H_
+#define BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_COMMON_H_
 
 #include "Utility/Utility_Thread.h"
 
 #include "CommonClass/RefTimeKeeper.h"
 #include "IFrameProcessor_Common.h"
+
 const USHORT FOR_ALL = (USHORT) -1;
 
 typedef CArray<CBaseLogObject*, CBaseLogObject*&> CLogObjArray;
@@ -130,3 +132,5 @@ public:
     virtual BOOL InitInstance(void);
     virtual int ExitInstance(void);
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_COMMON_H_

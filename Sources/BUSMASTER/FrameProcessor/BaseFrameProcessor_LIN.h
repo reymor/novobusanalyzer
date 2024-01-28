@@ -11,9 +11,9 @@ Modified By   :
 Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_BASEFRAMEPROCESSOR_LIN_H_
+#define BUSMASTER_FRAMEPROCESSOR_BASEFRAMEPROCESSOR_LIN_H_
 
-//#include "DataTypes/MsgBufAll_DataTypes.h"
 #include "MsgBufVSE.h"
 #include "LINDriverDefines.h"
 #include "DataTypes/Log_DataTypes.h"
@@ -21,6 +21,7 @@ Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights
 #include "DataTypes/Base_WrapperErrorLogger.h"
 #include "Logger_CommonDataTypes.h"
 #include "IFrameProcessor_Common.h"
+
 typedef struct tagLINPROC_PARAMS
 {
     char m_acVersion[MAX_PATH];        // Version info of the application suite
@@ -78,3 +79,5 @@ public:
 
     virtual void vSetMeasurementFileName() = 0;
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_BASEFRAMEPROCESSOR_LIN_H_

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_CONFIGMSGLOGCANDLG_H_
+#define BUSMASTER_FRAMEPROCESSOR_CONFIGMSGLOGCANDLG_H_
+
 #include "ConfigMsgLogDlg.h"
 #include "FrameProcessor/BaseFrameProcessor_CAN.h"
 #include "Datatypes/Filter_Datatypes.h"
@@ -19,3 +21,4 @@ public:
     virtual void InitialiseWindow();
 };
 
+#endif // BUSMASTER_FRAMEPROCESSOR_CONFIGMSGLOGCANDLG_H_

@@ -22,7 +22,8 @@
  * Definition file for CFrameProcessorApp class.
  */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_H_
+#define BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_H_
 
 class CFrameProcessorApp : public CWinApp
 {
@@ -37,3 +38,5 @@ public:
     DECLARE_MESSAGE_MAP()
     virtual int ExitInstance();
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_H_

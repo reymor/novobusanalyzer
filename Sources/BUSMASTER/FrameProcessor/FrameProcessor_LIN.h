@@ -22,13 +22,13 @@
 * Definition file for CFrameProcessor_LIN class.
 */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_LIN_H_
+#define BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_LIN_H_
 
 #include "Include/BaseDefs.h"
 #include "BaseFrameProcessor_LIN.h"
 #include "FrameProcessor_Common.h"
 #include "Format/FormatMsgLIN.h"
-//#include "DIL_Interface_extern.h"
 #include "BaseDIL_LIN.h"
 #include "MsgBufFSE.h"
 
@@ -92,3 +92,5 @@ public:
                                           int nNumChannels);
     void vSetMeasurementFileName();
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_LIN_H_

@@ -26,9 +26,9 @@
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_BASEFRAMEPROCESSOR_J1939_H_
+#define BUSMASTER_FRAMEPROCESSOR_BASEFRAMEPROCESSOR_J1939_H_
 
-//#include "DataTypes/MsgBufAll_DataTypes.h"
 #include "MsgBufVSE.h"
 #include "DataTypes/Log_DataTypes.h"
 #include "DataTypes/Filter_DataTypes.h"
@@ -75,3 +75,5 @@ public:
 
     virtual void vSetMeasurementFileName() = 0;
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_BASEFRAMEPROCESSOR_J1939_H_

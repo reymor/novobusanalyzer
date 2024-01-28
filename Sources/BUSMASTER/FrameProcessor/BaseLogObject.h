@@ -22,15 +22,13 @@
  * Definition file for CBaseLogObject class
  */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_BASELOGOBJECT_H_
+#define BUSMASTER_FRAMEPROCESSOR_BASELOGOBJECT_H_
 
 #include "DataTypes/Log_Datatypes.h"
 #include "IBMNetWorkGetService.h"
 #include "../CommonClass/RefTimeKeeper.h"
 
-
-//#include "../Application/ConfigMsgLogDlg.h"
-//#include "../Application/resource.h"
 class CBaseLogObject
 {
 private:
@@ -162,3 +160,5 @@ public:
                                    int& nNumChannels);
     void vSetMeasurementFileName();
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_BASELOGOBJECT_H_

@@ -22,7 +22,8 @@
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_LOGOBJECTJ1939_H_
+#define BUSMASTER_FRAMEPROCESSOR_LOGOBJECTJ1939_H_
 
 #include "include/BaseDefs.h"
 #include "DataTypes/Log_Datatypes.h"
@@ -95,3 +96,5 @@ public:
                                        int& nNumChannels);
 
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_LOGOBJECTJ1939_H_

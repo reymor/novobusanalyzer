@@ -22,14 +22,14 @@
  * Definition file for CFrameProcessor_CAN class.
  */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_CAN_H_
+#define BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_CAN_H_
 
 #include "Include/BaseDefs.h"
 #include "BaseFrameProcessor_CAN.h"
 #include "FrameProcessor_Common.h"
 #include "Format/FormatMsgCAN.h"
 
-//#include "DIL_Interface_extern.h"
 #include "BaseDIL_CAN.h"
 #include "MsgBufFSE.h"
 
@@ -93,3 +93,5 @@ public:
                                           int nNumChannels);
     void vSetMeasurementFileName();
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_CAN_H_

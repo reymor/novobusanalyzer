@@ -22,7 +22,8 @@
  * Declaration file for the exported function used to get the
  */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_EXTERN_H_
+#define BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_EXTERN_H_
 
 #include "../Include/ModuleID.h"
 
@@ -52,3 +53,5 @@ extern "C" {  // only need to export C interface if used by C++ source code
 #ifdef __cplusplus
 }
 #endif
+
+#endif // BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_EXTERN_H_

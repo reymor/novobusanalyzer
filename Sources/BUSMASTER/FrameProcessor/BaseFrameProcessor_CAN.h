@@ -22,9 +22,9 @@
  * Definition file for CBaseFrameProcessor_CAN class which des-
  */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_BASEFRAMEPROCESSOR_CAN_H_
+#define BUSMASTER_FRAMEPROCESSOR_BASEFRAMEPROCESSOR_CAN_H_
 
-//#include "DataTypes/MsgBufAll_DataTypes.h"
 #include "BaseMsgBufAll.h"
 #include "BaseMsgBufAll.h"
 #include "DataTypes/Log_DataTypes.h"
@@ -32,12 +32,12 @@
 #include "DataTypes/Base_WrapperErrorLogger.h"
 #include "CANDriverDefines.h"
 #include "IFrameProcessor_Common.h"
+
 typedef struct tagCANPROC_PARAMS
 {
     char m_acVersion[MAX_PATH];        // Version info of the application suite
     CBaseMsgBufFSE<STCANDATA>* m_pouCANBuffer;     // Client frame buffer to update
     Base_WrapperErrorLogger* m_pILog;   // Error logger module
-    //CNetworkStats* m_pouNetworkStat;    // Network statistics object
     DWORD dwClientID;
     tagCANPROC_PARAMS()
     {
@@ -88,3 +88,5 @@ public:
     virtual void vSetMeasurementFileName() = 0;
 
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_BASEFRAMEPROCESSOR_CAN_H_

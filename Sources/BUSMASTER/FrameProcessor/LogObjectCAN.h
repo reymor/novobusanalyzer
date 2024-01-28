@@ -22,7 +22,8 @@
  * Definition file for CLogObjectCAN class.
  */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_LOGOBJECTCAN_H_
+#define BUSMASTER_FRAMEPROCESSOR_LOGOBJECTCAN_H_
 
 #include "DataTypes/Log_Datatypes.h"
 #include "DataTypes/Filter_Datatypes.h"
@@ -88,3 +89,5 @@ public:
     void Der_GetChannelBaudRateDetails(void* controllerDetails,
                                        int& nNumChannels);
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_LOGOBJECTCAN_H_

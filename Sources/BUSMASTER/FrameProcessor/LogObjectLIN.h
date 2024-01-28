@@ -22,13 +22,13 @@
 * Definition file for CLogObjectLIN class.
 */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_LOGOBJECTLIN_H_
+#define BUSMASTER_FRAMEPROCESSOR_LOGOBJECTLIN_H_
 
 #include "DataTypes/Log_Datatypes.h"
 #include "DataTypes/Filter_Datatypes.h"
 #include "BaseLogObject.h"
 #include "include/BaseDefs.h"
-
 
 class CLogObjectLIN : public CBaseLogObject
 {
@@ -88,3 +88,5 @@ public:
     void Der_GetChannelBaudRateDetails(void* controllerDetails,
                                        int& nNumChannels);
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_LOGOBJECTLIN_H_

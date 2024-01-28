@@ -1,8 +1,11 @@
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_IFRAMEPROCESSOR_COMMON_H_
+#define BUSMASTER_FRAMEPROCESSOR_IFRAMEPROCESSOR_COMMON_H_
+
 #include "DataTypes/MainSubEntry.h"
 #include "include/BaseDefs.h"
 #include "BaseLogObject.h"
-#include <libxml\parser.h>
+#include <libxml/parser.h>
+
 class IFrameProcessor_Common
 {
 public:
@@ -37,6 +40,6 @@ public:
     virtual HRESULT SetDatabaseFiles( const CStringArray& omList )=0;
     virtual void GetDatabaseFiles( CStringArray& omList )=0;
     virtual void SetChannelBaudRateDetails( void* controllerDetails, int nNumChannels)=0;
-    //virtual void vPopulateMainSubList( USHORT ushBlk, CMainEntryList& DestList ) = 0;
-    //virtual void vPopulateFilterApplied( USHORT ushBlk, CMainEntryList& DestList ) = 0;
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_IFRAMEPROCESSOR_COMMON_H_

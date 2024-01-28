@@ -22,7 +22,8 @@
  * Include file for precompiled header
  */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_STDAFX_H_
+#define BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_STDAFX_H_
 
 #define VC_EXTRALEAN        // Exclude rarely-used stuff from Windows headers
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS  // some CString constructors will be explicit
@@ -43,3 +44,5 @@
 #include "include/ModuleID.h"
 #include "Utility/XMLUtils.h"
 #include "IBusMasterKernel.h"
+
+#endif // BUSMASTER_FRAMEPROCESSOR_FRAMEPROCESSOR_STDAFX_H_
