@@ -22,7 +22,9 @@
  * Some macro definitions necessary
  */
 
-#pragma once
+#ifndef BUSMASTER_DIL_COMMONDEFS_H_
+#define BUSMASTER_DIL_COMMONDEFS_H_
+
 #include <string>
 
 #define LOG_ERR_MSG() sg_pIlog->vLogAMessage(A2T(__FILE__), __LINE__, A2T((LPSTR) (sg_acErrStr.c_str())))
@@ -60,3 +62,5 @@ public:
 };
 static SELECTED_CHANNELS sg_HardwareList;
 static SELECTED_CHANNELS sg_SelectedChannels;
+
+#endif // BUSMASTER_DIL_COMMONDEFS_H_

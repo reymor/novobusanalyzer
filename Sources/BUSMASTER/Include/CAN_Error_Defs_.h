@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_CAN_ERROR_DEFS_H_
+#define BUSMASTER_CAN_ERROR_DEFS_H_
 
 //Error Val Interpretation
 #define ERROR_BUS                       0x01
@@ -54,9 +55,9 @@
 #define DIL_ERR_WRITE_SYS               0xF001
 #define DIL_ERR_DEVICE_BUSY             0xF002
 #define DILC_WARN_PARAM_ADAPTED         0xF003
-//#define DIL_ERR_READ_BYTE_MISMATCH      0xF002
-
 
 //These error codes are returned by DIL_nMsgRead func
 #define DIL_ERR_READ_SYS                0xFFF0
 #define DIL_ERR_READ_BYTE_MISMATCH      0xFFF1
+
+#endif // BUSMASTER_CAN_ERROR_DEFS_H_

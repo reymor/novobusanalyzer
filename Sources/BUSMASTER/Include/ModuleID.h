@@ -22,7 +22,8 @@
  * This contains identifier of various modules.
  */
 
-#pragma once
+#ifndef BUSMASTER_MODULEID_H_
+#define BUSMASTER_MODULEID_H_
 
 #include <guiddef.h>
 
@@ -48,3 +49,5 @@ typedef enum eID_COMPONENT
     COMPONENT_DEFAULT,
     COMPONENTS_ALL
 };
+
+#endif // BUSMASTER_MODULEID_H_

@@ -22,7 +22,8 @@
  * This contains definitions of various LIN related structures.
  */
 
-#pragma once
+#ifndef BUSMASTER_STRUCT_LIN_H_
+#define BUSMASTER_STRUCT_LIN_H_
 
 /* C++ includes */
 #include <string>
@@ -133,7 +134,6 @@ struct sERROR_INFO_LIN
     unsigned char m_ucId;       // Msg Id - Useful in case of NoAns
     unsigned char m_ucCrc;
     eLinBusEventType m_eEventType;
-    //SEVENT_INFO_LIN  m_eEventInfo;
     eLinSleepEvent m_eSleepEvent;
     eCheckSumType m_eCheckSumType;
     //shashank
@@ -149,6 +149,7 @@ struct sERROR_INFO_LIN
     ULONGLONG m_ulTimeStamp;
     int           m_nSubError;   //added for providing Error bit details
 };
+
 typedef sERROR_INFO_LIN SERROR_INFO_LIN;
 typedef sERROR_INFO_LIN* PSERROR_INFO_LIN;
 
@@ -162,6 +163,7 @@ struct sLIN_ERR
     unsigned char m_ucChannel;
 
 };
+
 typedef sLIN_ERR SLIN_ERR;
 typedef sLIN_ERR* SPLIN_ERR;
 
@@ -253,8 +255,6 @@ public:
     int m_nBaudRate;
     std::string  m_strProtocolVersion;
 
-
-
     int     m_nItemUnderFocus;                   // item number under focus
     int     m_nBTR0BTR1;                         // packed value of bit timing register 0
     // and bit timing register 1
@@ -299,6 +299,7 @@ public:
     std::string  m_omStrLocation;                // location (serial port, ip-address, ...)
     int     m_bHWTimestamps;                     // timestamps from the controllers hardware
 };
+
 typedef sCONTROLLERDETAILSLIN SCONTROLLER_DETAILS_LIN;
 typedef sCONTROLLERDETAILSLIN* PSCONTROLLER_DETAILS_LIN;
 
@@ -381,8 +382,6 @@ const std::string sg_ListDIL_MSG_TYPE[LIN_MSG_TYPE_MAX] =
     "LIN DLC ERROR",
 };
 
-
-
 #define TX_FLAG                 0x01
 #define RX_FLAG                 0x02
 #define ERR_FLAG                0x04
@@ -393,3 +392,5 @@ const std::string sg_ListDIL_MSG_TYPE[LIN_MSG_TYPE_MAX] =
 #define IS_A_MESSAGE(a)         ((a) & 0x03)
 #define IS_ERR_MESSAGE(a)       (a & ERR_FLAG)
 #define IS_INTR_MESSAGE(a)      (((a) & INTR_FLAG))
+
+#endif // BUSMASTER_STRUCT_LIN_H_

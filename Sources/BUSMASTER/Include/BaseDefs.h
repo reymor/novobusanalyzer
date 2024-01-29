@@ -22,10 +22,8 @@
  * This contains various basic definitions.
  */
 
-#pragma once
-//#include "ProtocolsDefinitions.h"
-//#include "Struct_CAN.h"
-//#include "Struct_LIN.h"
+#ifndef BUSMASTER_BASEDEFS_H_
+#define BUSMASTER_BASEDEFS_H_
 
 #include "CANDriverDefines.h"
 #include "LINDriverDefines.h"
@@ -50,7 +48,6 @@ typedef enum eBUSEVEHANDLER
     BUS_DISCONNECT
 };
 
-
 #define defLINETYPE_SOLID "SOLID"
 #define defLINETYPE_DASH "DASH"
 #define defLINETYPE_DOT "DOT"
@@ -69,8 +66,6 @@ enum eProtocol
     PROTOCOL_UNKNOWN
 };
 
-
-
 enum ESTATUS_BUS
 {
     BUS_PRECONNECT,
@@ -78,7 +73,6 @@ enum ESTATUS_BUS
     BUS_IDLE,
     BUS_DISCONNECTED
 };
-
 
 enum eTimerMode
 {
@@ -88,13 +82,6 @@ enum eTimerMode
 };
 typedef eTimerMode ETIMERMODE;
 
-/* enum eFormat
-{
-    HEXADECIMAL = 0,
-    DEC
-};
-typedef eFormat EFORMAT;
-*/
 enum eMode
 {
     APPEND_MODE = 0,
@@ -338,3 +325,5 @@ enum eMSG_WND_PROPERTY
     TIME_MODE = 0x2,
     DISPLAY_MODE = 0x4
 };
+
+#endif  // BUSMASTER_BASEDEFS_H_

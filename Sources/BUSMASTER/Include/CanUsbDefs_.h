@@ -21,6 +21,10 @@
  *
  * Includes PEAK CAN USB related macro definition
  */
+
+#ifndef BUSMASTER_CANUSBDEFS_H_
+#define BUSMASTER_CANUSBDEFS_H_
+
 #include "BaseDefs.h"
 
 #define STR_EMPTY               _T("")
@@ -67,7 +71,7 @@
 
 #define defINIT_CODE_VALUE                  0x00
 #define defINIT_MASK_VALUE                  0xFF
-//
+
 #define defERR_OK                           0
 #define defBAUD_RATE_VAL                    500
 #define defBAUD_RATE                        0xC03A // 500 KBPS
@@ -76,3 +80,4 @@
 
 #define defSTR_WARNING_LIMIT_SET_FAILED     _T("Setting warning limit failed")
 
+#endif // BUSMASTER_CANUSBDEFS_H_

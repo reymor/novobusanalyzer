@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_LIN_ERROR_DEFS_H_
+#define BUSMASTER_LIN_ERROR_DEFS_H_
 
 //Error Val Interpretation
 #define ERROR_BUS                       0x01
@@ -33,7 +34,6 @@
 
 #define ERROR_UNKNOWN                   0xFF
 
-
 #define BIT_ERROR_TX                       0x00
 #define CRC_ERROR_TX                       0x10
 #define FORM_ERROR_TX                      0x40
@@ -45,16 +45,15 @@
 #define STUFF_ERROR_RX                     0xA0
 #define OTHER_ERROR_RX                     0xE0
 
-
 #define DIL_OK                          0x0000
 #define DIL_FAIL                        0xFFFF
 
 //These codes are returned by DIL_nMsgWrite func
 #define DIL_ERR_WRITE_SYS               0xF001
 #define DIL_ERR_DEVICE_BUSY             0xF002
-//#define DIL_ERR_READ_BYTE_MISMATCH      0xF002
-
 
 //These error codes are returned by DIL_nMsgRead func
 #define DIL_ERR_READ_SYS                0xFFF0
 #define DIL_ERR_READ_BYTE_MISMATCH      0xFFF1
+
+#endif // BUSMASTER_LIN_ERROR_DEFS_H_

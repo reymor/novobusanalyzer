@@ -22,7 +22,8 @@
  * This contains various necessary macro definitions.
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILS_MACRO_H_
+#define BUSMASTER_UTILS_MACRO_H_
 
 #define FORMAT_STR_ID_HEX       "0x%03X"
 #define FORMAT_STR_ID_DEC       "%04d"
@@ -129,3 +130,5 @@ const BYTE BITS_EXPRN           = (BITS_TM | BITS_NUM);
             delete[] PtrVal; PtrVal = nullptr; \
         }                                   \
     }
+
+#endif // BUSMASTER_UTILS_MACRO_H_

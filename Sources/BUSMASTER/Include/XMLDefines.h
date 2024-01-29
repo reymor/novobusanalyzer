@@ -22,7 +22,8 @@
 * This header file contains the hash define
 */
 
-#pragma once
+#ifndef BUSMASTER_XMLDEFINES_H_
+#define BUSMASTER_XMLDEFINES_H_
 
 #define DEF_APPLICATION_VERSION     "BUSMASTER_Version"
 #define DEF_LOG_BLOCK               "Log_Block"
@@ -346,3 +347,5 @@
 #define DEF_SCHD_TABLE_COL_WIDTH    "//BUSMASTER_CONFIGURATION/Module_Configuration/LIN_Schedule_Table/COLUMN_WIDTH"
 
 #define DEF_MODULE_CONFIGURATION_XPATH    "//BUSMASTER_CONFIGURATION/Module_Configuration"
+
+#endif // BUSMASTER_XMLDEFINES_H_

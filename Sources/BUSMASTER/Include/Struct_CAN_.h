@@ -22,7 +22,8 @@
  * This contains definitions of various CAN related structures.
  */
 
-#pragma once
+#ifndef BUSMASTER_STRUCT_CAN_H_
+#define BUSMASTER_STRUCT_CAN_H_
 
 /* C++ includes */
 #include <string>
@@ -672,3 +673,5 @@ typedef sERROR_CNT* SPERROR_CNT;
 #define IS_A_MESSAGE(a)         ((a) & 0x03)
 #define IS_ERR_MESSAGE(a)       (a & ERR_FLAG)
 #define IS_INTR_MESSAGE(a)      (((a) & INTR_FLAG))
+
+#endif // BUSMASTER_STRUCT_CAN_H_
