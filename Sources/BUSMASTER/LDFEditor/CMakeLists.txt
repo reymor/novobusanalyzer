@@ -49,7 +49,6 @@ set(HEADER_LIST
     "MapSignalsDlg.h"
     "MasterEditDlg.h"
     "NodeConfigurationDlg.h"
-    "resource.h"
     "ScheduleComboWidget.h"
     "ScheduleTableDlg.h"
     "SignalDlg.h"
@@ -108,12 +107,6 @@ set(ALL_FILES
 add_executable(${PROJECT_NAME} ${ALL_FILES})
 
 ################################################################################
-# Includes for CMake from *.props
-################################################################################
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    VS_GLOBAL_KEYWORD "Qt4VSv1.0"
-)
-################################################################################
 # Target name
 ################################################################################
 set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -127,6 +120,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/${CMAKE_VS_PLATFORM_NAME}/$<CONFIG>"
     OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/${CMAKE_VS_PLATFORM_NAME}/$<CONFIG>"
 )
+
 ################################################################################
 # MSVC runtime library
 ################################################################################
@@ -148,12 +142,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES MSVC_RUNTIME_LIBRARY ${MSVC_RUN
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/GeneratedFiles;"
     "${CMAKE_CURRENT_SOURCE_DIR}/.;"
-    "$ENV{QTDIR}/include;"
     "${CMAKE_CURRENT_SOURCE_DIR}/GeneratedFiles/$<CONFIG>;"
-    ${QtCore_INCLUDE_DIRS}
-    ${QtGui_INCLUDE_DIRS}
+    ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5Gui_INCLUDE_DIRS}
     ${Qt5Widgets_INCLUDE_DIRS}
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../Kernel/ProtocolDefinitions"
 )
 
 ################################################################################
@@ -199,11 +191,8 @@ endif()
 ################################################################################
 # Dependencies
 ################################################################################
-target_link_directories(${PROJECT_NAME} PRIVATE
-    "${Qt5_DIR}/../../"
-)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE ${Qt5Widgets_LIBRARIES} ${QtGui_LIBRARIES} ${QtCore_LIBRARIES} qtmain)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Qt5Widgets_LIBRARIES} ${Qt5Gui_LIBRARIES}
+                      ${Qt5Core_LIBRARIES} ${Qt5Core_QTMAIN_LIBRARIES} ProtocolDefinitions)
 
 ################################################################################
 # Post build events

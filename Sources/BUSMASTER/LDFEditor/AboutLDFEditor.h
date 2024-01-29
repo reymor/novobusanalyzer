@@ -1,19 +1,18 @@
-#ifndef ABOUTLDFEDITOR_H
-#define ABOUTLDFEDITOR_H
+#ifndef BUSMASTER_LDFEDITOR_ABOUTLDFEDITOR_H_
+#define BUSMASTER_LDFEDITOR_ABOUTLDFEDITOR_H_
 
 #include <QDialog>
+
 #include "ui_AboutLDFEditor.h"
 
-class AboutLDFEditor : public QDialog
-{
-    Q_OBJECT
+class AboutLDFEditor : public QDialog {
+  Q_OBJECT
+ public:
+  AboutLDFEditor(QWidget* parent = 0);
+  ~AboutLDFEditor();
 
-public:
-    AboutLDFEditor(QWidget* parent = 0);
-    ~AboutLDFEditor();
-
-private:
-    Ui::AboutLDFEditor ui;
+ private:
+  Ui::AboutLDFEditor ui;
 };
 
-#endif // ABOUTLDFEDITOR_H
+#endif  // BUSMASTER_LDFEDITOR_ABOUTLDFEDITOR_H_

@@ -1,55 +1,57 @@
-#pragma once
-#include <qobject>
-#include "ICluster.h"
-#include "qstringlist.h"
+#ifndef BUSMASTER_LDFEDITOR_LDFDATABASEMANAGER_H_
+#define BUSMASTER_LDFEDITOR_LDFDATABASEMANAGER_H_
+
 #include <qlibrary.h>
 
-class LDFDatabaseManager : public QObject
-{
-    Q_OBJECT
-private:
+#include <qobject>
 
-    typedef ERRORCODE (*ParseDBFile)(std::string& strFileName, std::list<ClusterResult>& ouClusterResultList);
-    typedef ERRORCODE (*DeleteCluster)(ICluster* pCluster);
-    typedef ERRORCODE (*CreateLDFCluster)(ICluster** pouLdfCluster);
+#include "ICluster.h"
+#include "qstringlist.h"
 
-    CreateLDFCluster m_pfCreateLDFCluster;
-    QLibrary mDbManagerDll;
-    ICluster* m_pouLDFClsuter;
-    std::string m_strCurrentLDFFilePath;
-    bool m_bDisplayInHex;
-    QStringList m_strRecentFileList;
-    bool m_bDocumentModified;
-signals:
-    void DataUpdated();
-    void DisplayModeChanged();
-    void DocumentModified();
-public:
-    LDFDatabaseManager(void);
-    ~LDFDatabaseManager(void);
+class LDFDatabaseManager : public QObject {
+  Q_OBJECT
+ private:
+  typedef ERRORCODE (*ParseDBFile)(
+      std::string& strFileName, std::list<ClusterResult>& ouClusterResultList);
+  typedef ERRORCODE (*DeleteCluster)(ICluster* pCluster);
+  typedef ERRORCODE (*CreateLDFCluster)(ICluster** pouLdfCluster);
 
-    int SetLDFFilePath(std::string& strFilePath);
-    std::string GetLDFFilePath();
-    int LoadLDFFilePath(std::string& strFilePath);
-    ICluster* GetLDFCluster();
+  CreateLDFCluster m_pfCreateLDFCluster;
+  QLibrary mDbManagerDll;
+  ICluster* m_pouLDFClsuter;
+  std::string m_strCurrentLDFFilePath;
+  bool m_bDisplayInHex;
+  QStringList m_strRecentFileList;
+  bool m_bDocumentModified;
+ signals:
+  void DataUpdated();
+  void DisplayModeChanged();
+  void DocumentModified();
 
+ public:
+  LDFDatabaseManager(void);
+  ~LDFDatabaseManager(void);
 
-    bool bIsDocumentModified();
-    void setDocumentModified(bool bModified);
+  int SetLDFFilePath(std::string& strFilePath);
+  std::string GetLDFFilePath();
+  int LoadLDFFilePath(std::string& strFilePath);
+  ICluster* GetLDFCluster();
 
-    bool bIsDisplayHexOn();
-    void SetDisplayHex(bool);
+  bool bIsDocumentModified();
+  void setDocumentModified(bool bModified);
 
-    void GetRecentFileList(QStringList& strRecentFileList);
-    int GetMaxRecentFileCount();
+  bool bIsDisplayHexOn();
+  void SetDisplayHex(bool);
 
-    void saveLDFSettings();
-    void readLDFSettings();
+  void GetRecentFileList(QStringList& strRecentFileList);
+  int GetMaxRecentFileCount();
 
-    // void ValidateFile();
+  void saveLDFSettings();
+  void readLDFSettings();
 
-    static LDFDatabaseManager* GetDatabaseManager();
-    static void DeleteDatabaseManager();
-    static LDFDatabaseManager* m_pouLdfDatabaseManager;
+  static LDFDatabaseManager* GetDatabaseManager();
+  static void DeleteDatabaseManager();
+  static LDFDatabaseManager* m_pouLdfDatabaseManager;
 };
 
+#endif  // BUSMASTER_LDFEDITOR_LDFDATABASEMANAGER_H_

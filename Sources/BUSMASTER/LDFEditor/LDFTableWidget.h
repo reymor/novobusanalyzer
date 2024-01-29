@@ -1,19 +1,16 @@
-#ifndef LDFTABLEWIDGET_H
-#define LDFTABLEWIDGET_H
+#ifndef BUSMASTER_LDFEDITOR_LDFTABLEWIDGET_H_
+#define BUSMASTER_LDFEDITOR_LDFTABLEWIDGET_H_
 
 #include <QTableWidget>
 
+class LDFTableWidget : public QTableWidget {
+  Q_OBJECT
+ private:
+  QFont m_ldfFont;
 
-class LDFTableWidget : public QTableWidget
-{
-    Q_OBJECT
-private:
-    QFont m_ldfFont;
-
-public:
-    LDFTableWidget(QWidget* parent = 0);
-    ~LDFTableWidget();
-
+ public:
+  LDFTableWidget(QWidget* parent = 0);
+  ~LDFTableWidget();
 };
 
-#endif // LDFTABLEWIDGET_H
+#endif  // BUSMASTER_LDFEDITOR_LDFTABLEWIDGET_H_

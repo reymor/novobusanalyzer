@@ -1,23 +1,27 @@
-#ifndef LDFCLUSTERPROPSDLG_H
-#define LDFCLUSTERPROPSDLG_H
+#ifndef BUSMASTER_LDFEDITOR_LDFCLUSTERPROPSDLG_H_
+#define BUSMASTER_LDFEDITOR_LDFCLUSTERPROPSDLG_H_
 
 #include <QDialog>
-#include "ui_LDFCLusterPropsDlg.h"
+
 #include "ICluster.h"
-class LDFCLusterPropsDlg : public QDialog
-{
-    Q_OBJECT
-private:
-    ICluster* m_pCluster;
-public:
-    LDFCLusterPropsDlg(ICluster* pCluster, QWidget* parent = 0);
-    ~LDFCLusterPropsDlg();
-private:
-    void vPrepareUi();
-private slots:
-    void OnSelectOk();
-private:
-    Ui::LDFCLusterPropsDlg ui;
+#include "ui_LDFCLusterPropsDlg.h"
+
+class LDFCLusterPropsDlg : public QDialog {
+  Q_OBJECT
+ private:
+  ICluster* m_pCluster;
+
+ public:
+  LDFCLusterPropsDlg(ICluster* pCluster, QWidget* parent = 0);
+  ~LDFCLusterPropsDlg();
+
+ private:
+  void vPrepareUi();
+ private slots:
+  void OnSelectOk();
+
+ private:
+  Ui::LDFCLusterPropsDlg ui;
 };
 
-#endif // LDFCLUSTERPROPSDLG_H
+#endif  // BUSMASTER_LDFEDITOR_LDFCLUSTERPROPSDLG_H_

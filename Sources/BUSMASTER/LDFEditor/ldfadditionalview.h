@@ -1,54 +1,59 @@
-#ifndef LDFADDITIONALVIEW_H
-#define LDFADDITIONALVIEW_H
+#ifndef BUSMASTER_LDFEDITOR_LDFADDITIONALVIEW_H_
+#define BUSMASTER_LDFEDITOR_LDFADDITIONALVIEW_H_
+
+#include <qlabel.h>
+#include <qtreewidget.h>
 
 #include <QTableWidget>
-#include <qtreewidget.h>
-#include <qlabel.h>
+
 #include "ICluster.h"
-#include "LDFDatabaseManager.h"
 #include "LDFCommonTableWidget.h"
+#include "LDFDatabaseManager.h"
 
 Q_DECLARE_METATYPE(ConfigFrameDetails);
 
-class LDFAdditionalView : public LDFCommonTableWidget
-{
-    Q_OBJECT
-private:
+class LDFAdditionalView : public LDFCommonTableWidget {
+  Q_OBJECT
+ private:
+  class LDFDatabaseManager* m_pouLDFDatabaseManager;
+  ICluster* m_pouLdfCluster;
+  IEcu* m_pCurrentEcu;
+  QLabel* m_pHelpLabel;
 
-    class LDFDatabaseManager* m_pouLDFDatabaseManager;
-    ICluster* m_pouLdfCluster;
-    IEcu* m_pCurrentEcu;
-    QLabel* m_pHelpLabel;
+ public:
+  LDFAdditionalView(QWidget* parent);
+  ~LDFAdditionalView();
 
-public:
-    LDFAdditionalView(QWidget* parent);
-    ~LDFAdditionalView();
-private slots:
-    void tableItemMoved(int, int , int);
-    void onConfigFrameEditChange(const QString&);
-public:
-    void onTreeItemClicked(QTreeWidgetItem* pouTreeItem, int nColumn);
-    void SetInfoLable(QLabel* m_pHelpLabel);
-    int DisplayScedulingTableAdditionalProps(IScheduleTable* pouTable, int nItemIndex = 0 );
-private:
-    void vDisplayElement ( IElement* pouLdfElement);
-    int DisplayEcuAdditionalProps(IEcu* pouLdfElement);
-    int DisplayMasterAdditionalProps(IEcu* pouLdfElement);
-    int DisplaySlaveAdditionalProps(IEcu* pouLdfElement);
-    int DisplaySignalAdditionalProps(ISignal* pouLdfElement);
-    int DisplayFrameAdditionalProps( IFrame* pouFrame);
-    int DisplayUnConditionalFrameProps(IFrame* pouFrame);
-    int DisplayEventTrigProps( IFrame* pouFrame);
-    int DisplaySporadicProps( IFrame* pouFrame);
-    int DisplayDiagProps( IFrame* pouFrame);
-    int DisplayCodingAdditionalProps(ICoding* pouLdfElement);
-    int DisplaySignalGroupAdditionalProps(ISignalGroup* pouLdfElement);
-    int nGetEncodingnUnit(LINCompuMethods ouCompuProps, std::string& strEncoding, std::string& strUnit);
-    int DisplayScheduleTableFrameProps(CLINSheduleTableItem& ouTableItem);
+ private slots:
+  void tableItemMoved(int, int, int);
+  void onConfigFrameEditChange(const QString&);
 
-    int DisplayAssignFrameIdProps(CLINSheduleTableItem& ouTableItem);
-    int DisplayDiagProps(CLINSheduleTableItem& ouTableItem);
-    int DisplayConfigFrames(IEcu* pouEcu, std::list<ConfigFrameDetails>& ouFrameUidList);
+ public:
+  void onTreeItemClicked(QTreeWidgetItem* pouTreeItem, int nColumn);
+  void SetInfoLable(QLabel* m_pHelpLabel);
+  int DisplayScedulingTableAdditionalProps(IScheduleTable* pouTable,
+                                           int nItemIndex = 0);
+
+ private:
+  void vDisplayElement(IElement* pouLdfElement);
+  int DisplayEcuAdditionalProps(IEcu* pouLdfElement);
+  int DisplayMasterAdditionalProps(IEcu* pouLdfElement);
+  int DisplaySlaveAdditionalProps(IEcu* pouLdfElement);
+  int DisplaySignalAdditionalProps(ISignal* pouLdfElement);
+  int DisplayFrameAdditionalProps(IFrame* pouFrame);
+  int DisplayUnConditionalFrameProps(IFrame* pouFrame);
+  int DisplayEventTrigProps(IFrame* pouFrame);
+  int DisplaySporadicProps(IFrame* pouFrame);
+  int DisplayDiagProps(IFrame* pouFrame);
+  int DisplayCodingAdditionalProps(ICoding* pouLdfElement);
+  int DisplaySignalGroupAdditionalProps(ISignalGroup* pouLdfElement);
+  int nGetEncodingnUnit(LINCompuMethods ouCompuProps, std::string& strEncoding,
+                        std::string& strUnit);
+  int DisplayScheduleTableFrameProps(CLINSheduleTableItem& ouTableItem);
+  int DisplayAssignFrameIdProps(CLINSheduleTableItem& ouTableItem);
+  int DisplayDiagProps(CLINSheduleTableItem& ouTableItem);
+  int DisplayConfigFrames(IEcu* pouEcu,
+                          std::list<ConfigFrameDetails>& ouFrameUidList);
 };
 
-#endif // LDFADDITIONALVIEW_H
+#endif  // BUSMASTER_LDFEDITOR_LDFADDITIONALVIEW_H_
