@@ -49,37 +49,35 @@ class QTextDocument;
 QT_END_NAMESPACE
 
 //! [0]
-class LDFHighlighter : public QSyntaxHighlighter
-{
-    Q_OBJECT
+class LDFHighlighter : public QSyntaxHighlighter {
+  Q_OBJECT
 
-public:
-    LDFHighlighter(QTextDocument* parent = 0);
+ public:
+  LDFHighlighter(QTextDocument* parent = 0);
 
-protected:
-    void highlightBlock(const QString& text);
+ protected:
+  void highlightBlock(const QString& text);
 
-private:
-    struct HighlightingRule
-    {
-        QRegExp pattern;
-        QTextCharFormat format;
-    };
-    QVector<HighlightingRule> highlightingRules;
+ private:
+  struct HighlightingRule {
+    QRegExp pattern;
+    QTextCharFormat format;
+  };
 
-    QRegExp commentStartExpression;
-    QRegExp commentEndExpression;
+  QVector<HighlightingRule> highlightingRules;
 
-    QTextCharFormat keywordFormat;
-    QTextCharFormat classFormat;
-    QTextCharFormat singleLineCommentFormat;
-    QTextCharFormat multiLineCommentFormat;
-    QTextCharFormat quotationFormat;
-    QTextCharFormat functionFormat;
-    QTextCharFormat stringsFormat;
-    QTextCharFormat IdentifierStart;
+  QRegExp commentStartExpression;
+  QRegExp commentEndExpression;
 
+  QTextCharFormat keywordFormat;
+  QTextCharFormat classFormat;
+  QTextCharFormat singleLineCommentFormat;
+  QTextCharFormat multiLineCommentFormat;
+  QTextCharFormat quotationFormat;
+  QTextCharFormat functionFormat;
+  QTextCharFormat stringsFormat;
+  QTextCharFormat IdentifierStart;
 };
 //! [0]
 
-#endif // LDFLDFHighlighter_H
+#endif  // LDFLDFHighlighter_H
