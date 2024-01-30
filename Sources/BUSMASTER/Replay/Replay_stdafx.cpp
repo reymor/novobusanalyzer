@@ -23,5 +23,3 @@
 // stdafx.obj will contain the pre-compiled type information
 
 #include "Replay_stdafx.h"
-
-

@@ -22,14 +22,13 @@
  * Interface file for CReplayManager class
  */
 
-#pragma once
+#ifndef BUSMASTER_REPLAY_REPLAYMANAGER_H_
+#define BUSMASTER_REPLAY_REPLAYMANAGER_H_
 
 #include "ReplayFile.h"
 
 class CMsgReplayWnd;
 class CReplayProcess;
-
-
 
 class CReplayManager
 {
@@ -83,7 +82,6 @@ public:
     void vSetReplayConfigData(BYTE* pSrcBuffer, int nBuffSize);
     void vSetReplayConfigData(xmlDocPtr pDoc);
     void vAddReplayFile(CReplayFile& ouFile);
-    //BOOL bIsReplayConfigChanged();
     void vSetTraceObjPtr( PVOID pvObj);
     void vSendToTrace(char* pcString);
 private:
@@ -110,3 +108,5 @@ private:
     // Connection Status
     BOOL m_bConnection;
 };
+
+#endif // BUSMASTER_REPLAY_REPLAYMANAGER_H_

@@ -22,7 +22,6 @@
  * Implementation file for CReplayProcess class
  */
 
-
 #include "Replay_stdafx.h"                 // For stand includes
 #include "ReplayFile.h"             // For CReplayFile class declaration
 #include "ReplayProcess.h"          // For Replay Process class declaration
@@ -30,11 +29,8 @@
 // For DIL Interface Class
 #include "Include/BaseDefs.h"
 #include "DataTypes/Base_WrapperErrorLogger.h"
-//#include "DataTypes/MsgBufAll_Datatypes.h"
-//#include "DataTypes/DIL_Datatypes.h"
 #include "DataTypes/Filter_Datatypes.h"
 #include "BaseDIL_CAN.h"
-//#include "DIL_Interface_extern.h"
 #include "Error.h"         // For Errors
 #include "Utility_Replay.h"
 #include "Utility\UtilFunctions.h"
@@ -678,8 +674,6 @@ UINT CReplayProcess::sunNIReplayThreadFunc( LPVOID pParam )
         {
             unMsgDelay = 1;
         }
-        //int nIndex; //nIndex declared outside
-
 
         // Add the cyclic delay at the end
         UINT unCycleDelay = pReplayDetails->m_ouReplayFile.m_unCycleTimeDelay;
@@ -892,8 +886,6 @@ UINT CReplayProcess::sunNIReplayThreadFunc( LPVOID pParam )
 
                 if (hRet != 0)
                 {
-                    //::PostMessage(GUI_hDisplayWindow, WM_ERROR,
-                    //            ERROR_DRIVER_API_FAIL, nZERO);
                 }
             }
             // Update the index

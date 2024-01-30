@@ -22,7 +22,8 @@
  * Interface file for CReplayFileConfigDlg class
  */
 
-#pragma once
+#ifndef BUSMASTER_REPLAY_REPLAYFILECONFIGDLG_H_
+#define BUSMASTER_REPLAY_REPLAYFILECONFIGDLG_H_
 
 #include "Replay_resource.h"
 
@@ -36,7 +37,6 @@ public:
                           CWnd* pParent = nullptr);
 
     // Dialog Data
-    //{{AFX_DATA(CReplayFileConfigDlg)
     enum { IDD = IDD_DLG_REPLAY };
     CButton m_omChkInteractive;
     CRadixEdit  m_omEditMsgDelay;
@@ -48,21 +48,17 @@ public:
     CListCtrl   m_omLstcReplayFiles;
     int     m_nReplayMode;
     CString m_omStrMsgType;
-    //}}AFX_DATA
 
 
     // Overrides
     // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CReplayFileConfigDlg)
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
 
     // Implementation
 protected:
 
     // Generated message map functions
-    //{{AFX_MSG(CReplayFileConfigDlg)
     virtual BOOL OnInitDialog();
     afx_msg void OnClickListRepalyFiles(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnDblclkListRepalyFiles(NMHDR* pNMHDR, LRESULT* pResult);
@@ -79,7 +75,6 @@ protected:
     afx_msg void OnBtnDeleteFile();
     afx_msg void OnBtnFilter();
     afx_msg void OnComboMsgTypeChanged();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     // Methods
@@ -118,3 +113,5 @@ private:
     int             m_nSelecetedNamedLogIndex;
 
 };
+
+#endif // BUSMASTER_REPLAY_REPLAYFILECONFIGDLG_H_

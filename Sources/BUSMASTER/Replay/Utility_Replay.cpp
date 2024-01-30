@@ -275,13 +275,13 @@ void vConvStrtoByteArray(CByteArray* pomByteArrayBufTx,
                 }
                 ucFirstCh  = ucFirstCh * 100;
                 ucFirstCh += ucSecondCh * 10;
-                ucFirstCh = (UCHAR)(ucFirstCh + ucThirdCh);                 //ucFirstCh += ucThirdCh;
+                ucFirstCh = (UCHAR)(ucFirstCh + ucThirdCh);
                 nStrLength --;
                 pomByteArrayBufTx->Add(ucFirstCh);
             }
         }
 
-    }//while (nStrLength);
+    }
 }
 
 

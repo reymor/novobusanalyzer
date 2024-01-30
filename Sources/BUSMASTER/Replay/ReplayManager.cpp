@@ -241,22 +241,8 @@ void CReplayManager::vStartNonInteractiveReplays()
                 {
                     // check for empty replay file
 
-                    /*if( pNewProcess->dwGetNoOfMsgsInLog()== 0 )
-                    {
-                        // Show the message in Trace Window
-                        CString omStrErr;
-                        omStrErr.Format( defSTR_REPLAY_ERROR,
-                                         pNewProcess->m_ouReplayFile.m_omStrFileName, // File
-                                         defSTR_REPLAY_FILE_EMPTY );
-                        vSendToTrace(omStrErr.GetBuffer(MAX_PATH));
-                        //gbSendStrToTrace( (char *)omStrErr.operator LPCTSTR());
-                        bResult = FALSE;
-                    }
-                    else
-                    {*/
                     // Add the replay process to the list
                     m_omReplayProcess.Add( pNewProcess );
-                    //}
                 }
                 else
                 {
@@ -267,7 +253,6 @@ void CReplayManager::vStartNonInteractiveReplays()
                                     omFile.m_omStrFileName, // File Name
                                     pNewProcess->m_omStrError );    // Error Message
                     vSendToTrace(omStrErr.GetBuffer(MAX_PATH));
-                    //gbSendStrToTrace( (char *)omStrErr.operator LPCTSTR() );
                 }
                 if( bResult == FALSE )
                 {
@@ -702,7 +687,6 @@ void CReplayManager::vGetReplayConfigData(BYTE*& pDesBuffer, int& nBuffSize)
     pDesBuffer = new BYTE[unToatalDataSize];
     nBuffSize = unToatalDataSize;
     BYTE* pbyTemp = pDesBuffer;
-    //BYTE byVersion = REPLAY_MANAGER_INITIAL_VERSION;
     BYTE byVersion = REPLAY_MANAGER_REPLAY_MSG_ADD;
     COPY_DATA(pbyTemp, &byVersion, sizeof(BYTE));
 
@@ -782,7 +766,6 @@ void CReplayManager::vSetReplayConfigData(xmlDocPtr pDoc)
                 }
             }
         }
-        //COPY_DATA_2(&m_sWndPlacement, pSrcBuffer, sizeof(WINDOWPLACEMENT));
     }
 }
 void CReplayManager::vAddReplayFile(CReplayFile& ouFile)
@@ -812,31 +795,6 @@ void CReplayManager::vAddReplayFile(CReplayFile& ouFile)
         }
     }
 }
-
-//BOOL CReplayManager::bIsReplayConfigChanged()
-//{
-//    BOOL bReturn = TRUE;
-/**************Get the old buffer pointer and then proceed *********/
-//    BYTE* pOldConfigBuff = nullptr;
-/**************Get the old buffer pointer and then proceed *********/
-// Populate the list
-//    int nRplayCnt = 0;
-//    memcpy(&nRplayCnt, pOldConfigBuff, sizeof(nRplayCnt));
-//    int nSize = (int)m_omReplayFiles.GetSize();
-//    if (nSize == nRplayCnt)
-//    {
-//        for( int nIndex = 0; nIndex < nSize; nIndex++ )
-//        {
-//            CReplayFile& ouFile = m_omReplayFiles.ElementAt( nIndex );
-//            bReturn = ouFile.bisConfigChanged(pOldConfigBuff);
-//        }
-//    }
-//    else
-//    {
-//        bReturn = FALSE;
-//
-//    return bReturn;
-//}
 
 void CReplayManager::vSetTraceObjPtr( PVOID pvObj)
 {

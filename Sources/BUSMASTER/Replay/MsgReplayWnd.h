@@ -22,7 +22,8 @@
  * This file contain the definition of CMsgReplayWnd class
  */
 
-#pragma once
+#ifndef BUSMASTER_REPLAY_MSGREPLAYWND_H_
+#define BUSMASTER_REPLAY_MSGREPLAYWND_H_
 
 // For Replay File Definition
 #include "ReplayFile.h"
@@ -30,21 +31,12 @@
 // For replay process class
 #include "ReplayProcess.h"
 
-
-
-
 class CMsgReplayWnd : public CMDIChildWnd
 {
-    //DECLARE_DYNCREATE(CMsgReplayWnd)
 public:
     // constructor used by dynamic creation
-    //CMsgReplayWnd();
     CMsgReplayWnd(CReplayFile ouReplayFile, WINDOWPLACEMENT& sWndPlacement);
     virtual ~CMsgReplayWnd();
-
-    // Attributes
-public:
-
     // Operations
 public:
     // Replay Operations
@@ -73,17 +65,13 @@ public:
 
     // Overrides
     // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CMsgReplayWnd)
 public:
 protected:
     virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
-    //}}AFX_VIRTUAL
-
     // Implementation
 protected:
 
     // Generated message map functions
-    //{{AFX_MSG(CMsgReplayWnd)
     afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);
     afx_msg void OnDestroy();
     afx_msg void OnSize(UINT nType, int cx, int cy);
@@ -92,7 +80,6 @@ protected:
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg LRESULT vHandleListControlDataReq(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT vListDoubleClick(WPARAM wParam, LPARAM lParam);
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     // To set list control font
@@ -111,3 +98,5 @@ private:
     //Window placement
     WINDOWPLACEMENT m_sWndPlacement;
 };
+
+#endif // BUSMASTER_REPLAY_MSGREPLAYWND_H_

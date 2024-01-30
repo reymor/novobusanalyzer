@@ -22,7 +22,9 @@
  * Interface file for CReplayProcess class
  */
 
-#pragma once
+#ifndef BUSMASTER_REPLAY_REPLAYPROCESS_H_
+#define BUSMASTER_REPLAY_REPLAYPROCESS_H_
+
 #include "ReplayManager.h"
 class CBaseDIL_CAN;
 class CReplayProcess
@@ -114,3 +116,5 @@ private:
     BOOL bMessageTobeBlocked(SFRAMEINFO_BASIC_CAN& sBasicCanInfo);
 
 };
+
+#endif // BUSMASTER_REPLAY_REPLAYPROCESS_H_

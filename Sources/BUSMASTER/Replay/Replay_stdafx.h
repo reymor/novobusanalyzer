@@ -24,7 +24,8 @@
  * are changed infrequently
  */
 
-#pragma once
+#ifndef BUSMASTER_REPLAY_REPLAY_STDAFX_H_
+#define BUSMASTER_REPLAY_REPLAY_STDAFX_H_
 
 #define VC_EXTRALEAN        // Exclude rarely-used stuff from Windows headers
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS  // some CString constructors will be explicit
@@ -37,11 +38,11 @@
 #include <afxcmn.h>         // MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
-
 #include <afxtempl.h>
 #include <afxmt.h>
-//#include <afxdllx.h>
 #include <fstream>
 #include <Mmsystem.h>
 #include <locale.h>
 #include "IBusMasterKernel.h"
+
+#endif // BUSMASTER_REPLAY_REPLAY_STDAFX_H_

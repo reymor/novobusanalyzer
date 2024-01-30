@@ -32,7 +32,6 @@
 #include "Filter/Filter_extern.h"
 #include <locale.h>
 #include "Utility\MultiLanguageSupport.h"
-//#include "../Application/GettextBusmaster.h"
 
 #define defREPLAY_FILE_IMAGE_INDEX          3
 #define defREPLAY_FILE_COL_WIDTH_PROPOTION  0.95
@@ -52,9 +51,7 @@ CReplayFileConfigDlg::CReplayFileConfigDlg( CReplayManager& rouManager,
       m_rouManager( rouManager ),
       m_psFilterConfigured(psFilterConfigured)
 {
-    //{{AFX_DATA_INIT(CReplayFileConfigDlg)
     m_nReplayMode = 0;
-    //}}AFX_DATA_INIT
     m_bUpdating = FALSE;
     m_nSelecetedNamedLogIndex = -1;
     m_omStrMsgType = "Tx Messages";
@@ -69,7 +66,6 @@ CReplayFileConfigDlg::CReplayFileConfigDlg( CReplayManager& rouManager,
 void CReplayFileConfigDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CReplayFileConfigDlg)
     DDX_Control(pDX, IDC_CHK_INTERACTIVE, m_omChkInteractive);
     DDX_Control(pDX, IDC_EDIT_MSG_DELAY, m_omEditMsgDelay);
     DDX_Control(pDX, IDC_EDIT_CYCLE_DELAY, m_omEditCycleDelay);
@@ -80,11 +76,9 @@ void CReplayFileConfigDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LIST_REPALY_FILES, m_omLstcReplayFiles);
     DDX_Radio(pDX, IDC_RADIO_REPLAY_MODE_MONO, m_nReplayMode);
     DDX_CBString(pDX, IDC_COMBO_MSG_TYPE, m_omStrMsgType);
-    //}}AFX_DATA_MAP
 }
 
 BEGIN_MESSAGE_MAP(CReplayFileConfigDlg, CDialog)
-    //{{AFX_MSG_MAP(CReplayFileConfigDlg)
     ON_NOTIFY(NM_CLICK, IDC_LIST_REPALY_FILES, OnClickListRepalyFiles)
     ON_NOTIFY(NM_DBLCLK, IDC_LIST_REPALY_FILES, OnDblclkListRepalyFiles)
     ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_REPALY_FILES, OnItemchangedListRepalyFiles)
@@ -101,7 +95,6 @@ BEGIN_MESSAGE_MAP(CReplayFileConfigDlg, CDialog)
     ON_BN_CLICKED(IDC_RADIO_REPLAY_MODE_CYCLIC, OnRadioReplayModeMono)
     ON_BN_CLICKED(IDC_BTN_FILTER, OnBtnFilter)
     ON_CBN_SELCHANGE(IDC_COMBO_MSG_TYPE, OnComboMsgTypeChanged)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /**
@@ -126,7 +119,6 @@ BOOL CReplayFileConfigDlg::OnInitDialog()
     vEnableDisableButtons();
     //Update Replay Msg Type
     vUpdateReplayMsgType();
-
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -455,8 +447,6 @@ void CReplayFileConfigDlg::vUpdateReplayFileComps( const CReplayFile& rouFile )
             m_omStrMsgType = _(defSTR_SELECTION_ALL);
             break;
     }
-
-
 
     // Update DDX data with UI
     UpdateData( FALSE );
@@ -956,7 +946,6 @@ void CReplayFileConfigDlg::OnBtnFilter()
 {
     CStringArray omStrFilers;
     // Get List of Filters from Filter Manager
-    //CFilterManager::ouGetFilterManager().vGetFilterNameList( omStrFilers );
 
     if( m_nSelecetedNamedLogIndex != -1 )
     {

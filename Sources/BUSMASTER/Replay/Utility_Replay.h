@@ -19,14 +19,15 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_REPLAY_UTILITY_REPLAY_H_
+#define BUSMASTER_REPLAY_UTILITY_REPLAY_H_
 
-//#include "include/struct_can.h"
 #include "CANDriverDefines.h"
 // Takes message string and get msg id, dlc and data
 BOOL bGetMsgInfoFromMsgStr(CONST CString& omSendMsgLine,
                            PSTCANDATA  psReplayData,
                            BOOL bHexON);
+
 // convert a string into bytearray data after replacing spaces between the bytes
 void vConvStrtoByteArray(CByteArray* pomByteArrayBufTx,
                          CHAR* pctempBuf,
@@ -36,6 +37,9 @@ void vConvStrtoByteArray(CByteArray* pomByteArrayBufTx,
 UINT unTimeDiffBetweenMsg( CString& omStrNextMsg,
                            CString& omStrCurMsg,
                            WORD wLogReplyTimeMode);
+
 BOOL bIsModeMismatch( std::ifstream& omInReplayFile,
                       BOOL bReplayHexON,
                       WORD wLogReplayTimeMode);
+
+#endif // BUSMASTER_REPLAY_UTILITY_REPLAY_H_

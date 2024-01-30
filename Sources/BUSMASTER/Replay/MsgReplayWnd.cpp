@@ -27,9 +27,6 @@
 #include "MsgReplayWnd.h"
 #include <locale.h>
 #include "Utility\MultiLanguageSupport.h"
-//#include "../Application/GettextBusmaster.h"
-// Definition of CSplFileDlg class
-//#include "Utility/SplFileDlg.h"
 // For replay manager class declaration
 #include "ReplayManager.h"
 
@@ -80,7 +77,6 @@ CMsgReplayWnd::~CMsgReplayWnd()
 
 
 BEGIN_MESSAGE_MAP(CMsgReplayWnd, CMDIChildWnd)
-    //{{AFX_MSG_MAP(CMsgReplayWnd)
     ON_WM_HELPINFO()
     ON_WM_DESTROY()
     ON_WM_SIZE()
@@ -91,7 +87,6 @@ BEGIN_MESSAGE_MAP(CMsgReplayWnd, CMDIChildWnd)
 
     ON_WM_SHOWWINDOW()
     ON_MESSAGE(WM_OW_LIST_DBLCLK, vListDoubleClick)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /******************************************************************************/
@@ -263,14 +258,10 @@ BOOL CMsgReplayWnd::bOpenReplayFile(BOOL /*bIsInteractive*/)
         {
 			m_omMessageList.SetItemCount(m_dwsize);
 
-            //m_omMessageList.SetItemState( 0, LVIS_SELECTED | LVIS_FOCUSED,
-              //                            LVIS_SELECTED | LVIS_FOCUSED );
             m_eReplayState = REPLAY_TO_START;
             m_ouReplayDetails.m_nUserSelectionIndex = 0;
             // Send message to resize list control
             SendMessage( WM_SIZE );
-			
-			//m_omMessageList.EnsureVisible(0, TRUE);
         }
         else
         {
@@ -292,7 +283,6 @@ BOOL CMsgReplayWnd::bOpenReplayFile(BOOL /*bIsInteractive*/)
                          m_ouReplayDetails.m_ouReplayFile.m_omStrFileName, // File Name
                          m_ouReplayDetails.m_omStrError );                 // Error Message
         CReplayManager::ouGetReplayManager().vSendToTrace(omStrErr.GetBuffer(MAX_PATH));
-        //gbSendStrToTrace( (char *)omStrErr.operator LPCTSTR() );
         // Close the window
         DestroyWindow();
     }
@@ -880,7 +870,6 @@ BOOL CMsgReplayWnd::bSetThreadStopSignal()
         m_ouReplayDetails.m_bStopReplayThread = TRUE;
         bIsValid = TRUE;
     }
-    //m_ouReplayDetails.vCloseReplayFile();
     return bIsValid;
 }
 

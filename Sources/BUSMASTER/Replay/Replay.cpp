@@ -99,7 +99,7 @@ DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
         AfxTermExtensionModule(ReplayDLL);
     }
 
-    return 1;   // ok
+    return 1;
 }
 
 USAGEMODE void vREP_DisplayReplayConfigDlg(ETYPE_BUS eType, const void* pvFilterConfigured)

@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_REPLAY_REPLAY_STRUCT_H_
+#define BUSMASTER_REPLAY_REPLAY_STRUCT_H_
 
 class CBaseAppServices;
 typedef enum
@@ -32,3 +33,5 @@ typedef struct
 {
     CBaseAppServices*   m_pouITraceWndPtr;
 } SREPLAYINIT;
+
+#endif // BUSMASTER_REPLAY_REPLAY_STRUCT_H_

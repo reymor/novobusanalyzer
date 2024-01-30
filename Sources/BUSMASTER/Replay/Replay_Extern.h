@@ -19,7 +19,9 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_REPLAY_REPLAY_EXTERN_H_
+#define BUSMASTER_REPLAY_REPLAY_EXTERN_H_
+
 #include "Utility/XMLUtils.h"
 #include "Replay_Struct.h"
 
@@ -44,7 +46,6 @@ extern "C" {  // only need to export C interface if used by C++ source code
     USAGEMODE void vREP_CmdSkip();
     USAGEMODE void vREP_EnableFilters(BOOL bEnabled);
     //Load and save the Replay config details in terms of bytes
-    //USAGEMODE void vREP_GetReplayConfigData(BYTE*& pDesBuffer, int& nBuffSize);
     USAGEMODE void vREP_GetReplayConfigData(xmlNodePtr pxmlNodePtr);
     USAGEMODE void vREP_SetReplayConfigData(BYTE* pSrcBuffer, int nBuffSize);
     USAGEMODE void vREP_SetXMLReplayConfigData(xmlDocPtr pDoc);
@@ -64,3 +65,5 @@ extern "C" {  // only need to export C interface if used by C++ source code
 #ifdef __cplusplus
 }
 #endif
+
+#endif // BUSMASTER_REPLAY_REPLAY_EXTERN_H_

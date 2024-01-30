@@ -53,11 +53,9 @@ COwnerDataListCtrl::~COwnerDataListCtrl()
 
 
 BEGIN_MESSAGE_MAP(COwnerDataListCtrl, CFFListCtrl)
-    //{{AFX_MSG_MAP(COwnerDataListCtrl)
     ON_NOTIFY_REFLECT(LVN_GETDISPINFO, OnGetdispinfo)
     ON_WM_CREATE()
     ON_WM_LBUTTONDBLCLK()
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /*******************************************************************************

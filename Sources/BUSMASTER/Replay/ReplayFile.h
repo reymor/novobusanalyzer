@@ -22,7 +22,8 @@
  * Interface file for CReplayFile class
  */
 
-#pragma once
+#ifndef BUSMASTER_REPLAY_REPLAYFILE_H_
+#define BUSMASTER_REPLAY_REPLAYFILE_H_
 
 #include "Application/struct.h"
 
@@ -72,8 +73,9 @@ private:
             m_unSessionDelTmp; //m_unSessionDelTmp - Time delay between sessions in case session mode = 1
     int     m_nReplayMode, m_nRepModeTmp;      // 0 - Monoshot, 1 - Cyclic
     UINT    m_unCycleTimeDelay, m_unCycleTimeTmp; // Cyclic delay in case replay mode = 1
-    //CModuleFilterArray m_sFilter; // Filter List
     BOOL    m_bEnabled, m_bEnabledTmp;         // To indicate replay is enabled or not
     BOOL    m_bInteractive, m_bInteractiveTmp;     // 0 - Non Interactive, 1 - interactive
     eDirection m_ouReplayMsgType;
 };
+
+#endif // BUSMASTER_REPLAY_REPLAYFILE_H_

@@ -215,7 +215,6 @@ BYTE* CReplayFile::pbySaveConfig(BYTE* pDesBuffer)
     pDesBuffer += sizeof(m_ouReplayMsgType);
     //To store filters
     //This function will copy into the destination bufffer and increment the pointer
-    //pDesBuffer = m_sFilterApplied.pbGetConfigData(pDesBuffer);
     return pDesBuffer;
 }
 
@@ -372,7 +371,6 @@ BYTE* CReplayFile::pbyLoadConfig(BYTE* pSrcBuffer, INT nSectionVersion)
     }
     ////To store filters
     bool bRet = false;
-    //pSrcBuffer = m_sFilterApplied.pbSetConfigData(pSrcBuffer, bRet);
     return pSrcBuffer;
 }
 int CReplayFile::nLoadXMLConfig(xmlNodePtr pNodePtr)
@@ -655,7 +653,6 @@ BOOL CReplayFile::bisConfigChanged(BYTE*& pSrcBuffer)
         if (bReturn)
         {
             BYTE* pbData = new BYTE[nFilterSize];
-            //m_sFilterApplied.pbGetConfigData(pbData);
             if (memcmp((void*)pSrcBuffer, (void*)pbData, nFilterSize) != 0)
             {
                 bReturn = FALSE;

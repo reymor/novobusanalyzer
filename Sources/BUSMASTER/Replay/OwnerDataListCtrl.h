@@ -22,7 +22,8 @@
  * Interface file for COwnerDataListCtrl class
  */
 
-#pragma once
+#ifndef BUSMASTER_REPLAY_OWNERDATALISTCTRL_H_
+#define BUSMASTER_REPLAY_OWNERDATALISTCTRL_H_
 
 #include "Utility/FFListCtrl.h" // For flicker free list class
 
@@ -40,10 +41,6 @@ public:
     // Operations
 public:
 
-    // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(COwnerDataListCtrl)
-    //}}AFX_VIRTUAL
 
     // Implementation
 public:
@@ -51,14 +48,14 @@ public:
 
     // Generated message map functions
 protected:
-    //{{AFX_MSG(COwnerDataListCtrl)
     afx_msg void OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
     afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-    //}}AFX_MSG
 
     DECLARE_MESSAGE_MAP()
 private:
     // Methods
     // Data
 };
+
+#endif // BUSMASTER_REPLAY_OWNERDATALISTCTRL_H_
