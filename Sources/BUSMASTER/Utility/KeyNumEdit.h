@@ -21,7 +21,8 @@
  * Definition file for CKeyNumEdit
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_KEYNUMEDIT_H_
+#define BUSMASTER_UTILITY_KEYNUMEDIT_H_
 
 #include "Utility_structs.h"
 #include "RadixEdit.h"
@@ -64,3 +65,5 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 };
+
+#endif // BUSMASTER_UTILITY_KEYNUMEDIT_H_

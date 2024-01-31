@@ -22,7 +22,8 @@
  * This file contains utility function declarations
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_UTILITY_H_
+#define BUSMASTER_UTILITY_UTILITY_H_
 
 #include <cstringt.h>
 #include <atlstr.h>
@@ -30,7 +31,9 @@
 #include <vector>
 #include "ProtocolsDefinitions.h"
 #include "CommonDefines.h"
+
 #define BM_MAX_PATH 2000
+
 enum eNodeSimFolderType
 {
     NS_INCLUDE_FOLDER,
@@ -117,3 +120,5 @@ HRESULT GetBusmasterNodeSimualtionFolder(eNodeSimFolderType OUeNodeSimFolderType
 std::string getBusInString(ETYPE_BUS eBus);
 
 void tokenize(const std::string& input, char delim, std::vector<std::string>& tokens);
+
+#endif // BUSMASTER_UTILITY_UTILITY_H_

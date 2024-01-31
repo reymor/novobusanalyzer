@@ -1,9 +1,11 @@
-#pragma once
-#include<string>
-#include<map>
-#include<list>
-#include"Utility_Thread.h"
-#include"IDirectoryWatcher.h"
+#ifndef BUSMASTER_UTILITY_DIRECTORYWATCHER_H_
+#define BUSMASTER_UTILITY_DIRECTORYWATCHER_H_
+
+#include <string>
+#include <map>
+#include <list>
+#include "Utility_Thread.h"
+#include "IDirectoryWatcher.h"
 
 #define READ_DIR_CHANGE_BUFFER_SIZE 4096
 
@@ -46,3 +48,5 @@ public:
     HRESULT AddDirectoryWatch(std::string strDirName,IDirectoryUpdate* pIDirHdlr);
     HRESULT RemoveDirectoryWatch(std::string strDirName,IDirectoryUpdate* pIDirHdlr);
 };
+
+#endif // BUSMASTER_UTILITY_DIRECTORYWATCHER_H_

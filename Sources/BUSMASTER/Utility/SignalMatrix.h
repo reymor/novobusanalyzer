@@ -21,7 +21,8 @@
  * Interface file for CSignalMatrix class
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_SIGNALMATRIX_H_
+#define BUSMASTER_UTILITY_SIGNALMATRIX_H_
 
 #define defBITS_IN_BYTE         8
 #define defMAX_BYTE             8
@@ -89,3 +90,5 @@ private:
     /** Signal data */
     BOOL m_abSignalData[MAX_SIGNALS];
 };
+
+#endif // BUSMASTER_UTILITY_SIGNALMATRIX_H_

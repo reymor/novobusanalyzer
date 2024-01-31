@@ -21,7 +21,8 @@
  * The File contain the definition of WaitIndicator
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_WAITINDICATOR_H_
+#define BUSMASTER_UTILITY_WAITINDICATOR_H_
 
 // Window class name
 #define INDICATOR_CLASSNAME "IndicatorCtrl"
@@ -63,3 +64,5 @@ private:
 
     DECLARE_DYNAMIC(CWaitIndicator)
 };
+
+#endif // BUSMASTER_UTILITY_WAITINDICATOR_H_

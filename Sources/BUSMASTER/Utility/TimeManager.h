@@ -22,7 +22,8 @@
  * Interface file for CTimeManager class
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_TIMEMANAGER_H_
+#define BUSMASTER_UTILITY_TIMEMANAGER_H_
 
 class CTimeManager
 {
@@ -71,3 +72,5 @@ public:
     static void bReinitOffsetTimeValForES581(void);
 
 };
+
+#endif // BUSMASTER_UTILITY_TIMEMANAGER_H_

@@ -13,10 +13,10 @@
 * WWW: http://www.mimec.org
 ********************************************************************/
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_COLUMNTREEWND_H_
+#define BUSMASTER_UTILITY_COLUMNTREEWND_H_
 
 #include "ColumnTreeCtrl.h"
-
 
 class CColumnTreeWnd : public CWnd
 {
@@ -69,3 +69,5 @@ protected:
 private:
     DECLARE_DYNAMIC(CColumnTreeWnd)
 };
+
+#endif // BUSMASTER_UTILITY_COLUMNTREEWND_H_

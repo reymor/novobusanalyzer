@@ -21,8 +21,9 @@
  *
  * This header file contains the defintion of class
  */
-#pragma once
 
+#ifndef BUSMASTER_UTILITY_ALPHACHAR_H_
+#define BUSMASTER_UTILITY_ALPHACHAR_H_
 
 // CAlphaCharEdit
 
@@ -44,7 +45,6 @@ public:
     afx_msg void OnKillFocus(CWnd* pNewWnd);
     virtual BOOL PreTranslateMessage(MSG* pMsg);
     int OnCreate(LPCREATESTRUCT lpCreateStruct);
-
 };
 
-
+#endif // BUSMASTER_UTILITY_ALPHACHAR_H_

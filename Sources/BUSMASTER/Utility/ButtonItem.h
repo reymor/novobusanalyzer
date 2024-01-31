@@ -18,7 +18,8 @@
  * @copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_BUTTONITEM_H_
+#define BUSMASTER_UTILITY_BUTTONITEM_H_
 
 #include "afxwin.h"
 #include "EditItem.h"
@@ -64,3 +65,5 @@ private:
     CString m_omStrDefExt;
     CString m_omStrFilter;
 };
+
+#endif // BUSMASTER_UTILITY_BUTTONITEM_H_

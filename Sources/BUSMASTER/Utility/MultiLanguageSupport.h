@@ -13,7 +13,8 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_MULTILANGUAGESUPPORT_H_
+#define BUSMASTER_UTILITY_MULTILANGUAGESUPPORT_H_
 
 /** loads the internationalization library */
 void loadInternationalizationLibrary();
@@ -28,3 +29,5 @@ char* bindtextdomain(const char* __domainname, const char* __dirname);
 
 /* convenience function for string translation */
 #define _(string) ConvertText(string)
+
+#endif // BUSMASTER_UTILITY_MULTILANGUAGESUPPORT_H_

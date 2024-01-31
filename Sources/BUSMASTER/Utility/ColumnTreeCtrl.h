@@ -13,7 +13,8 @@
 * WWW: http://www.mimec.org
 ********************************************************************/
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_COLUMNTREECTRL_H_
+#define BUSMASTER_UTILITY_COLUMNTREECTRL_H_
 
 class CColumnTreeCtrl : public CTreeCtrl
 {
@@ -40,3 +41,5 @@ protected:
 private:
     DECLARE_DYNAMIC(CColumnTreeCtrl)
 };
+
+#endif // BUSMASTER_UTILITY_COLUMNTREECTRL_H_

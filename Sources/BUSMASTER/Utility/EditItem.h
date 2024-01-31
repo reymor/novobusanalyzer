@@ -24,7 +24,8 @@
     http://www.codeguru.com/Cpp/controls/listview/editingitemsandsubitem/article.php/c923
     Written by Zafir Anjum  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_EDITITEM_H_
+#define BUSMASTER_UTILITY_EDITITEM_H_
 
 class CEditItem : public CEdit
 {
@@ -54,3 +55,5 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 };
+
+#endif // BUSMASTER_UTILITY_EDITITEM_H_

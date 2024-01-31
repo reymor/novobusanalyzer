@@ -22,7 +22,8 @@
  * This file contain the definition of CFlexListCtrl class
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_FLEXLISTCTRL_H_
+#define BUSMASTER_UTILITY_FLEXLISTCTRL_H_
 
 // FlexListCtrl.h : header file
 #include "Utility/Utility_Structs.h"                 // For data struct definition
@@ -139,3 +140,5 @@ private:
 
     DECLARE_MESSAGE_MAP()
 };
+
+#endif // BUSMASTER_UTILITY_FLEXLISTCTRL_H_

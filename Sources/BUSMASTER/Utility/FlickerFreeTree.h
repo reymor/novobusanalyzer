@@ -22,7 +22,9 @@
  * Definition file for CFlickerFreeTree class.
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_FLICKERFREETREE_H_
+#define BUSMASTER_UTILITY_FLICKERFREETREE_H_
+
 #include "afxcmn.h"
 class CFlickerFreeTree : public CTreeCtrl
 {
@@ -33,3 +35,5 @@ public:
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnPaint();
 };
+
+#endif // BUSMASTER_UTILITY_FLICKERFREETREE_H_

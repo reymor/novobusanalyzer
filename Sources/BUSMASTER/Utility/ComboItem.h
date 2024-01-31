@@ -21,7 +21,8 @@
  * This file contains definition of CComboItem class
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_COMBOITEM_H_
+#define BUSMASTER_UTILITY_COMBOITEM_H_
 
 class CComboItem : public CComboBox
 {
@@ -52,3 +53,5 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 };
+
+#endif // BUSMASTER_UTILITY_COMBOITEM_H_

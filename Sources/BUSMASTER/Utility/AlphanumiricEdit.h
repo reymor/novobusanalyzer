@@ -21,7 +21,8 @@
  * This header file contains the defintion of class
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_ALPHANUMIRICEDIT_H_
+#define BUSMASTER_UTILITY_ALPHANUMIRICEDIT_H_
 
 class CAlphanumiricEdit : public CEdit
 {
@@ -41,3 +42,5 @@ private:
     int m_nColumn;
     BOOL m_bVK_ESCAPE;
 };
+
+#endif // BUSMASTER_UTILITY_ALPHANUMIRICEDIT_H_

@@ -17,7 +17,8 @@
  * @copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_COLORSELECTOR_H_
+#define BUSMASTER_UTILITY_COLORSELECTOR_H_
 
 #include "afxwin.h"
 #include "afxdlgs.h"
@@ -55,3 +56,5 @@ private:
     COLORREF m_omColorBkg;
     INT m_nSelIndex;
 };
+
+#endif // BUSMASTER_UTILITY_COLORSELECTOR_H_

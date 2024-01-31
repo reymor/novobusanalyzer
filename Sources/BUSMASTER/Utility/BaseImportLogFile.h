@@ -1,12 +1,12 @@
-#pragma once
+#ifndef BUSMASTER_UTILITY_BASEIMPORTLOGFILE_H_
+#define BUSMASTER_UTILITY_BASEIMPORTLOGFILE_H_
+
 #include<vector>
 #include"..\Include\BaseDefs.h"
 #include"IFileLineAnalysisFilter.h"
 #include"..\Application\HashDefines.h"
 #include "IImportLogFile.h"
 #include"ReadFile.h"
-
-
 
 class CBaseImportLogFile : public IImportLogFile,private IFileLineAnalysisFilter
 {
@@ -55,3 +55,5 @@ public:
     virtual HRESULT GetNextListMsg(std::vector<void*>& vecpvMsg);
     virtual HRESULT GetTimeModeMapping(SYSTEMTIME& CurrSysTime);
 };
+
+#endif // BUSMASTER_UTILITY_BASEIMPORTLOGFILE_H_

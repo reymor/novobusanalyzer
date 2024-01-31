@@ -27,7 +27,8 @@
 // are changed infrequently
 //
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_UTILS_STDAFX_H_
+#define BUSMASTER_UTILITY_UTILS_STDAFX_H_
 
 #define WIN32_LEAN_AND_MEAN     // Exclude rarely-used stuff from Windows headers
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS  // some CString constructors will be explicit
@@ -46,4 +47,4 @@
 #include <afxcmn.h>
 #include <afxdlgs.h>
 
-
+#endif // BUSMASTER_UTILITY_UTILS_STDAFX_H_

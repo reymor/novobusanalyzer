@@ -1,8 +1,11 @@
-#pragma once
-#include<Windows.h>
-#include<string>
-#include<vector>
-#include"ProtocolsDefinitions.h"
+#ifndef BUSMASTER_UTILITY_IIMPORTLOGFILE_H_
+#define BUSMASTER_UTILITY_IIMPORTLOGFILE_H_
+
+#include <Windows.h>
+#include <string>
+#include <vector>
+#include "ProtocolsDefinitions.h"
+
 class IImportLogFile
 {
 public:
@@ -28,3 +31,5 @@ public:
     virtual HRESULT GetNextListMsg(std::vector<void*>& vecpvMsg) = 0;
     virtual HRESULT GetTimeModeMapping(SYSTEMTIME& CurrSysTime) = 0;
 };
+
+#endif // BUSMASTER_UTILITY_IIMPORTLOGFILE_H_

@@ -21,7 +21,8 @@
  * This file contain the definition of CNumSpinCtrl class
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_NUMSPINCTRL_H_
+#define BUSMASTER_UTILITY_NUMSPINCTRL_H_
 
 #include "afxcmn.h"
 
@@ -147,3 +148,5 @@ protected:
     /** Is floating number or int 64 number */
     BOOL   m_bFloatingNumber;
 };
+
+#endif // BUSMASTER_UTILITY_NUMSPINCTRL_H_

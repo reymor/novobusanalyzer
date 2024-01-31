@@ -21,7 +21,8 @@
  * Definition file for CNumEdit
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_NUMEDIT_H_
+#define BUSMASTER_UTILITY_NUMEDIT_H_
 
 #include "Utility_structs.h"
 #include "RadixEdit.h"
@@ -62,3 +63,5 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 };
+
+#endif // BUSMASTER_UTILITY_NUMEDIT_H_

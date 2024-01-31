@@ -21,7 +21,8 @@
  * This file contain the interface for COffScreenDC class
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_OFFSCREENDC_H_
+#define BUSMASTER_UTILITY_OFFSCREENDC_H_
 
 class COffScreenDC : public CDC
 {
@@ -49,3 +50,5 @@ private:
     /** Rectangle of the screen or Drawing area */
     CRect m_rcBounds;
 };
+
+#endif // BUSMASTER_UTILITY_OFFSCREENDC_H_

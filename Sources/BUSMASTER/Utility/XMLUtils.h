@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BUSMASTER_UTILITY_XMLUTILS_H_
+#define BUSMASTER_UTILITY_XMLUTILS_H_
 
 /* C++ includes */
 #include <list>
@@ -776,3 +777,5 @@ public:
         return nRetVal;
     }
 };
+
+#endif // BUSMASTER_UTILITY_XMLUTILS_H_

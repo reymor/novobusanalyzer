@@ -1,8 +1,10 @@
-#pragma once
-#include<Windows.h>
-#include<string>
-#include<fstream>
-#include"IFileLineAnalysisFilter.h"
+#ifndef BUSMASTER_UTILITY_READFILE_H_
+#define BUSMASTER_UTILITY_READFILE_H_
+
+#include <Windows.h>
+#include <string>
+#include <fstream>
+#include "IFileLineAnalysisFilter.h"
 
 
 #define MAX_LENGTH 4096
@@ -36,3 +38,5 @@ public:
     int GetPercentageRead();
     HRESULT CancelFileLoad();
 };
+
+#endif // BUSMASTER_UTILITY_READFILE_H_

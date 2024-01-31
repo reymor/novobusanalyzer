@@ -21,7 +21,8 @@
  * Definition file for CPARAM_THREADPROC class.
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_UTILITY_THREAD_H_
+#define BUSMASTER_UTILITY_UTILITY_THREAD_H_
 
 #if !defined _ETHREAD_ACTION_
 #define _ETHREAD_ACTION_
@@ -112,3 +113,5 @@ protected:
 
     void vInitialise(void);
 };
+
+#endif // BUSMASTER_UTILITY_UTILITY_THREAD_H_

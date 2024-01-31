@@ -22,7 +22,8 @@
  * This file contains definitions of utility structures
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_UTILITY_STRUCTS_H_
+#define BUSMASTER_UTILITY_UTILITY_STRUCTS_H_
 
 #define SIGNED_VAL  1
 #define FLOAT_VAL   2
@@ -123,3 +124,5 @@ struct sNumericInfo
 
 typedef sNumericInfo  SNUMERICINFO;
 typedef CMap<int,int, SNUMERICINFO, SNUMERICINFO>   CNumericInfo;
+
+#endif // BUSMASTER_UTILITY_UTILITY_STRUCTS_H_

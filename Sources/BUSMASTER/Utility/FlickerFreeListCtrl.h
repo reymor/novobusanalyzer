@@ -21,7 +21,8 @@
  * Definition file for CFlickerFreeTree class.
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_FLICKERFREELISTCTRL_H_
+#define BUSMASTER_UTILITY_FLICKERFREELISTCTRL_H_
 
 class CFlickerFreeListCtrl : public CListCtrl
 {
@@ -43,3 +44,5 @@ protected:
 private:
     DECLARE_DYNAMIC(CFlickerFreeListCtrl)
 };
+
+#endif // BUSMASTER_UTILITY_FLICKERFREELISTCTRL_H_

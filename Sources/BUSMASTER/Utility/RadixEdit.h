@@ -22,7 +22,8 @@
  * This file contains the definition of CRadixEdit class
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_RADIXEDIT_H_
+#define BUSMASTER_UTILITY_RADIXEDIT_H_
 
 static const int BASE_HEXADECIMAL  = 0x10;
 static const int BASE_DECIMAL      = 0x0A;
@@ -46,8 +47,6 @@ public:
 
     // Overrides
     // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CRadixEdit)
-    //}}AFX_VIRTUAL
 
     void vSetConfigData(int CtrlID);
     // Returns floating point value
@@ -73,10 +72,8 @@ public:
 
     // Generated message map functions
 protected:
-    //{{AFX_MSG(CRadixEdit)
     afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
     afx_msg void OnChange();
-    //}}AFX_MSG
 
     DECLARE_MESSAGE_MAP()
 
@@ -89,3 +86,5 @@ private:
     bool m_bFloatAllowed;
     int m_nCtrlID;
 };
+
+#endif // BUSMASTER_UTILITY_RADIXEDIT_H_

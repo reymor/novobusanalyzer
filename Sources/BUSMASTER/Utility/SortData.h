@@ -1,8 +1,11 @@
+#ifndef BUSMASTER_UTILITY_SORTDATA_H_
+#define BUSMASTER_UTILITY_SORTDATA_H_
 
 #include "IBMNetWorkService.h"
 #include "CANDriverDefines.h"
 #include "..\Application\Hashdefines.h"
 #include <algorithm>
+
 using namespace std;
 
 enum EColumnType
@@ -165,13 +168,4 @@ int CCANMsgWndDataHandler<SBUFFERTYPE>::CompareBufferData ( const void* pEntry1,
     return nRetValue;
 }
 
-
-//class CLINMsgWndDataHandler
-//{
-//
-//};
-//
-//class CJ1939MsgWndDataHandler
-//{
-//
-//};
+#endif // BUSMASTER_UTILITY_SORTDATA_H_

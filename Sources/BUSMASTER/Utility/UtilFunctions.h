@@ -21,7 +21,8 @@
  * Interface file for CUtilFunctions class
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_UTILFUNCTIONS_H_
+#define BUSMASTER_UTILITY_UTILFUNCTIONS_H_
 
 #include <iostream>
 #include <cctype>
@@ -72,3 +73,5 @@ private:
 		WORD wNbt, WORD wBrp, UINT* puwIndex,
 		INT nSample);
 };
+
+#endif // BUSMASTER_UTILITY_UTILFUNCTIONS_H_

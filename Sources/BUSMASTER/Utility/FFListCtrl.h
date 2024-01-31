@@ -21,7 +21,8 @@
  * This file contain the definition of CFFListCtrl class
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_FFLISTCTRL_H_
+#define BUSMASTER_UTILITY_FFLISTCTRL_H_
 
 class CFFListCtrl : public CListCtrl
 {
@@ -42,3 +43,5 @@ private:
     /** Screen Rectangle */
     CRect m_rectClient;
 };
+
+#endif // BUSMASTER_UTILITY_FFLISTCTRL_H_

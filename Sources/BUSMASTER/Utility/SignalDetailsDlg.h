@@ -22,7 +22,9 @@
  * This header file contains the defintion of class
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_SIGNALDETAILSDLG_H_
+#define BUSMASTER_UTILITY_SIGNALDETAILSDLG_H_
+
 #include "Utils_stdafx.h"
 #include <string>
 #include "SignalDetails_resource.h"
@@ -65,3 +67,5 @@ private:
     CString m_ouStrUnit;
     CString m_ouStrByteOrder;
 };
+
+#endif // BUSMASTER_UTILITY_SIGNALDETAILSDLG_H_

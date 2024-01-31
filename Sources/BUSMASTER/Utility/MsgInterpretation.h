@@ -21,12 +21,12 @@
  * This file contain the definition of CMsgInterpretation class
  */
 
-#pragma once
+#ifndef BUSMASTER_UTILITY_MSGINTERPRETATION_H_
+#define BUSMASTER_UTILITY_MSGINTERPRETATION_H_
 
-//#include "Datatypes/SigWatch_datatypes.h" // Signal list selected
 #include "Datatypes/MsgSignal_Datatypes.h"
-//#include "DataTypes/Cluster.h"
 #include "CommonDefines.h"
+
 class CMsgInterpretation
 {
 public:
@@ -104,3 +104,4 @@ private:
     SMSGENTRY*  m_psMsgRoot;
 };
 
+#endif // BUSMASTER_UTILITY_MSGINTERPRETATION_H_

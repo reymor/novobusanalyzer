@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BUSMASTER_UTILITY_CANCHANNELCONFIGDEFINES_H_
+#define BUSMASTER_UTILITY_CANCHANNELCONFIGDEFINES_H_
+
 #include "Utils_stdafx.h"
 
 #define  defFACT_BAUD_RATE               1000.0
@@ -75,3 +77,5 @@ struct sBTRTemp
 	uBTR0                uBTRReg0;
 	sBRP_NBT_SAMP_n_SJW  sBRPNBTSampNSJW;
 };
+
+#endif // BUSMASTER_UTILITY_CANCHANNELCONFIGDEFINES_H_
