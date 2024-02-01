@@ -5,7 +5,8 @@
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_FORMAT_FORMATMSGJ1939_H_
+#define BUSMASTER_FRAMEPROCESSOR_FORMAT_FORMATMSGJ1939_H_
 
 #include "Datatypes/J1939_Datatypes.h"
 #include "FormatMsgCommon.h"
@@ -27,3 +28,5 @@ private:
     void vFormatDataAndId(BYTE bExprnFlag, PSTJ1939_MSG psJ1939BData,
                           PSFORMATTEDATA_J1939 psJ1939FData);
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_FORMAT_FORMATMSGJ1939_H_

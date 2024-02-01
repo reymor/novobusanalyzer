@@ -22,7 +22,8 @@
  * Definition of CFormatMsgCAN class.
  */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_FORMAT_FORMATMSGCAN_H_
+#define BUSMASTER_FRAMEPROCESSOR_FORMAT_FORMATMSGCAN_H_
 
 #include "FormatMsgCommon.h"
 #include "include/BaseDefs.h"
@@ -45,3 +46,5 @@ private:
     void vFormatTime(BYTE bExprnFlag, SFORMATTEDDATA_CAN* CurrDataCAN);
     void vFormatDataAndId(BYTE bExprnFlag, SFORMATTEDDATA_CAN* CurrDataCAN);
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_FORMAT_FORMATMSGCAN_H_

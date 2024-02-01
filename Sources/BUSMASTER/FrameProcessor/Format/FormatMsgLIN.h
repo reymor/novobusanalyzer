@@ -22,7 +22,8 @@
 * Definition of CFormatMsgLIN class.
 */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_FORMAT_FORMATMSGLIN_H_
+#define BUSMASTER_FRAMEPROCESSOR_FORMAT_FORMATMSGLIN_H_
 
 #include "FormatMsgCommon.h"
 #include "include/BaseDefs.h"
@@ -43,3 +44,5 @@ private:
     void vFormatDataAndId(BYTE bExprnFlag, SFORMATTEDDATA_LIN* CurrDataLIN);
     void vGetLinEventDescription(SERROR_INFO_LIN sLinErrorInfo, std::string& strDesc);
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_FORMAT_FORMATMSGLIN_H_

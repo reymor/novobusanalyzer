@@ -22,7 +22,8 @@
  * Definition of CFormatMsgCommon class.
  */
 
-#pragma once
+#ifndef BUSMASTER_FRAMEPROCESSOR_FORMAT_FORMATMSGCOMMON_H_
+#define BUSMASTER_FRAMEPROCESSOR_FORMAT_FORMATMSGCOMMON_H_
 
 #include "CommonClass/RefTimeKeeper.h"
 
@@ -69,3 +70,5 @@ protected:
 
     void vFormatTimeStamp(DWORD dwTimeStamp, char acTime[], int bufferSize);
 };
+
+#endif // BUSMASTER_FRAMEPROCESSOR_FORMAT_FORMATMSGCOMMON_H_
