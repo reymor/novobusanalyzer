@@ -22,7 +22,8 @@
  * This header file contain definition ofCExecuteManager class.
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_EXECUTEMANAGER_H_
+#define BUSMASTER_NODESIMEX_EXECUTEMANAGER_H_
 
 #include "BuildProgram.h"
 #include "SetResetTimer.h"
@@ -31,10 +32,8 @@
 #define defMAX_NO_OF_HANDLES 16 //Max no. of Nodes = 15 + Event to trigger on 
 //add or remove Node.
 
-
 class CExecuteManager
 {
-
 public:
     CExecuteManager(ETYPE_BUS eBus, CGlobalObj* pGlobalObj, CSimSysManager* pSimSysMgr);
     ESTATUS_BUS m_eBusStatus;
@@ -90,15 +89,11 @@ public:
     //start dll read thread
     void vStartDllReadThread();
 
-
-
     //stop threads
     void vStopThreads();
     void vStopTimer();
     void vStartTimer();
     void vManageTimerExecution();
-
-
 
     //Building and loading of all the nodes
     BOOL bDLLBuildAll();
@@ -119,18 +114,17 @@ protected:
     PSNODEOBJECT m_psFirstNodeObject;
     CSimSysManager* m_pSimSysMgr;
 private:
-
     virtual CExecuteFunc* vCreateExecuteFunc(CString);
     static CExecuteManager* sm_pouManager[BUS_TOTAL];
 
     PSNODEOBJECT m_psLastNodeObject;
-    //CCriticalSection m_omCritiSec;
     CSetResetTimer m_odSetResetTimer;
     CWinThread* m_pomReadDllThrd;
     //event for terminating read dll msg thread
-
     CPARAM_THREADPROC m_MonitorNodeFileThreadProc;
     HANDLE m_hThread;
 
     CGlobalObj* m_pGlobalObj;
 };
+
+#endif // BUSMASTER_NODESIMEX_EXECUTEMANAGER_H_

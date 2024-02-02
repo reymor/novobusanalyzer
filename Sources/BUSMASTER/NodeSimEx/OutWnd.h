@@ -22,11 +22,10 @@
  * This file contain the definition COutWnd class. The output of
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_OUTWND_H_
+#define BUSMASTER_NODESIMEX_OUTWND_H_
 
 #include "Sim_MDIChildBase.h"       // For Common MDI base class
-//#include "ExecuteManager.h"
-//#include "GlobalObj.h"
 
 class CGlobalObj;
 class CExecuteManager;
@@ -84,3 +83,5 @@ private:
     CGlobalObj* m_pGlobalObj;
     CExecuteManager* m_pExecuteMgr;
 };
+
+#endif // BUSMASTER_NODESIMEX_OUTWND_H_

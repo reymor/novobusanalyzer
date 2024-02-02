@@ -19,7 +19,8 @@
  * @copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_HASHDEFINES_H_
+#define BUSMASTER_NODESIMEX_HASHDEFINES_H_
 
 #define DATA_FMT_INTEL          1
 
@@ -1120,3 +1121,5 @@ typedef sEXECUTE_BUSEVENT_HANDLER* PSEXECUTE_BUSEVENT_HANDLER;
     ((omDeviceContext.GetDeviceCaps (LOGPIXELSY) * 10) / 72)
 #define GET_FILE_VIEW_CHAR_WIDTH() \
     ((omDeviceContext.GetDeviceCaps (LOGPIXELSX) * 6) / 72)
+
+#endif // BUSMASTER_NODESIMEX_HASHDEFINES_H_

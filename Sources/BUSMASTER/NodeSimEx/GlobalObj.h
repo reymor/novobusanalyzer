@@ -18,8 +18,8 @@
  * \author    Ratnadip Choudhury
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
-#ifndef NODE_GLOBAL_OBJ_H
-#define NODE_GLOBAL_OBJ_H
+#ifndef BUSMASTER_NODESIMEX_GLOBALOBJ_H_
+#define BUSMASTER_NODESIMEX_GLOBALOBJ_H_
 
 
 #include "NodeSimEx_Struct.h"
@@ -113,4 +113,4 @@ public:
 	void vCloseAllActiveFunctionEditors();
 };
 
-#endif         //#define NODE_GLOBAL_OBJ_H
+#endif         // BUSMASTER_NODESIMEX_GLOBALOBJ_H_

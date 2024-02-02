@@ -18,10 +18,9 @@
  * \author    Pradeep Kadoor
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
-#pragma once
 
-
-// CEventHandlerDlg dialog
+#ifndef BUSMASTER_NODESIMEX_EVENTHANDLERDLG_H_
+#define BUSMASTER_NODESIMEX_EVENTHANDLERDLG_H_
 
 class CEventHandlerDlg : public CDialog
 {
@@ -49,3 +48,5 @@ private:
     void vAddDataConfHandler(HTREEITEM hParent);
     void vAddEventHandlerFunction(const CString& omStrFuncName, const CString& omStrFuncPrototype);
 };
+
+#endif // BUSMASTER_NODESIMEX_EVENTHANDLERDLG_H_

@@ -22,7 +22,8 @@
  * This header file contains the defintion of class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_INCLUDEHEADERDLG_H_
+#define BUSMASTER_NODESIMEX_INCLUDEHEADERDLG_H_
 
 #include "NodeSimEx_resource.h"
 
@@ -60,3 +61,5 @@ protected:
     DECLARE_MESSAGE_MAP()
 private:
 };
+
+#endif // BUSMASTER_NODESIMEX_INCLUDEHEADERDLG_H_

@@ -18,7 +18,9 @@
  * \author    Ratnadip Choudhury
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
-#pragma once
+
+#ifndef BUSMASTER_NODESIMEX_SIMSYSMANAGER_H_
+#define BUSMASTER_NODESIMEX_SIMSYSMANAGER_H_
 
 #include "SimSysNodeInfo.h"
 #include "SimSysTreeView.h"
@@ -90,3 +92,5 @@ public:
 
     CGlobalObj* m_pGlobalObj;
 };
+
+#endif // BUSMASTER_NODESIMEX_SIMSYSMANAGER_H_

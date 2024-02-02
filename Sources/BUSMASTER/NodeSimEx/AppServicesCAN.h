@@ -18,7 +18,8 @@
  * @copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_APPSERVICESCAN_H_
+#define BUSMASTER_NODESIMEX_APPSERVICESCAN_H_
 
 #include "AppServices.h"
 //Send can message
@@ -30,4 +31,4 @@ BOOL gbStartStopHardware_CAN(BOOL) ;
 //to get first connected database name
 DWORD gdGetFirstCANdbName(char* , DWORD );
 
-
+#endif // BUSMASTER_NODESIMEX_APPSERVICESCAN_H_

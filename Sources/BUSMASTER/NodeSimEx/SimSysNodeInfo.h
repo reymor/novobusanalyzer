@@ -22,13 +22,14 @@
  * This header file contains the defintion of class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_SIMSYSNODEINFO_H_
+#define BUSMASTER_NODESIMEX_SIMSYSNODEINFO_H_
 
 #include "Include/Basedefs.h"
 #include "MsgBufVse.h"
 #include "MsgBufFSE.h"
 #include "MsgBufVSE.h"
-//#include "DataTypes/MsgBufAll_DataTypes.h"
+
 #include "Utility/Utility_Thread.h"
 #include "Utility/DirectoryWatcher.h"
 class CGlobalObj;
@@ -165,3 +166,5 @@ private:
     ETYPE_BUS m_eBus;
     CGlobalObj* m_pGlobalObj;
 };
+
+#endif // BUSMASTER_NODESIMEX_SIMSYSNODEINFO_H_

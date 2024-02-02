@@ -22,7 +22,8 @@
 // or project specific include files that are used frequently, but
 // are changed infrequently
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_NODESIMEX_STDAFX_H_
+#define BUSMASTER_NODESIMEX_NODESIMEX_STDAFX_H_
 
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN        // Exclude rarely-used stuff from Windows headers
@@ -60,3 +61,5 @@
 //#define COMMANINT   INT_PTR
 //#define COMMANUINT  UINT_PTR
 //#define COMMANDWORD DWORD_PTR
+
+#endif // BUSMASTER_NODESIMEX_NODESIMEX_STDAFX_H_

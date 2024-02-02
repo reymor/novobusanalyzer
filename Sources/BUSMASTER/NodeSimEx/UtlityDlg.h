@@ -22,7 +22,8 @@
  * This header file contains the defintion of class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_UTLITYDLG_H_
+#define BUSMASTER_NODESIMEX_UTLITYDLG_H_
 
 #include "NodeSimEx_resource.h"
 
@@ -70,3 +71,5 @@ private:
 public:
     afx_msg void OnCbnSelchangeCombFnReturnType();
 };
+
+#endif // BUSMASTER_NODESIMEX_UTLITYDLG_H_

@@ -22,7 +22,8 @@
  * This header file contains name and prototype of the
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_EXPORT_USERDLL_H_
+#define BUSMASTER_NODESIMEX_EXPORT_USERDLL_H_
 
 typedef int (*LOGENABLE) (BOOL);
 // Prototype of the exported function from user-defined DLL
@@ -86,4 +87,4 @@ typedef double(*GETRAWVALUE)(GETFPRAWVALUE pfGetPhysicalValue);
 #define NAME_FUNC_SETDLLHANDLE          "vSetGetDllHandleProcAddress"
 
 
-
+#endif // BUSMASTER_NODESIMEX_EXPORT_USERDLL_H_

@@ -22,9 +22,10 @@
  * This header file contains the defintion of class ileView. All
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_EXPORT_FILEVIEW_H_
+#define BUSMASTER_NODESIMEX_EXPORT_FILEVIEW_H_
 
-#include "HashDefines.h"        // #defines defintion file
+#include "HashDefines.h"
 #include "FunctionEditorDoc.h"  // Document defintion file
 
 class CFileView : public CScrollView
@@ -43,14 +44,12 @@ public:
 
     // Overrides
     // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CFileView)
 public:
     virtual void OnDraw(CDC* pDC);  // overridden to draw this view
     virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 protected:
     virtual void OnInitialUpdate(); // called first time after construct
 
-    //}}AFX_VIRTUAL
 
     // Implementation
 public:
@@ -73,10 +72,8 @@ protected:
 
     // Generated message map functions
 protected:
-    //{{AFX_MSG(CFileView)
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg void OnPaint();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 
 private:
@@ -87,3 +84,5 @@ private:
 public:
     afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 };
+
+#endif // BUSMASTER_NODESIMEX_EXPORT_FILEVIEW_H_

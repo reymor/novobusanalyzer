@@ -22,7 +22,8 @@
  * This header file contains the defintion of class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_SIMSYSTREEVIEW_H_
+#define BUSMASTER_NODESIMEX_SIMSYSTREEVIEW_H_
 
 #include "Include/Basedefs.h"
 #include "SimSysNodeInfo.h"
@@ -39,7 +40,6 @@ public:
     CSimSysTreeView(ETYPE_BUS eBusType, CSimSysManager* pSimSysMgr, CExecuteManager* pExecuteMgr, CGlobalObj* pGlobalObj
                     , CString omstrBusName);
     virtual ~CSimSysTreeView();
-    //DECLARE_DYNCREATE(CSimSysTreeView)
 
     // Attributes
 public:
@@ -124,13 +124,10 @@ private:
     CImageList m_omImageList;
 
     CString omStrSimsysToBeDeleted;
-    //CString m_omStrSelectedNodeName;
 
     HMODULE m_hModAdvancedUILib;
 
-
     CPoint m_omRightClickPoint;
-
 
     HTREEITEM m_hSelectedTreeItem;
     BOOL bCreateImageList();
@@ -145,3 +142,5 @@ private:
 public:
     static ETYPE_BUS CSimSysTreeView::sm_eBus;
 };
+
+#endif // BUSMASTER_NODESIMEX_SIMSYSTREEVIEW_H_

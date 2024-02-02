@@ -19,11 +19,13 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_FUNCTIONEDITORBASE_H_
+#define BUSMASTER_NODESIMEX_FUNCTIONEDITORBASE_H_
 
-#include "include\basedefs.h"
+#include "include/basedefs.h"
 #include "FunctionEditorDoc.h"
 #include "GlobalObj.h"
+
 class CFunctionEditorBase
 {
 public:
@@ -37,3 +39,5 @@ public:
     static CFunctionEditorDoc* pCreateNewDocument(ETYPE_BUS eBus);
     static CGlobalObj* m_pGlobalObj;
 };
+
+#endif // BUSMASTER_NODESIMEX_FUNCTIONEDITORBASE_H_

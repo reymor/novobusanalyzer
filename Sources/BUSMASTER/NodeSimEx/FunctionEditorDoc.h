@@ -22,13 +22,15 @@
  * This header file contains the defintion of class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_FUNCTIONEDITORDOC_H_
+#define BUSMASTER_NODESIMEX_FUNCTIONEDITORDOC_H_
 
 #include "NodeSimEx_Struct.h"
 #include "FunctionEditorStruct.h"
 #include "DataTypes\MsgSignal_Datatypes.h"
 #include <list>
 #include <regex>
+
 class CGlobalObj;
 
 class CFunctionEditorDoc : public CDocument
@@ -87,11 +89,8 @@ public:
     CStringArray* omStrGetGlobalVariablePrototypes();
     CStringArray* omStrGetUtilityFunctionPrototypes();
     CStringArray* omStrGetKeyHandlerPrototypes();
-    /* CStringArray* omStrGetCycleHandlerPrototypes();
-     CStringArray* omStrGetPOCHandlerPrototypes();*/
     CStringArray* omStrGetTimerHandlerPrototypes();
     CStringArray* omStrGetMessageHandlerPrototypes();
-    // CStringArray* omStrGetPduHandlerPrototypes();
     int ReadString(const LPSTR lpBuffer, UINT nSize, LPSTR lpsz, UINT& nIndex);
     long m_lCurrentWarningLineNum;
     POSITION SetPosToFirstLine();
@@ -145,7 +144,6 @@ private:
 
     CStringArray m_omIncludeFileArray ;
 
-
     // To get the application version
 
     void vInitialiseBusSpecStructure(CString& omStrTemp, int unChannel,
@@ -164,3 +162,5 @@ protected:
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 };
+
+#endif // BUSMASTER_NODESIMEX_FUNCTIONEDITORDOC_H_

@@ -22,7 +22,8 @@
  * This file contain the definition of CMsgHandlerDlg class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_MSGHANDLERDLG_H_
+#define BUSMASTER_NODESIMEX_MSGHANDLERDLG_H_
 
 #include "NodeSimEx_resource.h"
 #include "Utility/RadixEdit.h"
@@ -104,3 +105,5 @@ private:
     void vGetUniqueFrameNames(std::list<std::string>& strNameList);
     virtual std::string GetUniqueFrameName(IFrame* pouFrame);
 };
+
+#endif // BUSMASTER_NODESIMEX_MSGHANDLERDLG_H_

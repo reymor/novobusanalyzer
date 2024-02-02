@@ -22,7 +22,8 @@
  * This header file contains the defintion of class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_SELECTFUNCTIONS_H_
+#define BUSMASTER_NODESIMEX_SELECTFUNCTIONS_H_
 
 #include "NodeSimEx_resource.h"
 #include "Include/BaseDefs.h"
@@ -67,3 +68,5 @@ private:
     BOOL bFormatFunctionPrototype(CString& omStrFunctionPrototype);
     CGlobalObj* m_pGlobalObj;
 };
+
+#endif // BUSMASTER_NODESIMEX_SELECTFUNCTIONS_H_

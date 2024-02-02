@@ -22,7 +22,8 @@
  * Interface file for CMDIChildBase class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_SIM_MDICHILDBASE_H_
+#define BUSMASTER_NODESIMEX_SIM_MDICHILDBASE_H_
 
 #include "Hashdefines.h"
 #define eCONFIGDETAILS int
@@ -66,3 +67,5 @@ protected:
     // Set the window identity parameter
     eCONFIGDETAILS  m_eWindowIdentity;
 };
+
+#endif // BUSMASTER_NODESIMEX_SIM_MDICHILDBASE_H_

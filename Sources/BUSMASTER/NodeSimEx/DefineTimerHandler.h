@@ -22,7 +22,8 @@
  * This file contain the definition all of CDefineTimerHandler
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_DEFINETIMERHANDLER_H_
+#define BUSMASTER_NODESIMEX_DEFINETIMERHANDLER_H_
 
 // costomised edit control class definition
 #include "Utility/RadixEdit.h"
@@ -37,7 +38,6 @@ public:
     CDefineTimerHandler(CFunctionEditorDoc* pDoc, CWnd* pParent = nullptr);   // standard constructor
 
     // Dialog Data
-    //{{AFX_DATA(CDefineTimerHandler)
     enum { IDD = IDD_DLG_DEFINE_TIMER_HANDLER };
     CRadixEdit  m_omEditTimerValue;
     CEdit   m_omEditTimerFuncName;
@@ -56,13 +56,13 @@ protected:
 protected:
 
     // Generated message map functions
-    //{{AFX_MSG(CDefineTimerHandler)
     afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);
     virtual void OnOK();
     virtual BOOL OnInitDialog();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     CFunctionEditorDoc* m_pDoc;
     BOOL    m_bIsTimerEdited;
 };
+
+#endif // BUSMASTER_NODESIMEX_DEFINETIMERHANDLER_H_

@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_BASENODESIM_H_
+#define BUSMASTER_NODESIMEX_BASENODESIM_H_
 
 #include "Utility/XMLUtils.h"
 #include "NodeSimEx_Struct.h"
@@ -64,3 +65,5 @@ public:
     // FOR Passing Cluster Config
     virtual void NS_SetBmNetworkConfig( IBMNetWorkGetService* ouLINConfig, bool bModified = false ) = 0;
 };
+
+#endif // BUSMASTER_NODESIMEX_BASENODESIM_H_

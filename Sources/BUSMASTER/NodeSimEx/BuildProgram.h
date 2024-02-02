@@ -22,12 +22,13 @@
  * This file contain the definition of CBuildProgram class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_BUILDPROGRAM_H_
+#define BUSMASTER_NODESIMEX_BUILDPROGRAM_H_
 
 #include"OutWnd.h"
 #include"SimSysNodeInfo.h"
 #include "GlobalObj.h"
-//#include "ExecuteManager.h"
+
 class CExecuteManager;
 
 class CBuildProgram
@@ -72,3 +73,5 @@ private:
     CGlobalObj* m_pGlobalObj;
     CExecuteManager* m_pExecuteMgr;
 };
+
+#endif // BUSMASTER_NODESIMEX_BUILDPROGRAM_H_

@@ -21,16 +21,17 @@
  * This header file contains the defintion of class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_FNSTREEVIEW_H_
+#define BUSMASTER_NODESIMEX_FNSTREEVIEW_H_
 
 #include <string>
 #include "FunctionEditorDoc.h"
+
 class CGlobalObj;
 
 class CFnsTreeView : public CTreeView
 {
 protected:
-    //CFnsTreeView(){}
     // protected constructor used by dynamic creation
     DECLARE_DYNCREATE(CFnsTreeView)
 
@@ -42,7 +43,6 @@ public:
 
     // Overrides
     // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CFnsTreeView)
 public:
     virtual void OnInitialUpdate();
     virtual void vActivateFileView(UINT);
@@ -51,7 +51,6 @@ public:
 protected:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
-    //}}AFX_VIRTUAL
 
     // Implementation
 protected:
@@ -65,7 +64,6 @@ protected:
 protected:
     //{{AFX_MSG(CFnsTreeView)
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-    //afx_msg void OnTreeItemDoubleClick(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnTreeItemSelectionChanged(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnItemLeftClick(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
@@ -122,7 +120,7 @@ private:
     void vOnNewBusEventHandler();
     // Delete a line from the code with the search string & header string
     BOOL bDeleteALineFromHeader(CString omStrHeader,CString);
-    // Dlete selected handler
+    // Delete selected handler
     virtual BOOL bDeleteHandler(CString omStrFuncName,CFunctionEditorDoc* pDoc);
     virtual CString omGetMsgHandlerName();
     BOOL bHandleMsgHandlerDelete(CString omStrHandler);
@@ -151,3 +149,5 @@ public:
     afx_msg void OnFunctionEditorSave();
     static CGlobalObj* m_pGlobalObj;
 };
+
+#endif // BUSMASTER_NODESIMEX_FNSTREEVIEW_H_

@@ -19,12 +19,14 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_NODESIM_H_
+#define BUSMASTER_NODESIMEX_NODESIM_H_
 
 #include "BaseNodeSim.h"
 #include "IBMNetWorkGetService.h"
 #include "GlobalObj.h"
 #include "ExecuteManager.h"
+
 class CGlobalObj;
 
 class CNodeSim : public CBaseNodeSim
@@ -80,3 +82,5 @@ private:
     CExecuteManager* m_pExecuteMgr;
 
 };
+
+#endif // BUSMASTER_NODESIMEX_NODESIM_H_

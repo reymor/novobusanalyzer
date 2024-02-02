@@ -22,7 +22,8 @@
  * This file contain the definition all of CKeyValue class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_KEYVALUE_H_
+#define BUSMASTER_NODESIMEX_KEYVALUE_H_
 
 #include "NodeSimEx_resource.h"
 
@@ -70,3 +71,5 @@ private:
     BOOL bValidateDuplicateKeyHandler(CFunctionEditorDoc* pDoc);
     std::string strExtractFunctionName(std::string strFuncName);
 };
+
+#endif // BUSMASTER_NODESIMEX_KEYVALUE_H_

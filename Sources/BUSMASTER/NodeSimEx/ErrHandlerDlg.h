@@ -22,7 +22,9 @@
  * This file contain the definition of CErrHandlerDlg class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_ERRHANDLERDLG_H_
+#define BUSMASTER_NODESIMEX_ERRHANDLERDLG_H_
+
 
 #include "NodeSimEx_resource.h"
 
@@ -38,29 +40,24 @@ public:
     CErrHandlerDlg(CFunctionEditorDoc* pDoc, CWnd* pParent = nullptr,BOOL bIsDelete = FALSE);
 
     // Dialog Data
-    //{{AFX_DATA(CErrHandlerDlg)
     enum { IDD = IDD_DLG_ERROR_HANDLER };
-    //}}AFX_DATA
-
 
     // Overrides
     // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CErrHandlerDlg)
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
 
     // Implementation
 protected:
 
     // Generated message map functions
-    //{{AFX_MSG(CErrHandlerDlg)
     virtual BOOL OnInitDialog();
     afx_msg void OnCbtnErrorCancel();
     afx_msg void OnCbtnErrorOk();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     CFunctionEditorDoc* m_pDoc;
     BOOL m_bIsDelete;
 };
+
+#endif // BUSMASTER_NODESIMEX_ERRHANDLERDLG_H_

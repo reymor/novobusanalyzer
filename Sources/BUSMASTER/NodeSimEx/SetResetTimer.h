@@ -22,7 +22,8 @@
  * This file contain declaration of all function and data
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_SETRESETTIMER_H_
+#define BUSMASTER_NODESIMEX_SETRESETTIMER_H_
 
 #include "NodeSimEx_resource.h"
 #include "HashDefines.h"
@@ -85,3 +86,5 @@ public:
     CGlobalObj* m_pGlobalObj;
     CExecuteManager* m_pExecuteMgr;
 };
+
+#endif // BUSMASTER_NODESIMEX_SETRESETTIMER_H_

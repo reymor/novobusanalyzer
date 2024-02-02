@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_APPSERVICESLIN_H_
+#define BUSMASTER_NODESIMEX_APPSERVICESLIN_H_
 
 #include "AppServices.h"
 
@@ -33,3 +34,5 @@ BOOL gbStartStopHardware_LIN(BOOL) ;
 DWORD gdGetFirstLINdbName(char* , DWORD );
 BOOL gbWtiteToLog_LIN(char* pcString);
 BOOL gbEnableDisableLog_LIN(BOOL bEnable);
+
+#endif // BUSMASTER_NODESIMEX_APPSERVICESLIN_H_

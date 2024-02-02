@@ -22,11 +22,12 @@
  * Interface file for CNodeDetailsDlg class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_NODEDETAILSDLG_H_
+#define BUSMASTER_NODESIMEX_NODEDETAILSDLG_H_
 
-#include "SimSysNodeInfo.h"     // For CSimSysNodeInfo class decl
+#include "SimSysNodeInfo.h"
 #include "NodeSimEx_resource.h"
-#include "Utility\radixedit.h"
+#include "Utility/radixedit.h"
 #include "GlobalObj.h"
 #include "SimSysManager.h"
 
@@ -81,3 +82,5 @@ public:
     CRadixEdit m_omPreferedAddress;
     CRadixEdit m_omEcuName;
 };
+
+#endif // BUSMASTER_NODESIMEX_NODEDETAILSDLG_H_

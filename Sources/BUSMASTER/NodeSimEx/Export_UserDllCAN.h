@@ -21,6 +21,10 @@
  *
  * This header file contains name and prototype of the
  */
+
+#ifndef BUSMASTER_NODESIMEX_EXPORT_USERDLLCAN_H_
+#define BUSMASTER_NODESIMEX_EXPORT_USERDLLCAN_H_
+
 #include "Export_UserDll.h"
 
 typedef int (*APPFUNCPROC) (STCAN_TIME_MSG,HMODULE);
@@ -52,4 +56,4 @@ typedef void (*DLLDISCONNECTPROC)(DISCONNECT);
 #define NAME_FUNC_TIMENOW               "vSetTimeNow"
 #define NAME_FUNC_GETFIRSTCANDBNAME     "vSetGetFirstCANdbName"
 
-
+#endif // BUSMASTER_NODESIMEX_EXPORT_USERDLLCAN_H_

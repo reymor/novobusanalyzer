@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_HANDLERFUNC_H_
+#define BUSMASTER_NODESIMEX_HANDLERFUNC_H_
 
 #include "HashDefines.h"
 
@@ -54,3 +55,5 @@ UINT unReadNodeMsgHandlerBufferLIN(LPVOID pParam);
 
 // to read ExecuteManager buffer of message queue
 UINT unReadDllMsgBuffer(LPVOID pParam);
+
+#endif // BUSMASTER_NODESIMEX_HANDLERFUNC_H_

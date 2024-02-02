@@ -22,7 +22,8 @@
  * This file contain declaration of CDLLHandlerDlg class.
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_DLLHANDLERDLG_H_
+#define BUSMASTER_NODESIMEX_DLLHANDLERDLG_H_
 
 class CDLLHandlerDlg : public CDialog
 {
@@ -33,32 +34,22 @@ public:
     CDLLHandlerDlg(BYTE byType, CFunctionEditorDoc* pDoc, CWnd* pParent = nullptr, BOOL bIsDelete = FALSE);   // standard constructor
 
     // Dialog Data
-    //{{AFX_DATA(CDLLHandlerDlg)
     enum { IDD = IDD_DLG_DLL_HANDLER };
     CButton m_omCheckDLLUnLoad;
     CButton m_omCheckDLLLoad;
-    //CButton m_omButtonOK;
     BOOL    m_bCheckDLLLoad;
     BOOL    m_bCheckDLLUnLoad;
-    //}}AFX_DATA
 
 
     // Overrides
     // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CDLLHandlerDlg)
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
 
-    // Implementation
 protected:
 
     // Generated message map functions
-    //{{AFX_MSG(CDLLHandlerDlg)
-    //    afx_msg void OnCbtnDllCancel();
-    //    afx_msg void OnCbtnDllOk();
     virtual BOOL OnInitDialog();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     CFunctionEditorDoc* m_pDoc;
@@ -69,3 +60,5 @@ public:
     afx_msg void OnBnClickedOk();
     afx_msg void OnCbtnDllCancel();
 };
+
+#endif // BUSMASTER_NODESIMEX_DLLHANDLERDLG_H_

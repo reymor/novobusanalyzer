@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_FUNCTIONEDITORSTRUCT_H_
+#define BUSMASTER_NODESIMEX_FUNCTIONEDITORSTRUCT_H_
 
 #include "SimSysNodeInfo.h"
 
@@ -60,5 +61,8 @@ struct tagBusSpecificInfo
         }
     }
 };
+
 typedef tagBusSpecificInfo SBUS_SPECIFIC_INFO;
 typedef SBUS_SPECIFIC_INFO* PSBUS_SPECIFIC_INFO;
+
+#endif // BUSMASTER_NODESIMEX_FUNCTIONEDITORSTRUCT_H_

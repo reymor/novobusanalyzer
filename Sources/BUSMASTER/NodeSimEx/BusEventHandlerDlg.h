@@ -1,8 +1,9 @@
-#pragma once
-
+#ifndef BUSMASTER_NODESIMEX_BUSEVENTHANDLERDLG_H_
+#define BUSMASTER_NODESIMEX_BUSEVENTHANDLERDLG_H_
 
 // CBusEventHandlerDlg dialog
 #include "NodeSimEx_resource.h"
+
 class CBusEventHandlerDlg : public CDialog
 {
     DECLARE_DYNAMIC(CBusEventHandlerDlg)
@@ -32,3 +33,5 @@ public:
     virtual BOOL OnInitDialog();
     afx_msg void OnBnClickedOk();
 };
+
+#endif // BUSMASTER_NODESIMEX_BUSEVENTHANDLERDLG_H_

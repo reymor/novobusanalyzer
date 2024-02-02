@@ -22,7 +22,9 @@
  * Interface for CFunctionView class. Has functions to Set the
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_FUNCTIONVIEW_H_
+#define BUSMASTER_NODESIMEX_FUNCTIONVIEW_H_
+
 #include "ProtocolsDefinitions.h"
 class CGlobalObj;
 
@@ -99,3 +101,5 @@ private:
 public:
     static CGlobalObj* m_pGlobalObj;
 };
+
+#endif // BUSMASTER_NODESIMEX_FUNCTIONVIEW_H_

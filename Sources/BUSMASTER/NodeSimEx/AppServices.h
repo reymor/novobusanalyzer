@@ -18,7 +18,8 @@
  * @copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_APPSERVICES_H_
+#define BUSMASTER_NODESIMEX_APPSERVICES_H_
 
 BOOL gbGetProgramVersion(int* pnMajorVersion, int* pnMinorVersion);
 
@@ -48,3 +49,5 @@ unsigned long long gdGetSignalRawValue( int bus, double unEngValue, unsigned lon
 
 
 ICoding* GetCoding(int bus, unsigned long long unClusterId, const char* pchCodingName);
+
+#endif // BUSMASTER_NODESIMEX_APPSERVICES_H_

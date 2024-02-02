@@ -23,9 +23,10 @@
  */
 /////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_EDITFRAMEWND_H_
+#define BUSMASTER_NODESIMEX_EDITFRAMEWND_H_
 
-#include "HashDefines.h"    // #define file
+#include "HashDefines.h"
 #include "NodeSimEx_resource.h"
 
 class CEditFrameWnd : public CMDIChildWnd
@@ -38,13 +39,11 @@ public:
 
     // Overrides
     // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CEditFrameWnd)
 public:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
     virtual void ActivateFrame(int nCmdShow);
 protected:
     virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
-    //}}AFX_VIRTUAL
     void vCalculateSplitterPos(CSize&);
     virtual ~CEditFrameWnd();
 
@@ -55,10 +54,8 @@ protected:
 
     // Generated message map functions
 protected:
-    //{{AFX_MSG(CEditFrameWnd)
     // NOTE - the ClassWizard will add and remove member functions here.
     //    DO NOT EDIT what you see in these blocks of generated code!
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 
 private:
@@ -75,3 +72,5 @@ public:
 
 	void vCloseEditFrameWindow();
 };
+
+#endif // BUSMASTER_NODESIMEX_EDITFRAMEWND_H_

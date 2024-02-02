@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_CONVERTCPP_H_
+#define BUSMASTER_NODESIMEX_CONVERTCPP_H_
+
 #include "NodeSimEx_stdafx.h"
 #include <regex>
 #include <istream>
@@ -19,3 +21,5 @@ public:
     bool CConvertCpp::bCreateCppBackupFile(std::string omFilePath, ETYPE_BUS eBus, std::string&);
     bool bCheckDllVersion(std::string omDllFilePath);
 };
+
+#endif // BUSMASTER_NODESIMEX_CONVERTCPP_H_

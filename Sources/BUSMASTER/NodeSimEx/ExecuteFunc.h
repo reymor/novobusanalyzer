@@ -22,13 +22,13 @@
  * This header file contain definition ofCExecuteFunc class.
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_EXECUTEFUNC_H_
+#define BUSMASTER_NODESIMEX_EXECUTEFUNC_H_
 
 #include "NodeSimEx_stdafx.h"
 #include "HashDefines.h"
 #include "SimSysNodeInfo.h"
 #include "ExecuteManager.h"
-//#include "DataTypes\Cluster.h"
 #include "ICluster.h"
 
 class CExecuteFunc
@@ -49,8 +49,6 @@ public:
     void vExecuteOnDataConfHandlerJ1939(UINT32 unPGN, BYTE bySrc, BYTE byDest, BOOL bSuccess);
     void vExecuteOnAddressClaimHandlerJ1939(BYTE byAddress);
     void vExecuteOnDLLHandler(eDLLHANDLER eDLLHandler);
-    /*void vExecuteOnCycleHandler(STFLX_TIME_STARTCYCLE stcStartCycle);
-    void vExecuteOnPOCHandler(sTFLX_TIME_POCSTATE stcPOCStatus);*/
     void vExecuteOnBusEventHandler(eBUSEVEHANDLER eBusEventHandler);
 
     // LIN handlers
@@ -171,15 +169,6 @@ private:
     BOOL bInitDLLStruct(CStringArray& omErrorArray);
     BOOL bInitBusEventStruct(CStringArray& omErrorArray);
 
-    // Initialize Slot structure
-    //BOOL bInitOnSlotStruct(CStringArray& omErrorArray);
-    // Initialize POC Structure
-    //BOOL bInitOnPOC(CStringArray& omErrorArray);
-    // Initialize Start Cycle Structure
-    //BOOL bInitOnStartCycleStruct(CStringArray& omErrorArray);
-    // Initialize
-
-
     // Read .Def File and add function name.
     BOOL bReadDefFile(CStringArray& omErrorArray);
     void vTokenize(CString strInput, CString strToken, CString& strOutput, int& nStart);
@@ -222,23 +211,10 @@ private:
     PSEVENTHANDLER m_psOnEventHandlers;
     PSERRORHANDLER m_psOnErrorHandlers;
 
-    /*PSEXECUTE_CYCLE_HANDLER m_psOnCycleHandlers;
-    PSEXECUTE_SLOT_HANDLER m_psOnSlotHandlers;
-    PSEXECUTE_POC_HANDLER m_psOnPOCHandler;*/
-
     PSEVENTHANDLERLIN m_psOnEventHandlersLin;
     CString m_omStrDllFileName;
 
-
-
-    /* CString m_omStrGenericPduHandlerName;
-     CString m_omStrGenericNullMsgHandler;*/
-    //CString m_omStrGenericCycleHandlerName;
-
-
     BOOL m_bIsStatWndCreated;
-
-
 
     UINT m_unQMsgCount;
     UINT m_unQMsgCountLIN;
@@ -253,8 +229,6 @@ private:
     UINT m_unReadQMsgIndexLIN;         // index from which the message to be read
     UINT m_unWriteQMsgIndexLIN;        //index at which message is to be written
 
-
-
     BOOL m_bDllLoaded;
     CWinThread* m_pomMsgHandlerThrd;
     CWinThread* m_pomMsgHandlerThrdLIN;
@@ -265,3 +239,5 @@ private:
     //to start stop message transmission from DLL
     BOOL m_bMsgTxOnFlag;
 };
+
+#endif // BUSMASTER_NODESIMEX_EXECUTEFUNC_H_

@@ -18,6 +18,10 @@
   Modified By   :
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 *****************************************************************************/
+
+#ifndef BUSMASTER_NODESIMEX_EXPORT_USERDLLJ1939_H_
+#define BUSMASTER_NODESIMEX_EXPORT_USERDLLJ1939_H_
+
 #include "Export_UserDll.h"
 
 typedef UINT (*APPSENDPROC_J) (STJ1939_MSG*, HMODULE);
@@ -62,3 +66,5 @@ typedef void (*DLLSETTIMEOUT_J)(APPSETTIMEOUT_J);
 #define NAME_FUNC_RQSTADDRESS_J  "vSetRequestAddressProcAddress"
 #define NAME_FUNC_CMDADDRESS_J   "vSetCommandAddressProcAddress"
 #define NAME_FUNC_TIMEOUT_J      "vSetSetTimeoutProcAddress"
+
+#endif // BUSMASTER_NODESIMEX_EXPORT_USERDLLJ1939_H_

@@ -15,7 +15,8 @@
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_APPSERVICESJ1939_H_
+#define BUSMASTER_NODESIMEX_APPSERVICESJ1939_H_
 
 #include "AppServices.h"
 
@@ -38,3 +39,5 @@ UINT g_unCommandAddress_J1939(UINT64 EcuName, BYTE NewAddress, UINT Channel,
 UINT g_unSetTimeout_J1939(BYTE TimeoutType, UINT TimeoutValue, HMODULE hModule);
 
 BOOL gbWtiteToLog_J1939(char* pcInputString);
+
+#endif // BUSMASTER_NODESIMEX_APPSERVICESJ1939_H_

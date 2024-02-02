@@ -22,22 +22,20 @@
  * Interface file for CSimSysWnd class
  */
 
-#pragma once
+#ifndef BUSMASTER_NODESIMEX_SIMSYSWND_H_
+#define BUSMASTER_NODESIMEX_SIMSYSWND_H_
 
 #include "Sim_MDIChildBase.h"
 #include "NodeSimEx_resource.h"
-#include "..\Application\CNVTCToolBar.h"
+#include "../Application/CNVTCToolBar.h"
 #include "SimSysTreeView.h"
 
 class CSimSysWnd : public CMDIChildBase
 {
     DECLARE_DYNCREATE(CSimSysWnd)
 protected:
-
-
     // Attributes
 public:
-
     // Operations
 public:
     // Default constructor
@@ -83,3 +81,5 @@ public:
     CNVTCToolBar m_toolbar;
 	void CloseSimSysWindow();
 };
+
+#endif // BUSMASTER_NODESIMEX_SIMSYSWND_H_
