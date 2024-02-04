@@ -19,9 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
-
-// CResultView view
+#ifndef BUSMASTER_TESTSUITEEXECUTORGUI_RESULTVIEW_H_
+#define BUSMASTER_TESTSUITEEXECUTORGUI_RESULTVIEW_H_
 
 class CResultView : public CListView
 {
@@ -50,3 +49,5 @@ public:
     virtual void Dump(CDumpContext& dc) const;
 #endif
 };
+
+#endif // BUSMASTER_TESTSUITEEXECUTORGUI_RESULTVIEW_H_

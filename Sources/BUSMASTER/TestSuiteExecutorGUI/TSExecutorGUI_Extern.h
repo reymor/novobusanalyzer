@@ -19,9 +19,12 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORGUI_EXTERN_H_
+#define BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORGUI_EXTERN_H_
+
 #include "ProtocolsDefinitions.h"
 #include <libxml/parser.h>
+
 #if defined USAGEMODE
 #undef USAGEMODE
 #endif
@@ -53,3 +56,5 @@ extern "C" {  // only need to export C interface if used by C++ source code
 #ifdef __cplusplus
 }
 #endif
+
+#endif // BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORGUI_EXTERN_H_

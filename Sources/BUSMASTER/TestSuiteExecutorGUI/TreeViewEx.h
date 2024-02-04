@@ -22,15 +22,13 @@
  * Definition file for the class CTSExecutorChildFrame
  */
 
+#ifndef BUSMASTER_TESTSUITEEXECUTORGUI_TREEVIEWEX_H_
+#define BUSMASTER_TESTSUITEEXECUTORGUI_TREEVIEWEX_H_
 
-#pragma once
-
-// CTreeViewEx view
 class CTSExecutorChildFrame;
 
 //Definitions
 #define def_COLOR_TREE_BKG     RGB(237, 239, 254)
-
 
 class CTreeViewEx : public CTreeView
 {
@@ -134,4 +132,4 @@ public:
     virtual BOOL CreateEx(DWORD dwExStyle, LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, LPVOID lpParam = nullptr);
 };
 
-
+#endif // BUSMASTER_TESTSUITEEXECUTORGUI_TREEVIEWEX_H_

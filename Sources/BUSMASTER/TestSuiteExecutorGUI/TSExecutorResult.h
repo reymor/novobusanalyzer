@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORRESULT_H_
+#define BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORRESULT_H_
 
 #include "TestSetupEditorLib/TestSetupHeader.h"
 
@@ -134,3 +135,5 @@ private:
     INT nGenerateHtmlReport(CStdioFile& omReportFile);
     void vGetVerifySeverity(eERROR_ATTRIBUTE eError, CString& omStrError);
 };
+
+#endif // BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORRESULT_H_

@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORLIB_H_
+#define BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORLIB_H_
 
 //TODO::revise the inclusion
 #include "Include/Utils_macro.h"
@@ -86,3 +87,5 @@ private:
     bool bExecuteTestCase(CBaseEntityTA* pTCEntity, CResultTc& ouTestCaseResult);
     int nParseTestSuite(xmlNodePtr pNode, sTestSuiteConfigInfo& sConfigInfo);
 };
+
+#endif // BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORLIB_H_

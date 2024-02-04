@@ -19,11 +19,13 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORBASE_H_
+#define BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORBASE_H_
 
 #include "TestSetupEditorLib/TestSetupEntity.h"
 #include "TSExecutorResult.h"
 #include "ExpressionExecutor.h"
+
 class CTSExecutorBase
 {
 protected:
@@ -43,3 +45,5 @@ protected:
     HRESULT TSX_DisplayMessage(CString& omStrMsg);
     HRESULT TSX_DisplayResult(CString& omStrResult);
 };
+
+#endif // BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORBASE_H_

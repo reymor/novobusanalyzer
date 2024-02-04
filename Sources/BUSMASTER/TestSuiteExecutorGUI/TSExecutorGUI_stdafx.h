@@ -22,7 +22,8 @@
  * Include file for standard system include files
  */
 
-#pragma once
+#ifndef BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORGUI_STDAFX_H_
+#define BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORGUI_STDAFX_H_
 
 #define VC_EXTRALEAN        // Exclude rarely-used stuff from Windows headers
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS  // some CString constructors will be explicit
@@ -46,3 +47,5 @@
 #import <msxml6.dll>
 #include <locale.h>
 #include "IBusMasterKernel.h"
+
+#endif // BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORGUI_STDAFX_H_

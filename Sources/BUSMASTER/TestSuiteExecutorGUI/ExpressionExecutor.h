@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_TESTSUITEEXECUTORGUI_EXPRESSIONEXECUTOR_H_
+#define BUSMASTER_TESTSUITEEXECUTORGUI_EXPRESSIONEXECUTOR_H_
 
 #include "Afxtempl.h"
 
@@ -39,3 +40,4 @@ public:
     ~CExpressionExecutor() {};
 };
 
+#endif // BUSMASTER_TESTSUITEEXECUTORGUI_EXPRESSIONEXECUTOR_H_

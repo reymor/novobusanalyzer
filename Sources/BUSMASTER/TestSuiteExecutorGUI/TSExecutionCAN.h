@@ -19,12 +19,11 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTIONCAN_H_
+#define BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTIONCAN_H_
 
 #include "Utility/Utility_Thread.h"
 #include "Utility/MsgInterpretation.h"
-//#include "CANDriverDefines.h"
-//#include "Datatypes/MsgBufAll_Datatypes.h"
 #include "MsgBufCANVFSE.h"
 #include "Include/Basedefs.h"
 #include "BaseDIL_CAN.h"
@@ -97,3 +96,5 @@ private:
 
     unsigned long long un64GetBitMask( ISignal* CurrSig, SignalInstanse& ouInstance );
 };
+
+#endif // BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTIONCAN_H_

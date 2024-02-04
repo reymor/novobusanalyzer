@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORGUI_CHILDFRAME_H_
+#define BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORGUI_CHILDFRAME_H_
 
 #include "TreeViewEx.h"
 #include "TSExecutorLIB.h"
@@ -91,3 +92,5 @@ public:
     afx_msg HRESULT OnExecutionOver(WPARAM wparam, LPARAM lparam);
     afx_msg void OnClose();
 };
+
+#endif // BUSMASTER_TESTSUITEEXECUTORGUI_TSEXECUTORGUI_CHILDFRAME_H_
