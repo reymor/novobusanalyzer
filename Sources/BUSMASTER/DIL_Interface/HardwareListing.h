@@ -22,7 +22,8 @@
  * Interface file for CHardwareListing class
  */
 
-#pragma once
+#ifndef BUSMASTER_DIL_INTERFACE_DIL_HARDWARELISTING_H_
+#define BUSMASTER_DIL_INTERFACE_DIL_HARDWARELISTING_H_
 
 // For resource symbols
 // For DIL datatypes
@@ -127,3 +128,5 @@ public:
     PHARDWARE_CONTAINER m_pouHardwareContainer;
     void vSortHardwareItems();
 };
+
+#endif // BUSMASTER_DIL_INTERFACE_DIL_HARDWARELISTING_H_

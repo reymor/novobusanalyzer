@@ -22,7 +22,8 @@
  * Interface file for CHardwareListing class
  */
 
-#pragma once
+#ifndef BUSMASTER_DIL_INTERFACE_DIL_HARDWARELISTINGCAN_H_
+#define BUSMASTER_DIL_INTERFACE_DIL_HARDWARELISTINGCAN_H_
 
 // For resource symbols
 // For DIL datatypes
@@ -170,3 +171,5 @@ public:
 	afx_msg void OnNMDblclkLstcHwList(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnNMDblclkLstcSelectedHwList(NMHDR *pNMHDR, LRESULT *pResult);
 };
+
+#endif // BUSMASTER_DIL_INTERFACE_DIL_HARDWARELISTINGCAN_H_

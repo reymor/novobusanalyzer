@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BUSMASTER_DIL_INTERFACE_COMMANDIL_LIN_H_
+#define BUSMASTER_DIL_INTERFACE_COMMANDIL_LIN_H_
+
 #include "BaseDIL_LIN_Controller.h"
 #include "Utility\Utility_Thread.h"
 
@@ -177,3 +179,5 @@ protected:
     std::map< SLOT, std::list<int> > m_mapSlotClient;
     std::map<int, int> m_MapIdClient[16];
 };
+
+#endif // BUSMASTER_DIL_INTERFACE_COMMANDIL_LIN_H_

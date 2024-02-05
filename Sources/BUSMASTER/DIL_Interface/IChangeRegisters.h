@@ -12,7 +12,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+
+#ifndef BUSMASTER_DIL_INTERFACE_DIL_ICHANGEREGISTERS_H_
+#define BUSMASTER_DIL_INTERFACE_DIL_ICHANGEREGISTERS_H_
 
 #include"../../Kernel/BusmasterDriverInterface/Include/BaseDIL_CAN.h"
 
@@ -24,3 +26,4 @@ public:
 	
 };
 
+#endif // BUSMASTER_DIL_INTERFACE_DIL_ICHANGEREGISTERS_H_

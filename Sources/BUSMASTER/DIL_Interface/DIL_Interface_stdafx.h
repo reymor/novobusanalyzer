@@ -23,7 +23,8 @@
  * are changed infrequently
  */
 
-#pragma once
+#ifndef BUSMASTER_DIL_INTERFACE_DIL_INTERFACE_STDAFX_H_
+#define BUSMASTER_DIL_INTERFACE_DIL_INTERFACE_STDAFX_H_
 
 #define WIN32_LEAN_AND_MEAN     // Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
@@ -37,3 +38,5 @@
 #include <wtypes.h>
 #include <afxtempl.h>
 #include <locale.h>
+
+#endif // BUSMASTER_DIL_INTERFACE_DIL_INTERFACE_STDAFX_H_
