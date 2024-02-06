@@ -22,10 +22,12 @@
  * Interface file for CMDIChildBase class
  */
 
-#pragma once
+#ifndef BUSMASTER_TXWINDOW_TX_MDICHILDBASE_H_
+#define BUSMASTER_TXWINDOW_TX_MDICHILDBASE_H_
 
 #include "hashdefines.h"
-#include "Include\BaseDefs.h"
+#include "Include/BaseDefs.h"
+
 class CMDIChildBase : public CMDIChildWnd
 {
     DECLARE_DYNCREATE(CMDIChildBase)
@@ -65,3 +67,5 @@ protected:
 
     ETYPE_BUS   m_eBusType;
 };
+
+#endif // BUSMASTER_TXWINDOW_TX_MDICHILDBASE_H_

@@ -19,16 +19,11 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
-
-#pragma once
-#include"LINTransmitter.h"
-#include"HashDefines.h"
-#include"LINTxFormView.h"
+#include "LINTransmitter.h"
+#include "HashDefines.h"
+#include "LINTxFormView.h"
 #include "LINDefines.h"
-#include<cctype>
-
-
-
+#include <cctype>
 
 CLINTxFormView* CLINTxFormView::m_pouLINTxFormView = nullptr;
 int CLINTxFormView::m_nRefCounter = 0;

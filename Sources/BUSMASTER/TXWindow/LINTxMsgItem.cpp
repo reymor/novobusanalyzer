@@ -23,6 +23,7 @@
 #pragma once
 #include "LINTxMsgItem.h"
 #include "LINDefines.h"
+
 CLINTxMsgItem::CLINTxMsgItem()
 {
     MsgDetails.pchData = new unsigned char[defLIN_MSG_DLC_MAX];

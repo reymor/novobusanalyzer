@@ -19,12 +19,10 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
-#pragma once
 #include "CANTransmitter.h"
 #include "CANTxMsgItem.h"
 
 #include "BaseDIL_CAN.h"
-//#include "..\DIL_Interface\DIL_Interface_extern.h"
 
 CCANTransmitter* CCANTransmitter::m_pouCANTransmitter = nullptr;
 int CCANTransmitter::m_nRefCounter = 0;

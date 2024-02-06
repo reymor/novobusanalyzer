@@ -19,10 +19,11 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
+#ifndef BUSMASTER_TXWINDOW_CANTRANSMITTER_H_
+#define BUSMASTER_TXWINDOW_CANTRANSMITTER_H_
 
-#pragma once
 #include "stdafx.h"
-#include "..\Utility\Utility_Thread.h"
+#include "../Utility/Utility_Thread.h"
 #include"ITransmitter.h"
 
 class CCANTransmitter :public ITransmitter
@@ -66,3 +67,5 @@ public:
     int TransmitAll();
     int OnKeyPressed(char chKey);
 };
+
+#endif // BUSMASTER_TXWINDOW_CANTRANSMITTER_H_

@@ -22,11 +22,11 @@
  * Implementation file for CMDIChildBase class
  */
 
-#pragma once
 #include "stdafx.h"             // For Standard Includes
 #include "Tx_MDIChildBase.h"       // For MDI Base class definition
 #include "LINTxFormView.h"
 #include "CANTxFormView.h"
+
 IMPLEMENT_DYNCREATE(CMDIChildBase, CMDIChildWnd)
 
 /*******************************************************************************

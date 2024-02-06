@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "CCheckColumnTreeCtrl.h"
 #include "resource.h"
-#include "Application\HashDefines.h"
+#include "Application/HashDefines.h"
 #include <string>
 #include "iosfwd"
 #include "LINScheduleDataStore.h"

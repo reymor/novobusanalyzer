@@ -7,7 +7,6 @@
 #include "Utility\XMLUtils.h"
 #include "LINScheduleDataStore.h"
 
-
 // CTree dialog
 IMPLEMENT_DYNAMIC(CScheduleTableCfgDlg, CDialog)
 

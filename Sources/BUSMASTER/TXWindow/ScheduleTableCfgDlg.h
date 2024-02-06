@@ -1,10 +1,13 @@
-#pragma once
+#ifndef BUSMASTER_TXWINDOW_SCHEDULETABLECFGDLG_H_
+#define BUSMASTER_TXWINDOW_SCHEDULETABLECFGDLG_H_
+
 #include "resource.h"
 #include "ICluster.h"
 #include "IBMNetWorkGetService.h"
-#include "Utility\ColumnTreeWnd.h"
+#include "Utility/ColumnTreeWnd.h"
 #include "CCheckColumnTreeCtrl.h"
-#include "Utility\Utility.h"
+#include "Utility/Utility.h"
+
 class CScheduleTableCfgDlg : public CDialog
 {
     DECLARE_DYNAMIC(CScheduleTableCfgDlg)
@@ -63,3 +66,4 @@ private:
     UINT vChangeWindowPos(HDWP& handleWP, HWND wndHandle, double fSizeX, double fSizeY,CRect rectWndPos);
 };
 
+#endif // BUSMASTER_TXWINDOW_SCHEDULETABLECFGDLG_H_

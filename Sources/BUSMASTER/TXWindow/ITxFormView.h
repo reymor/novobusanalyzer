@@ -19,11 +19,11 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
+#ifndef BUSMASTER_TXWINDOW_ITXFORMVIEW_H_
+#define BUSMASTER_TXWINDOW_ITXFORMVIEW_H_
 
-#pragma once
 #include "stdafx.h"
 #include "resource.h"
-//#include "DataTypes/Cluster.h"
 #include "Utility/SignalMatrix.h"
 #include  "../Utility/FlexListCtrl.h"
 #include "TxDataStore.h"
@@ -181,52 +181,4 @@ public:
     virtual int SetOldFormatConfigData(xmlDocPtr pDoc) = 0;
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif // BUSMASTER_TXWINDOW_ITXFORMVIEW_H_

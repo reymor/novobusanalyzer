@@ -19,9 +19,11 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
-#pragma once
+#ifndef BUSMASTER_TXWINDOW_LINTRANSMITTER_H_
+#define BUSMASTER_TXWINDOW_LINTRANSMITTER_H_
+
 #include "stdafx.h"
-#include "..\Utility\Utility_Thread.h"
+#include "../Utility/Utility_Thread.h"
 #include"ITransmitter.h"
 
 class CLINTransmitter:public ITransmitter
@@ -36,7 +38,6 @@ private:
     CPARAM_THREADPROC m_ouTransmitThread;
     static DWORD WINAPI TransmitThread(LPVOID pVoid);
 
-
     CLINTransmitter();
     ~CLINTransmitter();
 
@@ -50,8 +51,6 @@ public:
     static ITransmitter* GetInstance();
     static void ReleaseInstance();
 
-
-
     int SetTxDataStore(CTxDataStore* pouTxDataStore);
     int SetClientId(unsigned long ulClientId);
     int OnBusStatusChanged(ESTATUS_BUS eBusStatus);
@@ -59,3 +58,5 @@ public:
     int TransmitAll();
     int OnKeyPressed(char chKey);
 };
+
+#endif // BUSMASTER_TXWINDOW_LINTRANSMITTER_H_

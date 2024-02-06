@@ -1,8 +1,10 @@
+#ifndef BUSMASTER_TXWINDOW_LINSCHEDULEDATASTORE_H_
+#define BUSMASTER_TXWINDOW_LINSCHEDULEDATASTORE_H_
+
 #include "stdafx.h"
 #include "Utility/XMLUtils.h"
 #include "ICluster.h"
 #include "IBMNetWorkGetService.h"
-
 
 class CBaseDIL_LIN;
 
@@ -27,7 +29,6 @@ class CLINScheduleDataStore
     void vAddTableToList(std::list<CSheduleTable>& ouDestTable, CSheduleTable ouSourceTable );
     void vAddCommandsToList();
 
-
     CBaseDIL_LIN* m_pouDIL_LIN_Interface;
     ESTATUS_BUS m_eBusStatus;
 
@@ -47,8 +48,6 @@ public:
     HRESULT hSetClusterConfig(IBMNetWorkGetService* objLINClusterConfig);
     HRESULT hSaveSchdSelectionDetails();
     IBMNetWorkGetService* pGetClusterConfig();
-
-
 
     static CLINScheduleDataStore m_sTxLINDataStoreObj;
     static CLINScheduleDataStore& pGetLINSchedDataStore();
@@ -71,5 +70,6 @@ public:
 
 protected:
 
-
 };
+
+#endif // BUSMASTER_TXWINDOW_LINSCHEDULEDATASTORE_H_

@@ -20,11 +20,8 @@
  */
 // TXWindow.cpp : Defines the initialization routines for the DLL.
 //
-#pragma once
 #include "stdafx.h"
 #include <afxdllx.h>
-//#include "../Application/MultiLanguage.h"
-//#include "../Application/GettextBusmaster.h"
 #define USAGE_EXPORT
 #include "TXWindow_Extern.h"
 #include "TxMsgChildFrame.h"

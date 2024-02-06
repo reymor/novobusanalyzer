@@ -19,15 +19,16 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_TXWINDOW_TXWINDOW_EXTERN_H_
+#define BUSMASTER_TXWINDOW_TXWINDOW_EXTERN_H_
 
 #if defined USAGEMODE
 #undef USAGEMODE
 #endif
 
 #include "Utility/XMLUtils.h"
-//#include "DataTypes/Cluster.h"
 #include "IBMNetWorkGetService.h"
+
 #if defined USAGE_EXPORT
 #define USAGEMODE   __declspec(dllexport)
 #else
@@ -53,20 +54,14 @@ extern "C" {  // only need to export C interface if used by C++ source code
     USAGEMODE HRESULT TXComman_vPostMessageToTxWnd(UINT msg, WPARAM wParam, LPARAM lParam);
     USAGEMODE HRESULT TXComman_hConfigWindowShown(ETYPE_BUS eBusType);
 
-
-
-
     USAGEMODE HRESULT TX_vBusStatusChanged(ETYPE_BUS eBusType,  ESTATUS_BUS eBusStatus);
 
     USAGEMODE HRESULT TXComman_vGetTxWndConfigData( ETYPE_BUS eBusType, xmlNodePtr pxmlNodePtr);
     USAGEMODE HRESULT TXComman_vSetTxWndConfigDataXML(ETYPE_BUS eBusType, xmlDocPtr pDoc);
 
-
-
-
-
-
-
 #ifdef __cplusplus
 }
 #endif
+
+
+#endif // BUSMASTER_TXWINDOW_TXWINDOW_EXTERN_H_

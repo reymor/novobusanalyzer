@@ -19,7 +19,9 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
-#pragma once
+#ifndef BUSMASTER_TXWINDOW_ITXMSGITEM_H_
+#define BUSMASTER_TXWINDOW_ITXMSGITEM_H_
+
 #include "stdafx.h"
 #include "IBMNetWorkGetService.h"
 #include "..\include/XMLDefines.h"
@@ -81,3 +83,5 @@ struct ITxMsgItem
     virtual int GetSignal(IBMNetWorkGetService* pouIBMNetwork, bool bIsHex, std::string strSigName, SIG_DETAILS& ouSignalDetails) = 0;
     virtual ~ITxMsgItem () {}
 };
+
+#endif // BUSMASTER_TXWINDOW_ITXMSGITEM_H_

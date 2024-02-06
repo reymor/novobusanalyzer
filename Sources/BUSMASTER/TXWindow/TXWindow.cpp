@@ -20,11 +20,8 @@
  */
 // TXWindow.cpp : Defines the initialization routines for the DLL.
 //
-#pragma once
 #include "TxWindow_stdafx.h"
 #include <afxdllx.h>
-//#include "../Application/MultiLanguage.h"
-//#include "../Application/GettextBusmaster.h"
 #define USAGE_EXPORT
 #include "TxWndFlexRay_Extern.h"
 #include "TxMsgChildFrame.h"
@@ -45,7 +42,6 @@ extern "C" int APIENTRY
 DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
     static HINSTANCE shLangInst=nullptr;
-
 
     // Remove this if you use lpReserved
     UNREFERENCED_PARAMETER(lpReserved);
@@ -70,7 +66,6 @@ DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
         }
 
         //Clear any memory allocated
-        //CTxMsgManager::s_bDeleteTxMsgManager();
         TRACE0("TXWindowFlexRay.DLL Terminating!\n");
 
         // Terminate the library before destructors are called
@@ -78,7 +73,6 @@ DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
     }
     return 1;   // ok
 }
-
 
 //Export Function Definitions.
 

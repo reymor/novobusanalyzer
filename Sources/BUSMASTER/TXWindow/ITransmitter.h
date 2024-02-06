@@ -19,8 +19,10 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
-#pragma once
-#include"TxDataStore.h"
+#ifndef BUSMASTER_TXWINDOW_ITRANSMITTER_H_
+#define BUSMASTER_TXWINDOW_ITRANSMITTER_H_
+
+#include "TxDataStore.h"
 
 class ITransmitter
 {
@@ -32,3 +34,5 @@ public:
     virtual int TransmitAll() = 0;
     virtual int OnKeyPressed(char chKey) = 0;
 };
+
+#endif // BUSMASTER_TXWINDOW_ITRANSMITTER_H_

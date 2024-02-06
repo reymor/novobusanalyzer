@@ -22,7 +22,8 @@
 // or project specific include files that are used frequently, but
 // are changed infrequently
 
-#pragma once
+#ifndef BUSMASTER_TXWINDOW_STDAFX_H_
+#define BUSMASTER_TXWINDOW_STDAFX_H_
 
 #define VC_EXTRALEAN        // Exclude rarely-used stuff from Windows headers
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS  // some CString constructors will be explicit
@@ -49,3 +50,4 @@
 
 #include "IBusMasterKernel.h"
 
+#endif // BUSMASTER_TXWINDOW_STDAFX_H_

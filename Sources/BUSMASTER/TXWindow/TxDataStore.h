@@ -19,13 +19,13 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
-#pragma once
+#ifndef BUSMASTER_TXWINDOW_TXDATASTORE_H_
+#define BUSMASTER_TXWINDOW_TXDATASTORE_H_
+
 #include "stdafx.h"
-#include "..\include/XMLDefines.h"
+#include "../include/XMLDefines.h"
 #include "Utility/XMLUtils.h"
 #include "ITxMsgItem.h"
-
-
 
 class CTxDataStore
 {
@@ -49,3 +49,5 @@ public:
     //Support for Old Message Block format in .cfx for CAN
     virtual int SetMsgItemsOldConfigData(xmlNodePtr pxmlNodePtr);
 };
+
+#endif // BUSMASTER_TXWINDOW_TXDATASTORE_H_

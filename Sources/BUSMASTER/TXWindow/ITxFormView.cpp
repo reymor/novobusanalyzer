@@ -20,12 +20,11 @@
 */
 
 
-#pragma once
 #include "ITxFormView.h"
 #include "TxMsgChildFrame.h"
 #include "HashDefines.h"
-#include "Utility\Utility.h"
-#include "Utility\SignalDetailsDlg.h"
+#include "Utility/Utility.h"
+#include "Utility/SignalDetailsDlg.h"
 #include <bitset>
 
 #define defSTR_PHYSICAL_COLUMN                          "Physical Value"

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BUSMASTER_TXWINDOW_TXMSGCHILDFRAME_H_
+#define BUSMASTER_TXWINDOW_TXMSGCHILDFRAME_H_
+
 #include "Tx_MDIChildBase.h"       // For Common base class defintion
 
 #include "ScheduleTableCfgDlg.h"
@@ -30,3 +32,5 @@ public:
     afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
     ETYPE_BUS m_eBUS;
 };
+
+#endif // BUSMASTER_TXWINDOW_TXMSGCHILDFRAME_H_

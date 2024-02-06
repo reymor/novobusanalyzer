@@ -19,8 +19,9 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
+#ifndef BUSMASTER_TXWINDOW_CANTXFORMVIEW_H_
+#define BUSMASTER_TXWINDOW_CANTXFORMVIEW_H_
 
-#pragma once
 #include "ITxFormView.h"
 #include "CANTxMsgItem.h"
 
@@ -82,3 +83,5 @@ public:
     int SetOldFormatConfigData(xmlDocPtr pDoc);
 
 };
+
+#endif // BUSMASTER_TXWINDOW_CANTXFORMVIEW_H_

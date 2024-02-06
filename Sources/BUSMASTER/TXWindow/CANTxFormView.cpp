@@ -19,15 +19,12 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
-
-#pragma once
-#include"CANTransmitter.h"
-#include"HashDefines.h"
-#include"CANTxFormView.h"
-#include<cctype>
+#include "CANTransmitter.h"
+#include "HashDefines.h"
+#include "CANTxFormView.h"
+#include <cctype>
 #include "CANDefines.h"
 #include "BaseDIL_CAN.h"
-//#include "..\DIL_Interface\DIL_Interface_extern.h"
 
 #define defSTR_WARN_TXWINDOW_UPGRADE     "The \"CAN Transmission Window\" configuration is modified. \nPlease refer the Help file for further details."
 

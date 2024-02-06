@@ -19,12 +19,11 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
+#ifndef BUSMASTER_TXWINDOW_LINTXFORMVIEW_H_
+#define BUSMASTER_TXWINDOW_LINTXFORMVIEW_H_
 
-#pragma once
 #include "ITxFormView.h"
 #include "LINTxMsgItem.h"
-
-
 
 class CLINTxFormView :public ITxFormView
 {
@@ -83,3 +82,5 @@ public:
     int SetOldFormatConfigData(xmlDocPtr pDoc);
 
 };
+
+#endif // BUSMASTER_TXWINDOW_LINTXFORMVIEW_H_

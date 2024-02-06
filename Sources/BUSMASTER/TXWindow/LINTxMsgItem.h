@@ -19,7 +19,9 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
-#pragma once
+#ifndef BUSMASTER_TXWINDOW_LINTXMSGITEM_H_
+#define BUSMASTER_TXWINDOW_LINTXMSGITEM_H_
+
 #include "ITxMsgItem.h"
 
 #define def_MSG_TYPE_MASTER                             "Master"
@@ -43,3 +45,5 @@ private:
     void vGetPhysicalValueFactor(ISignal* pSignal, double& dScale);
     static bool sortByStartBit(const SIG_DETAILS& lhs, const SIG_DETAILS& rhs);
 };
+
+#endif // BUSMASTER_TXWINDOW_LINTXMSGITEM_H_

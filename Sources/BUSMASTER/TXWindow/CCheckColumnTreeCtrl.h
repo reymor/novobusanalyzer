@@ -1,4 +1,7 @@
-#include "Utility\ColumnTreeCtrl.h"
+#ifndef BUSMASTER_TXWINDOW_CCHECKCOLUMNTREECTRL_H_
+#define BUSMASTER_TXWINDOW_CCHECKCOLUMNTREECTRL_H_
+
+#include "Utility/ColumnTreeCtrl.h"
 #include "ICluster.h"
 #include "IBMNetWorkGetService.h"
 
@@ -44,8 +47,6 @@ private:
     void vHandleScheduleTableClick(HTREEITEM hItem);
     void vHandleCommandItemClick(HTREEITEM hItem);
 
-    //void vEnableCommandItem( int nChannelIndex, int nTableIndex, int nItemIndex, bool bEnable );
-
     BOOL bCreateImageList();
     INT nGetFrameType(eCommandType eCmdType);
 
@@ -55,3 +56,5 @@ private:
     int nGetItemDetails(HTREEITEM hCommandItem, int& nChannelIndex, int& nTableIndex, int& nItemIndex);
     int nGetTableDetails(HTREEITEM hTableItem, int& nChannelIndex, int& nTableIndex);
 };
+
+#endif // BUSMASTER_TXWINDOW_CCHECKCOLUMNTREECTRL_H_

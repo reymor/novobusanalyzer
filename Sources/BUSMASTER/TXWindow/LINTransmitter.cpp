@@ -19,11 +19,8 @@
 * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
 */
 
-
-#pragma once
 #include "LINTransmitter.h"
 #include "BaseDIL_LIN.h"
-//#include "..\DIL_Interface\DIL_Interface_extern.h"
 
 CLINTransmitter* CLINTransmitter::m_pouLINTransmitter = nullptr;
 int CLINTransmitter::m_nRefCounter = 0;

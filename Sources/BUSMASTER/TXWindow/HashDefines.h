@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef BUSMASTER_TXWINDOW_HASHDEFINESL_H_
+#define BUSMASTER_TXWINDOW_HASHDEFINESL_H_
 
 #define FIRST_COL       0       // First column of the List control.
 #define SECOND_COL      1       // Second column of the List control.
@@ -85,3 +85,5 @@
 
 #define STATIC_MSG_DATA_LENGTH              _("Data length of static messages can not be changed")
 #define DYNAMIC_MSG_DATA_LENGTH             _("Dynamic data length is more than the set value")
+
+#endif // BUSMASTER_TXWINDOW_HASHDEFINESL_H_
