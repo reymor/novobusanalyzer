@@ -1,6 +1,8 @@
 #ifndef KERNEL_PROTOCOLDEFINITION_COMMONDEFINES_H_
 #define KERNEL_PROTOCOLDEFINITION_COMMONDEFINES_H_
 
+#include <string>
+
 #ifdef PROTOCOL_EXPORTS
 #define EXPORTS __declspec(dllexport)
 #else
