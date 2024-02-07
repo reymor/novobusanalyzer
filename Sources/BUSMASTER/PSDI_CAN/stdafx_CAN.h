@@ -22,7 +22,8 @@
 // or project specific include files that are used frequently, but
 // are changed infrequently
 
-#pragma once
+#ifndef BUSMASTER_PSDI_STDAFX_CAN_H_
+#define BUSMASTER_PSDI_STDAFX_CAN_H_
 
 #define VC_EXTRALEAN        // Exclude rarely-used stuff from Windows headers
 
@@ -40,3 +41,5 @@
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
 #include "IBusMasterKernel.h"
+
+#endif // BUSMASTER_PSDI_STDAFX_CAN_H_

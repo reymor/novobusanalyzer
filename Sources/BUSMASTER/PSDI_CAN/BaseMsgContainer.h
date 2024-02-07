@@ -18,6 +18,10 @@
  * \author    Pradeep Kadoor
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
+
+#ifndef BUSMASTER_PSDI_CAN_BASEMSGCONTAINER_H_
+#define BUSMASTER_PSDI_CAN_BASEMSGCONTAINER_H_
+
 class CBaseMsgContainer
 {
 public:
@@ -60,3 +64,5 @@ public:
     HRESULT GetFilterScheme(void* pvFilterApplied);
     HRESULT EnableFilterApplied(BOOL bEnable);
 };
+
+#endif // BUSMASTER_PSDI_CAN_BASEMSGCONTAINER_H_

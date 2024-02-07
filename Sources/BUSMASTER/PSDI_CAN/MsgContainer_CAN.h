@@ -22,21 +22,20 @@
  * Definition of CMsgContainerCAN class
  */
 
-#pragma once
+#ifndef BUSMASTER_PSDI_CAN_MSGCONTAINER_CAN_H_
+#define BUSMASTER_PSDI_CAN_MSGCONTAINER_CAN_H_
 
 #include "afxtempl.h"
 #include "Utility/Utility_Thread.h"
 #include "Application/MsgWndHdrInfo.h"
 #include "CommonClass/GUI_FormatMsgCAN.h"
 #include "include/BaseDefs.h"
-//#include "DataTypes/MsgBufAll_DataTypes.h"
 #include "MsgBufCANVFSE.h"
 #include "MsgBufVVSE.h"
 #include "DataTypes/Filter_Datatypes.h"
 #include "CommonClass/RefTimeKeeper.h"
 #include "CommonClass/MsgContainerBase.h"
 #include "BaseDIL_CAN.h"
-//#include "DIL_Interface_extern.h"
 #include "UDS_Protocol/UDS_Extern.h"
 #include "MsgBufFSE.h"
 
@@ -63,7 +62,6 @@ private:
     CCANBufVFSE             m_ouOWCanBuf;
     CMsgBufCANVFSEspl       m_ouAppendCanBuf;
     SFORMATTEDDATA_CAN      m_sOutFormattedData;
-    //STCANDATA               m_sCANReadData;
     STCANDATASPL            m_sCANReadDataSpl;
     CFormatMsgCAN           m_ouFormatCAN;
     DWORD                   m_dwClientId;
@@ -101,7 +99,6 @@ public:
     int nGetOWBufferCount();
     BOOL bStartReadThread();
     BOOL bStopReadThread();
-    //void vSetRelBaseTime(__int64 nTimeStamp);
 
     void vGetUpdatedCurrDataPtrArray(SMSGWNDHDRCOL& sHdrColStruct,
                                      char* pomDataPtrArr[MAX_MSG_WND_COL_CNT],
@@ -117,7 +114,6 @@ public:
                               __int64& dwTimeStamp, UINT& nMsgCode, int& nBufferIndex, EINTERPRET_MODE&);
 
 
-    //void vSetRxMsgCallBkPtr(MSG_RX_CALL_BK pFuncPtr);
     void SetClientID(DWORD dwClientID);
     void DoSortBuffer(int nField,bool bAscending);
     void GetMapIndexAtID(int nIndex,__int64& nMapIndex);
@@ -135,3 +131,5 @@ public:
     HRESULT sendMessage(long long key, bool bOverwriteMode/*has to be removed*/);
     COLORREF getMessageColor(long long key, bool isAppendMode, CMessageAttrib* /*has to be removed*/);
 };
+
+#endif // BUSMASTER_PSDI_CAN_MSGCONTAINER_CAN_H_

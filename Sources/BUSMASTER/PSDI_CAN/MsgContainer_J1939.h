@@ -15,23 +15,24 @@
   Modified By   :
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
-#pragma once
+
+#ifndef BUSMASTER_PSDI_CAN_MSGCONTAINER_J1939_H_
+#define BUSMASTER_PSDI_CAN_MSGCONTAINER_J1939_H_
 
 #include "afxtempl.h"
 #include "Utility/Utility_Thread.h"
 #include "Application/MsgWndHdrInfo.h"
 #include "CommonClass/GUI_FormatMsgJ1939.h"
 #include "include/BaseDefs.h"
-//#include "DataTypes/MsgBufAll_DataTypes.h"
 #include "DataTypes/Filter_Datatypes.h"
 #include "CommonClass/RefTimeKeeper.h"
 #include "CommonClass/MsgContainerBase.h"
 #include "BaseDIL_CAN.h"
 #include "BaseDIL_J1939.h"
-//#include "DIL_Interface_extern.h"
 #include "MsgBufVVSE.h"
 #include "MsgBufVSE.h"
 #include "MsgBufVFSE.h"
+
 typedef void (*MSG_RX_CALL_BK)(void* pParam, ETYPE_BUS eBusType);
 
 // To save delta time in case of append mode
@@ -67,15 +68,11 @@ private:
     //    //ReadMcNetData virtual function
     void vProcessNewData(STJ1939_MSG& sJ1939Msg);
     USHORT ushCalculateStrLen(bool bForHex, USHORT ushLength);
-    //    void vProcessCurrErrorEntry(const SERROR_INFO& sErrInfo);
-    //    BOOL bIsTransitionInState( UINT unChannel,
-    //                                       BYTE byRxError,
-    //                                       BYTE byTxError );
+
     BOOL bTobeBlocked(STJ1939_MSG& sJ1939Data);
     CRITICAL_SECTION m_sCritSecDataSync;
     CRITICAL_SECTION m_omCritSecFilter;
     SFILTERAPPLIED_J1939 m_sFilterJ1939;
-    //    eERROR_STATE m_eCurrErrorState[ defNO_OF_CHANNELS ];
     IBMNetWorkGetService* mBmNetwork = nullptr;
     HRESULT GetMessageName(STJ1939_MSG&, CString& msgName, bool formatHexForId);
 public:
@@ -126,3 +123,5 @@ public:
     HRESULT sendMessage(long long key, bool bOverwriteMode/*has to be removed*/);
     COLORREF getMessageColor(long long key, bool isAppendMode, CMessageAttrib* /*has to be removed*/);
 };
+
+#endif // BUSMASTER_PSDI_CAN_MSGCONTAINER_J1939_H_

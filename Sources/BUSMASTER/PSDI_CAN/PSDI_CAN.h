@@ -22,10 +22,10 @@
  * Definition of CPSDI_CANApp class
  */
 
-#pragma once
+#ifndef BUSMASTER_PSDI_CAN_PSDI_CAN_H_
+#define BUSMASTER_PSDI_CAN_PSDI_CAN_H_
 
 #include "resource.h"       // main symbols
-
 
 // CPSDI_CANApp
 // See PSDI_CAN.cpp for the implementation of this class
@@ -45,3 +45,5 @@ public:
 
 BEGIN_MESSAGE_MAP(CPSDI_CANApp, CWinApp)
 END_MESSAGE_MAP()
+
+#endif // BUSMASTER_PSDI_CAN_PSDI_CANH_
