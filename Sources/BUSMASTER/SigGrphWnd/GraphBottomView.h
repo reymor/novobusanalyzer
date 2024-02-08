@@ -22,7 +22,8 @@
  * Interface file for CGraphBottomView class
  */
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_GRAPHBOTTOMVIEW_H_
+#define BUSMASTER_SIGGRPHWND_GRAPHBOTTOMVIEW_H_
 
 #ifndef __AFXEXT_H__
 #include <afxext.h>
@@ -137,3 +138,5 @@ public:
     double m_dblDeltaTime;
     CMessageList m_lstSignalDetails;
 };
+
+#endif // BUSMASTER_SIGGRPHWND_GRAPHBOTTOMVIEW_H_

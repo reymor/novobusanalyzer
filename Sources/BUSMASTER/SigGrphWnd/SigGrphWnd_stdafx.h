@@ -22,7 +22,8 @@
 // or project specific include files that are used frequently, but
 // are changed infrequently
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_SIGGRPHWND_STDAFX_H_
+#define BUSMASTER_SIGGRPHWND_SIGGRPHWND_STDAFX_H_
 
 #define VC_EXTRALEAN        // Exclude rarely-used stuff from Windows headers
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS  // some CString constructors will be explicit
@@ -71,3 +72,5 @@ extern CComModule _Module;
 
 extern void Message(HRESULT hr, IUnknown* pUnk, LPCOLESTR szFormat, ...);
 #import "DMGraph.tlb" raw_interfaces_only no_namespace named_guids
+
+#endif // BUSMASTER_SIGGRPHWND_SIGGRPHWND_STDAFX_H_

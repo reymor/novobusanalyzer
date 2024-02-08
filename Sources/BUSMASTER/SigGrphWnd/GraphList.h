@@ -22,7 +22,8 @@
  * Interface file for CGraphList class
  */
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_GRAPHLIST_H_
+#define BUSMASTER_SIGGRPHWND_GRAPHLIST_H_
 
 // For Graph Parameter Class
 #include "GraphParameters.h"
@@ -46,3 +47,5 @@ public:
     // Graph element array
     CArray<CGraphElement, CGraphElement&> m_omElementList;
 };
+
+#endif // BUSMASTER_SIGGRPHWND_GRAPHLIST_H_

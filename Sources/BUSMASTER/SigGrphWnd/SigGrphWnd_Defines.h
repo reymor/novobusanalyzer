@@ -22,7 +22,8 @@
  * Contains all the associated macro definitions
  */
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_SIGGRPHWND_DEFINES_H_
+#define BUSMASTER_SIGGRPHWND_SIGGRPHWND_DEFINES_H_
 
 #define MAX_PROTOCOLS 20
 #define AVAILABLE_PROTOCOLS         5
@@ -241,3 +242,5 @@ typedef enum eUSERSELCTION
     eCONFIGCHANGECMD,
     eCHANNELCOUNTUPDATED
 };
+
+#endif // BUSMASTER_SIGGRPHWND_SIGGRPHWND_DEFINES_H_

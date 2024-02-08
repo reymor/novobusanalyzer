@@ -7,7 +7,9 @@
   Modified By   :
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved
 *******************************************************************************/
-#pragma once
+
+#ifndef BUSMASTER_SIGGRPHWND_GRAPHSINK_H_
+#define BUSMASTER_SIGGRPHWND_GRAPHSINK_H_
 
 #include "GraphChildFrame.h"
 
@@ -32,4 +34,4 @@ protected:
     DECLARE_INTERFACE_MAP()
 };
 
-
+#endif // BUSMASTER_SIGGRPHWND_GRAPHSINK_H_

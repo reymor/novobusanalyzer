@@ -22,7 +22,8 @@
  * Interface file for CGraphElement class
  */
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_GRAPHELEMENT_H_
+#define BUSMASTER_SIGGRPHWND_GRAPHELEMENT_H_
 
 #include "SigGrphWnd_Defines.h"
 
@@ -69,3 +70,5 @@ public:
     virtual ~CGraphElement();
 
 };
+
+#endif // BUSMASTER_SIGGRPHWND_GRAPHELEMENT_H_

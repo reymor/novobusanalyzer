@@ -19,7 +19,8 @@
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 *******************************************************************************/
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_GRAPHCONFIGURATION_H_
+#define BUSMASTER_SIGGRPHWND_GRAPHCONFIGURATION_H_
 
 // For Graph Parameter Class definition
 #include "GraphParameters.h"
@@ -74,3 +75,5 @@ protected:
 public:
     int m_nLineDisplay;
 };
+
+#endif // BUSMASTER_SIGGRPHWND_GRAPHCONFIGURATION_H_

@@ -22,7 +22,8 @@
  * Interface file for CGraphRightView class
  */
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_GRAPHRIGHTVIEW_H_
+#define BUSMASTER_SIGGRPHWND_GRAPHRIGHTVIEW_H_
 
 /////////////////////////////////////////////////////////////////////////////
 // CRightView form view
@@ -94,3 +95,5 @@ public:
     afx_msg void OnDestroy();
     void vHandleConnectionStatusChange(BOOL bConnectStatus);
 };
+
+#endif // BUSMASTER_SIGGRPHWND_GRAPHRIGHTVIEW_H_

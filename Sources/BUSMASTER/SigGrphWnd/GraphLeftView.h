@@ -22,7 +22,8 @@
  * Interface file for CGraphLeftView class
  */
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_GRAPHLEFTVIEW_H_
+#define BUSMASTER_SIGGRPHWND_GRAPHLEFTVIEW_H_
 
 #ifndef __AFXEXT_H__
 #include <afxext.h>
@@ -113,3 +114,5 @@ public:
     int m_nLineDisplay;
     HRESULT GetCurrentElement(IDMGraphCtrl* pGraphCtrl, IDMGraphElement** ppGraphElement);
 };
+
+#endif // BUSMASTER_SIGGRPHWND_GRAPHLEFTVIEW_H_

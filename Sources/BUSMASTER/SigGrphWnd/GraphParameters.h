@@ -22,7 +22,8 @@
  * Interface file for CGraphParameters class
  */
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_GRAPHPARAMETERS_H_
+#define BUSMASTER_SIGGRPHWND_GRAPHPARAMETERS_H_
 
 #include "SigGrphWnd_Defines.h"
 
@@ -67,3 +68,5 @@ public:
     //Graph Line Display
     eDISPLAY_TYPE m_eDisplayType;
 };
+
+#endif // BUSMASTER_SIGGRPHWND_GRAPHPARAMETERS_H_

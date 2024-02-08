@@ -22,7 +22,8 @@
  * Interface file for CGraphChildFrame class
  */
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_GRAPHCHILDFRAME_H_
+#define BUSMASTER_SIGGRPHWND_GRAPHCHILDFRAME_H_
 
 #include "MDIChildBase.h"
 #include "SigGrphWnd_Defines.h"
@@ -105,3 +106,5 @@ private:
     //To store connect state
     BOOL m_bIsPrevConnected;
 };
+
+#endif // BUSMASTER_SIGGRPHWND_GRAPHCHILDFRAME_H_

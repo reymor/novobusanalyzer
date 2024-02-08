@@ -22,7 +22,8 @@
  * Interface file for CGraphExportDlg class
  */
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_GRAPHEXPORTDLG_H_
+#define BUSMASTER_SIGGRPHWND_GRAPHEXPORTDLG_H_
 
 /////////////////////////////////////////////////////////////////////////////
 // CGraphExportDlg dialog
@@ -63,3 +64,5 @@ protected:
     //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 };
+
+#endif // BUSMASTER_SIGGRPHWND_GRAPHEXPORTDLG_H_

@@ -22,7 +22,8 @@
  * Interface file for CMDIChildBase class
  */
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_MDICHILDBASE_H_
+#define BUSMASTER_SIGGRPHWND_MDICHILDBASE_H_
 
 //#include "Application/hashdefines.h"
 
@@ -63,3 +64,5 @@ protected:
     // Window placement Attribute
     WINDOWPLACEMENT m_sWindowPlacement;
 };
+
+#endif // BUSMASTER_SIGGRPHWND_MDICHILDBASE_H_

@@ -22,7 +22,8 @@
  * Interface file for CMessageList class
  */
 
-#pragma once
+#ifndef BUSMASTER_SIGGRPHWND_MESSAGELIST_H_
+#define BUSMASTER_SIGGRPHWND_MESSAGELIST_H_
 
 // Definition of Flicker Free List Control
 #include "Utility/FFListCtrl.h"
@@ -65,3 +66,5 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 };
+
+#endif // BUSMASTER_SIGGRPHWND_MESSAGELIST_H_
