@@ -24,7 +24,7 @@
 
 #pragma once
 
-typedef enum eDISPLAY_TYPE
+enum eDISPLAY_TYPE
 {
     eDISPLAY_NORMAL,
     eDISPLAY_STEPMODE_XY,

@@ -192,14 +192,14 @@ enum
 
 
 
-typedef enum eELEMENT_TYPE
+enum eELEMENT_TYPE
 {
     eSTAT_PARAM,
     eRAW_VALUE,
     ePHY_VALUE
 };
 
-typedef enum eDISPLAY_TYPE
+enum eDISPLAY_TYPE
 {
     eDISPLAY_NORMAL,
     eDISPLAY_STEPMODE_XY,
@@ -233,7 +233,7 @@ typedef enum eDISPLAY_TYPE
 
 #define WM_USER_CMD                 WM_USER + 44
 
-typedef enum eUSERSELCTION
+enum eUSERSELCTION
 {
     eHEXDECCMD = 0,
     eTXMSGCMD,

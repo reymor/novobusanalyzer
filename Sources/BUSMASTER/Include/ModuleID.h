@@ -27,7 +27,7 @@
 
 #include <guiddef.h>
 
-typedef enum eID_COMPONENT
+enum eID_COMPONENT
 {
     COMPONENT_UNDEFINED     = 0,
     PROJECTCONFIG_GEN,

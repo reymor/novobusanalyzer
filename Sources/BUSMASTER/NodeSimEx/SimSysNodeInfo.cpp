@@ -558,7 +558,7 @@ HRESULT sNODEINFO::RegisterFileToMonitor(std::string strFileName,bool bRegister)
         PathRemoveFileSpec(acDirPath);
         CString omstrDirPath = acDirPath;
 
-        hResult == PathIsDirectory(omstrDirPath);
+        hResult = PathIsDirectory(omstrDirPath);
         if(TRUE == hResult)
         {
             if(true == bRegister)

@@ -21,7 +21,7 @@
 
 #pragma once
 
-typedef enum
+enum
 {
     LOAD_CONFIG,
     SAVE_CONFIG,

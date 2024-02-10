@@ -11,7 +11,7 @@ class ValueRange {
 
 enum Validity { eValid, eNotValid, eNotAvailable, eValidityNone };
 
-typedef enum eCompuType {
+enum eCompuType {
   IDENTICAL_ENUM = 0,           // No change
   LINEAR_ENUM,                  // Linear expression N0,N1,D1
   SCALE_LINEAR_ENUM,            // More than 1 Linear exp

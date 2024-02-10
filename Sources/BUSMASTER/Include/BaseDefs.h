@@ -41,7 +41,7 @@
 
 #define MAX_DATA_LEN_LIN 8
 
-typedef enum eBUSEVEHANDLER
+enum eBUSEVEHANDLER
 {
     BUS_CONNECT = 0,
     BUS_PRE_CONNECT,

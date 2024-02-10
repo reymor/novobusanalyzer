@@ -129,7 +129,7 @@ enum eTIMEMODE
     eRELATIVE_MODE
 };
 
-typedef enum eREPLAYMODE
+enum eREPLAYMODE
 {
     REPLAY_OFF = 0,
     REPLAY_ON,
@@ -944,7 +944,7 @@ details since message length\nfor the selected message is zero!"
 #define defCHANGEDSIMSYS           0x0000000000000001
 
 // enumerators for obtaining information from the configuration file
-typedef enum eCONFIGDETAILS
+enum eCONFIGDETAILS
 {
     MRU_C_FILE_NAME,    //  MRU C File
     LOG_FILE_NAME,      // log file information

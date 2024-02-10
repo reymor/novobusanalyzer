@@ -29,7 +29,7 @@
 #include "resource.h"
 #include "Utility/RadixEdit.h"
 
-typedef enum ECONTROLTYPE
+enum ECONTROLTYPE
 {
     EDITCTRL = 0, COMBOBOX, RADIOBUTTON, BUTTON, CHECKBOX, STATICTEXT,
 };

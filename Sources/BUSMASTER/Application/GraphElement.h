@@ -24,7 +24,7 @@
 
 #pragma once
 
-typedef enum eELEMENT_TYPE
+enum eELEMENT_TYPE
 {
     eSTAT_PARAM,
     eRAW_VALUE,

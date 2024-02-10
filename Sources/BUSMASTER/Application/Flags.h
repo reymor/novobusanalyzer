@@ -28,7 +28,7 @@
 #include "struct.h"
 
 /** enumeration for all flags */
-typedef enum eCANMONITORFLAG
+enum eCANMONITORFLAG
 {
     LOGTODISPLAY = 0,
     LOGTOFILE,

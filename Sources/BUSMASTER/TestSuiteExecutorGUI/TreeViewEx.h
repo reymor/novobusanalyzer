@@ -43,7 +43,7 @@ private:
     HCURSOR m_hCurNoDrop;
     CImageList* m_pomImageList;
     CImageList* m_pomDragImageList;
-    typedef enum eTYPE_DROPPING
+    enum eTYPE_DROPPING
     {
         DROPPING_BELOW,
         DROPPING_ABOVE,

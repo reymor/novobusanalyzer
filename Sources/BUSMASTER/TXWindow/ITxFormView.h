@@ -33,7 +33,7 @@
 #define def_ADD_MESSAGE                                 "[Add Message]"
 
 
-typedef enum eTXWNDDETAILS
+enum eTXWNDDETAILS
 {
     TX_MSG_BLOCK_COUNT,    // Message Block count
     TX_WND_SPLITTER_DATA,

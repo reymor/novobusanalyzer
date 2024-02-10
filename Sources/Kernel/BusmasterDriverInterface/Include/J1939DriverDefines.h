@@ -204,7 +204,7 @@ typedef union tag29BitID {
 } UNION_29_BIT_ID;
 
 /* J1939 message type */
-typedef enum EJ1939_MSG_TYPE {
+enum EJ1939_MSG_TYPE {
   MSG_TYPE_NONE = 0x0,
   MSG_TYPE_COMMAND,
   MSG_TYPE_REQUEST,

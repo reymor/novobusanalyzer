@@ -12,7 +12,7 @@ enum ETYPE_BUS {
   BUS_INVALID
 };
 
-typedef enum eBUSEVENT {
+enum eBUSEVENT {
   ON_ACTIVATED = 0,  // Feature usage
   ON_CONNECT,
   ON_PRE_CONNECT,
