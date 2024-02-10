@@ -51,6 +51,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouu
 
 if(MSVC)
   target_link_options(${PROJECT_NAME} PRIVATE /DEBUG)
+  target_compile_options(${PROJECT_NAME} PRIVATE /Zi)
 endif()
 
 ################################################################################
