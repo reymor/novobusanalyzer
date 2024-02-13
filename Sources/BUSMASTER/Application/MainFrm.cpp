@@ -38,14 +38,13 @@
 #include "Flags.h"              // CFlags class
 
 // UDS Protocol
-//#include "DIL_Interface/DILI_UDS_Protocol.h"
 #include "UDS_Protocol/UDS_Extern.h"
 
 // For getting name of a permanent exported function from the user-defined DLL.
 #include "MessageList.h"
 #include "PPageMessage.h"
 #include "common.h"
-#include "Utility\TimeManager.h"
+#include "Utility/TimeManager.h"
 #include "MsgBufferConfigPage.h"    // For Message Buffer Configuration PPage
 #include "MsgFilterConfigPage.h"    // For Filter configuration page
 #include "DatabaseDissociateDlg.h"
@@ -53,12 +52,10 @@
 #include "include/utils_macro.h"
 #include "Include/BaseDefs.h"
 #include "InterfaceGetter.h"
-//#include "DataTypes/MsgBufAll_DataTypes.h"
 #include "DataTypes/Base_WrapperErrorLogger.h"
 #include "Utility/Utility.h"
 #include "Utility/Utility_Thread.h"
 #include "Utility/WaitIndicator.h"
-//#include "DIL_Interface_extern.h"
 #include "BaseDIL_CAN.h"
 #include "BaseDIL_LIN.h"
 #include "BaseDIL_J1939.h"
@@ -68,45 +65,42 @@
 #include "FrameProcessor/BaseFrameProcessor_LIN.h"
 #include "FrameProcessor/BaseFrameProcessor_J1939.h"
 
-
 #include "Replay/Replay_Extern.h"
 
 #include "SignalWatch/SignalWatch_extern.h"
 #include "SignalWatch/BaseSignalWatch.h"
 #include "SignalWatch/SignalWatch_LIN.h"
 #include "Filter/Filter_extern.h"
-#include ".\mainfrm.h"
+#include "./mainfrm.h"
 #include "WaveformSelectionDlg.h"
 
 #include "BusStatistics.h"
 #include "SigGrphConfigDlg.h"
-#include <DataTypes/SigGrphWnd_Datatypes.h>
+#include "DataTypes/SigGrphWnd_Datatypes.h"
 #include "J1939TimeOutCfg.h"
 #include "include/XMLDefines.h"
-#include "Utility\MultiLanguageSupport.h"
+#include "Utility/MultiLanguageSupport.h"
 #include "ConfigMsgDispPropPg.h"
 #include "ChannelConfigurationDlg.h"
-#include "Include\BaseDefs.h"
+#include "Include/BaseDefs.h"
 #include "IBusmasterPluginInterface.h"
 #include "Error.h"
 #include "BusMasterNetWork.h"
 #include "LinChannelParam.h"
 #include "J1939DriverDefines.h"
 #include "BusmasterPlugInManager.h"
-#include "DataTypes\NodeSimCodeGenerator.h"
+#include "DataTypes/NodeSimCodeGenerator.h"
 #include "MessageWindowSettingsDialog.h"
-#include "UI\BusmasterMenuItem.h"
-#include "DataTypes\NSCodeGenHelperFactory.h"
+#include "UI/BusmasterMenuItem.h"
+#include "DataTypes/NSCodeGenHelperFactory.h"
+
 #define MSG_GET_CONFIGPATH  10000
 #define FromXMLFile 1 //To show the called InitializeDil() is from XmlConfig
 
-
 // For bus statistics information
-
 extern CCANMonitorApp theApp;       // Application object
 CMsgBufFSE<STCANDATA> g_ouCANBufFSE;    //Global CAN buffer
 CMsgBufFSE<STLINDATA> g_ouLINBufFSE;    //Global LIN buffer
-
 
 HWND g_hMainGUI;                     // Main GUI
 
@@ -118,7 +112,6 @@ extern BOOL g_bStopKeyHandlers;     // Flag - carried from Utility.h
 extern BOOL g_bStopErrorHandlers;   // Flag - carried from Utility.h
 extern BOOL g_bStopDLLHandlers;
 extern BOOL g_bStopMsgHandlers;
-
 
 extern BOOL gbMsgTransmissionOnOff(BOOL bOnOff,HMODULE hModule);
 
@@ -140,8 +133,6 @@ static CBaseSignalWatch* sg_pouSWInterface[BUS_TOTAL] = {nullptr}; // SIGNAL WAT
 
 static CBaseFrameProcessor_LIN* sg_pouFrameProcLIN = nullptr; // CAN logger interface
 CBaseDIL_LIN* g_pouDIL_LIN_Interface = nullptr; // LIN DIL interface
-
-
 
 DWORD g_dwClientID = 0;
 extern BOOL g_bReadDllMsg;
@@ -170,7 +161,6 @@ SMSGENTRY* CTxMsgWndJ1939::m_psMsgRoot = nullptr;
 #define STSBAR_REFRESH_TIME_PERIOD      1000  // in milliseconds
 #define STSBAR_REFRESH_TIME_PERIOD_LOG  1000  // in milliseconds
 #define PROFILE_CAN_MONITOR "Screen"
-
 
 #define defCONFIG_MSG_DISPLAY_CAN "CAN"
 #define defCONFIG_MSG_DISPLAY_LIN "LIN"
@@ -210,8 +200,6 @@ enum
     DIL_LIN_TOTAL,
     DAL_LIN_NONE = ~0x0
 };
-
-
 
 IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWndEx)
 
@@ -435,8 +423,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 
     ON_MESSAGE(WM_USER_NSCODEGEN, OnNodeSimCodeGenStatus)
 
-
-	
 	ON_REGISTERED_MESSAGE(AFX_WM_ON_RIBBON_CUSTOMIZE, OnRibbonCustomize)
 
     //Plugin
@@ -464,12 +450,10 @@ const int INDEX_J1939_LOG_ICON = 0x3;
 const int INDEX_CAN_LOG_ICON = 0x2;
 const int INDEX_LIN_LOG_ICON = 0x5;
 
-
 CAppServices_Impl sg_ouAppServiceObj;
 
 CMainFrame::CMainFrame()
 {
-
     m_oNetworkStatistics = nullptr;
     GetCurrentDirectory(MAX_PATH, theApp.m_acApplicationDirectory);// Get application directory
     
@@ -629,7 +613,7 @@ CMainFrame::~CMainFrame()
     DELETE_PTR(m_pouTxMsgWndJ1939);
     CTxMsgWndJ1939::vClearDataStore();
 
-    
+
     ReleaseBusStat(CAN);
     ReleaseBusStat(LIN);
 
@@ -654,7 +638,6 @@ CMainFrame::~CMainFrame()
 }
 
 
-
 /******************************************************************************
     Functionality    :  National Language Support
 ******************************************************************************/
@@ -664,6 +647,7 @@ void CMainFrame::vGettextBusmaster()
     bindtextdomain("BUSMASTER", "./Localization/locale/");
     textdomain("BUSMASTER");
 }
+
 static bool bIsMsgExist(UINT MsgId, const SMSGENTRY* psFromList, sMESSAGE*& psMsg)
 {
     bool bResult = false;
@@ -821,6 +805,7 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& createStruct)
     }
     return TRUE;
 }
+
 /******************************************************************************
  Functionality    : #Called by the framework while a window is being created
                     #Creates toolbar, status bar.
@@ -845,9 +830,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;
     }
 
-    //TestMain();
-
-
     vGetWinStatus(m_WinCurrStatus);
     // Update the window placement
     SetWindowPlacement(&m_WinCurrStatus);
@@ -857,8 +839,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	mRibbonBar.Create(this);
 	mRibbonBar.LoadFromResource(IDR_BUSMASTER_RIBBON);
     mRibbonBar.UpdateRibbonBarMinimisedIcon();
-    
-    
+
     EnableDocking(CBRS_ALIGN_ANY);
 
     //To Initilaise GCC Version
@@ -7648,6 +7629,7 @@ void CMainFrame::OnTraceWnd()
         //m_bNotificWndVisible = m_podUIThread->bIsNotificWndVisible();
     }
 }
+
 /******************************************************************************/
 /*  Function Name    :  OnUpdateTraceWnd                                      */
 /*  Input(s)         :  CCmdUI* pCmdUI                                        */
@@ -7668,8 +7650,6 @@ void CMainFrame::OnUpdateTraceWnd(CCmdUI* pCmdUI)
     pCmdUI->SetCheck(m_bNotificWndVisible);
 }
 
-
-
 /*******************************************************************************
   Function Name  : OnCfgnUdsMainWnd
   Input(s)       : -
@@ -7680,22 +7660,13 @@ void CMainFrame::OnUpdateTraceWnd(CCmdUI* pCmdUI)
   Date Created   :
   Modifications  :
 *******************************************************************************/
-typedef HRESULT (*DIL_UDS_SHOWWND)(HWND hParent);
-static DIL_UDS_SHOWWND pfUDS_ShowWnd;
-
 void CMainFrame::OnCfgnUdsMainWnd()
 {
-    /*if((ptrDILI_UDS_Protocol = GetIUDSDIL())!= NULL){
-        ptrDILI_UDS_Protocol->DisplayUdsMainWnd(this->m_hWnd);
-    }*/
-    //pfUDS_ShowWnd = NULL;
-    //HMODULE hMod= ::LoadLibrary("UDS_Protocol.dll");
-    //pfUDS_ShowWnd = (DIL_UDS_SHOWWND)::GetProcAddress(hMod, "DIL_UDS_ShowWnd");
-    //pfUDS_ShowWnd(m_hWnd);
     LPARAM lParam;
     GetICANDIL()->DILC_GetControllerParams(lParam, 0, NUMBER_HW);
-    HRESULT Temp = DIL_UDS_ShowWnd(this->m_hWnd,lParam);
+    (void)DIL_UDS_ShowWnd(this->m_hWnd, lParam);
 }
+
 /*******************************************************************************
   Function Name  : OnCfgnUdsSettingsWnd
   Input(s)       : -
@@ -7708,8 +7679,9 @@ void CMainFrame::OnCfgnUdsMainWnd()
 *******************************************************************************/
 void CMainFrame::OnCfgnUdsSettingsWnd()
 {
-    HRESULT hola = DIL_UDS_ShowSettingWnd(this->m_hWnd);
+    (void)DIL_UDS_ShowSettingWnd(this->m_hWnd);
 }
+
 /******************************************************************************/
 /*  Function Name    :  OnUpdateConfigureBaudrate                             */
 /*  Input(s)         :  CCmdUI* pCmdUI                                        */
