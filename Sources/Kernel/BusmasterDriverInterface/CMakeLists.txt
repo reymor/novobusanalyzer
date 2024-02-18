@@ -140,6 +140,7 @@ if(MSVC)
         /DEBUG;
         /SUBSYSTEM:WINDOWS
     )
+    target_compile_options(${PROJECT_NAME} PRIVATE /Zi)
 endif()
 
 target_link_libraries(${PROJECT_NAME} 
