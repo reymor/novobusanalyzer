@@ -29,9 +29,6 @@
 // License validator interface, needed to query for other interfaces
 #include "PSDI_Extern.h"
 #include "CommonClass/MsgContainerBase.h"
-//#include "DataTypes/MsgBufAll_Datatypes.h"
-//#include "DataTypes/DIL_Datatypes.h"
-//#include "DIL_Interface/BaseDIL_CAN.h"
 
 // For CAN logger interface
 #include "include/ModuleID.h"
@@ -105,7 +102,6 @@ public:
         dispidSaveConfigurationAs          =               8L,
         dispidRegisterClientForRx          =               9L,
         dispidUnRegisterClient             =               10L
-                //dispidGetApplication             =               11L
     };
 
 
@@ -307,7 +303,6 @@ public:
             psStat->m_unTxEXTDMsgCount = sBusStat.m_unTxEXTDMsgCount;
             psStat->m_unRxSTDMsgCount = sBusStat.m_unRxSTDMsgCount;
             psStat->m_unRxSTD_RTRMsgCount = sBusStat.m_unRxSTD_RTRMsgCount;
-            /*memcpy(psStat, &sBusStat, sizeof(SBUSSTATISTICS));*/
         }
 
         return hResult;
@@ -565,7 +560,6 @@ public:
 
             /* Set timeouts */
             COMMTIMEOUTS CommTimeouts;
-            //BOOL   bStatus;
 
             CommTimeouts.ReadIntervalTimeout         = 0;
             CommTimeouts.ReadTotalTimeoutMultiplier  = 0;
@@ -573,12 +567,8 @@ public:
             CommTimeouts.WriteTotalTimeoutMultiplier = 0;
             CommTimeouts.WriteTotalTimeoutConstant   = 1000;
 
-            //bStatus = SetCommTimeouts(hndPipe,&CommTimeouts);
-
             /* Create event */
             BOOL bRet = ConnectNamedPipe(hndPipe, NULL);
-            /*if ( !bRet )
-                return false;*/
 
             // Generate the communication event
             bProceed = bProceed && ((hndEvent= CreateEvent(NULL, FALSE, FALSE, EventName)) != NULL);
@@ -595,22 +585,6 @@ public:
 
         return S_OK;
     }
-
-    /******************************************************************************
-        Function Name    :  GetApplication
-
-        Input(s)         :  -
-        Output           :
-        Functionality    :  Retrieves the application pointer
-        Member of        :  CApplication
-        Author(s)        :  Saravanan
-        Date Created     :  30.07.2014
-        Modifications    :
-    ******************************************************************************/
-    /*HRESULT GetApplication(IBusMaster** pApplication)
-    {
-        return E_NOTIMPL;
-    }*/
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -646,7 +620,6 @@ public:
     STDMETHOD(Connect)(BOOL bConnect);
     STDMETHOD(SaveConfiguration)();
     STDMETHOD(SaveConfigurationAs) (BSTR ConfigPath);
-    //STDMETHOD(GetApplication) (IBusMaster** pApplication);
     END_INTERFACE_PART(LocalClass)
 };
 
