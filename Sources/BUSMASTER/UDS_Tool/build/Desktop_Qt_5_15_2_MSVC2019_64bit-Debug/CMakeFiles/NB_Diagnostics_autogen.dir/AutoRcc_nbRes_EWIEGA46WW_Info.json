@@ -1,0 +1,26 @@
+{
+	"BUILD_DIR" : "D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/NB_Diagnostics_autogen",
+	"CMAKE_BINARY_DIR" : "D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "D:/QtProjects/NB_Diagnostics",
+	"CMAKE_SOURCE_DIR" : "D:/QtProjects/NB_Diagnostics",
+	"INCLUDE_DIR" : "D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/NB_Diagnostics_autogen/include",
+	"INPUTS" : 
+	[
+		"D:/QtProjects/NB_Diagnostics/network.png",
+		"D:/QtProjects/NB_Diagnostics/monitor.png",
+		"D:/QtProjects/NB_Diagnostics/binocular.png",
+		"D:/QtProjects/NB_Diagnostics/history.png",
+		"D:/QtProjects/NB_Diagnostics/cross.png"
+	],
+	"LOCK_FILE" : "D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/NB_Diagnostics_autogen.dir/AutoRcc_nbRes_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "nbRes" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_nbRes.cpp",
+	"RCC_EXECUTABLE" : "C:/Qt/5.15.2/msvc2019_64/bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/NB_Diagnostics_autogen.dir/AutoRcc_nbRes_EWIEGA46WW_Used.txt",
+	"SOURCE" : "D:/QtProjects/NB_Diagnostics/nbRes.qrc",
+	"VERBOSITY" : 0
+}

@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+1 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/NB_Diagnostics.dir/embed.manifest"

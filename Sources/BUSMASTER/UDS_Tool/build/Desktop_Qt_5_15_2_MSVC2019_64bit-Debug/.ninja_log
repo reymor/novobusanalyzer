@@ -1,0 +1,13 @@
+# ninja log v5
+13	1210	7412351415996564	NB_Diagnostics_autogen/timestamp	d92b98a4e7863602
+1528	1708	7412351422089386	CMakeFiles/NB_Diagnostics.dir/NB_Diagnostics_autogen/EWIEGA46WW/qrc_nbRes.cpp.obj	c9be785ed8a1b7e7
+1430	9648	7412351501196807	CMakeFiles/NB_Diagnostics.dir/NB_Diagnostics_autogen/mocs_compilation.cpp.obj	f165fe9ae4f2985e
+13	1210	7412351415996564	NB_Diagnostics_autogen/mocs_compilation.cpp	d92b98a4e7863602
+13	1210	7412351415996564	D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/NB_Diagnostics_autogen/mocs_compilation.cpp	d92b98a4e7863602
+1212	1425	7412351419134519	NB_Diagnostics_autogen/EWIEGA46WW/qrc_nbRes.cpp	2dd02aafee108d98
+13	1210	7412351415996564	D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/NB_Diagnostics_autogen/timestamp	d92b98a4e7863602
+1212	1425	7412351419134519	D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/NB_Diagnostics_autogen/EWIEGA46WW/qrc_nbRes.cpp	2dd02aafee108d98
+1509	4387	7412351448814984	CMakeFiles/NB_Diagnostics.dir/delegates.cpp.obj	3b19b10faf1025a4
+1460	9757	7412351502087136	CMakeFiles/NB_Diagnostics.dir/main.cpp.obj	24a71e1fc1786fc1
+1486	10042	7412351505247342	CMakeFiles/NB_Diagnostics.dir/mainwindow.cpp.obj	29f85f6eb53f99db
+10042	11610	7412351520443392	NB_Diagnostics.exe	764c7fcc97cde78
