@@ -1,8 +1,8 @@
-# Install script for directory: D:/QtProjects/NB_Diagnostics
+# Install script for directory: D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/NB_Diagnostics")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/UDS_Tool")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -33,7 +33,7 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/NB_Diagnostics.exe")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/UDS_Tool.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -44,5 +44,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

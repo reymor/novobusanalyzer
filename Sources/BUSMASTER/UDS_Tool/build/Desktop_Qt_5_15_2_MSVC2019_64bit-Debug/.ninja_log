@@ -1,13 +1,13 @@
 # ninja log v5
-13	1210	7412351415996564	NB_Diagnostics_autogen/timestamp	d92b98a4e7863602
-1528	1708	7412351422089386	CMakeFiles/NB_Diagnostics.dir/NB_Diagnostics_autogen/EWIEGA46WW/qrc_nbRes.cpp.obj	c9be785ed8a1b7e7
-1430	9648	7412351501196807	CMakeFiles/NB_Diagnostics.dir/NB_Diagnostics_autogen/mocs_compilation.cpp.obj	f165fe9ae4f2985e
-13	1210	7412351415996564	NB_Diagnostics_autogen/mocs_compilation.cpp	d92b98a4e7863602
-13	1210	7412351415996564	D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/NB_Diagnostics_autogen/mocs_compilation.cpp	d92b98a4e7863602
-1212	1425	7412351419134519	NB_Diagnostics_autogen/EWIEGA46WW/qrc_nbRes.cpp	2dd02aafee108d98
-13	1210	7412351415996564	D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/NB_Diagnostics_autogen/timestamp	d92b98a4e7863602
-1212	1425	7412351419134519	D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/NB_Diagnostics_autogen/EWIEGA46WW/qrc_nbRes.cpp	2dd02aafee108d98
-1509	4387	7412351448814984	CMakeFiles/NB_Diagnostics.dir/delegates.cpp.obj	3b19b10faf1025a4
-1460	9757	7412351502087136	CMakeFiles/NB_Diagnostics.dir/main.cpp.obj	24a71e1fc1786fc1
-1486	10042	7412351505247342	CMakeFiles/NB_Diagnostics.dir/mainwindow.cpp.obj	29f85f6eb53f99db
-10042	11610	7412351520443392	NB_Diagnostics.exe	764c7fcc97cde78
+16	1062	7417514065563407	UDS_Tool_autogen/timestamp	56aafe3332b32d4b
+16	1062	7417514065563407	UDS_Tool_autogen/mocs_compilation.cpp	56aafe3332b32d4b
+16	1062	7417514065563407	D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/UDS_Tool_autogen/timestamp	56aafe3332b32d4b
+16	1062	7417514065563407	D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/UDS_Tool_autogen/mocs_compilation.cpp	56aafe3332b32d4b
+1076	1239	7417514068114135	UDS_Tool_autogen/EWIEGA46WW/qrc_nbRes.cpp	39f4460c16ebca57
+1076	1239	7417514068114135	D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/UDS_Tool_autogen/EWIEGA46WW/qrc_nbRes.cpp	39f4460c16ebca57
+1314	1459	7417514070462012	CMakeFiles/UDS_Tool.dir/UDS_Tool_autogen/EWIEGA46WW/qrc_nbRes.cpp.obj	c946ccb01d74049a
+1295	3152	7417514087363943	CMakeFiles/UDS_Tool.dir/delegates.cpp.obj	74478d9a4e808923
+1239	6404	7417514119764874	CMakeFiles/UDS_Tool.dir/UDS_Tool_autogen/mocs_compilation.cpp.obj	e44a04396b333b13
+1257	6579	7417514121298981	CMakeFiles/UDS_Tool.dir/main.cpp.obj	7d65e37a863991ec
+1277	6740	7417514123179371	CMakeFiles/UDS_Tool.dir/mainwindow.cpp.obj	4ebed37bcec255ca
+6740	7861	7417514134056923	UDS_Tool.exe	bd5c1bd669230718

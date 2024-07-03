@@ -188,19 +188,19 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::createActions()
 {
     firstAction = new QAction(tr("&First"), this);
-    firstAction->setIcon(QIcon(":/Images/monitor.png"));
+    firstAction->setIcon(QIcon(":/Images/Resources/monitor.png"));
 
     secndAction = new QAction(tr("&Second"), this);
-    secndAction->setIcon(QIcon(":/Images/network.png"));
+    secndAction->setIcon(QIcon(":/Images/Resources/network.png"));
 
     thirdAction = new QAction(tr("&Third"), this);
-    thirdAction->setIcon(QIcon(":/Images/history.png"));
+    thirdAction->setIcon(QIcon(":/Images/Resources/history.png"));
 
     fourthAction = new QAction(tr("&Fourth"), this);
-    fourthAction->setIcon(QIcon(":/Images/cross.png"));
+    fourthAction->setIcon(QIcon(":/Images/Resources/cross.png"));
 
     fifthAction = new QAction(tr("&Fifth"), this);
-    fifthAction->setIcon(QIcon(":/Images/binocular.png"));
+    fifthAction->setIcon(QIcon(":/Images/Resources/binocular.png"));
 }
 
 void MainWindow::createToolBar()

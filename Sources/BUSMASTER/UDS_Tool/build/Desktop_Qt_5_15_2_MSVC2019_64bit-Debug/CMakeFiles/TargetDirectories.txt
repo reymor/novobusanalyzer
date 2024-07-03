@@ -1,8 +1,8 @@
-D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/NB_Diagnostics.dir
-D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/edit_cache.dir
-D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/rebuild_cache.dir
-D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/list_install_components.dir
-D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/install.dir
-D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/install/local.dir
-D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/NB_Diagnostics_autogen_timestamp_deps.dir
-D:/QtProjects/NB_Diagnostics/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/NB_Diagnostics_autogen.dir
+D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/UDS_Tool.dir
+D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/edit_cache.dir
+D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/rebuild_cache.dir
+D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/list_install_components.dir
+D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/install.dir
+D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/install/local.dir
+D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/UDS_Tool_autogen_timestamp_deps.dir
+D:/Programming/Clones/NovoBus_cln/novobusanalyzer/Sources/BUSMASTER/UDS_Tool/build/Desktop_Qt_5_15_2_MSVC2019_64bit-Debug/CMakeFiles/UDS_Tool_autogen.dir

@@ -22,4 +22,3 @@ public:
 };
 
 #endif // DELEGATES_H
-
