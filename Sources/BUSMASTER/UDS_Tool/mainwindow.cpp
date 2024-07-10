@@ -183,19 +183,19 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::createActions()
 {
     firstAction = new QAction(tr("&First"), this);
-    firstAction->setIcon(QIcon(":/Images/Resources/monitor.png"));
+    firstAction->setIcon(QIcon(":/Images/resources/monitor.png"));
 
     secndAction = new QAction(tr("&Second"), this);
-    secndAction->setIcon(QIcon(":/Images/Resources/network.png"));
+    secndAction->setIcon(QIcon(":/Images/resources/network.png"));
 
     thirdAction = new QAction(tr("&Third"), this);
-    thirdAction->setIcon(QIcon(":/Images/Resources/history.png"));
+    thirdAction->setIcon(QIcon(":/Images/resources/history.png"));
 
     fourthAction = new QAction(tr("&Fourth"), this);
-    fourthAction->setIcon(QIcon(":/Images/Resources/cross.png"));
+    fourthAction->setIcon(QIcon(":/Images/resources/cross.png"));
 
     fifthAction = new QAction(tr("&Fifth"), this);
-    fifthAction->setIcon(QIcon(":/Images/Resources/binocular.png"));
+    fifthAction->setIcon(QIcon(":/Images/resources/binocular.png"));
 }
 
 void MainWindow::createToolBar()
