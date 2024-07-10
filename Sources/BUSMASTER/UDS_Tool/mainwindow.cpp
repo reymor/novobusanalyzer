@@ -66,9 +66,6 @@ MainWindow::MainWindow(QWidget *parent)
         }
     }
 
-    // treeModel->setHeaderData(0, Qt::Horizontal, tr("Name"));
-    // treeModel->setHeaderData(1, Qt::Horizontal, tr("Data"));
-
 
     // setting a small comboBox
     firstComboBox = new QComboBox(this);
@@ -79,7 +76,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // setting a Label
     uniqueLabel = new QLabel(this);
-    // Label configuration
     uniqueLabel->setText("UniqueLabel");
     uniqueLabel->setAlignment(Qt::AlignRight);
     uniqueLabel->setFrameShape(QFrame::WinPanel);
@@ -93,7 +89,7 @@ MainWindow::MainWindow(QWidget *parent)
     QMap<QString, QList<QString>>::iterator it;
     for (it = namesMap->begin(); it != namesMap->end(); ++it)
     {
-        QListIterator<QString> i(it.value()); // iterating through the Qlist
+        QListIterator<QString> i(it.value());
         while (i.hasNext())
         {
             secondComboBox->addItem(i.next());
@@ -155,8 +151,7 @@ MainWindow::MainWindow(QWidget *parent)
     glayout1->addWidget(secondComboBox,1,0,1,6);
     glayout1->addWidget(executeButton,1,6,1,1);
     glayout1->addWidget(vSplitter,2,0,1,7);
-    // glayout1->setContentsMargins(0,0,0,0);
-    // glayout1->setSpacing(5);
+
     glayout1->setHorizontalSpacing(10);
     glayout1->setVerticalSpacing(2);
 
@@ -223,14 +218,13 @@ void MainWindow::treeChild_selection(const QItemSelection &/*selected*/, const Q
     const QModelIndex index = treeView->selectionModel()->currentIndex();
     QString selectedLeaf = index.data(Qt::DisplayRole).toString();
 
-    // iterating though the Qmap data to find the rows correspondig to the selected item
+    // iterating through the Qmap data to find the rows correspondig to the selected item
     QMap<QString,QList<QList<QString>>>::iterator itr;
     for (itr = dataMap->begin(); itr != dataMap->end(); ++itr)
     {
         if (itr.key() == selectedLeaf)
         {
             int row = 0;
-            // iterating through the Qlist
             QListIterator<QList<QString>> i(itr.value());
             while (i.hasNext())
             {
@@ -251,7 +245,6 @@ void MainWindow::treeChild_selection(const QItemSelection &/*selected*/, const Q
                 for (int col = 0; col < 3; ++col)
                 {
                     QModelIndex index2 = tableModel->index(row, col, QModelIndex());
-                    // tableModel->setData(index2, tr(""));
                     tableModel->clearItemData(index2);
                 }
             }
@@ -268,7 +261,7 @@ void MainWindow::childComboBoxSelection(int index)
     QMap<QString,QList<QList<QString>>>::iterator itr;
     for (itr = dataMap->begin(); itr != dataMap->end(); ++itr)
     {
-        // Next is to get the match between the combobox item and the tree model data
+        // to get the match between the combobox item and the tree model data
         QModelIndexList matches = treeModel->match(
             treeModel->index(0,0,QModelIndex()),
             Qt::DisplayRole,
@@ -286,7 +279,6 @@ void MainWindow::childComboBoxSelection(int index)
         if (itr.key() == child_selected)
         {
             int row = 0;
-            // iterating through the Qlist
             QListIterator<QList<QString>> i(itr.value());
             while (i.hasNext())
             {
