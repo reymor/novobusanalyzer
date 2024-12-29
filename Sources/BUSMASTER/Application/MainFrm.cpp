@@ -23,7 +23,7 @@
  */
 #include "stdafx.h"             // Standard include header
 #include "BUSMASTER.h"        // App class definition file
-#include "Utility\UtilFunctions.h"
+#include "Utility/UtilFunctions.h"
 
 #include "include/XMLDefines.h"
 #include "MainFrm.h"            // Main frame class defintion file
@@ -71,7 +71,7 @@
 #include "SignalWatch/BaseSignalWatch.h"
 #include "SignalWatch/SignalWatch_LIN.h"
 #include "Filter/Filter_extern.h"
-#include "./mainfrm.h"
+#include "MainFrm.h"
 #include "WaveformSelectionDlg.h"
 
 #include "BusStatistics.h"
@@ -168,8 +168,7 @@ SMSGENTRY* CTxMsgWndJ1939::m_psMsgRoot = nullptr;
 
 #define	USE_MSG_AUTOIT_REQUEST				WM_USER + 1000
 
-enum
-{
+enum {
     DRIVER_CAN_STUB = 0,
     DRIVER_CAN_RUSOKU_TOUCAN,
     DRIVER_CAN_PEAK_USB,
@@ -190,8 +189,7 @@ enum
     DAL_NONE = ~0x0
 };
 
-enum
-{
+enum {
     DRIVER_LIN_ISOLAR_EVE_VLIN = 0,
     DRIVER_LIN_VECTOR_XL,
     DRIVER_LIN_ETAS_BOA,
@@ -435,8 +433,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
     ON_COMMAND(ID_BUTTON_TOGGLERIBBON, &CMainFrame::OnButtonToggleribbon)
     END_MESSAGE_MAP()
 
-static UINT indicators[] =
-{
+static UINT indicators[] = {
     ID_SEPARATOR,           // status line indicator
     ID_ACTIVE_DATABASE_NAME,// Active configuration name
     ID_LOG_RECORD_CAN_ICON,
@@ -459,8 +456,7 @@ CMainFrame::CMainFrame()
     
     m_nMaxLinChannels = 1;
     m_podMsgSgWnd                   = nullptr;
-    for (UINT i = 0; i < BUS_TOTAL; i++)
-    {
+    for (uint32_t i = 0; i < BUS_TOTAL; i++) {
         m_pomMsgSgDetViews[i]       = nullptr;
         m_pomMsgSgTreeViews[i]      = nullptr;
     }
@@ -490,12 +486,11 @@ CMainFrame::CMainFrame()
     m_bCfgLoadMenuOption    = TRUE;
     m_bCfgSaveMenuOption    = TRUE;
     m_bCfgSaveAsMenuOption  = TRUE;
-    
+
     m_bIsStatWndCreated = FALSE;
     m_bNotificWndVisible       = FALSE;
     // Initially the controller will be in error active mode.
-    for( UINT unIndex = 0; unIndex < defNO_OF_CHANNELS; unIndex++)
-    {
+    for (uint32_t unIndex = 0; unIndex < defNO_OF_CHANNELS; unIndex++) {
         m_eCurrErrorState[ unIndex ] = ERROR_ACTIVE;
     }
 
@@ -507,10 +502,8 @@ CMainFrame::CMainFrame()
 
     // Graph related pointers
     // Graph window status
-    for(int nBUSID = CAN; nBUSID<AVAILABLE_PROTOCOLS; nBUSID++)
-    {
-        if(nBUSID == 5)
-        {
+    for (uint32_t nBUSID = CAN; nBUSID < AVAILABLE_PROTOCOLS; nBUSID++) {
+        if (nBUSID == 5) {
             //TODO: When Signal graph for ETHERNET is implemented remove this check
             //Skip Ethernet protocol
             continue;
@@ -539,8 +532,7 @@ CMainFrame::CMainFrame()
     m_pouMsgInterpretBuffer = m_objSigGrphHandler.vGetGraphBuffer();
 
 
-    for ( ETYPE_BUS eBus = CAN; eBus != BUS_TOTAL; )
-    {
+    for (ETYPE_BUS eBus = CAN; eBus != BUS_TOTAL;) {
         // Append Buffer Size
         m_anMsgBuffSize[eBus][defAPPEND_DATA_INDEX] = 0;
         // Overwrite Buffer Size
@@ -561,8 +553,7 @@ CMainFrame::CMainFrame()
     m_podMsgSgWndJ1939 = nullptr;
     m_pouMsgSigJ1939   = nullptr;
     m_pouActiveDbJ1939 = nullptr;
-    for (UINT i = 0; i < BUS_TOTAL; i++)
-    {
+    for (UINT i = 0; i < BUS_TOTAL; i++) {
         m_abLogOnConnect[i] = FALSE;
     }
 
@@ -582,8 +573,7 @@ CMainFrame::CMainFrame()
 
     m_shLINDriverId = -1;
 
-    for ( int i =0; i < defNO_OF_LIN_CHANNELS; i++ )
-    {
+    for (uint32_t i = 0; i < defNO_OF_LIN_CHANNELS; i++ ) {
         m_asControllerDetailsLIN[i].m_strHwUri.reserve(MAX_PATH);
     }
     vLoadBusmasterKernel();
@@ -594,25 +584,21 @@ CMainFrame::CMainFrame()
 CMainFrame::~CMainFrame()
 {
     DELETE_PTR(m_podMsgWndThread);
-    if (m_pouMsgSigJ1939 != nullptr)
-    {
+    if (m_pouMsgSigJ1939 != nullptr) {
         m_pouMsgSigJ1939->bDeAllocateMemory("");
     }
     DELETE_PTR(m_pouMsgSigJ1939);
 
-    if (m_pouActiveDbJ1939 != nullptr)
-    {
+    if (m_pouActiveDbJ1939 != nullptr) {
         m_pouActiveDbJ1939->bDeAllocateMemoryInactive();
     }
     DELETE_PTR(m_pouActiveDbJ1939);
 
-    if (m_pouTxMsgWndJ1939 != nullptr)
-    {
+    if (m_pouTxMsgWndJ1939 != nullptr) {
         m_pouTxMsgWndJ1939->DestroyWindow();
     }
     DELETE_PTR(m_pouTxMsgWndJ1939);
     CTxMsgWndJ1939::vClearDataStore();
-
 
     ReleaseBusStat(CAN);
     ReleaseBusStat(LIN);
@@ -622,17 +608,14 @@ CMainFrame::~CMainFrame()
     ReleaseLogger(eID_COMPONENT::FRAMEPROC_LIN);
 
     m_objTSExecutorHandler.vDoDeInitailization(CAN);
-    if (nullptr != mPluginManager)
-    {
+    if (nullptr != mPluginManager) {
         delete mPluginManager;
         mPluginManager = nullptr;
     }
-    if (nullptr != m_ouBusmasterNetwork)
-    {
+    if (nullptr != m_ouBusmasterNetwork) {
         delete m_ouBusmasterNetwork;
     }
-    if (nullptr != mBusmasterKernel)
-    {
+    if (nullptr != mBusmasterKernel) {
         delete mBusmasterKernel;
     }
 }
@@ -651,13 +634,10 @@ void CMainFrame::vGettextBusmaster()
 static bool bIsMsgExist(UINT MsgId, const SMSGENTRY* psFromList, sMESSAGE*& psMsg)
 {
     bool bResult = false;
-    if (psFromList != nullptr)
-    {
+    if (psFromList != nullptr) {
         const SMSGENTRY* pTempMsgEntry = psFromList;
-        while ((pTempMsgEntry != nullptr))
-        {
-            if (pTempMsgEntry->m_psMsg->m_unMessageCode == MsgId)
-            {
+        while ((pTempMsgEntry != nullptr)) {
+            if (pTempMsgEntry->m_psMsg->m_unMessageCode == MsgId) {
                 psMsg = pTempMsgEntry->m_psMsg;
                 bResult = true;
                 break;
@@ -671,10 +651,8 @@ static bool bIsMsgExist(UINT MsgId, const SMSGENTRY* psFromList, sMESSAGE*& psMs
 static bool bIsSigExist(const CString& omSigName, sSIGNALS* pSigList, sSIGNALS*& pSig)
 {
     bool bResult = false;
-    while (pSigList != nullptr)
-    {
-        if (omSigName == pSigList->m_omStrSignalName)
-        {
+    while (pSigList != nullptr) {
+        if (omSigName == pSigList->m_omStrSignalName) {
             pSig = pSigList;
             bResult = true;
             break;
@@ -683,55 +661,47 @@ static bool bIsSigExist(const CString& omSigName, sSIGNALS* pSigList, sSIGNALS*&
     }
     return bResult;
 }
+
 static void vPopulateMainEntryList( CMainEntryList* podResultingList, const SMSGENTRY* psExistingList,
                                     IBMNetWorkGetService* pouDatabase )
 {
-    if ( ( podResultingList != nullptr ) && ( pouDatabase != nullptr ) )
-    {
+    if (( podResultingList != nullptr ) && ( pouDatabase != nullptr )) {
         std::list<IFrame*> frameList;
         std::string name;
-        pouDatabase->GetFrameList( CAN, 0, frameList );
+        pouDatabase->GetFrameList(CAN, 0, frameList);
 
-for ( auto itrFrame : frameList )
-        {
+    for (auto itrFrame: frameList) {
             SMAINENTRY sMainEntry;
             {
-                itrFrame->GetFrameId( sMainEntry.m_unMainEntryID );
+                itrFrame->GetFrameId(sMainEntry.m_unMainEntryID);
                 //sMainEntry.m_unMainEntryID = pMsg->m_unMessageCode;
-                itrFrame->GetName( name );
+                itrFrame->GetName(name);
                 sMainEntry.m_omMainEntryName = name.c_str();
                 sMESSAGE* pListMsg = nullptr;
-                if ( bIsMsgExist( sMainEntry.m_unMainEntryID, psExistingList, pListMsg ) )
-                {
+                if (bIsMsgExist(sMainEntry.m_unMainEntryID, psExistingList, pListMsg)) {
                     std::map<ISignal*, SignalInstanse> signalList;
-                    itrFrame->GetSignalList( signalList );
-                    //sSIGNALS* pSig = pMsg-> m_psSignals;
-for ( auto pSig : signalList )
-                    {
+                    itrFrame->GetSignalList(signalList);
+                    for (auto pSig : signalList) {
                         SSUBENTRY sSubEntry;
-                        pSig.first->GetName( name );
+                        pSig.first->GetName(name);
                         sSubEntry.m_omSubEntryName = name.c_str();
                         sSIGNALS* pJunk = nullptr;
-                        if ( bIsSigExist( name.c_str(), pListMsg->m_psSignals, pJunk ) )
-                        {
-                            sMainEntry.m_odSelEntryList.AddTail( sSubEntry );
+                        if (bIsSigExist(name.c_str(), pListMsg->m_psSignals, pJunk)) {
+                            sMainEntry.m_odSelEntryList.AddTail(sSubEntry);
                         }
-                        else
-                        {
-                            sMainEntry.m_odUnSelEntryList.AddTail( sSubEntry );
+                        else {
+                            sMainEntry.m_odUnSelEntryList.AddTail(sSubEntry);
                         }
                     }
                 }
-                else //If Msg does not exist copy the full list directly
-                {
+                else { //If Msg does not exist copy the full list directly
                     std::map<ISignal*, SignalInstanse> signalList;
-                    itrFrame->GetSignalList( signalList );
-for ( auto pSig : signalList )
-                    {
+                    itrFrame->GetSignalList(signalList);
+                    for (auto pSig: signalList) {
                         SSUBENTRY sSubEntry;
-                        pSig.first->GetName( name );
+                        pSig.first->GetName(name);
                         sSubEntry.m_omSubEntryName = name.c_str();
-                        sMainEntry.m_odUnSelEntryList.AddTail( sSubEntry );
+                        sMainEntry.m_odUnSelEntryList.AddTail(sSubEntry);
                     }
                 }
                 podResultingList->AddTail( sMainEntry );
@@ -744,13 +714,11 @@ for ( auto pSig : signalList )
 static void vPopulateMainEntryList(CMainEntryList* podResultingList, const SMSGENTRY* psExistingList,
                                    CMsgSignal* pouDatabase)
 {
-    if ((podResultingList != nullptr) && (pouDatabase != nullptr))
-    {
-        UINT nNoMsgs = pouDatabase->unGetNumerOfMessages();
-        UINT* pMsgIds = new UINT[nNoMsgs];
+    if ((podResultingList != nullptr) && (pouDatabase != nullptr)) {
+        uint32_t nNoMsgs = pouDatabase->unGetNumerOfMessages();
+        uint32_t *pMsgIds = new uint32_t[nNoMsgs];
         pouDatabase->unListGetMessageIDs(pMsgIds);
-        for (UINT i = 0; i < nNoMsgs; i++)
-        {
+        for (uint32_t i = 0; i < nNoMsgs; i++) {
             SMAINENTRY sMainEntry;
             sMESSAGE* pMsg = pouDatabase->psGetMessagePointer(pMsgIds[i]);
             if (pMsg != nullptr)
@@ -758,30 +726,24 @@ static void vPopulateMainEntryList(CMainEntryList* podResultingList, const SMSGE
                 sMainEntry.m_unMainEntryID = pMsg->m_unMessageCode;
                 sMainEntry.m_omMainEntryName = pMsg->m_omStrMessageName;
                 sMESSAGE* pListMsg = nullptr;
-                if (bIsMsgExist(pMsg->m_unMessageCode, psExistingList, pListMsg))
-                {
+                if (bIsMsgExist(pMsg->m_unMessageCode, psExistingList, pListMsg)) {
                     sSIGNALS* pSig = pMsg->m_psSignals;
-                    while (pSig != nullptr)
-                    {
+                    while (pSig != nullptr) {
                         SSUBENTRY sSubEntry;
                         sSubEntry.m_omSubEntryName = pSig->m_omStrSignalName;
                         sSIGNALS* pJunk = nullptr;
-                        if (bIsSigExist(pSig->m_omStrSignalName, pListMsg->m_psSignals, pJunk))
-                        {
+                        if (bIsSigExist(pSig->m_omStrSignalName, pListMsg->m_psSignals, pJunk)) {
                             sMainEntry.m_odSelEntryList.AddTail(sSubEntry);
                         }
-                        else
-                        {
+                        else {
                             sMainEntry.m_odUnSelEntryList.AddTail(sSubEntry);
                         }
                         pSig = pSig->m_psNextSignalList;
                     }
                 }
-                else //If Msg does not exist copy the full list directly
-                {
+                else { //If Msg does not exist copy the full list directly
                     sSIGNALS* pSig = pMsg->m_psSignals;
-                    while (pSig != nullptr)
-                    {
+                    while (pSig != nullptr) {
                         SSUBENTRY sSubEntry;
                         sSubEntry.m_omSubEntryName = pSig->m_omStrSignalName;
                         sMainEntry.m_odUnSelEntryList.AddTail(sSubEntry);
@@ -796,14 +758,14 @@ static void vPopulateMainEntryList(CMainEntryList* podResultingList, const SMSGE
         pMsgIds = nullptr;
     }
 }
+
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& createStruct)
 {
     createStruct.style |= WS_VSCROLL | WS_HSCROLL;
-    if (!CMDIFrameWndEx::PreCreateWindow(createStruct))
-    {
-        return FALSE;
+    if (!CMDIFrameWndEx::PreCreateWindow(createStruct)) {
+        return false;
     }
-    return TRUE;
+    return true;
 }
 
 /******************************************************************************
@@ -818,14 +780,12 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& createStruct)
 /******************************************************************************/
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-    if (CMDIFrameWndEx::OnCreate(lpCreateStruct) == -1)
-    {
+    if (CMDIFrameWndEx::OnCreate(lpCreateStruct) == -1) {
         return -1;
     }
 
     OnApplicationLook(ID_VIEW_APPLOOK_OFF_2007_BLUE);
-    if ( nullptr != m_ouBusmasterNetwork && ( false == m_ouBusmasterNetwork->isDbManagerAvailable()) )
-    {
+    if (nullptr != m_ouBusmasterNetwork && ( false == m_ouBusmasterNetwork->isDbManagerAvailable())) {
         MessageBox("Unable to Load Database Manager.\nPlease Reinstall BUSMASTER", "Error", MB_OK|MB_ICONERROR);
         return -1;
     }
@@ -850,8 +810,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     if (!m_wndStatusBar.CreateEx(this,SBT_TOOLTIPS) ||
             !m_wndStatusBar.SetIndicators(indicators,
-                                          sizeof(indicators)/sizeof(UINT)))
-    {
+                                          sizeof(indicators)/sizeof(UINT))) {
         TRACE0(_("Failed to create status bar\n"));
         return -1;      // fail to create
     }
@@ -911,24 +870,18 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     //vCreateMRU_Menus();
 
     //Update DIL List
-    if (g_pouDIL_CAN_Interface == nullptr)
-    {
-        //IBusService* service;
+    if (g_pouDIL_CAN_Interface == nullptr) {
         DIL_GetInterface( CAN, (void**)&g_pouDIL_CAN_Interface );
-        //g_pouDIL_CAN_Interface = (CBaseDIL_CAN*)service;
     }
     m_nDILCount = g_pouDIL_CAN_Interface->DILC_GetDILList(false, &m_ouList);
 
     
-    if (g_pouDIL_LIN_Interface == nullptr)
-    {
+    if (g_pouDIL_LIN_Interface == nullptr) {
         DIL_GetInterface( LIN, (void**)&g_pouDIL_LIN_Interface );
     }
     m_nDILCountLin = g_pouDIL_LIN_Interface->DILL_GetDILList(false, &m_ouListLin);
 
-
-
-    mPluginManager = new BusmasterPluginManager();; // TODO::
+    mPluginManager = new BusmasterPluginManager(); // TODO::
     mPluginManager->init( this );
 
 	mPluginManager->loadBusPlugins( nullptr );
@@ -939,17 +892,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	mVariableLayer.getNotifySink(&info.mNotifyEvent);
 	mPluginManager->addPlugin(info);
 
-	/*BusmasterPluginConfiguration info1;
-	mLINVariableLayer.setBusmasterInterface(this);
-	info1.mPluginInterface = &mLINVariableLayer;
-	mLINVariableLayer.getNotifySink(&info1.mNotifyEvent);
-	mPluginManager->addPlugin(info1);
-*/
 	//Load Other Plugins
 	mPluginManager->loadPlugins( nullptr );
     mPluginManager->notifyPlugins(eBusmaster_Event::plugin_load_completed, nullptr);
-
-
 
     // Do initialisation for the waveform transmission object
     m_ouWaveTransmitter.vDoInitialisation(&m_objWaveformDataHandler,
@@ -963,7 +908,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     // Setting Hex Mode by default
     bSetHexDecFlags(TRUE);
 
-
     vInitialiaseLINConfig(1);
     m_objTxHandler.SetNetworkConfig(LIN, m_ouBusmasterNetwork);
     m_objTxHandler.SetNetworkConfig(CAN, m_ouBusmasterNetwork);
@@ -973,12 +917,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     // In-Active Database
     theApp.m_pouMsgSgInactive = new CMsgSignal( sg_asDbParams[CAN], false );
 
-
-
     bUpdatePopupMenuDIL();
     
     bUpdatePopupMenuDILL(); //LIN modify
-
 
     BusmasterPluginConfiguration pluginInfo;
     UIElements uiElements;
@@ -1028,16 +969,14 @@ void CMainFrame::OnOpenDatabase()
     INT nReturn = IDYES;
 
     // Check if any database is already open
-    if ( theApp.pouGetFlagsPtr()->nGetFlagStatus( DBOPEN ))
-    {
+    if ( theApp.pouGetFlagsPtr()->nGetFlagStatus( DBOPEN )) {
         // Some database is open
         // Flash a message as to whether the user
         // wants to open another database
         nReturn =
             AfxMessageBox( _("Are yor sure you want to close the \n\
-database that is already open?"), MB_YESNO, MB_ICONINFORMATION);
-        if ( nReturn == IDYES)
-        {
+            database that is already open?"), MB_YESNO, MB_ICONINFORMATION);
+        if ( nReturn == IDYES) {
             // Close the database that was open
             OnCloseDatabase();
         }
@@ -1047,8 +986,7 @@ database that is already open?"), MB_YESNO, MB_ICONINFORMATION);
     // and wants new to be open
     // or no database might have opened
     // yet
-    if ( nReturn == IDYES)
-    {
+    if ( nReturn == IDYES) {
         BOOL bDisplayEditor = FALSE;
 
         // Display a open file dialog
@@ -1062,14 +1000,12 @@ database that is already open?"), MB_YESNO, MB_ICONINFORMATION);
         // Set Title
         fileDlg.m_ofn.lpstrTitle  = _("Select BUSMASTER Database Filename...");
 
-        if ( IDOK == fileDlg.DoModal() )
-        {
+        if (IDOK == fileDlg.DoModal()) {
             CString strExtName  = fileDlg.GetFileExt();
 
             CString strDbName   = fileDlg.GetPathName();
 
-            if ( strDbName.ReverseFind('.') )
-            {
+            if (strDbName.ReverseFind('.')) {
                 strDbName = strDbName.Left( strDbName.ReverseFind('.') + 1);
 
                 strDbName.TrimRight();
@@ -1077,43 +1013,35 @@ database that is already open?"), MB_YESNO, MB_ICONINFORMATION);
                 strDbName += strExtName;
 
                 m_omStrDatabaseName = strDbName;
-
             }
 
             // file-attribute information
             struct _finddata_t fileinfo;
 
             // Auto Select DB File
-            if (_findfirst( strDbName, &fileinfo)!= -1L)
-            {
+            if (_findfirst( strDbName, &fileinfo)!= -1L) {
                 // Load the File & fill the Structure
-                if (theApp.m_pouMsgSgInactive->
-                        bFillDataStructureFromDatabaseFile(strDbName, PROTOCOL_CAN))
-                {
+                if (theApp.m_pouMsgSgInactive->bFillDataStructureFromDatabaseFile(strDbName, PROTOCOL_CAN)) {
                     // No corruption in database, display the editor
                     bDisplayEditor = TRUE;
                     m_bIsNewDatabase = FALSE;      //To declare that database as existing one
                 }
 
             }
-            else
-            {
+            else {
                 AfxMessageBox(_("Specified database file is not found.\n\
 								Operation unsuccessful."), MB_OK | MB_ICONINFORMATION);
             }
 
-            if ( bDisplayEditor == TRUE )
-            {
-                if ( m_podMsgSgWnd != nullptr )
-                {
+            if (bDisplayEditor == TRUE) {
+                if (m_podMsgSgWnd != nullptr) {
                     m_podMsgSgWnd = nullptr;
                 }
                 sg_asDbParams[CAN].m_pouMsgSignalActiveDB = theApp.m_pouMsgSgInactive;
                 sg_asDbParams[CAN].m_pouMsgSignalImportedDBs = theApp.m_pouMsgSignal;
                 m_podMsgSgWnd = new CMsgSignalDBWnd(sg_asDbParams[CAN]);
 
-                if ( m_podMsgSgWnd != nullptr )
-                {
+                if (m_podMsgSgWnd != nullptr) {
                     sg_asDbParams[CAN].m_omDBPath = m_omStrDatabaseName;
                     m_podMsgSgWnd->vSetDBName(m_omStrDatabaseName);
                     // Create child window
@@ -1122,8 +1050,7 @@ database that is already open?"), MB_YESNO, MB_ICONINFORMATION);
                                                 WS_CHILD | WS_VISIBLE |
                                                 WS_OVERLAPPED | WS_CAPTION |
                                                 WS_THICKFRAME, rectDefault,
-                                                this ) )
-                    {
+                                                this ) ) {
                         MessageBox( _("Create BUSMASTER Database Window Failed!"),
                                     nullptr, MB_OK|MB_ICONERROR );
                         return;
@@ -1137,18 +1064,15 @@ database that is already open?"), MB_YESNO, MB_ICONINFORMATION);
                     pFlags->vSetFlagStatus( DBOPEN, TRUE );
                     // Enable 'Save' & 'Save Import' menu item
 					CMenu* pMenu = nullptr;// CMenu::FromHandle(mMenuBar.GetHMenu());
-                    if (pMenu != nullptr)
-                    {
+                    if (pMenu != nullptr) {
                         HMENU hMenu = pMenu->GetSafeHmenu();
-                        if (hMenu != nullptr)
-                        {
+                        if (hMenu != nullptr) {
                             EnableMenuItem(hMenu, IDM_SAVE_IMPORT, MF_ENABLED);
                             EnableMenuItem(hMenu, IDM_CONFIGURE_DATABASE_SAVE, MF_ENABLED);
                         }
                     }
                 }
-                else
-                {
+                else {
                     AfxMessageBox(_(MSG_MEMORY_CONSTRAINT),
                                   MB_OK | MB_ICONINFORMATION);
                 }
@@ -1176,65 +1100,53 @@ LRESULT CMainFrame::OnCloseDatabase(WPARAM /*wParam*/, LPARAM /*lParam*/)
 }
 void CMainFrame::OnCloseDatabase()
 {
-    if (nullptr == m_podMsgSgWnd)
-    {
+    if (nullptr == m_podMsgSgWnd) {
         return;
     }
     // Get appropriate data structure
     CMsgSignal* pTempMsgSg = m_podMsgSgWnd->m_sDbParams.m_pouMsgSignalActiveDB;
-    if (nullptr == pTempMsgSg)
-    {
+    if (nullptr == pTempMsgSg) {
         return;
     }
-    if (pTempMsgSg->bGetModifiedFlag() == FALSE)
-    {
+    if (pTempMsgSg->bGetModifiedFlag() == FALSE) {
         UINT bRetVal = AfxMessageBox(_(ASK_SAVE_PROMPT),
                                      MB_YESNOCANCEL | MB_ICONQUESTION);
-        if (bRetVal == IDYES)
-        {
+        if (bRetVal == IDYES) {
             //save the database modificatins.
             m_podMsgSgWnd->vSaveModifiedDBs(pTempMsgSg);
         }
-        else if (bRetVal == IDNO)
-        {
+        else if (bRetVal == IDNO) {
             // if this is new database
             // then delete the memory and the file itself
-            if (vGetNewDatabaseFlag())
-            {
+            if (vGetNewDatabaseFlag()) {
                 // This file is no longer required
                 CFile::Remove(m_podMsgSgWnd->m_sDbParams.m_omDBPath);
                 vSetNewDatabaseFlag(FALSE);
             }
         }
-        else if (bRetVal == IDCANCEL)
-        {
+        else if (bRetVal == IDCANCEL) {
             return;
         }
 
     }
-    else
-    {
+    else {
         // If the user just creates new database,
         // and closes the window
         // delete the file
-        if (vGetNewDatabaseFlag())
-        {
+        if (vGetNewDatabaseFlag()) {
             // This file is no longer required
             CFile::Remove(m_podMsgSgWnd->m_sDbParams.m_omDBPath);
             vSetNewDatabaseFlag(FALSE);
         }
-
     }
 
     // delete previously allocated memory if any
     pTempMsgSg->bDeAllocateMemoryInactive();
 
     CFlags* pFlags = theApp.pouGetFlagsPtr();
-    if (pFlags != nullptr)
-    {
+    if (pFlags != nullptr) {
         pFlags->vSetFlagStatus(DBOPEN, FALSE);
     }
-
 
     m_podMsgSgWnd->MDIDestroy();
     m_podMsgSgWnd = nullptr;
@@ -1294,26 +1206,22 @@ void CMainFrame::OnImportDatabase()
     // Set Title
     fileDlg.m_ofn.lpstrTitle  = _("Select Active Database Filename...");
 
-    if ( IDOK == fileDlg.DoModal() )
-    {
+    if ( IDOK == fileDlg.DoModal() ) {
         POSITION pos = nullptr;
         pos = fileDlg.GetStartPosition();
-        while(nullptr != pos)
-        {
+        while (nullptr != pos) {
             CString strTempFile = fileDlg.GetNextPathName(pos);
             strFilePathArray.Add(strTempFile);
         }
         CString omStrMsg = _("Database File: \n ");
         BOOL bAllFilesImported = TRUE;
-        int nFileCount = strFilePathArray.GetSize();
+        uint32_t nFileCount = strFilePathArray.GetSize();
 		
-        for(int nCount = 0; nCount < nFileCount; nCount++)
-        {
+        for (uint32_t nCount = 0; nCount < nFileCount; nCount++) {
             CString strTempFileName = strFilePathArray.GetAt(nCount);
             //FALSE because it is not called using COM
             DWORD dError=dLoadDataBaseFile(strTempFileName,FALSE);
-            if(E_INVALIDARG==dError)
-            {
+            if (E_INVALIDARG==dError) {
                 bAllFilesImported = FALSE;
                 //Add the file name for warning display
                 omStrMsg += strTempFileName;
@@ -1321,25 +1229,21 @@ void CMainFrame::OnImportDatabase()
                 strFilePathArray.RemoveAt(nCount);
             }
         }
-        if(bAllFilesImported == FALSE)
-        {
+
+        if (bAllFilesImported == FALSE) {
             omStrMsg += _(" not found!");
             MessageBox(omStrMsg,"BUSMASTER",MB_OK|MB_ICONERROR);
         }
 
-		
-
         HWND hWnd;
         hWnd = m_podMsgWndThread->hGetHandleMsgWnd(CAN);
 
-        if(hWnd)
-        {
+        if (hWnd) {
             ::SendMessage(hWnd, WM_DATABASE_CHANGE, (WPARAM)TRUE, 0);
         }
 
         //Added by Arun to update Data Handler Main entry list.
         vUpdateMainEntryListInWaveDataHandler();
-
     }
 }
 
@@ -1349,8 +1253,7 @@ DWORD CMainFrame::dLoadJ1939DBFile(CString omStrActiveDataBase, bool /*bFrmCom*/
     //Check for same DB path......
     //TODO::Remove
     m_ouBusmasterNetwork->SetChannelCount( J1939, 1 );
-    if ( TRUE == PathIsRelative( omStrActiveDataBase ) )
-    {
+    if (TRUE == PathIsRelative( omStrActiveDataBase )) {
         std::string omStrBasePath;
         CString omConfigFileName;
         vGetLoadedCfgFileName( omConfigFileName );
@@ -1362,8 +1265,7 @@ DWORD CMainFrame::dLoadJ1939DBFile(CString omStrActiveDataBase, bool /*bFrmCom*/
 
     int channel = 0;
     ERRORCODE ecError = m_ouBusmasterNetwork->LoadDb( J1939, channel, omStrActiveDataBase.GetBuffer( 0 ) );
-    if ( ecError == EC_SUCCESS )
-    {
+    if (ecError == EC_SUCCESS) {
         //Signal watch
         sg_pouSWInterface[J1939]->SW_SetClusterInfo( m_ouBusmasterNetwork );
 
@@ -1375,11 +1277,9 @@ DWORD CMainFrame::dLoadJ1939DBFile(CString omStrActiveDataBase, bool /*bFrmCom*/
         //Update in NodeSimEx
         GetIJ1939NodeSim()->NS_UpdateFuncStructsNodeSimEx( (PVOID)&( m_sExFuncPtr[J1939].m_odMsgNameMsgCodeListDB ), UPDATE_DATABASE_MSGS );
 
-
         CBaseNodeSim* pNodeSim = nullptr;
         pNodeSim = GetIJ1939NodeSim();
-        if ( pNodeSim != nullptr )
-        {
+        if (pNodeSim != nullptr) {
             pNodeSim->NS_SetBmNetworkConfig( m_ouBusmasterNetwork, true );
         }
 
@@ -1388,54 +1288,46 @@ DWORD CMainFrame::dLoadJ1939DBFile(CString omStrActiveDataBase, bool /*bFrmCom*/
 
         vPopulateIDList( J1939 );
 
-
         // Delete all the memory associated with the data structure.
         CMessageAttrib::ouGetHandle( J1939 ).vSaveMessageAttribData();
-
 
         HWND hWnd;
         hWnd = m_podMsgWndThread->hGetHandleMsgWnd( J1939 );
         //Set the J1939 DB pointer in MsgFrmtWnd class
-        if ( hWnd )
-        {
+        if (hWnd) {
             ::SendMessage( hWnd, WM_NOTIFICATION_FROM_OTHER,
                            eLOAD_DATABASE,
                            (LPARAM)(m_ouBusmasterNetwork));
             ::SendMessage( hWnd, WM_DATABASE_CHANGE, (WPARAM)TRUE, 0 );
         }
-        if (m_pouTxMsgWndJ1939 != nullptr)
-        {
+        if (m_pouTxMsgWndJ1939 != nullptr) {
             m_pouTxMsgWndJ1939->vSetDatabaseInfo(m_ouBusmasterNetwork);
         }
         vPopulateIDList( J1939 );
-        if (nullptr != m_pouMsgSigJ1939)
-        {
+        if (nullptr != m_pouMsgSigJ1939) {
             m_pouMsgSigJ1939->bAddDbNameEntry(omStrActiveDataBase);
         }
+
         OnClusterChanged(J1939);
 
         dReturn = S_OK;
     }
-    else
-    {
+
+    else {
         static CString errText; //TODO::FOR TRACE WINDOW
-        if ( ecError == ERR_INVALID_DATABASE )
-        {
+        if (ecError == ERR_INVALID_DATABASE) {
             errText = omStrActiveDataBase + _( " is not created for J1939. Please load J1939 related dbf file." );
         }
-        else if ( ecError == EC_FILE_INVALID )
-        {
+        else if (ecError == EC_FILE_INVALID) {
             errText = omStrActiveDataBase + _( " INvalid DatabaseFile." );
         }
-        else if ( ecError == EC_FILE_INVALID )
-        {
+        else if ( ecError == EC_FILE_INVALID ) {
             errText = "Database file corrupted";
         }
-        else
-        {
+        else {
             errText = _( "Error While Importing the File" );
         }
-        theApp.bWriteIntoTraceWnd( errText.GetBuffer( 0 ) );
+        theApp.bWriteIntoTraceWnd(errText.GetBuffer(0));
     }
 
     return dReturn;
@@ -1452,80 +1344,70 @@ DWORD CMainFrame::dLoadDataBaseFile(CString omStrActiveDataBase, bool /* bFrmCom
     //Check for same DB path......
     //TODO::Remove
     m_ouBusmasterNetwork->SetChannelCount( CAN, 1 );
-    if ( TRUE == PathIsRelative( omStrActiveDataBase ) )
-    {
+    if (TRUE == PathIsRelative( omStrActiveDataBase )) {
         std::string omStrBasePath;
         CString omConfigFileName;
         vGetLoadedCfgFileName( omConfigFileName );
-        CUtilFunctions::nGetBaseFolder( omConfigFileName.GetBuffer( MAX_PATH ), omStrBasePath );
+        CUtilFunctions::nGetBaseFolder(omConfigFileName.GetBuffer(MAX_PATH), omStrBasePath);
         char chAbsPath[MAX_PATH];
-        PathCombine( chAbsPath, omStrBasePath.c_str(), omStrActiveDataBase.GetBuffer( MAX_PATH ) );
+        PathCombine(chAbsPath, omStrBasePath.c_str(), omStrActiveDataBase.GetBuffer( MAX_PATH ));
         omStrActiveDataBase = chAbsPath;
     }
 
     int channel = 0;
     ERRORCODE ecError = m_ouBusmasterNetwork->LoadDb( CAN, channel, omStrActiveDataBase.GetBuffer( 0 ) );
-    if ( ecError == EC_SUCCESS )
-    {
+    if ( ecError == EC_SUCCESS ) {
         //Signal watch
         m_objTxHandler.SetNetworkConfig(CAN, m_ouBusmasterNetwork);
-        sg_pouSWInterface[CAN]->SW_SetClusterInfo( m_ouBusmasterNetwork );
+        sg_pouSWInterface[CAN]->SW_SetClusterInfo(m_ouBusmasterNetwork);
 
         //TODO CAN Nodesim
         //Update in NodeSimEx
-        GetICANNodeSim()->NS_UpdateFuncStructsNodeSimEx( (PVOID)&( m_sExFuncPtr[CAN].m_omDefinedMsgHeaders ), UPDATE_UNIONS_HEADER_FILES );
+        GetICANNodeSim()->NS_UpdateFuncStructsNodeSimEx((PVOID)&( m_sExFuncPtr[CAN].m_omDefinedMsgHeaders ), UPDATE_UNIONS_HEADER_FILES);
         //Update Msg Name<-->Msg Code List
         vUpdateMsgNameCodeList( theApp.m_pouMsgSignal, m_sExFuncPtr[CAN].m_odMsgNameMsgCodeListDB );
         //Update in NodeSimEx
-        GetICANNodeSim()->NS_UpdateFuncStructsNodeSimEx( (PVOID)&( m_sExFuncPtr[CAN].m_odMsgNameMsgCodeListDB ), UPDATE_DATABASE_MSGS );
-
+        GetICANNodeSim()->NS_UpdateFuncStructsNodeSimEx((PVOID)&( m_sExFuncPtr[CAN].m_odMsgNameMsgCodeListDB ), UPDATE_DATABASE_MSGS);
 
         CBaseNodeSim* pNodeSim = nullptr;
         pNodeSim = GetICANNodeSim();
-        if ( pNodeSim != nullptr )
-        {
-            pNodeSim->NS_SetBmNetworkConfig( m_ouBusmasterNetwork, true );
+        if ( pNodeSim != nullptr ) {
+            pNodeSim->NS_SetBmNetworkConfig(m_ouBusmasterNetwork, true);
         }
 
         // User can open the active DB
-        theApp.pouGetFlagsPtr()->vSetFlagStatus( SELECTDATABASEFILE, TRUE );
+        theApp.pouGetFlagsPtr()->vSetFlagStatus(SELECTDATABASEFILE, TRUE);
 
-        vPopulateIDList( CAN );
+        vPopulateIDList(CAN);
 
 
         // Delete all the memory associated with the data structure.
-        CMessageAttrib::ouGetHandle( CAN ).vSaveMessageAttribData();
+        CMessageAttrib::ouGetHandle(CAN).vSaveMessageAttribData();
 
-        vPopulateIDList( CAN );
+        vPopulateIDList(CAN);
 
-        if (nullptr != theApp.m_pouMsgSignal)
-        {
+        if (nullptr != theApp.m_pouMsgSignal) {
             theApp.m_pouMsgSignal->bAddDbNameEntry(omStrActiveDataBase);
         }
 
         OnClusterChanged(CAN);
         dReturn = S_OK;
     }
-    else
-    {
+    else {
         static CString errText; //TODO::FOR TRACE WINDOW
-        if ( ecError == ERR_INVALID_DATABASE )
-        {
+        if ( ecError == ERR_INVALID_DATABASE ) {
             errText = omStrActiveDataBase + _( " is not created for CAN. Please load CAN related dbf file." );
         }
-        else if ( ecError == EC_FILE_INVALID )
-        {
+        else if ( ecError == EC_FILE_INVALID ) {
             errText = omStrActiveDataBase + _( " INvalid DatabaseFile." );
         }
-        else if ( ecError == EC_FILE_INVALID )
-        {
+        else if ( ecError == EC_FILE_INVALID ) {
             errText = "Database file corrupted";
         }
-        else
-        {
+        else {
             errText = _( "Error While Importing the File" );
         }
-        theApp.bWriteIntoTraceWnd( errText.GetBuffer( 0 ) );
+        theApp.bWriteIntoTraceWnd(errText.GetBuffer(0));
     }
     return dReturn;
 }
@@ -1533,7 +1415,6 @@ DWORD CMainFrame::dLoadDataBaseFile(CString omStrActiveDataBase, bool /* bFrmCom
 void CMainFrame::vPopulateIDList( ETYPE_BUS  bus)
 {
     CMessageAttrib& ouMsgAttr = CMessageAttrib::ouGetHandle( bus );
-
     {
         CStringList omStrMsgNameList;
         UINT unNoOfMsgs = 0;
@@ -1541,29 +1422,24 @@ void CMainFrame::vPopulateIDList( ETYPE_BUS  bus)
 
         std::list<IFrame*> ouFrames;
 
-        m_ouBusmasterNetwork->GetFrameList( bus, 0, ouFrames );
-        //m_ouClusterConfig[LIN].m_ouFlexChannelConfig[0].m_ouClusterInfo.GetFrames(ouFrames);
+        m_ouBusmasterNetwork->GetFrameList(bus, 0, ouFrames);
 
         {
             SCanIDList sList;
             sList.nCANID = 0;
             std::list<IFrame*>::iterator itrStart = ouFrames.begin();
 
-            while( ouFrames.end() != itrStart )
-            {
+            while( ouFrames.end() != itrStart ) {
                 std::string omFrameName;
                 (*itrStart)->GetFrameId(sList.nCANID);
                 (*itrStart)->GetName(omFrameName);
-                //sList.nCANID        = itrStart->m_nSlotId;
                 sList.omCANIDName   = omFrameName.c_str();
 
-                if (ouMsgAttr.nValidateNewID(sList.nCANID) == MSGID_DUPLICATE)
-                {
+                if (ouMsgAttr.nValidateNewID(sList.nCANID) == MSGID_DUPLICATE) {
                     sList.Colour = ouMsgAttr.GetCanIDColour(sList.nCANID);
                     ouMsgAttr.nModifyAttrib(sList);
                 }
-                else
-                {
+                else {
                     sList.Colour = DEFAULT_MSG_COLOUR;
                     ouMsgAttr.nAddNewAttrib( sList );
                 }
@@ -1588,31 +1464,26 @@ __int64 CMainFrame::nConvertStringToInt(CString omStrHexNo)
 
     bool b_IsNegative = false;
 
-    for (int nCount = 0; nCount < omStrHexNo.GetLength(); nCount++)
-    {
-        char cChar = omStrHexNo.GetAt( nCount);
+    for (int nCount = 0; nCount < omStrHexNo.GetLength(); nCount++) {
+        char cChar = omStrHexNo.GetAt(nCount);
 
-        if ((cChar >= '0') && (cChar <= '9'))
-        {
+        if ((cChar >= '0') && (cChar <= '9')) {
             n64RetVal = n64RetVal * 16 + (cChar - '0');
         }
-        else if ((cChar >= 'A') && (cChar <= 'F'))
-        {
+        else if ((cChar >= 'A') && (cChar <= 'F')) {
             n64RetVal = n64RetVal * 16 + ((cChar - 'A') + 10);
         }
-        else if ((cChar >= 'a') && (cChar <= 'f'))
-        {
+        else if ((cChar >= 'a') && (cChar <= 'f')) {
             n64RetVal = n64RetVal * 16 + ((cChar - 'a') + 10);
         }
-        else if ( cChar == '-' )
-        {
+        else if (cChar == '-') {
             b_IsNegative = true;
         }
     }
-    if ( b_IsNegative )
-    {
+    if (b_IsNegative) {
         n64RetVal = -n64RetVal;
     }
+
     return n64RetVal;
 }
 
@@ -1627,11 +1498,6 @@ void CMainFrame::OnConfigLinChannel()
 {
     PCHAR pInitData = (PCHAR)m_asControllerDetailsLIN;
     int nSize = sizeof(SCONTROLLER_DETAILS_LIN) * defNO_OF_LIN_CHANNELS;
-    //   if (g_pouDIL_LIN_Interface->DILL_DisplayConfigDlg(m_asControllerDetailsLIN, nSize) == S_OK)
-    {
-        //    //Set Controller to ConfigDetails
-        //    //memcpy(m_asControllerDetails, pInitData, nSize);
-    }
     //Update hardware info in status bar
     vUpdateHWStatusInfo();
 }
@@ -1664,11 +1530,9 @@ void CMainFrame::OnConfigChannelSelection()
     /* Deselect hardware interfaces if selected */
     hResult = g_pouDIL_CAN_Interface->DILC_DeselectHwInterfaces();
 
-	if (g_pouDIL_CAN_Interface->DILC_ListHwInterfaces(m_asINTERFACE_HW, nCount, m_asControllerDetails) == S_OK)
-    {
+	if (g_pouDIL_CAN_Interface->DILC_ListHwInterfaces(m_asINTERFACE_HW, nCount, m_asControllerDetails) == S_OK) {
         hResult = g_pouDIL_CAN_Interface->DILC_SelectHwInterfaces(m_asINTERFACE_HW, nCount);
-        if ((hResult == HW_INTERFACE_ALREADY_SELECTED) || (hResult == S_OK))
-        {
+        if ((hResult == HW_INTERFACE_ALREADY_SELECTED) || (hResult == S_OK)) {
             /* Updates the number of channels selected */
             m_nNumChannels = nCount;
 
@@ -1678,16 +1542,14 @@ void CMainFrame::OnConfigChannelSelection()
             //Update NW statistics window channel information
             vUpdateChannelInfo();
 
-            for(int nIndex = 0; nIndex < nCount; nIndex++)
-            {
+            for (uint32_t nIndex = 0; nIndex < nCount; nIndex++) {
                 m_asControllerDetails[nIndex].m_omHardwareDesc = m_asINTERFACE_HW[nIndex].m_acNameInterface;
             }
             // Update controller information
             g_pouDIL_CAN_Interface->DILC_SetConfigData(m_asControllerDetails, nCount);
         }
     }
-    else
-    {
+    else {
         /* Select previously available channels */
         g_pouDIL_CAN_Interface->DILC_SelectHwInterfaces(m_asINTERFACE_HW, nCount);
     }
@@ -1695,19 +1557,15 @@ void CMainFrame::OnConfigChannelSelection()
 
 void CMainFrame::OnUpdateConfigChannelSelection(CCmdUI* pCmdUI)
 {
-    if(pCmdUI != nullptr)
-    {
+    if (pCmdUI != nullptr) {
         CFlags* podFlag = theApp.pouGetFlagsPtr();
-        if( podFlag != nullptr )
-        {
+        if (podFlag != nullptr) {
             // Disable if it is connected
             BOOL bDisable = podFlag->nGetFlagStatus(CONNECTED);
             // In Simulation mode is selected then disable Controller option
             LONG lParam= 0;
-            if( g_pouDIL_CAN_Interface->DILC_GetControllerParams(lParam, 0, HW_MODE) == S_OK)
-            {
-                if (lParam == defMODE_SIMULATE)
-                {
+            if (g_pouDIL_CAN_Interface->DILC_GetControllerParams(lParam, 0, HW_MODE) == S_OK) {
+                if (lParam == defMODE_SIMULATE) {
                     bDisable = TRUE;
                 }
             }
@@ -1716,7 +1574,6 @@ void CMainFrame::OnUpdateConfigChannelSelection(CCmdUI* pCmdUI)
         }
     }
 }
-
 
 /******************************************************************************
 DESCRIPTION:    #Called by the framework when user selects new database
@@ -1727,9 +1584,8 @@ DESCRIPTION:    #Called by the framework when user selects new database
 void CMainFrame::OnNewDatabase()
 {
     UINT unCount = 1;
-    BOOL bResult = FALSE;
-    while (TRUE)
-    {
+    bool bResult = false;
+    while (true) {
         CString omStrDbName = NEW_DATABASE_NAME;
 
         CString omStr = "";
@@ -1746,10 +1602,8 @@ void CMainFrame::OnNewDatabase()
         struct _finddata_t fileinfo;
 
         // Auto Select DB File
-        if (_findfirst( omStrDbName, &fileinfo)== -1L)
-        {
+        if (_findfirst( omStrDbName, &fileinfo)== -1L) {
             CStdioFile om_File;
-
             TRY
             {
                 CFileDialog fileDlg(FALSE, DATABASE_EXTN, omStrDbName.GetBuffer(MAX_PATH),
@@ -1758,7 +1612,7 @@ void CMainFrame::OnNewDatabase()
                 if (fileDlg.DoModal() == IDOK)
                 {
                     m_omStrDatabaseName = fileDlg.GetPathName();
-                    bResult = TRUE;
+                    bResult = true;
 
                     // create the selected file
                     if (om_File.Open(m_omStrDatabaseName,
@@ -1771,8 +1625,7 @@ void CMainFrame::OnNewDatabase()
             }
             CATCH_ALL(om_Fe)
             {
-                if(om_Fe != nullptr )
-                {
+                if(om_Fe != nullptr ) {
                     LPTSTR lpszError = nullptr;
                     // Get error
                     om_Fe->GetErrorMessage( lpszError, 255);
@@ -1788,19 +1641,16 @@ void CMainFrame::OnNewDatabase()
 
         unCount++;
     }
-    if (bResult == TRUE)
-    {
+    if (bResult == true) {
 
-        if ( m_podMsgSgWnd != nullptr )
-        {
+        if ( m_podMsgSgWnd != nullptr ) {
             m_podMsgSgWnd = nullptr;
         }
         sg_asDbParams[CAN].m_pouMsgSignalActiveDB = theApp.m_pouMsgSgInactive;
         sg_asDbParams[CAN].m_pouMsgSignalImportedDBs = theApp.m_pouMsgSignal;
         m_podMsgSgWnd = new CMsgSignalDBWnd(sg_asDbParams[CAN]);
 
-        if ( m_podMsgSgWnd != nullptr )
-        {
+        if (m_podMsgSgWnd != nullptr) {
             sg_asDbParams[CAN].m_omDBPath = m_omStrDatabaseName;
             m_podMsgSgWnd->vSetDBName(m_omStrDatabaseName);
             m_bIsNewDatabase = TRUE;
@@ -1810,22 +1660,20 @@ void CMainFrame::OnNewDatabase()
                                          _("Database Editor"),
                                          WS_CHILD|WS_VISIBLE |WS_OVERLAPPED|
                                          WS_CAPTION|WS_THICKFRAME,
-                                         rectDefault, this ) )
-            {
+                                         rectDefault, this ) ) {
                 MessageBox( _("Create BUSMASTER Database Window Failed!"),
                             nullptr, MB_OK|MB_ICONERROR );
                 return;
             }
 
-            m_podMsgSgWnd->ShowWindow( SW_SHOWNORMAL );
+            m_podMsgSgWnd->ShowWindow(SW_SHOWNORMAL);
 
             m_podMsgSgWnd->UpdateWindow();
             // Set the flag to indicate the opening of database window
             CFlags* pFlags = theApp.pouGetFlagsPtr();
             pFlags->vSetFlagStatus( DBOPEN, TRUE );
         }
-        else
-        {
+        else {
             AfxMessageBox( _(MSG_MEMORY_CONSTRAINT), MB_OK|MB_ICONINFORMATION);
         }
     }
@@ -1850,13 +1698,11 @@ void CMainFrame::OnConfigDatabaseSaveAs()
     // Set Title
     fileDlg.m_ofn.lpstrTitle  = _("Save As...");
 
-    if ( IDOK == fileDlg.DoModal() )
-    {
+    if (IDOK == fileDlg.DoModal()) {
         CString strExtName  = fileDlg.GetFileExt();
         CString strDbName   = fileDlg.GetPathName();
 
-        if ( strDbName.Find('.') )
-        {
+        if ( strDbName.Find('.') ) {
             strDbName = strDbName.Left( strDbName.Find('.') + 1);
             strDbName.TrimRight();
             strDbName += strExtName;
@@ -1866,17 +1712,15 @@ void CMainFrame::OnConfigDatabaseSaveAs()
         // Get the pointer to the editor database data structure
         pTempMsgSg = theApp.m_pouMsgSgInactive;
 
-        if ( pTempMsgSg != nullptr )
-        {
-            BeginWaitCursor( );
+        if (pTempMsgSg != nullptr) {
+            BeginWaitCursor();
             // save into the file
-            pTempMsgSg->bWriteIntoDatabaseFileFromDataStructure( strDbName, PROTOCOL_CAN );
+            pTempMsgSg->bWriteIntoDatabaseFileFromDataStructure(strDbName, PROTOCOL_CAN);
 
-            EndWaitCursor( );
+            EndWaitCursor();
             // If this is new database, remove the
             // default file name already saved
-            if ( m_bIsNewDatabase == TRUE )
-            {
+            if (m_bIsNewDatabase == TRUE) {
                 CFile::Remove( m_omStrDatabaseName );
             }
             // Update the selected file name with full path
@@ -1885,14 +1729,12 @@ void CMainFrame::OnConfigDatabaseSaveAs()
             vSetNewDatabaseFlag(FALSE);
             // Now set the root item in the tree view to
             // selected name
-            if ( m_pomMsgSgTreeViews[CAN] != nullptr)
-            {
+            if ( m_pomMsgSgTreeViews[CAN] != nullptr) {
                 m_pomMsgSgTreeViews[CAN]->vSetRootItemText(m_omStrDatabaseName);
             }
 
             // Set all the items in the tree view to normal font
-            if ( m_pomMsgSgTreeViews[CAN] != nullptr)
-            {
+            if ( m_pomMsgSgTreeViews[CAN] != nullptr) {
                 m_pomMsgSgTreeViews[CAN]->vSetAllItemsNormal();
             }
         }
@@ -1920,13 +1762,11 @@ void CMainFrame::OnJ1939DBSaveAs()
     // Set Title
     fileDlg.m_ofn.lpstrTitle  = _("Save As...");
 
-    if ( IDOK == fileDlg.DoModal() )
-    {
+    if (IDOK == fileDlg.DoModal()) {
         CString strExtName  = fileDlg.GetFileExt();
         CString strDbName   = fileDlg.GetPathName();
 
-        if ( strDbName.Find('.') )
-        {
+        if (strDbName.Find('.')) {
             strDbName = strDbName.Left( strDbName.Find('.') + 1);
             strDbName.TrimRight();
             strDbName += strExtName;
@@ -1934,29 +1774,24 @@ void CMainFrame::OnJ1939DBSaveAs()
 
         CMsgSignal* pTempMsgSg = m_podMsgSgWndJ1939->m_sDbParams.m_pouMsgSignalActiveDB;
 
-        if ( pTempMsgSg != nullptr )
-        {
+        if (pTempMsgSg != nullptr) {
             BeginWaitCursor( );
             // save into the file
             pTempMsgSg->bWriteIntoDatabaseFileFromDataStructure( strDbName, PROTOCOL_J1939 );
-            if (pTempMsgSg->bGetDBAcitveFlagStatus() == TRUE)
-            {
-                if (m_pouTxMsgWndJ1939 != nullptr)
-                {
+            if (pTempMsgSg->bGetDBAcitveFlagStatus() == TRUE) {
+                if (m_pouTxMsgWndJ1939 != nullptr) {
                     m_pouTxMsgWndJ1939->vSetDatabaseInfo(m_ouBusmasterNetwork);
                 }
             }
-            EndWaitCursor( );
+            EndWaitCursor();
             // Now set the root item in the tree view to
             // selected name
-            if ( m_pomMsgSgTreeViews[J1939] != nullptr)
-            {
+            if ( m_pomMsgSgTreeViews[J1939] != nullptr) {
                 m_pomMsgSgTreeViews[J1939]->vSetRootItemText(strDbName);
             }
 
             // Set all the items in the tree view to normal font
-            if ( m_pomMsgSgTreeViews[J1939] != nullptr)
-            {
+            if (m_pomMsgSgTreeViews[J1939] != nullptr) {
                 m_pomMsgSgTreeViews[J1939]->vSetAllItemsNormal();
             }
         }
@@ -1977,8 +1812,7 @@ void CMainFrame::OnConfigDatabaseSave()
     pTempMsgSg = theApp.m_pouMsgSgInactive;
 
     // Save into the database
-    if ( pTempMsgSg != nullptr )
-    {
+    if (pTempMsgSg != nullptr) {
         CMsgSgDetView* podMsgSg = podGetMsgSgDetView(CAN);
 
         // Special case:
@@ -1986,12 +1820,9 @@ void CMainFrame::OnConfigDatabaseSave()
         // directly clicks the "save" tool bar button
         // or menu options, save the edited values to
         // the data structure first
-        if (podMsgSg != nullptr)
-        {
-            if (podMsgSg->bUpdateEditedMesageDetails())
-            {
-                if ( !pTempMsgSg->bGetModifiedFlag())
-                {
+        if (podMsgSg != nullptr) {
+            if (podMsgSg->bUpdateEditedMesageDetails()) {
+                if (!pTempMsgSg->bGetModifiedFlag()) {
                     BeginWaitCursor( );
                     // save into the file
                     pTempMsgSg->
@@ -2002,21 +1833,15 @@ void CMainFrame::OnConfigDatabaseSave()
                     //If yes then prompt the user whether he wants to
                     //import it or not.
                     CStringArray omImportedDBNames;
-                    if (theApp.m_pouMsgSignal != nullptr)
-                    {
+                    if (theApp.m_pouMsgSignal != nullptr) {
                         theApp.m_pouMsgSignal->vGetDataBaseNames(&omImportedDBNames);
-                        for (INT nDBCount = 0; nDBCount < omImportedDBNames.GetSize();
-                                nDBCount++)
-                        {
-                            if (m_omStrDatabaseName ==
-                                    omImportedDBNames.GetAt(nDBCount))
-                            {
+                        for (uint32_t nDBCount = 0; nDBCount < omImportedDBNames.GetSize(); nDBCount++) {
+                            if (m_omStrDatabaseName == omImportedDBNames.GetAt(nDBCount)) {
                                 CString omText;
                                 omText.Format(_("File  \"%s\"  has been modified which is currently being loaded.\nDo you want to re-import it to reflect the changes?"),
                                               m_omStrDatabaseName);
 
-                                if (MessageBox(omText, "BUSMASTER", MB_ICONQUESTION | MB_YESNO) == IDYES)
-                                {
+                                if (MessageBox(omText, "BUSMASTER", MB_ICONQUESTION | MB_YESNO) == IDYES) {
                                     dLoadDataBaseFile(m_omStrDatabaseName, FALSE);
                                 }
                             }
@@ -2025,10 +1850,9 @@ void CMainFrame::OnConfigDatabaseSave()
                     //Checking ends
                     m_bIsNewDatabase = FALSE;
 
-                    EndWaitCursor( );
+                    EndWaitCursor();
                     // Set all the items in the tree view to normal font
-                    if ( m_pomMsgSgTreeViews[CAN] != nullptr)
-                    {
+                    if (m_pomMsgSgTreeViews[CAN] != nullptr) {
                         m_pomMsgSgTreeViews[CAN]->vSetAllItemsNormal();
                     }
 
@@ -2046,8 +1870,7 @@ DESCRIPTION:    #Called by the framework when user selects Configure Message...
 *******************************************************************************/
 void CMainFrame::OnConfigMessageDisplay()
 {
-    if ( nullptr == m_podMsgWndThread )
-    {
+    if (nullptr == m_podMsgWndThread) {
         //if Msg Window is not created no need to configure its display.Since there
         //is no way to get the existing details and to save the configured values
         return;
@@ -2055,23 +1878,18 @@ void CMainFrame::OnConfigMessageDisplay()
 
     MessageWindowSettings settings;
 
-
     settings.mBusmasterIsOnline = true;
 
     CFlags* pouFlag = theApp.pouGetFlagsPtr();
     // Get the connection status
-    if (pouFlag != nullptr)
-    {
+    if (pouFlag != nullptr) {
         settings.mBusmasterIsOnline = (pouFlag->nGetFlagStatus(CONNECTED)!=0);
     }
 
-
     //Buffer
     settings.mBufferSettings.mISValidSettings = !settings.mBusmasterIsOnline;
-    if (settings.mBusmasterIsOnline == FALSE)
-    {
-        if (m_podMsgWndThread != nullptr)//Msg window
-        {
+    if (settings.mBusmasterIsOnline == FALSE) {
+        if (m_podMsgWndThread != nullptr) {//Msg window
             ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(CAN), WM_NOTIFICATION_FROM_OTHER,
                           eWINID_MSG_WND_GET_BUFFER_DETAILS, (LPARAM)m_anMsgBuffSize[CAN]);
         }
@@ -2083,16 +1901,14 @@ void CMainFrame::OnConfigMessageDisplay()
     //Filters
     settings.mFilterDetails.mISValidSettings = true;
 
-    for (int i = 0; i < m_sFilterAppliedCAN.m_ushTotal; i++)
-    {
+    for (uint32_t i = 0; i < m_sFilterAppliedCAN.m_ushTotal; i++) {
         settings.mFilterDetails.mFiltersConfigured.push_back(m_sFilterAppliedCAN.m_psFilters[i].m_sFilterName.m_acFilterName);
     }
 
     SFILTERAPPLIED_CAN sFilterAppliedCan;
     ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(CAN), WM_GET_FILTER_DETAILS, (WPARAM)&sFilterAppliedCan, (LPARAM)CAN);
     std::map<std::string, bool> filtersApplied;
-    for (int i = 0; i < sFilterAppliedCan.m_ushTotal; i++)
-    {
+    for (uint32_t i = 0; i < sFilterAppliedCan.m_ushTotal; i++) {
         settings.mFilterDetails.mFitersApplied[sFilterAppliedCan.m_psFilters[i].m_sFilterName.m_acFilterName] = (sFilterAppliedCan.m_psFilters[i].m_bEnabled!=0);
     }
 
@@ -2106,8 +1922,7 @@ void CMainFrame::OnConfigMessageDisplay()
     m_ouBusmasterNetwork->GetFrameList(CAN, 0, lstFrames);
     settings.mMessageAttribute.mMessageIDs = new UINT[lstFrames.size()];
     unsigned int unIndex = 0, unFrameId;
-    for (auto itrFrame : lstFrames)
-    {
+    for (auto itrFrame: lstFrames) {
         itrFrame->GetFrameId(unFrameId);
         settings.mMessageAttribute.mMessageIDs[unIndex] = unFrameId;
         unIndex++;
@@ -2115,20 +1930,17 @@ void CMainFrame::OnConfigMessageDisplay()
 
     settings.mMessageAttribute.mMsgCount = unIndex;
 
-
     //Invoke Settings Dialog
     MessageWindowSettingsDialog settingsDlg(defCONFIG_MSG_DISPLAY_CAN, &settings);
     BOOL bReturnVal = settingsDlg.DoModal();
-    if (bReturnVal == IDOK)
-    {
+    if (bReturnVal == IDOK) {
         ApplyFilterConfigToMsgWnd(settings.mFilterDetails.mFitersApplied, m_sFilterAppliedCAN);
 
         m_anMsgBuffSize[CAN][defAPPEND_DATA_INDEX] = settings.mBufferSettings.mAppendSize;
         m_anMsgBuffSize[CAN][defOVERWRITE_DATE_INDEX] = settings.mBufferSettings.mOverWriteSize;
         m_anMsgBuffSize[CAN][defDISPLAY_UPDATE_DATA_INDEX] = settings.mBufferSettings.mDisplayUpdateRate;
 
-        if (nullptr != m_podMsgWndThread && settings.mBusmasterIsOnline == false)
-        {
+        if (nullptr != m_podMsgWndThread && settings.mBusmasterIsOnline == false) {
             ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(CAN), WM_NOTIFICATION_FROM_OTHER,
                           eWINID_MSG_WND_GET_BUFFER_DETAILS, (LPARAM)m_anMsgBuffSize[CAN]);
         }
@@ -2140,8 +1952,7 @@ void CMainFrame::OnConfigMessageDisplay()
 
 void CMainFrame::OnConfigMessageDisplayLin()
 {
-    if (nullptr == m_podMsgWndThread)
-    {
+    if (nullptr == m_podMsgWndThread) {
         //if Msg Window is not created no need to configure its display.Since there
         //is no way to get the existing details and to save the configured values
         return;
@@ -2151,18 +1962,14 @@ void CMainFrame::OnConfigMessageDisplayLin()
 
     CFlags* pouFlag = theApp.pouGetFlagsPtr();
     // Get the connection status
-    if (pouFlag != nullptr)
-    {
+    if (pouFlag != nullptr) {
         settings.mBusmasterIsOnline = (pouFlag->nGetFlagStatus(LIN_CONNECTED)!=0);
     }
 
-
     //Buffer
     settings.mBufferSettings.mISValidSettings = !settings.mBusmasterIsOnline;
-    if (settings.mBusmasterIsOnline == FALSE)
-    {
-        if (m_podMsgWndThread != nullptr)//Msg window
-        {
+    if (settings.mBusmasterIsOnline == FALSE) {
+        if (m_podMsgWndThread != nullptr) { //Msg window
             ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(LIN), WM_NOTIFICATION_FROM_OTHER,
                           eWINID_MSG_WND_GET_BUFFER_DETAILS, (LPARAM)m_anMsgBuffSize[LIN]);
         }
@@ -2173,16 +1980,14 @@ void CMainFrame::OnConfigMessageDisplayLin()
 
     //Filters
     settings.mFilterDetails.mISValidSettings = true;
-    for (int i = 0; i < m_sFilterAppliedLIN.m_ushTotal; i++)
-    {
+    for (uint32_t i = 0; i < m_sFilterAppliedLIN.m_ushTotal; i++) {
         settings.mFilterDetails.mFiltersConfigured.push_back(m_sFilterAppliedLIN.m_psFilters[i].m_sFilterName.m_acFilterName);
     }
 
     SFILTERAPPLIED_LIN sFilterAppliedLin;
     ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(LIN), WM_GET_FILTER_DETAILS, (WPARAM)&sFilterAppliedLin, (LPARAM)LIN);
     std::map<std::string, bool> filtersApplied;
-    for (int i = 0; i < sFilterAppliedLin.m_ushTotal; i++)
-    {
+    for (uint32_t i = 0; i < sFilterAppliedLin.m_ushTotal; i++) {
         settings.mFilterDetails.mFitersApplied[sFilterAppliedLin.m_psFilters[i].m_sFilterName.m_acFilterName] = static_cast<bool>(sFilterAppliedLin.m_psFilters[i].m_bEnabled);
     }
 
@@ -2196,8 +2001,7 @@ void CMainFrame::OnConfigMessageDisplayLin()
     m_ouBusmasterNetwork->GetFrameList(LIN, 0, lstFrames);
     settings.mMessageAttribute.mMessageIDs = new UINT[lstFrames.size()];
     unsigned int unIndex = 0, unFrameId;
-for (auto itrFrame : lstFrames)
-    {
+    for (auto itrFrame: lstFrames) {
         itrFrame->GetFrameId(unFrameId);
         settings.mMessageAttribute.mMessageIDs[unIndex] = unFrameId;
         unIndex++;
@@ -2205,20 +2009,17 @@ for (auto itrFrame : lstFrames)
 
     settings.mMessageAttribute.mMsgCount = unIndex;
 
-
     //Invoke Settings Dialog
     MessageWindowSettingsDialog settingsDlg(defCONFIG_MSG_DISPLAY_LIN, &settings);
     BOOL bReturnVal = settingsDlg.DoModal();
-    if (bReturnVal == IDOK)
-    {
+    if (bReturnVal == IDOK) {
         ApplyFilterConfigToMsgWnd(settings.mFilterDetails.mFitersApplied, m_sFilterAppliedLIN);
 
         m_anMsgBuffSize[LIN][defAPPEND_DATA_INDEX] = settings.mBufferSettings.mAppendSize;
         m_anMsgBuffSize[LIN][defOVERWRITE_DATE_INDEX] = settings.mBufferSettings.mOverWriteSize;
         m_anMsgBuffSize[LIN][defDISPLAY_UPDATE_DATA_INDEX] = settings.mBufferSettings.mDisplayUpdateRate;
 
-        if (nullptr != m_podMsgWndThread && settings.mBusmasterIsOnline == false)
-        {
+        if (nullptr != m_podMsgWndThread && settings.mBusmasterIsOnline == false) {
             ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(LIN), WM_NOTIFICATION_FROM_OTHER,
                           eWINID_MSG_WND_GET_BUFFER_DETAILS, (LPARAM)m_anMsgBuffSize[LIN]);
         }
@@ -2232,11 +2033,9 @@ void CMainFrame::ApplyFilterConfigToMsgWnd(std::map<std::string, bool>& filtersA
     sTempFilter.vClear();
     sTempFilter.m_psFilters = new SFILTERSET[filtersApplied.size()];
 
-for (auto filter : filtersApplied)
-    {
+    for (auto filter: filtersApplied) {
         const PSFILTERSET psTemp = SFILTERSET::psGetFilterSetPointer(canFilters.m_psFilters, canFilters.m_ushTotal, filter.first.c_str());
-        if (psTemp != nullptr)
-        {
+        if (psTemp != nullptr) {
             sTempFilter.m_psFilters[sTempFilter.m_ushTotal].bClone(*psTemp);
             sTempFilter.m_psFilters[sTempFilter.m_ushTotal].m_bEnabled = filter.second;
             sTempFilter.m_ushTotal++;
@@ -2244,7 +2043,6 @@ for (auto filter : filtersApplied)
     }
 
     ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(LIN), WM_SET_FILTER_DETAILS, (WPARAM)&sTempFilter, 0);
-
 
     // Check if filter for message display is enabled
     ApplyMessageFilterButton();
@@ -2256,11 +2054,9 @@ void CMainFrame::ApplyFilterConfigToMsgWnd(std::map<std::string, bool>& filtersA
     sTempFilter.vClear();
     sTempFilter.m_psFilters = new SFILTERSET[filtersApplied.size()];
 
-for (auto filter : filtersApplied)
-    {
+    for (auto filter: filtersApplied) {
         const PSFILTERSET psTemp = SFILTERSET::psGetFilterSetPointer(canFilters.m_psFilters, canFilters.m_ushTotal, filter.first.c_str());
-        if (psTemp != nullptr)
-        {
+        if (psTemp != nullptr) {
             sTempFilter.m_psFilters[sTempFilter.m_ushTotal].bClone(*psTemp);
             sTempFilter.m_psFilters[sTempFilter.m_ushTotal].m_bEnabled = filter.second;
             sTempFilter.m_ushTotal++;
@@ -2268,7 +2064,6 @@ for (auto filter : filtersApplied)
     }
 
     ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(CAN), WM_SET_FILTER_DETAILS, (WPARAM)&sTempFilter, 0);
-
 
     // Check if filter for message display is enabled
     ApplyMessageFilterButton();
@@ -2361,15 +2156,12 @@ void CMainFrame::OnDllUnload()
 {
     CStringArray omStrBuildFiles;
     BOOL bSucces = GetICANNodeSim()->NS_DllUnloadAll(&omStrBuildFiles);
-    if(bSucces!=TRUE)  // if the unload is not successfull
-    {
-        int nFailure = omStrBuildFiles.GetSize();
+    if (bSucces!=TRUE) { // if the unload is not successfull 
+        uint32_t nFailure = omStrBuildFiles.GetSize();
         CString omStrErrorMsg = _("Following file(s) are not properly unloaded:");
         CString omStrErrorMsgDummy = "";
 
-        for(int i = 0 ; i < nFailure; i++)
-        {
-
+        for (uint32_t i = 0 ; i < nFailure; i++) {
             omStrErrorMsgDummy.Format("\n%s", omStrBuildFiles.GetAt(i));
             omStrErrorMsg += omStrErrorMsgDummy;
         }
@@ -2385,15 +2177,12 @@ void CMainFrame::OnDllUnloadLIN()
 {
     CStringArray omStrBuildFiles;
     BOOL bSucces = GetILINNodeSim()->NS_DllUnloadAll(&omStrBuildFiles);
-    if(bSucces!=TRUE)  // if the unload is not successfull
-    {
+    if (bSucces!=TRUE) { // if the unload is not successfull
         int nFailure = omStrBuildFiles.GetSize();
         CString omStrErrorMsg = _("Following file(s) are not properly unloaded:");
         CString omStrErrorMsgDummy = "";
 
-        for(int i = 0 ; i < nFailure; i++)
-        {
-
+        for (int i = 0 ; i < nFailure; i++) {
             omStrErrorMsgDummy.Format("\n%s", omStrBuildFiles.GetAt(i));
             omStrErrorMsg += omStrErrorMsgDummy;
         }
@@ -2409,14 +2198,12 @@ void CMainFrame::OnDllUnloadJ1939()
 {
     CStringArray omStrBuildFiles;
     BOOL bSucces = GetIJ1939NodeSim()->NS_DllUnloadAll(&omStrBuildFiles);
-    if(bSucces!=TRUE)  // if the unload is not successfull
-    {
-        int nFailure = omStrBuildFiles.GetSize();
+    if(bSucces!=TRUE) { // if the unload is not successfull
+        uint32_t nFailure = omStrBuildFiles.GetSize();
         CString omStrErrorMsg = _("Following file(s) are not properly unloaded:");
         CString omStrErrorMsgDummy = "";
 
-        for(int i = 0 ; i < nFailure; i++)
-        {
+        for(uint32_t i = 0 ; i < nFailure; i++) {
             omStrErrorMsgDummy.Format("\n%s", omStrBuildFiles.GetAt(i));
             omStrErrorMsg += omStrErrorMsgDummy;
         }
@@ -2430,19 +2217,16 @@ void CMainFrame::OnDllUnloadJ1939()
 /******************************************************************************/
 void CMainFrame::vPopulateJ1939PGNList()
 {
-    if ( m_pouMsgSigJ1939 != nullptr )
-    {
+    if (m_pouMsgSigJ1939 != nullptr) {
         CMessageAttrib& ouMsgAttr = CMessageAttrib::ouGetHandle(J1939);
         CStringList omStrMsgNameList;
-        UINT unNoOfMsgs =
-            m_pouMsgSigJ1939->unGetNumerOfMessages();
+        UINT unNoOfMsgs = m_pouMsgSigJ1939->unGetNumerOfMessages();
 
         UINT* pIDArray = new UINT[unNoOfMsgs];
 
         m_pouMsgSigJ1939->omStrListGetMessageNames(omStrMsgNameList);
 
-        if (pIDArray != nullptr )
-        {
+        if (pIDArray != nullptr ) {
             m_pouMsgSigJ1939->unListGetMessageIDs( pIDArray );
 
             SCanIDList sList;
@@ -2452,18 +2236,15 @@ void CMainFrame::vPopulateJ1939PGNList()
             INT unCount = (INT)((INT)unNoOfMsgs - 1);
             POSITION pos1 = pos;
 
-            for ( pos1 = pos; ((pos1 != nullptr) && (unCount >= 0)); unCount--)
-            {
+            for (pos1 = pos; ((pos1 != nullptr) && (unCount >= 0)); unCount--) {
                 sList.nCANID        = pIDArray[unCount];
                 sList.omCANIDName   = omStrMsgNameList.GetNext( pos1 );
 
-                if (ouMsgAttr.nValidateNewID(sList.nCANID) == MSGID_DUPLICATE)
-                {
+                if (ouMsgAttr.nValidateNewID(sList.nCANID) == MSGID_DUPLICATE) {
                     sList.Colour = ouMsgAttr.GetCanIDColour(sList.nCANID);
                     ouMsgAttr.nModifyAttrib(sList);
                 }
-                else
-                {
+                else {
                     sList.Colour = DEFAULT_MSG_COLOUR;
                     ouMsgAttr.nAddNewAttrib( sList );
                 }
@@ -2482,35 +2263,30 @@ void CMainFrame::vPopulateJ1939PGNList()
 ******************************************************************************/
 void CMainFrame::OnMessageInterpretation(UINT id)
 {
-	if (nullptr == m_podMsgWndThread)
-	{
+	if (nullptr == m_podMsgWndThread) {
 		return;
 	}
 
 	static int msgWndcommandToBus[] = { CAN, J1939, LIN };
 	id = id - IDM_INTERPRETE_MSG_WINDOW_START;
-	if (id >= 0 && id < sizeof(msgWndcommandToBus))
-	{
+	if (id >= 0 && id < sizeof(msgWndcommandToBus)) {
 		ETYPE_BUS bus = static_cast<ETYPE_BUS>(msgWndcommandToBus[id]);
 		HWND hWnd = m_podMsgWndThread->hGetHandleMsgWnd(bus);
         BYTE byGetDispFlag = 0;
         ::SendMessage(hWnd, WM_PROVIDE_WND_PROP, (WPARAM)(&byGetDispFlag), 0);
-        if (IS_MODE_OVER(byGetDispFlag))
-        {
+        if (IS_MODE_OVER(byGetDispFlag)) {
             CLEAR_EXPR_DISP_BITS(byGetDispFlag);
             SET_MODE_INTRP(byGetDispFlag);
             m_bInterPretMsg = TRUE;
             theApp.pouGetFlagsPtr()->vSetFlagStatus(TRANSLATIONMODE, TRUE);
         }
-        else if (IS_MODE_INTRP(byGetDispFlag))
-        {
+        else if (IS_MODE_INTRP(byGetDispFlag)) {
             CLEAR_EXPR_DISP_BITS(byGetDispFlag);
             SET_MODE_OVER(byGetDispFlag);
             m_bInterPretMsg = FALSE;
             theApp.pouGetFlagsPtr()->vSetFlagStatus(TRANSLATIONMODE, FALSE);
         }
-        else
-        {
+        else {
             ASSERT(false); // Must not arise
         }
 		::SendMessage(hWnd, WM_WND_PROP_MODIFY, DISPLAY_MODE, byGetDispFlag);
@@ -2527,10 +2303,11 @@ void CMainFrame::OnMessageInterpretation(UINT id)
 void CMainFrame::OnAddSignalToSignalWindow()
 {
     vSW_DoInitialization(CAN);
-    if ( sg_pouSWInterface[CAN] != nullptr )
-    {
+
+    if ( sg_pouSWInterface[CAN] != nullptr ) {
         sg_pouSWInterface[CAN]->SW_ShowAddDelSignalsDlg( this, m_ouBusmasterNetwork );
     }
+
     return;
 }
 
@@ -2547,22 +2324,19 @@ void CMainFrame::OnAddSignalToSignalWindow()
 ******************************************************************************/
 void CMainFrame::vOnLINScheduleTableConfig()
 {
-    //if(m_ouClusterConfig[LIN].m_ouFlexChannelConfig[0].m_strDataBasePath.empty() == false) pending
-    if(nullptr != m_ouBusmasterNetwork)
-    {
+    if(nullptr != m_ouBusmasterNetwork) {
         m_objTxHandler.vCreateLINScheduleConfigDlg(this, m_ouBusmasterNetwork);
     }
-    else
-    {
+    else {
         AfxMessageBox( _(defSTR_EMPTY_ACTIVE_DATABASE) );
         this->SetFocus();
     }
 }
+
 void CMainFrame::OnAddSignalToSignalWindow_LIN()
 {
     vSW_DoInitialization(LIN);
-    if (sg_pouSWInterface[LIN] != nullptr)
-    {
+    if (sg_pouSWInterface[LIN] != nullptr) {
         sg_pouSWInterface[LIN]->SW_ShowAddDelSignalsDlg(this, m_ouBusmasterNetwork);
     }
 }
@@ -2576,16 +2350,13 @@ void CMainFrame::OnLogFilter()
     bool bLogFilterStatus = false;
 
     pouFlags = theApp.pouGetFlagsPtr();
-    if(pouFlags != nullptr )
-    {
+    if (pouFlags != nullptr ) {
         bLogFilterStatus = pouFlags->nGetFlagStatus(LOGFILTER) ? true : false;
         bLogFilterStatus = !bLogFilterStatus;
         pouFlags->vSetFlagStatus(LOGFILTER, bLogFilterStatus);
-        if (sg_pouFrameProcCAN != nullptr)
-        {
-            INT Count = sg_pouFrameProcCAN->GetLoggingBlockCount();
-            for (INT i = 0; i < Count; i++)
-            {
+        if (sg_pouFrameProcCAN != nullptr) {
+            uint32_t Count = sg_pouFrameProcCAN->GetLoggingBlockCount();
+            for (uint32_t i = 0; i < Count; i++) {
                 sg_pouFrameProcCAN->EnableFilter((USHORT)i, bLogFilterStatus);
             }
         }
@@ -2601,16 +2372,13 @@ void CMainFrame::OnLogFilterLIN()
     bool bLogFilterStatus = false;
 
     pouFlags = theApp.pouGetFlagsPtr();
-	if (pouFlags != nullptr)
-	{
+	if (pouFlags != nullptr) {
 		bLogFilterStatus = (pouFlags->nGetFlagStatus(LOGFILTER_LIN) != 0);
 		bLogFilterStatus = bLogFilterStatus ? FALSE : TRUE;
 		pouFlags->vSetFlagStatus(LOGFILTER_LIN, bLogFilterStatus);
-		if (sg_pouFrameProcLIN != nullptr)
-		{
-			INT Count = sg_pouFrameProcLIN->GetLoggingBlockCount();
-			for (INT i = 0; i < Count; i++)
-			{
+		if (sg_pouFrameProcLIN != nullptr) {
+			uint32_t Count = sg_pouFrameProcLIN->GetLoggingBlockCount();
+			for (uint32_t i = 0; i < Count; i++) {
 				sg_pouFrameProcLIN->EnableFilter((USHORT)i, bLogFilterStatus);
 			}
 		}
@@ -2623,8 +2391,7 @@ void CMainFrame::ApplyReplayFilter()
     bool bReplayFilterStatus = false;
 
     pouFlags = theApp.pouGetFlagsPtr();
-	if (pouFlags != nullptr)
-	{
+	if (pouFlags != nullptr) {
 		bReplayFilterStatus = (pouFlags->nGetFlagStatus(REPLAYFILTER) != 0);
 		pouFlags->vSetFlagStatus(REPLAYFILTER, bReplayFilterStatus);
 
@@ -2638,16 +2405,12 @@ void CMainFrame::ApplyLogFilter()
     bool bLogFilterStatus = false;
 
     pouFlags = theApp.pouGetFlagsPtr();
-	if (pouFlags != nullptr)
-	{
+	if (pouFlags != nullptr) {
 		bLogFilterStatus = (pouFlags->nGetFlagStatus(LOGFILTER) != 0);
-		//bLogFilterStatus = bLogFilterStatus ? FALSE : TRUE;
 		pouFlags->vSetFlagStatus(LOGFILTER, bLogFilterStatus);
-		if (sg_pouFrameProcCAN != nullptr)
-		{
-			INT Count = sg_pouFrameProcCAN->GetLoggingBlockCount();
-			for (INT i = 0; i < Count; i++)
-			{
+		if (sg_pouFrameProcCAN != nullptr) {
+			uint32_t Count = sg_pouFrameProcCAN->GetLoggingBlockCount();
+			for (uint32_t i = 0; i < Count; i++) {
 				sg_pouFrameProcCAN->EnableFilter((USHORT)i, bLogFilterStatus);
 			}
 		}
@@ -2663,16 +2426,12 @@ void CMainFrame::ApplyLINLogFilter()
     bool bLogFilterStatus = false;
 
     pouFlags = theApp.pouGetFlagsPtr();
-	if (pouFlags != nullptr)
-	{
+	if (pouFlags != nullptr) {
 		bLogFilterStatus = (pouFlags->nGetFlagStatus(LOGFILTER_LIN) != 0);
-		//bLogFilterStatus = bLogFilterStatus ? FALSE : TRUE;
 		pouFlags->vSetFlagStatus(LOGFILTER_LIN, bLogFilterStatus);
-		if (sg_pouFrameProcLIN != nullptr)
-		{
-			INT Count = sg_pouFrameProcLIN->GetLoggingBlockCount();
-			for (INT i = 0; i < Count; i++)
-			{
+		if (sg_pouFrameProcLIN != nullptr) {
+			uint32_t Count = sg_pouFrameProcLIN->GetLoggingBlockCount();
+			for (uint32_t i = 0; i < Count; i++) {
 				sg_pouFrameProcLIN->EnableFilter((USHORT)i, bLogFilterStatus);
 			}
 		}
@@ -2693,17 +2452,13 @@ void CMainFrame::OnAboutApplication()
 static void vPopulateMsgEntryFromDB(SMSGENTRY*& psMsgEntry,
                                     CMsgSignal* pouMsgSig)
 {
-    if (pouMsgSig != nullptr)
-    {
-        UINT nCount = pouMsgSig->unGetNumerOfMessages();
+    if (pouMsgSig != nullptr) {
+        uint32_t nCount = pouMsgSig->unGetNumerOfMessages();
         UINT* punMsgIds = new UINT[nCount];
         pouMsgSig->unListGetMessageIDs(punMsgIds);
-        for (UINT i = 0; i < nCount; i++)
-        {
-            sMESSAGE* pMsg = pouMsgSig->
-                             psGetMessagePointer(punMsgIds[i]);
-            if (pMsg != nullptr)
-            {
+        for (uint32_t i = 0; i < nCount; i++) {
+            sMESSAGE* pMsg = pouMsgSig->psGetMessagePointer(punMsgIds[i]);
+            if (pMsg != nullptr) {
                 SMSGENTRY::bUpdateMsgList(psMsgEntry, pMsg);
             }
         }
@@ -2724,8 +2479,7 @@ void CMainFrame::OnSelectMessage()
     SMSGENTRY* psMsgEntry = nullptr;
     vPopulateMsgEntryFromDB(psMsgEntry, theApp.m_pouMsgSignal);
     LPARAM lParam = 0;
-    if (nullptr != GetICANDIL())
-    {
+    if (nullptr != GetICANDIL()) {
         GetICANDIL()->DILC_GetControllerParams(lParam, 0, NUMBER_HW);
     }
 
@@ -2734,29 +2488,23 @@ void CMainFrame::OnSelectMessage()
     SMSGENTRY::vClearMsgList(psMsgEntry);
     psMsgEntry = nullptr;
 
-    if(hResult == S_OK)//if some changes occurs in filters, update it in all related modules
-    {
+    if(hResult == S_OK) { //if some changes occurs in filters, update it in all related modules
         //Indicate to the modules
         //1. Log
-        if (sg_pouFrameProcCAN != nullptr)
-        {
+        if (sg_pouFrameProcCAN != nullptr) {
             UINT unLogCount = sg_pouFrameProcCAN->GetLoggingBlockCount();
 
-            for (USHORT i = 0; i < unLogCount; i++)
-            {
+            for (USHORT i = 0; i < unLogCount; i++) {
                 SFILTERAPPLIED_CAN sFilterCan;
                 sg_pouFrameProcCAN->FPC_GetFilteringScheme(i, sFilterCan);
                 Filter_ReUpdateAppliedFilter(&sFilterCan, &m_sFilterAppliedCAN, CAN);
-                //            sg_pouFrameProcCAN->FPC_StartEditingSession(); //editing is not required here
                 sg_pouFrameProcCAN->FPC_ApplyFilteringScheme(i, sFilterCan);
-                //            sg_pouFrameProcCAN->FPC_StopEditingSession(TRUE);
             }
         }
         //2. Replay
         vREP_SetConfiguredFilter(&m_sFilterAppliedCAN);
         //3. Message window
-        if (m_podMsgWndThread != nullptr)
-        {
+        if (m_podMsgWndThread != nullptr) {
             SFILTERAPPLIED_CAN sMsgWndFilter;
             ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(CAN), WM_GET_FILTER_DETAILS, (WPARAM)&sMsgWndFilter, 0);
 
@@ -2766,10 +2514,8 @@ void CMainFrame::OnSelectMessage()
             Filter_ReUpdateAppliedFilter(&sMsgWndFilter, &m_sFilterAppliedCAN, CAN);
 
             //restore the enable flag for all filters
-            for(int nFilterCnt = 0; nFilterCnt < sTempAppliedFilter.m_ushTotal; nFilterCnt++)
-            {
-                if((sTempAppliedFilter.m_psFilters) != nullptr)
-                {
+            for (int nFilterCnt = 0; nFilterCnt < sTempAppliedFilter.m_ushTotal; nFilterCnt++) {
+                if((sTempAppliedFilter.m_psFilters) != nullptr) {
                     ((sMsgWndFilter.m_psFilters)+ nFilterCnt) ->m_bEnabled
                         =  ((sTempAppliedFilter.m_psFilters)+ nFilterCnt) ->m_bEnabled;
                 }
@@ -2777,8 +2523,7 @@ void CMainFrame::OnSelectMessage()
             ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(CAN), WM_SET_FILTER_DETAILS, (WPARAM)&sMsgWndFilter, 0);
 
             //if msg filter is enable, disable it and then re-enable it to affect the changes
-			if (theApp.pouGetFlagsPtr()->nGetFlagStatus(DISPLAYFILTERON))
-			{
+			if (theApp.pouGetFlagsPtr()->nGetFlagStatus(DISPLAYFILTERON)) {
 				//Disable the msg filter, so it will update the modified changes
 				theApp.pouGetFlagsPtr()->vSetFlagStatus(DISPLAYFILTERON, FALSE);
 				::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(CAN), WM_ENABLE_FILTER_APPLIED, (WPARAM)FALSE, 0);
@@ -2805,39 +2550,27 @@ void CMainFrame::OnLINFilter()
     /*SMSGENTRY* psMsgEntry = nullptr;
     vPopulateMsgEntryFromDB(psMsgEntry, theApp.m_pouMsgSignal);*/
     LPARAM lParam = 0;
-    if (nullptr != GetILINDIL())
-    {
+    if (nullptr != GetILINDIL()) {
         GetILINDIL()->DILL_GetControllerParams(lParam, 0, NUMBER_HW);
     }
 
     HRESULT hResult = Filter_ShowConfigDlg((void*)&m_sFilterAppliedLIN,  m_ouBusmasterNetwork, LIN, (UINT)lParam, this);
 
-    /*SMSGENTRY::vClearMsgList(psMsgEntry);
-    psMsgEntry = nullptr;*/
-
-    if(hResult == S_OK)//if some changes occurs in filters, update it in all related modules
-    {
+    if(hResult == S_OK) { //if some changes occurs in filters, update it in all related modules
         //Indicate to the modules
         //1. Log
-        if (sg_pouFrameProcLIN != nullptr)
-        {
-            UINT unLogCount = sg_pouFrameProcLIN->GetLoggingBlockCount();
-
-            for (USHORT i = 0; i < unLogCount; i++)
-            {
+        if (sg_pouFrameProcLIN != nullptr) {
+            uint32_t unLogCount = sg_pouFrameProcLIN->GetLoggingBlockCount();
+            for (uint32_t i = 0; i < unLogCount; i++) {
                 SFILTERAPPLIED_LIN sFilterLin;
                 sg_pouFrameProcLIN->FPL_GetFilteringScheme(i, sFilterLin);
                 Filter_ReUpdateAppliedFilter(&sFilterLin, &m_sFilterAppliedLIN, LIN);
-                //            sg_pouFrameProcCAN->FPC_StartEditingSession(); //editing is not required here
                 sg_pouFrameProcLIN->FPL_ApplyFilteringScheme(i, sFilterLin);
-                //            sg_pouFrameProcCAN->FPC_StopEditingSession(TRUE);
             }
         }
         //2. Replay Currently no Replay for LIN
-        // vREP_SetConfiguredFilter(&m_sFilterAppliedLIN);
         //3. Message window
-        if (m_podMsgWndThread != nullptr)
-        {
+        if (m_podMsgWndThread != nullptr) {
             SFILTERAPPLIED_LIN sMsgWndFilter;
             ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(LIN), WM_GET_FILTER_DETAILS, (WPARAM)&sMsgWndFilter, 0);
 
@@ -2847,10 +2580,8 @@ void CMainFrame::OnLINFilter()
             Filter_ReUpdateAppliedFilter(&sMsgWndFilter, &m_sFilterAppliedLIN, LIN);
 
             //restore the enable flag for all filters
-            for(int nFilterCnt = 0; nFilterCnt < sTempAppliedFilter.m_ushTotal; nFilterCnt++)
-            {
-                if((sTempAppliedFilter.m_psFilters) != nullptr)
-                {
+            for(uint32_t nFilterCnt = 0; nFilterCnt < sTempAppliedFilter.m_ushTotal; nFilterCnt++) {
+                if((sTempAppliedFilter.m_psFilters) != nullptr) {
                     ((sMsgWndFilter.m_psFilters)+ nFilterCnt) ->m_bEnabled
                         =  ((sTempAppliedFilter.m_psFilters)+ nFilterCnt) ->m_bEnabled;
                 }
@@ -2858,8 +2589,7 @@ void CMainFrame::OnLINFilter()
             ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(LIN), WM_SET_FILTER_DETAILS, (WPARAM)&sMsgWndFilter, 0);
 
             //if msg filter is enable, disable it and then re-enable it to affect the changes
-			if (theApp.pouGetFlagsPtr()->nGetFlagStatus(DISPLAYFILTERON))
-			{
+			if (theApp.pouGetFlagsPtr()->nGetFlagStatus(DISPLAYFILTERON)) {
 				//Disable the msg filter, so it will update the modified changes
 				theApp.pouGetFlagsPtr()->vSetFlagStatus(DISPLAYFILTERON, FALSE);
 				::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(LIN), WM_ENABLE_FILTER_APPLIED, (WPARAM)FALSE, 0);
@@ -2884,60 +2614,41 @@ void CMainFrame::OnLINFilter()
 void CMainFrame::OnLogEnable()
 {
     // TODO: Add your command handler code here
-    BOOL bLogON = FALSE;
-    if (nullptr != sg_pouFrameProcCAN)
-    {
+    bool bLogON = false;
+    if (nullptr != sg_pouFrameProcCAN) {
         bLogON = sg_pouFrameProcCAN->IsLoggingON();
     }
-    bLogON = bLogON ? FALSE : TRUE;
+    bLogON = bLogON ? false : true;
 
-    if(bLogON == FALSE)
-    {
-        if (nullptr != sg_pouFrameProcCAN)
-        {
+    if(bLogON == false) {
+        if (nullptr != sg_pouFrameProcCAN) {
             sg_pouFrameProcCAN->DisableDataLogFlag();
         }
     }
 
     // Set the status of logging
-    BOOL bIsConnected = FALSE;
+    bool bIsConnected = false;
     CFlags* pouFlags = nullptr;
     pouFlags = theApp.pouGetFlagsPtr();
-    if (nullptr != pouFlags)
-    {
+    if (nullptr != pouFlags) {
         pouFlags->vSetFlagStatus(LOGTOFILE, bLogON);
         bIsConnected = pouFlags->nGetFlagStatus(CONNECTED);
     }
 
     // If Connected and Log is enabled
-    if(bLogON == TRUE && bIsConnected == TRUE)
-    {
-        //if(theApp.m_pouMsgSignal != nullptr)
-        {
-            //if(theApp.m_pouMsgSignal->unGetNumerOfMessages() > 0)
-            //if (nullptr != sg_pouFrameProcCAN)
-            {
-                //if(sg_pouFrameProcCAN->FPC_IsDataLogged() == TRUE)
-                {
-                    m_unTimerSBLog = SetTimer(TIMER_REFRESH_LOG_STATUS, STSBAR_REFRESH_TIME_PERIOD_LOG, nullptr);
-                }
-            }
-        }
+    if (bLogON == true && bIsConnected == true) {
+        m_unTimerSBLog = SetTimer(TIMER_REFRESH_LOG_STATUS, STSBAR_REFRESH_TIME_PERIOD_LOG, nullptr);
     }
-    // If not connected or log is disabled
-    else
-    {
-        if(m_unTimerSBLog != 0)
-        {
+    else { // If not connected or log is disabled
+        if(m_unTimerSBLog != 0) {
             ::KillTimer(nullptr, m_unTimerSBLog);
             m_unTimerSBLog = 0;
             // Update Status bar
-            //m_wndStatusBar.SetPaneText(INDEX_LOG_RECORD, "CAN");
             m_wndStatusBar.SetPaneIcon(INDEX_CAN_LOG_ICON, m_hLogOffIcon);
         }
     }
 
-    vStartStopLogging(bLogON == TRUE );
+    vStartStopLogging(bLogON == true);
 }
 
 /******************************************************************************/
@@ -2953,64 +2664,41 @@ void CMainFrame::OnLog_LIN_Enable()
 {
     //shashank
     // TODO: Add your command handler code here
-    BOOL bLogON = FALSE;
-    if (nullptr != sg_pouFrameProcLIN )
-        //if (nullptr != sg_pouFrameProcLIN)
-    {
+    bool bLogON = false;
+    if (nullptr != sg_pouFrameProcLIN ) {
         bLogON = sg_pouFrameProcLIN->IsLoggingON();
     }
-    bLogON = bLogON ? FALSE : TRUE;
+    bLogON = bLogON ? false : true;
 
-
-    if(bLogON == FALSE)
-    {
-        if (nullptr != sg_pouFrameProcLIN)
-            //if (nullptr != sg_pouFrameProcLIN)
-        {
+    if(bLogON == false) {
+        if (nullptr != sg_pouFrameProcLIN) {
             sg_pouFrameProcLIN->DisableDataLogFlag();
         }
     }
 
     // Set the status of logging
-    BOOL bIsConnected = FALSE;
+    bool bIsConnected = false;
     CFlags* pouFlags = nullptr;
     pouFlags = theApp.pouGetFlagsPtr();
-    if (nullptr != pouFlags)
-    {
+    if (nullptr != pouFlags) {
         pouFlags->vSetFlagStatus(LOGTOFILE_LIN, bLogON);
         bIsConnected = pouFlags->nGetFlagStatus(LIN_CONNECTED);
     }
 
     // If Connected and Log is enabled
-    if(bLogON == TRUE && bIsConnected == TRUE)
-    {
-        //if(theApp.m_pouMsgSignal != nullptr)
-        {
-            //if(theApp.m_pouMsgSignal->unGetNumerOfMessages() > 0)
-            //if (nullptr != sg_pouFrameProcCAN)
-            {
-                //if(sg_pouFrameProcCAN->FPC_IsDataLogged() == TRUE)
-                {
-                    m_unTimerSBLog = SetTimer(TIMER_REFRESH_LOG_STATUS, STSBAR_REFRESH_TIME_PERIOD_LOG, nullptr);
-                }
-            }
-        }
-    }
-    // If not connected or log is disabled
-    else
-    {
-        if(m_unTimerSBLog != 0)
-        {
+    if (bLogON == true && bIsConnected == true) {
+        m_unTimerSBLog = SetTimer(TIMER_REFRESH_LOG_STATUS, STSBAR_REFRESH_TIME_PERIOD_LOG, nullptr);
+    } else { // If not connected or log is disabled
+        if(m_unTimerSBLog != 0) {
             ::KillTimer(nullptr, m_unTimerSBLog);
             m_unTimerSBLog = 0;
             // Update Status bar
-            //m_wndStatusBar.SetPaneText(INDEX_LOG_RECORD, "CAN");
             //shashank
-            //m_wndStatusBar.GetStatusBarCtrl().SetIcon(INDEX_CAN_LOG_ICON, m_hLogOffIcon);
 			m_wndStatusBar.SetPaneIcon(INDEX_LIN_LOG_ICON, m_hLogOffIcon);
         }
     }
-	vStartStopLogging_LIN(bLogON == TRUE);
+
+	vStartStopLogging_LIN(bLogON == true);
 }
 
 
@@ -3042,76 +2730,58 @@ void CMainFrame::OnStatisticsLIN()
 void CMainFrame::OnStatistics(ETYPE_BUS ebus)
 {
     BOOL bRet = FALSE;
-    if(m_bIsStatWndCreated == FALSE )
-    {
+    if(m_bIsStatWndCreated == FALSE) {
         LONG lParam = 0;
         int unTotalChannels = defNO_OF_CHANNELS;
-        if (g_pouDIL_CAN_Interface && g_pouDIL_CAN_Interface->DILC_GetControllerParams(lParam, 0, NUMBER_HW) == S_OK)
-        {
+        if (g_pouDIL_CAN_Interface && g_pouDIL_CAN_Interface->DILC_GetControllerParams(lParam, 0, NUMBER_HW) == S_OK) {
             unTotalChannels = (INT)lParam;
         }
 
-
         int unTotalChannelsLIN = 0;
         m_ouBusmasterNetwork->GetChannelCount(LIN, unTotalChannelsLIN);
-        if ( m_oNetworkStatistics == nullptr )
-        {
+        if ( m_oNetworkStatistics == nullptr ) {
             UINT unChnl[BUS_TOTAL];
 
             unChnl[CAN] = unTotalChannels;
             unChnl[LIN] = unTotalChannelsLIN;
             m_oNetworkStatistics = new CNetworkStatistics(unChnl);
             m_oNetworkStatistics->SetTitle("Network Statistics");
-            if ( nullptr != m_oNetworkStatistics )
-            {
+            if ( nullptr != m_oNetworkStatistics ) {
                 bRet = m_oNetworkStatistics->Create(this, WS_SYSMENU | WS_POPUP | WS_CAPTION | DS_MODALFRAME);
                 m_oNetworkStatistics->SetParent(AfxGetMainWnd());
-                if(ebus == CAN)
-                {
+                if(ebus == CAN) {
                     m_oNetworkStatistics->SetActivePage(CAN_STAT_PAGE);
-                }
-                else if(ebus == LIN)
-                {
+                } else if(ebus == LIN) {
                     m_oNetworkStatistics->SetActivePage(LIN_STAT_PAGE);
                 }
             }
 
-            if(bRet)
-            {
+            if (bRet) {
                 // Update the statistics dialog creation status
                 m_bIsStatWndCreated = TRUE;
 
-                if(m_pXmlNodeBusStats != nullptr)
-                {
+                if (m_pXmlNodeBusStats != nullptr) {
                     m_oNetworkStatistics->hSetConfigData((xmlNodePtr)m_pXmlNodeBusStats, TRUE);
                     xmlFreeNode(m_pXmlNodeBusStats);
                     m_pXmlNodeBusStats = nullptr;
 
-                }
-                else
-                {
+                } else {
                     m_oNetworkStatistics->hSetConfigData(nullptr, FALSE);
                 }
 
                 m_oNetworkStatistics->ShowWindow(SW_SHOW);
             }
         }
-    }
-    else if (m_bIsStatWndCreated == TRUE)
-    {
-        if(m_pXmlNodeBusStats != nullptr)
-        {
+    } else if (m_bIsStatWndCreated == TRUE) {
+        if(m_pXmlNodeBusStats != nullptr) {
             m_oNetworkStatistics->hSetConfigData((xmlNodePtr)m_pXmlNodeBusStats, TRUE);
             xmlFreeNode(m_pXmlNodeBusStats);
             m_pXmlNodeBusStats = nullptr;
         }
 
-        if(ebus == CAN)
-        {
+        if(ebus == CAN) {
             m_oNetworkStatistics->SetActivePage(CAN_STAT_PAGE);
-        }
-        else if(ebus == LIN)
-        {
+        } else if(ebus == LIN) {
             m_oNetworkStatistics->SetActivePage(LIN_STAT_PAGE);
         }
 
@@ -3119,13 +2789,10 @@ void CMainFrame::OnStatistics(ETYPE_BUS ebus)
     }
 }
 
-
-
 void CMainFrame::OnButtonSignalWatchButton()
 {
     vSW_DoInitialization(CAN);
-    if (sg_pouSWInterface[CAN] != nullptr)
-    {
+    if (sg_pouSWInterface[CAN] != nullptr) {
         INT nCmd = sg_pouSWInterface[CAN]->SW_IsWindowVisible() ? SW_HIDE : SW_SHOW;
         sg_pouSWInterface[CAN]->SW_ShowSigWatchWnd(this, GetSafeHwnd(), nCmd);
         BOOL bHexON = theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX);
@@ -3137,8 +2804,7 @@ void CMainFrame::OnButtonSignalWatchButton()
 void CMainFrame::OnButtonSignalWatchButton_LIN()
 {
     vSW_DoInitialization(LIN);
-    if (sg_pouSWInterface[LIN] != nullptr)
-    {
+    if (sg_pouSWInterface[LIN] != nullptr) {
         INT nCmd = sg_pouSWInterface[LIN]->SW_IsWindowVisible() ? SW_HIDE : SW_SHOW;
         sg_pouSWInterface[LIN]->SW_ShowSigWatchWnd(this, GetSafeHwnd(), nCmd);
         BOOL bHexON = theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX);
@@ -3165,8 +2831,7 @@ void CMainFrame::vConvStrtoByteArray(CByteArray* bufferTx, char* tempBuf)
     //Take two characters at a time and then
     //start converting them into a byte.
     //   do
-    while (nStrLength)
-    {
+    while (nStrLength) {
         //get the first char
         firstCh = strTemp.GetAt(ncount++);
         ASSERT(AfxCheckMemory());
@@ -3175,12 +2840,9 @@ void CMainFrame::vConvStrtoByteArray(CByteArray* bufferTx, char* tempBuf)
         //if the value is greater than or equal to zero or
         //less than or equal to nine, get the value by
         //subtracting the ASCII value of '0'
-        if (('0' <= firstCh) && (firstCh <= '9'))
-        {
+        if (('0' <= firstCh) && (firstCh <= '9')) {
             firstCh -='0';
-        }
-        else
-        {
+        } else {
             //The character is between 'a' to 'f'. First
             //convert to lowercase and deduct 87 which
             //will give the correct value for the char
@@ -3194,17 +2856,14 @@ void CMainFrame::vConvStrtoByteArray(CByteArray* bufferTx, char* tempBuf)
         //subtracting the ASCII value of '0'
         nStrLength --;
 
-        if(nStrLength)
-        {
+        if(nStrLength) {
             secondCh = strTemp.GetAt(ncount++);
             ASSERT(AfxCheckMemory());
 
-            if (('0' <= secondCh) && (secondCh <= '9'))
-            {
+            if (('0' <= secondCh) && (secondCh <= '9')) {
                 secondCh -='0';
             }
-            else
-            {
+            else {
                 //The character is between 'a' to 'f'. First
                 //convert to lowercase and deduct 87 which
                 //will give the correct value for the char
@@ -3253,7 +2912,6 @@ void CMainFrame::vSetNewDatabaseFlag(bool bValue)
 /******************************************************************************/
 LRESULT CMainFrame::OnErrorMessageProc(WPARAM wpParam, LPARAM lParam)
 {
-    //TRACE("POSTED ERROR MSG");
     SCAN_ERR ErrorMsg ;
     BOOL bToCallHandler = FALSE;
     ERROR_STATE eCurrError;
@@ -3263,8 +2921,7 @@ LRESULT CMainFrame::OnErrorMessageProc(WPARAM wpParam, LPARAM lParam)
     UCHAR ucError = LOBYTE( wpParam );
     // Check for channel ID validity to prevenmt array boundary condition
     // violation
-    if( ucChannel >= defNO_OF_CHANNELS )
-    {
+    if( ucChannel >= defNO_OF_CHANNELS ) {
         // Invalid channel index
         ASSERT( FALSE );
         // Set to default
@@ -3272,14 +2929,10 @@ LRESULT CMainFrame::OnErrorMessageProc(WPARAM wpParam, LPARAM lParam)
     }
     // If it is warning limit message then only invoke
     // warning limit handler
-    if (ucError == ERROR_WARNING_LIMIT_REACHED)
-    {
+    if (ucError == ERROR_WARNING_LIMIT_REACHED) {
         bToCallHandler = TRUE;
         eCurrError = ERROR_WARNING_LIMIT;
-    }
-    // For all other error messages
-    else
-    {
+    } else { // For all other error messages
         // Extract error counter value from the parameter
         BYTE byRxError = LOBYTE(lParam);
         BYTE byTxError = HIBYTE(lParam);
@@ -3291,13 +2944,10 @@ LRESULT CMainFrame::OnErrorMessageProc(WPARAM wpParam, LPARAM lParam)
 
         // If it is Rx Error message then execure only error handler.
         // This will override the Passive error handler with error frame gandler
-        if (ucError == STUFF_ERROR_RX)
-        {
+        if (ucError == STUFF_ERROR_RX) {
             eCurrError = ERROR_FRAME;
             bToCallHandler = TRUE;
-        }
-        else
-        {
+        } else {
             // Set the latest state to select error hadler proc
             eCurrError = m_eCurrErrorState[ ucChannel ];
         }
@@ -3307,12 +2957,10 @@ LRESULT CMainFrame::OnErrorMessageProc(WPARAM wpParam, LPARAM lParam)
     // from the associated object here.
     // Execute user function only if bToCallHandler is set and user prog is
     // loaded
-    if( bToCallHandler == TRUE )
-    {
+    if (bToCallHandler == TRUE) {
         // Check the status of error handler
         CFlags* pouFlag = theApp.pouGetFlagsPtr();
-        if( pouFlag != nullptr )
-        {
+        if( pouFlag != nullptr ) {
             ErrorMsg.m_ucTxError = HIBYTE(lParam);
             ErrorMsg.m_ucRxError = LOBYTE(lParam);
             //channel number is one greater than the index number, index number starts from 0 and channel number starts from 1
@@ -3322,6 +2970,7 @@ LRESULT CMainFrame::OnErrorMessageProc(WPARAM wpParam, LPARAM lParam)
             GetICANNodeSim()->NS_ManageOnErrorHandler(eCurrError,(void*)&ErrorMsg);
         }
     }
+
     return 0;
 }
 
@@ -3344,31 +2993,23 @@ bool CMainFrame::bIsTransitionInState( UINT unChannel,
     // Based on the value of transmit and receive error counter decide
     // the current error state
 
-    if ((byTxError <= 127) && (byRxError <= 127))
-    {
+    if ((byTxError <= 127) && (byRxError <= 127)) {
         // Error Active Mode
-        if (m_eCurrErrorState[ unChannel ] != ERROR_ACTIVE)
-        {
+        if (m_eCurrErrorState[ unChannel ] != ERROR_ACTIVE) {
             bIsTransition = true;
             m_eCurrErrorState[ unChannel ] = ERROR_ACTIVE;
         }
-    }
-    else if (byTxError == 255)
-        // The sudden shift to the third state is to avoid
-        // "else if ((byTxError > 127) || (byRxError > 127))"
-    {
+    // The sudden shift to the third state is to avoid
+    // "else if ((byTxError > 127) || (byRxError > 127))"
+    } else if (byTxError == 255) {
         // Bus off
-        if (m_eCurrErrorState[ unChannel ] != ERROR_BUS_OFF)
-        {
+        if (m_eCurrErrorState[unChannel] != ERROR_BUS_OFF) {
             bIsTransition = true;
-            m_eCurrErrorState[ unChannel ] = ERROR_BUS_OFF;
+            m_eCurrErrorState[unChannel] = ERROR_BUS_OFF;
         }
-    }
-    else
-    {
+    } else {
         // Error passive
-        if (m_eCurrErrorState[ unChannel ] != ERROR_PASSIVE)
-        {
+        if (m_eCurrErrorState[ unChannel ] != ERROR_PASSIVE) {
             bIsTransition = true;
             m_eCurrErrorState[ unChannel ] = ERROR_PASSIVE;
         }
@@ -3388,16 +3029,14 @@ CString CMainFrame::omStrConvertIntegerToHex(CString omStrInt)
 
     int nIndex = omStrInt.Find('-');
 
-    if ( nIndex != -1 )
-    {
+    if ( nIndex != -1 ) {
         // Delete "-" sign from the string
         omStrInt.Delete( nIndex, 1 );
         nCount--;
     }
     __int64 n64Val = _atoi64( omStrInt );
     __int64 n64Temp = 0;
-    while ( nCount )
-    {
+    while ( nCount ) {
         n64Temp = n64Val;
         // Get value
         n64Val = n64Val/16;
@@ -3405,8 +3044,7 @@ CString CMainFrame::omStrConvertIntegerToHex(CString omStrInt)
         n64Temp = n64Temp % 16;
 
         // Insert matching character
-        switch(n64Temp)
-        {
+        switch(n64Temp) {
             case 0:
                 omStrHexNo.Insert( 0, '0');
                 break;
@@ -3462,8 +3100,7 @@ CString CMainFrame::omStrConvertIntegerToHex(CString omStrInt)
         nCount--;
     }
     // If number is "-ve", insert '-' sign
-    if ( nIndex != -1 )
-    {
+    if (nIndex != -1) {
         omStrHexNo.Insert( 0, '-');
     }
     // u r done!
@@ -3481,18 +3118,14 @@ bool CMainFrame::bIsHexNumber(CString omStrHexNumber)
 
     omStrHexNumber.MakeUpper();
 
-    for ( int nCount = 0; nCount < omStrHexNumber.GetLength(); nCount++ )
-    {
+    for (int nCount = 0; nCount < omStrHexNumber.GetLength(); nCount++ ) {
         char t_cChar = omStrHexNumber.GetAt(nCount);
 
         if ( ( t_cChar >= 'A' && t_cChar <= 'F' ) ||
                 ( t_cChar >= '0' && t_cChar <= '9' ) ||
-                ( t_cChar == '-') )
-        {
+                ( t_cChar == '-') ) {
             b_RetVal = true;
-        }
-        else
-        {
+        } else {
             b_RetVal = false;
             break;
         }
@@ -3507,7 +3140,7 @@ bool CMainFrame::bIsHexNumber(CString omStrHexNumber)
 ******************************************************************************/
 void CMainFrame::OnUpdateConfigureDatabaseClose(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable( theApp.pouGetFlagsPtr()->nGetFlagStatus( DBOPEN ));
+    pCmdUI->Enable(theApp.pouGetFlagsPtr()->nGetFlagStatus(DBOPEN));
 }
 
 /******************************************************************************
@@ -3516,7 +3149,7 @@ void CMainFrame::OnUpdateConfigureDatabaseClose(CCmdUI* pCmdUI)
 ******************************************************************************/
 void CMainFrame::OnUpdateConfigureDatabaseNew(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable( !theApp.pouGetFlagsPtr()->nGetFlagStatus( DBOPEN ));
+    pCmdUI->Enable(!theApp.pouGetFlagsPtr()->nGetFlagStatus(DBOPEN));
 }
 
 /******************************************************************************
@@ -3525,7 +3158,7 @@ void CMainFrame::OnUpdateConfigureDatabaseNew(CCmdUI* pCmdUI)
 ******************************************************************************/
 void CMainFrame::OnUpdateConfigureDatabaseSave(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable( theApp.pouGetFlagsPtr()->nGetFlagStatus( DBOPEN ));
+    pCmdUI->Enable(theApp.pouGetFlagsPtr()->nGetFlagStatus(DBOPEN));
 }
 
 /******************************************************************************
@@ -3534,7 +3167,7 @@ void CMainFrame::OnUpdateConfigureDatabaseSave(CCmdUI* pCmdUI)
 ******************************************************************************/
 void CMainFrame::OnUpdateConfigureDatabaseSaveas(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable( theApp.pouGetFlagsPtr()->nGetFlagStatus( DBOPEN ));
+    pCmdUI->Enable(theApp.pouGetFlagsPtr()->nGetFlagStatus(DBOPEN));
 }
 
 /******************************************************************************
@@ -3548,15 +3181,12 @@ void CMainFrame::OnClose()
     bool bSaveConfig = true; // Used for node simuation closure operations
     // get the name of the loaded config file only if no filename has
     // been specified until now..
-    if(oCfgFilename.IsEmpty() == TRUE && bIsConfigurationModified())
-    {
-        if(theApp.m_bFromAutomation == FALSE)
-        {
+    if (oCfgFilename.IsEmpty() == TRUE && bIsConfigurationModified()) {
+        if(theApp.m_bFromAutomation == FALSE) {
             UINT unMsgRetVal = AfxMessageBox(_("You have made changes to the configuration.\nDo you want to save it?"),
                                              MB_YESNOCANCEL);
 
-            if ( unMsgRetVal == IDYES )
-            {
+            if (unMsgRetVal == IDYES) {
                 CFileDialog oCfgFileDlg(FALSE,   // Open dialog as Save as File dlg
                                         defFILEEXT,  // default extension
                                         nullptr,       // default file name
@@ -3565,55 +3195,39 @@ void CMainFrame::OnClose()
                                         nullptr        // parent wnd
                                        );
                 oCfgFileDlg.m_ofn.lpstrTitle = _("Save Configuration File");
-                if(oCfgFileDlg.DoModal() == IDOK)
-                {
+                if (oCfgFileDlg.DoModal() == IDOK) {
                     // get the name of the selected file
                     oCfgFilename = oCfgFileDlg.GetPathName();
                     // This call alone is sufficient to save the
                     // configuration file.
                     vSetFileStorageInfo(oCfgFilename);
-                    if (SaveConfiguration() ==
-                            defCONFIG_FILE_SUCCESS )
-                    {
+                    if (SaveConfiguration() == defCONFIG_FILE_SUCCESS ) {
 						theApp.bWriteIntoRegistry(HKEY_CURRENT_USER, SECTION, defCONFIGFILENAME, REG_SZ, oCfgFilename);
                     }
                     bSaveConfig = true;
                 }
             }
-            else if ( unMsgRetVal == IDCANCEL )
-            {
+            else if ( unMsgRetVal == IDCANCEL ) {
                 return;
-            }
-            else
-            {
+            } else {
                 bSaveConfig = false;
             }
         }
-    }
-    else
-    {
-        if(theApp.m_bFromAutomation == FALSE)
-        {
-            if ( bIsConfigurationModified())
-            {
+    } else {
+        if(theApp.m_bFromAutomation == FALSE) {
+            if ( bIsConfigurationModified()) {
                 UINT unMsgRetVal  = AfxMessageBox(_("You have made changes to the configuration.\nDo you want to save it?"),
                                                   MB_YESNOCANCEL);
-                if ( unMsgRetVal == IDYES )
-                {
+                if ( unMsgRetVal == IDYES ) {
                     // This call alone is sufficient to save the
                     // configuration file.
                     vSetFileStorageInfo(oCfgFilename);
-                    if ( SaveConfiguration() == defCONFIG_FILE_SUCCESS )
-                    {
+                    if ( SaveConfiguration() == defCONFIG_FILE_SUCCESS ) {
 						theApp.bWriteIntoRegistry(HKEY_CURRENT_USER, SECTION, defCONFIGFILENAME, REG_SZ, oCfgFilename);
                     }
-                }
-                else if ( unMsgRetVal == IDCANCEL )
-                {
+                } else if ( unMsgRetVal == IDCANCEL ) {
                     return;
-                }
-                else
-                {
+                } else {
                     bSaveConfig = false;
                 }
             }
@@ -3623,40 +3237,37 @@ void CMainFrame::OnClose()
     // Writing in to Registry
     theApp.bWriteIntoRegistry(HKEY_CURRENT_USER, SECTION, defCONFIGFILENAME, REG_SZ, oCfgFilename);
 
-	if (g_pouDIL_CAN_Interface != nullptr)
-	{
+	if (g_pouDIL_CAN_Interface != nullptr) {
 		g_pouDIL_CAN_Interface->DILC_PerformClosureOperations();
 	}
 	
-	if (g_pouDIL_LIN_Interface != NULL)
-	{
+	if (g_pouDIL_LIN_Interface != NULL) {
 		g_pouDIL_LIN_Interface->DILL_StopHardware();
 		g_pouDIL_LIN_Interface->DILL_PerformClosureOperations();
 	}
 	mPluginManager->notifyAppClose();
     vREP_HandleConnectionStatusChange( FALSE ); //Close reply
 
-    OnDllUnload(); //Unload all the loaded dlls
+    //Unload all the loaded dlls
+    OnDllUnload();
 
     //Unload J1939 Node sim dll
     OnDllUnloadJ1939();
 
     OnDllUnloadLIN();
 
-    if(m_unTimerSB != 0)
-    {
+    if (m_unTimerSB != 0) {
         ::KillTimer(nullptr, m_unTimerSB);
     }
-    if(m_unTimerSBLog != 0)
-    {
+
+    if (m_unTimerSBLog != 0) {
         ::KillTimer(nullptr, m_unTimerSBLog);
         m_unTimerSBLog = 0;
         // Update Status bar
-        //m_wndStatusBar.SetPaneText(INDEX_LOG_RECORD, "CAN");
 		m_wndStatusBar.SetPaneIcon(INDEX_CAN_LOG_ICON, m_hLogOffIcon);
     }
-    if(m_unJ1939TimerSBLog != 0)
-    {
+
+    if (m_unJ1939TimerSBLog != 0) {
         ::KillTimer(nullptr, m_unJ1939TimerSBLog);
         m_unJ1939TimerSBLog = 0;
         // Update Status bar
@@ -3665,82 +3276,56 @@ void CMainFrame::OnClose()
 	//now unloadplugins;
 	mPluginManager->unLoadPlugins();
 
-    if(m_podUIThread != nullptr)
-    {
+    if(m_podUIThread != nullptr) {
         m_podUIThread->PostThreadMessage(WM_QUIT,0,0);
     }
-    //SGW Code commented by Arun 21-10-2010
-    /*if(m_pomGraphThread != nullptr)
-    {
-        m_pomGraphThread->PostThreadMessage(WM_QUIT,0,0);
-    }*/
-    //SGW Code commented by Arun 21-10-2010
+
     m_bIsStatWndCreated = FALSE;
     // Get appropriate data structure
     // Call Close Database to take app. action
     CFlags* pFlags = nullptr;
     pFlags = theApp.pouGetFlagsPtr();
-    if( pFlags != nullptr)
-    {
+    if (pFlags != nullptr) {
         // Close DB Editor if it is visible
-        if( pFlags->nGetFlagStatus(DBOPEN) == TRUE )
-        {
+        if(pFlags->nGetFlagStatus(DBOPEN) == TRUE) {
             OnCloseDatabase();
         }
     }
 
     // Stop Logging if it is enabled
-    BOOL bLogON = FALSE;
-    if (nullptr != sg_pouFrameProcCAN)
-    {
+    bool bLogON = false;
+    if (nullptr != sg_pouFrameProcCAN) {
         bLogON = sg_pouFrameProcCAN->IsLoggingON();
     }
-    if ( bLogON )
-    {
-        bLogON = bLogON ? FALSE : TRUE;
-        vStartStopLogging(bLogON == TRUE);
+
+    if (bLogON) {
+        bLogON = bLogON ? false : true;
+        vStartStopLogging(bLogON == true);
     }
 
     // Stop J1939 Logging if it is enabled
-    if (nullptr != sg_pouIJ1939Logger)
-    {
+    if (nullptr != sg_pouIJ1939Logger) {
         sg_pouIJ1939Logger->EnableLogging(FALSE);
     }
 
-
-
-    if (nullptr != sg_pouFrameProcLIN)
-    {
+    if (nullptr != sg_pouFrameProcLIN) {
         bLogON = sg_pouFrameProcLIN->IsLoggingON();
     }
-    if ( bLogON )
-    {
+    if ( bLogON ) {
         bLogON = bLogON ? FALSE : TRUE;
         vStartStopLogging_LIN(bLogON == TRUE);
     }
 
-    //m_objTxHandler.vPostMessageToTxWnd(WM_USER_CMD, (WPARAM)eCREATEDESTROYCMD, FALSE);
     m_objTxHandler.vPostMessageToTxWnd ( WM_USER_CLOSE, FALSE, FALSE );
-
-    
 
     vCloseFormatconverters();
 
     SaveBarState(PROFILE_CAN_MONITOR);
 
-    if(nullptr != m_pXmlNodeBusStats)
-    {
+    if(nullptr != m_pXmlNodeBusStats) {
         xmlFreeNode(m_pXmlNodeBusStats);
         m_pXmlNodeBusStats = nullptr;
     }
-
-
-    //send busmaster_exit event to plugin
-    //eBusmaster_Event event = eBusmaster_Event::busmaster_exit;
-    //mPluginManager->notifyPlugins(event, nullptr);
-
-
-	
 
 	afxKeyboardManager->SaveState(theApp.GetRegSectionPath());
     CMDIFrameWnd::OnClose();
@@ -3755,22 +3340,16 @@ void CMainFrame::OnClose()
 bool CMainFrame::bCreateMsgWindow()
 {
     bool bReturn=true;
-    if (m_podMsgWndThread == nullptr)
-    {
+    if (m_podMsgWndThread == nullptr) {
         m_podMsgWndThread = new CMsgWndThread;
-        if (m_podMsgWndThread != nullptr)
-        {
+        if (m_podMsgWndThread != nullptr) {
             // Set specific parameters on successful creation
-
-            //m_podMsgWndThread->CreateThread();
             //CAN Message Window
-            m_podMsgWndThread->CreateMsgWnd(m_hWnd, CAN,
-                                            0, nullptr);
+            m_podMsgWndThread->CreateMsgWnd(m_hWnd, CAN, 0, nullptr);
             m_podMsgWndThread->vModifyVisibilityStatus(SW_SHOW, CAN);
 
             //LIN Message Window
-            m_podMsgWndThread->CreateMsgWnd(m_hWnd, LIN,
-                                            0, nullptr);
+            m_podMsgWndThread->CreateMsgWnd(m_hWnd, LIN, 0, nullptr);
             m_podMsgWndThread->vModifyVisibilityStatus(SW_HIDE, LIN);
 
             ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(LIN),
@@ -3782,14 +3361,10 @@ bool CMainFrame::bCreateMsgWindow()
             m_podMsgWndThread->CreateMsgWnd(m_hWnd, J1939,
                                             0, nullptr);
             m_podMsgWndThread->vModifyVisibilityStatus( SW_HIDE, J1939);
-        }
-        else
-        {
+        } else {
             bReturn = false;
         }
-    }
-    else
-    {
+    } else {
         m_podMsgWndThread->vModifyVisibilityStatus(SW_SHOW, CAN);
         m_podMsgWndThread->vModifyVisibilityStatus(SW_HIDE, LIN);
         m_podMsgWndThread->vModifyVisibilityStatus(SW_HIDE, J1939);
@@ -3804,19 +3379,15 @@ bool CMainFrame::bCreateMsgWindow()
 ******************************************************************************/
 void CMainFrame::OnHex_DecButon()
 {
-    if (m_podMsgWndThread != nullptr)
-    {
+    if (m_podMsgWndThread != nullptr) {
         HWND hWnd = m_podMsgWndThread->hGetHandleMsgWnd(CAN);
         BYTE byGetDispFlag = 0;
         ::SendMessage(hWnd, WM_PROVIDE_WND_PROP, (WPARAM)(&byGetDispFlag), 0);
-        if (IS_NUM_HEX_SET(byGetDispFlag))
-        {
+        if (IS_NUM_HEX_SET(byGetDispFlag)) {
             CLEAR_EXPR_NUM_BITS(byGetDispFlag);
             SET_NUM_DEC(byGetDispFlag);
             theApp.pouGetFlagsPtr()->vSetFlagStatus(HEX, FALSE);
-        }
-        else
-        {
+        } else {
             CLEAR_EXPR_NUM_BITS(byGetDispFlag);
             SET_NUM_HEX(byGetDispFlag);
             theApp.pouGetFlagsPtr()->vSetFlagStatus(HEX, TRUE);
@@ -3825,25 +3396,20 @@ void CMainFrame::OnHex_DecButon()
         hWnd = m_podMsgWndThread->hGetHandleMsgWnd(LIN);
         byGetDispFlag = 0;
         ::SendMessage(hWnd, WM_PROVIDE_WND_PROP, (WPARAM)(&byGetDispFlag), 0);
-        if (IS_NUM_HEX_SET(byGetDispFlag))
-        {
+        if (IS_NUM_HEX_SET(byGetDispFlag)) {
             CLEAR_EXPR_NUM_BITS(byGetDispFlag);
             SET_NUM_DEC(byGetDispFlag);
             theApp.pouGetFlagsPtr()->vSetFlagStatus(HEX, FALSE);
-        }
-        else
-        {
+        } else {
             CLEAR_EXPR_NUM_BITS(byGetDispFlag);
             SET_NUM_HEX(byGetDispFlag);
             theApp.pouGetFlagsPtr()->vSetFlagStatus(HEX, TRUE);
         }
 
-        for(short shBusID = CAN; shBusID < AVAILABLE_PROTOCOLS; shBusID++)
-        {
+        for(uint32_t shBusID = CAN; shBusID < AVAILABLE_PROTOCOLS; shBusID++) {
             hWnd = m_podMsgWndThread->hGetHandleMsgWnd((ETYPE_BUS)shBusID);
             //Update Message Window
-            if(hWnd)
-            {
+            if(hWnd) {
                 BYTE bModes = NUMERIC;
                 ::SendMessage(hWnd, WM_WND_PROP_MODIFY, bModes, byGetDispFlag);
             }
@@ -3854,29 +3420,24 @@ void CMainFrame::OnHex_DecButon()
 
     m_objTxHandler.vPostMessageToTxWnd(WM_USER_CMD, (WPARAM)eHEXDECCMD, bHexON);
 
-
-    if (sg_pouSWInterface[CAN] != nullptr)
-    {
+    if (sg_pouSWInterface[CAN] != nullptr) {
         sg_pouSWInterface[CAN]->SW_SetDisplayMode(bHexON);
     }
-    if (sg_pouSWInterface[J1939] != nullptr)
-    {
+    if (sg_pouSWInterface[J1939] != nullptr) {
         sg_pouSWInterface[J1939]->SW_SetDisplayMode(bHexON);
     }
-    if (sg_pouSWInterface[LIN] != nullptr)
-    {
+    if (sg_pouSWInterface[LIN] != nullptr) {
         sg_pouSWInterface[LIN]->SW_SetDisplayMode(bHexON);
     }
 
-    if(nullptr != m_podMsgSgWnd)
-    {
+    if(nullptr != m_podMsgSgWnd) {
         m_podMsgSgWnd->SendMessage(WM_UPDATE_DATABASEEDITOR ,(WPARAM)(bHexON), 0);
 
     }
-    if (nullptr != m_podMsgSgWndJ1939)
-    {
+    if (nullptr != m_podMsgSgWndJ1939) {
         m_podMsgSgWndJ1939->SendMessage(WM_UPDATE_DATABASEEDITOR, (WPARAM)(bHexON), 0);
     }
+
     eNumeric_mode mode = (bHexON == TRUE) ? eNumeric_mode::HEXADECIMAL_MODE : eNumeric_mode::DECICAL_MODE;
     mPluginManager->notifyPlugins(eBusmaster_Event::display_numeric_mode_changed, &mode);
 
@@ -3891,46 +3452,37 @@ void CMainFrame::OnHex_DecButon()
 */
 void CMainFrame::bSetHexDecFlags(bool bHexEnabled)
 {
-    if (m_podMsgWndThread != nullptr)
-    {
+    if (m_podMsgWndThread != nullptr) {
         HWND hWnd = m_podMsgWndThread->hGetHandleMsgWnd(CAN);
         BYTE byGetDispFlag = 0;
         ::SendMessage(hWnd, WM_PROVIDE_WND_PROP, (WPARAM)(&byGetDispFlag), 0);
-        if (bHexEnabled == FALSE)
-        {
+        if (bHexEnabled == false) {
             CLEAR_EXPR_NUM_BITS(byGetDispFlag);
             SET_NUM_DEC(byGetDispFlag);
-            theApp.pouGetFlagsPtr()->vSetFlagStatus(HEX, FALSE);
-        }
-        else
-        {
+            theApp.pouGetFlagsPtr()->vSetFlagStatus(HEX, false);
+        } else {
             CLEAR_EXPR_NUM_BITS(byGetDispFlag);
             SET_NUM_HEX(byGetDispFlag);
-            theApp.pouGetFlagsPtr()->vSetFlagStatus(HEX, TRUE);
+            theApp.pouGetFlagsPtr()->vSetFlagStatus(HEX, true);
         }
-        for(short shBusID = CAN; shBusID < AVAILABLE_PROTOCOLS; shBusID++)
-        {
+        for (uint32_t shBusID = CAN; shBusID < AVAILABLE_PROTOCOLS; shBusID++) {
             hWnd = m_podMsgWndThread->hGetHandleMsgWnd((ETYPE_BUS)shBusID);
             //Update Message Window
-            if(hWnd)
-            {
+            if (hWnd) {
                 BYTE bModes = NUMERIC;
                 ::SendMessage(hWnd, WM_WND_PROP_MODIFY, bModes, byGetDispFlag);
             }
         }
     }
 
-    BOOL bHexON = theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX);
+    bool bHexON = theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX);
 
     m_objTxHandler.vPostMessageToTxWnd(WM_USER_CMD, (WPARAM)eHEXDECCMD, bHexON);
 
-
-    if (sg_pouSWInterface[CAN] != nullptr)
-    {
+    if (sg_pouSWInterface[CAN] != nullptr) {
         sg_pouSWInterface[CAN]->SW_SetDisplayMode(bHexON);
     }
-    if (sg_pouSWInterface[J1939] != nullptr)
-    {
+    if (sg_pouSWInterface[J1939] != nullptr) {
         sg_pouSWInterface[J1939]->SW_SetDisplayMode(bHexON);
     }
 }
@@ -3944,16 +3496,14 @@ void CMainFrame::bSetHexDecFlags(bool bHexEnabled)
  */
 void CMainFrame::ApplyMessagewindowOverwrite()
 {
-    if (m_podMsgWndThread != nullptr)
-    {
+    if (m_podMsgWndThread != nullptr) {
         HWND hWnd = m_podMsgWndThread->hGetHandleMsgWnd(CAN);
         BYTE byGetDispFlag = 0;
         ::SendMessage(hWnd, WM_PROVIDE_WND_PROP, (WPARAM)(&byGetDispFlag), 0);
 
         BOOL bIsOverwrite = FALSE;
         bIsOverwrite = theApp.pouGetFlagsPtr()->nGetFlagStatus(OVERWRITE);
-        if (bIsOverwrite == TRUE)
-        {
+        if (bIsOverwrite == TRUE) {
             CLEAR_EXPR_DISP_BITS(byGetDispFlag);
 
             int nDbCanCount = 0, nDbJ1939Count = 0, nDbLinCount = 0;
@@ -3962,32 +3512,24 @@ void CMainFrame::ApplyMessagewindowOverwrite()
             m_ouBusmasterNetwork->GetDBServiceCount(LIN, 0, nDbLinCount);
 
 
-            if (nDbCanCount <= 0 && nDbJ1939Count <= 0 && nDbLinCount <= 0 )
-            {
+            if (nDbCanCount <= 0 && nDbJ1939Count <= 0 && nDbLinCount <= 0 ) {
                 m_bInterPretMsg = FALSE;
             }
-            if (m_bInterPretMsg)
-            {
+            if (m_bInterPretMsg) {
                 SET_MODE_INTRP(byGetDispFlag);
-            }
-            else
-            {
+            } else {
                 SET_MODE_OVER(byGetDispFlag);
             }
             theApp.pouGetFlagsPtr()->vSetFlagStatus(OVERWRITE, TRUE);
-        }
-        else
-        {
+        } else {
             CLEAR_EXPR_DISP_BITS(byGetDispFlag);
             SET_MODE_APPEND(byGetDispFlag);
             theApp.pouGetFlagsPtr()->vSetFlagStatus(OVERWRITE, FALSE);
         }
-        for(short shBusID = CAN; shBusID < AVAILABLE_PROTOCOLS; shBusID++)
-        {
+        for (uint32_t shBusID = CAN; shBusID < AVAILABLE_PROTOCOLS; shBusID++) {
             hWnd = m_podMsgWndThread->hGetHandleMsgWnd((ETYPE_BUS)shBusID);
             //Update Message Window
-            if(hWnd)
-            {
+            if(hWnd) {
                 BYTE bModes = DISPLAY_MODE;
                 ::SendMessage(hWnd, WM_WND_PROP_MODIFY, bModes, byGetDispFlag);
             }
@@ -4004,50 +3546,39 @@ void CMainFrame::ApplyMessagewindowOverwrite()
  */
 void CMainFrame::OnDisplayMessagewindowOverwrite(UINT id)
 {
-
-	if (nullptr == m_podMsgWndThread)
-	{
+	if (nullptr == m_podMsgWndThread) {
 		return;
 	}
 
 	static int msgWndcommandToBus[] = { CAN, J1939, LIN };
 	id = id - IDM_OVERWRITE_MSG_WINDOW_START;
-	if (id >= 0 && id < sizeof(msgWndcommandToBus))
-	{
+	if (id >= 0 && id < sizeof(msgWndcommandToBus)) {
 		ETYPE_BUS bus = static_cast<ETYPE_BUS>(msgWndcommandToBus[id]);
 		HWND hWnd = m_podMsgWndThread->hGetHandleMsgWnd((ETYPE_BUS)bus);
         BYTE byGetDispFlag = 0;
         ::SendMessage(hWnd, WM_PROVIDE_WND_PROP, (WPARAM)(&byGetDispFlag), 0);
 		
-		if (IS_MODE_APPEND(byGetDispFlag))
-        {
+		if (IS_MODE_APPEND(byGetDispFlag)) {
             CLEAR_EXPR_DISP_BITS(byGetDispFlag);
-	
+
             int nDbCount = 0;
 			m_ouBusmasterNetwork->GetDBServiceCount(bus, 0, nDbCount);
-            
 
-			if (nDbCount <= 0)
-            {
+			if (nDbCount <= 0) {
                 m_bInterPretMsg = FALSE;
             }
-            if (m_bInterPretMsg)
-            {
+            if (m_bInterPretMsg) {
                 SET_MODE_INTRP(byGetDispFlag);
-            }
-            else
-            {
+            } else {
                 SET_MODE_OVER(byGetDispFlag);
             }
             theApp.pouGetFlagsPtr()->vSetFlagStatus(OVERWRITE, TRUE);
-        }
-        else
-        {
+        } else {
             CLEAR_EXPR_DISP_BITS(byGetDispFlag);
             SET_MODE_APPEND(byGetDispFlag);
             theApp.pouGetFlagsPtr()->vSetFlagStatus(OVERWRITE, FALSE);
         }
-		
+
 		::SendMessage(hWnd, WM_WND_PROP_MODIFY, DISPLAY_MODE, byGetDispFlag);
     }
 }
@@ -4058,57 +3589,44 @@ void CMainFrame::OnDisplayMessagewindowOverwrite(UINT id)
 ******************************************************************************/
 void CMainFrame::OnUpdateMessageInterpret(CCmdUI* pCmdUI)
 {
-    if ( nullptr == theApp.m_pouMsgSignal )
-    {
+    if (nullptr == theApp.m_pouMsgSignal) {
         return;
     }
     BYTE byGetDispFlag = 0;
-	if (nullptr == m_podMsgWndThread)
-	{
+	if (nullptr == m_podMsgWndThread) {
 		return;
 	}
 
 	static int msgWndcommandToBus[] = { CAN, J1939, LIN };
 	UINT id = pCmdUI->m_nID - IDM_INTERPRETE_MSG_WINDOW_START;
-	if (id >= 0 && id < sizeof(msgWndcommandToBus))
-	{
+	if (id >= 0 && id < sizeof(msgWndcommandToBus)) {
 		ETYPE_BUS bus = static_cast<ETYPE_BUS>(msgWndcommandToBus[id]);
 		HWND hWnd = m_podMsgWndThread->hGetHandleMsgWnd(bus);
         int nDbLinCount = 0;
 
         int nDbCount = 0;
 		m_ouBusmasterNetwork->GetDBServiceCount(bus, 0, nDbCount);
-        
 
-		if ( nDbCount > 0 )
-        {
+		if (nDbCount > 0) {
             ::SendMessage(hWnd, WM_PROVIDE_WND_PROP, (WPARAM)(&byGetDispFlag), 0);
-			if (IS_MODE_INTRP(byGetDispFlag))
-            {
+			if (IS_MODE_INTRP(byGetDispFlag)) {
                 pCmdUI->Enable(TRUE);   // Enabled
                 pCmdUI->SetCheck(TRUE); // Pressed state
-            }
-            else if (IS_MODE_APPEND(byGetDispFlag))
-            {
+            } else if (IS_MODE_APPEND(byGetDispFlag)) {
                 // Disable the button
                 pCmdUI->Enable(FALSE);  // Disabled
                 pCmdUI->SetCheck(0); // Retain pressed state
-            }
-            else if (IS_MODE_OVER(byGetDispFlag))
-            {
+            } else if (IS_MODE_OVER(byGetDispFlag)) {
                 // Enable the button
                 pCmdUI->Enable(TRUE);   // Enabled
                 pCmdUI->SetCheck(FALSE);// Unpressed
             }
-        }
-        else
-        {
+        } else {
             pCmdUI->Enable(FALSE);   // disable
             pCmdUI->SetCheck(FALSE); // UnPressed state
         }
     }
 }
-
 
 /******************************************************************************
     Functionality    :  Check or uncheck log filter
@@ -4118,8 +3636,7 @@ void CMainFrame::OnUpdateLogFilter(CCmdUI* pCmdUI)
 {
     // Check or uncheck log filter
     // menu item
-    pCmdUI->SetCheck(
-        theApp.pouGetFlagsPtr()->nGetFlagStatus( LOGFILTER ) );
+    pCmdUI->SetCheck(theApp.pouGetFlagsPtr()->nGetFlagStatus(LOGFILTER));
 }
 
 /******************************************************************************
@@ -4130,8 +3647,7 @@ void CMainFrame::OnUpdateLogFilterLIN(CCmdUI* pCmdUI)
 {
     // Check or uncheck log filter
     // menu item
-    pCmdUI->SetCheck(
-        theApp.pouGetFlagsPtr()->nGetFlagStatus( LOGFILTER_LIN ) );
+    pCmdUI->SetCheck(theApp.pouGetFlagsPtr()->nGetFlagStatus(LOGFILTER_LIN));
 }
 
 
@@ -4152,13 +3668,10 @@ void CMainFrame::OnUpdateLINScheduleTableConfig(CCmdUI* pCmdUI)
 {
     int nLinChannels;
     m_ouBusmasterNetwork->GetChannelCount(LIN, nLinChannels);
-    if(nLinChannels > 0)
-    {
-        pCmdUI->Enable(TRUE);
-    }
-    else
-    {
-        pCmdUI->Enable(FALSE);
+    if(nLinChannels > 0) {
+        pCmdUI->Enable(true);
+    } else {
+        pCmdUI->Enable(false);
     }
 }
 void CMainFrame::OnUpdateReplayFilter(CCmdUI* pCmdUI)
@@ -8971,9 +8484,9 @@ void CMainFrame::WinHelp(DWORD , UINT )
     // Get Application Help File Path
     CString omStrPath = theApp.m_pszHelpFilePath;
     // Replace .hlp with .chm
-    int nIndex = omStrPath.ReverseFind( PERIOD );
+    int nIndex = omStrPath.ReverseFind(PERIOD);
     // Extract string before the extension
-    omStrPath = omStrPath.Mid(0, nIndex );
+    omStrPath = omStrPath.Mid(0, nIndex);
     // Add New Extension
     omStrPath = omStrPath + ".chm";
     // Make it as content display always
@@ -9000,18 +8513,15 @@ void CMainFrame::OnDissociateDatabase()
     m_ouBusmasterNetwork->GetDBServiceList( CAN, 0, clusterList );
     std::string path;
     std::list<std::string> dbPathList;
-for ( auto cluster : clusterList )
-    {
+    for (auto cluster : clusterList) {
         cluster->GetDBFilePath( path );
         dbPathList.push_back( path );
     }
 
     CDatabaseDissociateDlg odDBDialog( dbPathList );
-    if ( IDOK == odDBDialog.DoModal() )
-    {
+    if (IDOK == odDBDialog.DoModal()) {
         dbPathList = odDBDialog.GetDissociatedFiles();
-for ( auto dbPath : dbPathList )
-        {
+        for (auto dbPath : dbPathList) {
             m_ouBusmasterNetwork->DeleteDBService( CAN, 0, dbPath );
         }
 
@@ -9029,8 +8539,7 @@ for ( auto dbPath : dbPathList )
 
         CBaseNodeSim* pNodeSim = nullptr;
         pNodeSim = GetICANNodeSim();
-        if ( pNodeSim != nullptr )
-        {
+        if (pNodeSim != nullptr) {
             pNodeSim->NS_SetBmNetworkConfig( m_ouBusmasterNetwork, true );
         }
 
@@ -9038,12 +8547,9 @@ for ( auto dbPath : dbPathList )
         sg_pouSWInterface[CAN]->SW_SetClusterInfo( m_ouBusmasterNetwork );
 
         ////////////////////////////
-
-
         vUpdateMainEntryListInWaveDataHandler();
         vClearSignalInfoList();
-        if (!m_ouWaveTransmitter.bIsBlockEnabled())
-        {
+        if (!m_ouWaveTransmitter.bIsBlockEnabled()) {
             theApp.pouGetFlagsPtr()->vSetFlagStatus(SEND_SIGNAL_MSG, FALSE);
         }
 
@@ -9051,20 +8557,15 @@ for ( auto dbPath : dbPathList )
         vUpdateAllMsgWndInterpretStatus(CAN, FALSE);
 
         // Check for Graph list
-        for (register int nBusID = CAN; nBusID < AVAILABLE_PROTOCOLS; nBusID++)
-        {
-            if (m_odGraphList[nBusID].m_omElementList.GetSize() > 0)
-            {
+        for (register int nBusID = CAN; nBusID < AVAILABLE_PROTOCOLS; nBusID++) {
+            if (m_odGraphList[nBusID].m_omElementList.GetSize() > 0) {
                 // Clear Graph List for all buses.
-                for (register int nID = CAN; nID < AVAILABLE_PROTOCOLS; nID++)
-                {
+                for (register int nID = CAN; nID < AVAILABLE_PROTOCOLS; nID++) {
                     m_odGraphList[nID].m_omElementList.RemoveAll();
                 }
 
                 // Send the Message to the Left View to Update List for all buses
                 vPostConfigChangeCmdToSigGrphWnds(FALSE);
-
-
                 break;
             }
         }
@@ -9740,12 +9241,7 @@ void CMainFrame::vUpdateChannelInfo(void)
         //Update TxWindow
         eUSERSELCTION eUserSel = eCHANNELCOUNTUPDATED;
         m_objTxHandler.vPostMessageToTxWnd(WM_USER_CMD, (WPARAM)eUserSel, 0);
-
-
     }
-
-
-
 }
 
 /*******************************************************************************
@@ -16755,105 +16251,7 @@ LRESULT CMainFrame::OnRibbonCustomize(WPARAM lparam, LPARAM wparam)
     return 0;
 }
 
-
 void CMainFrame::OnButtonToggleribbon()
 {
     mRibbonBar.ToggleWindowDisplay();
-
-    
-}
-int CMainFrame::GetLicenseDetails(std::string strAddOn, CLicenseDetails &licenseDetails)
-{
-	if (nullptr != mPluginManager)
-	{
-		return mPluginManager->getLicenseDetails(strAddOn, licenseDetails);
-	}
-    return 0;
-}
-// This function is used to import a license from About Box
-int CMainFrame::ImportLicense()
-{
-	int nResult = -1;
-	CFileDialog fileDlg(TRUE, "lic", nullptr, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
-		_("License File(s)(*.lic)|*.lic||"), nullptr);
-
-	// Set Title
-	fileDlg.m_ofn.lpstrTitle = _("Select License File...");
-
-	if (fileDlg.DoModal() == IDOK)
-	{
-		std::string strLicenseFile = fileDlg.GetPathName();
-		std::string strLicenseFileExt = fileDlg.GetFileExt();
-
-		if (strLicenseFileExt != "lic")
-		{
-			AfxMessageBox("Invalid license file format");
-			return -1;
-		}
-
-		if (TRUE == PathFileExists(strLicenseFile.c_str()))
-		{
-			LONG lError = 0;
-			HKEY hKey;
-			BYTE acRegValue[1024] = { 0 };
-			DWORD dwSize = sizeof(BYTE[1024]);
-
-			HKEY hRootKey = HKEY_LOCAL_MACHINE;
-			CString strSubKey = "";
-			CString strName = "Install_Dir";
-			DWORD dwType = REG_SZ;
-			CString strValue = "";
-			DWORD dwValue = 0;
-
-			CString strCompleteSubKey;
-			strCompleteSubKey.Format("Software\\NovoBusAnalyzer_v%d.%d.%d", VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD);
-			strValue = "";
-			lError = RegOpenKeyEx(hRootKey, strCompleteSubKey, 0, KEY_READ, &hKey);
-			// If the registry key open successfully, get the value in "path"
-			// sub key
-			if (lError == ERROR_SUCCESS)
-			{
-				if (dwType == REG_SZ)
-				{
-					lError = RegQueryValueEx(hKey, strName, 0, &dwType, acRegValue, &dwSize);
-					strValue.Format("%s", acRegValue);
-				}
-
-				RegCloseKey(hKey);
-			}
-
-			BOOL bStatus = FALSE;
-			strLicenseFile += '\0';
-			strValue += "\0";
-			SHFILEOPSTRUCT fileInfo;
-			fileInfo.hwnd = this->m_hWnd;
-			fileInfo.wFunc = FO_COPY;
-			fileInfo.pFrom = strLicenseFile.c_str();
-			fileInfo.pTo = strValue.GetBuffer();
-
-			fileInfo.fFlags = FOF_NOCONFIRMATION;
-			fileInfo.fAnyOperationsAborted = bStatus;
-
-			if (strValue != "" && TRUE == PathFileExists(strLicenseFile.c_str()))
-			{
-				int nRetVal = SHFileOperation(&fileInfo);
-				if (nRetVal != 0)
-				{
-					MessageBox("Importing License file failed", "BUSMASTER", MB_OK | MB_ICONERROR);
-					nResult = - 1;
-				}
-				else
-				{
-					//MessageBox("License file is copied successfully.\nRestart BUSMASTER to start using Add-On features.", "BUSMASTER", MB_OK | MB_ICONINFORMATION);
-					nResult = 0;
-				}
-				if (fileInfo.fAnyOperationsAborted)
-				{
-					nResult = -1;
-				}
-			}
-		}
-	}
-
-	return nResult;
 }

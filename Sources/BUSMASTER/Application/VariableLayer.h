@@ -51,7 +51,6 @@ namespace VariableManager
 		void getConfiguration(xmlNodePtr& pNodePtr);       
 		void setConfiguration(const xmlDocPtr);            
 		void getConnectPoint(IBusmasterPluginConnection**);
-		ILicenseProvider *getLicenseProvider();
 
 		void HandleImportInstruments(std::string& variablePath);
 		

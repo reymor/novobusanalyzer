@@ -118,7 +118,6 @@ public:
     
     // Pointer to new Simulated system array Struct
     PSSIMSYSARRAY m_psSimSysArray;
-    //CSimSysNodeInfo::PSSIMSYSINFO m_psSimSysInfo;
 
     // Holds opened document name
     CString m_omStrSourceFilePathName;
@@ -164,23 +163,19 @@ public:
     int             m_nNumChannelsLIN;
     // Overrides
     // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CMainFrame)
 public:
     virtual BOOL PreTranslateMessage(MSG* pMsg);
 protected:
     virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
-    //}}AFX_VIRTUAL
 
     // Implementation
 public:
 
-	int GetLicenseDetails(std::string strAddOn, CLicenseDetails &obj);
     void vGettextBusmaster();
     HICON m_hLogIcon1, m_hLogIcon2, m_hLogOffIcon;
     int m_nIconSetFlag;
     int m_nJ1939IconSetFlag;
     int m_nLinIconSetFlag;
-    
 
     INT m_nSendMsgLogCnt;
     INT m_nSendMsgJ1939LogCnt;
@@ -188,7 +183,6 @@ public:
     CWaveformTransmitter m_ouWaveTransmitter;
     USHORT vCheckValidLogFiles(USHORT iCount);
     bool bIsAtleastOneLoggingBlockEnabled(USHORT LogBlocks);
-
 
     USHORT vCheckValidLogFiles_LIN(USHORT iCount);
     bool bIsAtleastOneLoggingBlockEnabled_LIN(USHORT LogBlocks);
@@ -204,22 +198,9 @@ public:
     //To initialize LIN DIL
     HRESULT IntializeDILL(UINT unDefaultChannelCnt = 0);
     
-    
-    
-
-
-
-    //BMClusterConfig m_ouBmClusterConfig[BUS_TOTAL];
-
     //Generalised New Structures.
 
-
     INT nsize;
-    
-
-
-
-    
     
     // To Create Graph UI thread and graph Window
     bool bCreateGraphWindow();
@@ -230,7 +211,6 @@ public:
 
     // Function to clear Simulated system List
     void vEmptySimsysList();
-
 
     // Delete memory allocated by signal watch
     void vFreeSignalWatchMemorySpace();
@@ -244,8 +224,6 @@ public:
     bool bCreateMsgWindow(void);
 
     //Create toolbar nodes
-    //bool CreationOfToolBarNode(xmlNodePtr pNodePtr, string strTag, string strData);
-    //bool CreationOfToolBarNode(xmlNodePtr pNodePtr, string strTag, int nData);
     // Returns reference to CByteArray
     CByteArray& pomGetMsgByteArrayReference();
     // Fills the tool bar combo box with message names
@@ -274,9 +252,6 @@ public:
 
     // Get pointer to CMsgSignalDBWnd class
     CMsgSignalDBWnd* pomGetMsgSgWnd();
-
-    // Get pointer to CSimSysWnd class
-    //CSimSysWnd* pomGetSimSysWnd();
 
     virtual ~CMainFrame();
     //Called by wrapper function to Start\Stop logging$Log:$Log:
@@ -326,7 +301,6 @@ public:
     void OnHex_DecButon();
 
     void bSetHexDecFlags(bool bHexOn);
-
     
 #ifdef _DEBUG
     virtual void AssertValid() const;
@@ -336,10 +310,8 @@ public:
 protected:
     // control bar embedded members
     CMFCStatusBar      m_wndStatusBar; // Status bar
-    
     // Generated message map functions
 protected:
-    //{{AFX_MSG(CMainFrame)
     afx_msg BOOL PreCreateWindow(CREATESTRUCT&);
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
     afx_msg void OnOpenDatabase();
@@ -367,7 +339,6 @@ protected:
 
     afx_msg void vOnLINScheduleTableConfig();
 
-    //afx_msg void OnMessageFilter();
     afx_msg void OnLogFilter();
     afx_msg void OnLogFilterLIN();
 
@@ -376,7 +347,6 @@ protected:
     afx_msg void OnAboutApplication();
     afx_msg void OnButtonSignalWatchButton();
     afx_msg void OnButtonSignalWatchButton_LIN();
-
 
     afx_msg void OnUpdateConfigureDatabaseClose(CCmdUI* pCmdUI);
     afx_msg void OnUpdateConfigureDatabaseNew(CCmdUI* pCmdUI);
@@ -389,7 +359,6 @@ protected:
 
     afx_msg void OnUpdateLINScheduleTableConfig(CCmdUI* pCmdUI);
     afx_msg void OnUpdateReplayFilter(CCmdUI* pCmdUI);
-
 
     afx_msg void OnMessageFilterButton();
     afx_msg void OnMessageFilterButtonLin();
@@ -423,7 +392,6 @@ protected:
     afx_msg void OnFileConnect();
     afx_msg void OnUpdateFileConnect(CCmdUI* pCmdUI);
     
-    
     afx_msg void OnLINConnect();
     afx_msg void OnUpdateLINConnect(CCmdUI* pCmdUI);
     afx_msg void OnLoadConfigFile();
@@ -440,8 +408,6 @@ protected:
     afx_msg void OnTimer(UINT nIDEvent);
     afx_msg void OnNetworkStatisticsWnd();
     afx_msg void OnUpdateNetworkStatisticsWnd(CCmdUI* pCmdUI);
-
-
 
     afx_msg void OnUpdateConfigurePassive(CCmdUI* pCmdUI);
     afx_msg void OnTraceWnd();
@@ -473,28 +439,18 @@ protected:
     afx_msg void OnCfgnUdsSettingsWnd();
     afx_msg void OnAutomationTSEditor();
     afx_msg void OnAutomationTSExecutor();
-
     
-    
-
     afx_msg void OnConfigChannelSelection();
     afx_msg void OnConfigChannelSelectionLIN();
     afx_msg void OnUpdateConfigChannelSelection(CCmdUI* pCmdUI);
-
-
 
     afx_msg LRESULT OnReceiveKeyBoardData(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnReceiveKeyDown(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT onGetConfigPath(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT onJ1939TxWndClose(WPARAM wParam, LPARAM lParam);
 
-
-
-
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 
-    
     afx_msg LRESULT OnErrorMessageProc(WPARAM wpParam, LPARAM lParam);
     afx_msg void OnUpdateStatusBar(WPARAM wpParam, LPARAM lParam);
     afx_msg void OnUpdateConfigurationFileName(CCmdUI* pCmdUI);
@@ -504,9 +460,6 @@ protected:
     afx_msg LRESULT vNotificationFromOtherWin(WPARAM wParam, LPARAM lParam);
     // Handler for creating trace window
     afx_msg LRESULT vCreateTraceWindow(WPARAM wParam, LPARAM lParam);
-    
-    
-
 
 public:
 	void CMainFrame::OnClickMruList(CString omStrName);
@@ -529,22 +482,15 @@ private:
 
     bool m_bUpdateNetworkStatistics;
     bool m_bLINDisconnect;
-    
-    
+
     PROJECTDATA m_sProjData;
-    //CMenu* m_pExternalTools; // External Tools menu is dynamically created.
     DILLIST m_ouList;// List of the driver interface layers supported
     DILLIST m_ouListLin;// List of the driver interface layers supported
     INT m_nDILCount; //Count of the driver interface layers supported
     INT m_nDILCountLin; //Count of the driver interface layers supported
-    //CMenu* m_pDILSubMenu;
     
-    
-    //CMenu*          m_pFlxDILSubMenu;
-    //CMenu* m_pDILSubMenuLin;
     CWaveFormDataHandler m_objWaveformDataHandler;
     CMainEntryList m_odResultingList;
-    //CMainEntryList m_odResultingList;
 
     INT m_anMsgBuffSize[BUS_TOTAL][defDISPLAY_CONFIG_PARAM];
     WINDOWPLACEMENT m_sMsgWndPlacement;//MSG_WND_PLACEMENT
@@ -562,13 +508,9 @@ private:
     SCONTROLLER_DETAILS m_asControllerDetails[defNO_OF_CHANNELS];
     SCONTROLLER_DETAILS_LIN m_asControllerDetailsLIN[defNO_OF_LIN_CHANNELS];
     
-    //sCONTROLLERDETAILSLIN sControllerDetailsLIN[defNO_OF_LIN_CHANNELS];
-
     SFILTERAPPLIED_CAN m_sFilterAppliedCAN; // Filter applied struct for CAN
     SFILTERAPPLIED_J1939 m_sFilterAppliedJ1939; // Filter applied struct for J1939
     SFILTERAPPLIED_LIN m_sFilterAppliedLIN;     // Filter applied struct for LIN
-
-
 
     CString m_omStrSavedConfigFile;
     STCAN_MSG m_sRxMsgInfo;
@@ -590,8 +532,7 @@ private:
     bool m_bCfgLoadMenuOption;
     bool m_bCfgSaveMenuOption;
     bool m_bCfgSaveAsMenuOption;
-    
-    
+
     bool m_bIsSendingMsg;
     // Holds Previously loaded DLL name
     CString m_omStrPrevLoadedDll;
@@ -657,7 +598,6 @@ private:
     CString         m_omAppDirectory;
     bool            m_bFlxDILChanging;
 
-    
     void vPopulateIDList(ETYPE_BUS);
 
     /* Helper function to re register all the nodes when driver changes */
@@ -671,7 +611,6 @@ private:
     void vGetCurrentSessionData(eSECTION_ID eSecId, xmlNodePtr pNodePtr);
     void vManageOnKeyHandler(CBaseNodeSim* pBaseNodeSim, UINT unKey);
 
-    //void vSetCurrentSessionData(eSECTION_ID eSecId, BYTE* pbyConfigData, UINT nSize);
     void vSetDefaultConfiguration(eSECTION_ID eSecId);
 
     INT SaveConfiguration(void);
@@ -693,9 +632,8 @@ private:
     void vSetCurrProjInfo(float fAppVersion);
 
     DILINFO* psGetDILEntry(UINT unKeyID, bool bKeyMenuItem = TRUE);
-    
-    void vInitializeBusStatCAN(void);
 
+    void vInitializeBusStatCAN(void);
 
     DILINFO* psGetDILLINEntry(UINT unKeyID, bool bKeyMenuItem = TRUE);
     void vInitializeBusStatLIN(void);
@@ -743,13 +681,11 @@ public:
     bool COM_SaveConfigFile();
     bool COM_SaveConfigFileAs(CString omCfgFilePath);
 
-
 	bool bUpdatePopupMenuDIL();
     
 	CMFCRibbonCategory* GetCategory(const char* categoryName);
 	CMFCRibbonPanel* GetRibbonPanel(CMFCRibbonCategory* category, const char* panelName);
     bool bUpdatePopupMenuDILL(void);
-
 
     void vNS_LINInitCFileFunctPtrs();
 
@@ -759,7 +695,6 @@ public:
     void vPushConfigFilenameDown ( CString omStrConfigFilename );
     void vUpdateMainEntryListInWaveDataHandler();
     void vUpdateAllMsgWndInterpretStatus(ETYPE_BUS eBusType, bool bAssociate);
-
 
     int getDilService( ETYPE_BUS, IBusService** );
     int getDbService( IBMNetWorkGetService** );
@@ -772,14 +707,10 @@ public:
     int getPluginConnectionPoint(const char* pluginId, IBusmasterPluginConnection**);
     void provideBusmasterConfiguredPaths(int pathType, char* infoData);
 	int getVariableCommunicationLayer(IVariableLayer** variableLayer);
-	int ImportLicense();
 
 public:
     afx_msg void OnUpdateSelectDriver(CCmdUI* pCmdUI);
     afx_msg void OnSelectDriver(UINT nID);
-
-    
-    
 
     afx_msg void OnUpdateSelectLINDriver(CCmdUI* pCmdUI);
     afx_msg void OnSelectLINDriver(UINT nID);
@@ -806,8 +737,6 @@ public:
     afx_msg void OnUpdateCfgnLog(CCmdUI* pCmdUI);
     afx_msg void OnUpdateCfgnLog_LIN(CCmdUI* pCmdUI);
 
-
-
     afx_msg void OnStatisticsCAN();
     afx_msg void OnStatisticsLIN();
     
@@ -815,14 +744,6 @@ public:
 
     afx_msg void OnDisplayEdit();
     afx_msg void OnUpdateDisplayEdit(CCmdUI* pCmdUI);
-    
-    
-    
-    
-
-
-
-    
     
     afx_msg void OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);
     afx_msg void OnConfigureWaveformMessages();
@@ -874,17 +795,14 @@ public:
     afx_msg LRESULT OnMessageFromUserDllGetAbsoluteTime(WPARAM wParam, LPARAM lParam);
     afx_msg void OnFileConverter();
 
-    //afx_msg void OnActivateLIN();
     afx_msg void OnCfgSendMsgsLIN();
     afx_msg void OnLinClusterConfig();
     afx_msg void OnLDFEditor();
 
 	afx_msg void OnApplicationLook(UINT id);
 
-
     afx_msg void onPluginMenuClicked(UINT id);
     afx_msg void onPluginMenuUpadate( CCmdUI* pCmdUI );
-
 
     void ApplyLogFilter();
     void ApplyLINLogFilter();
@@ -898,7 +816,6 @@ private:
 
     void vVlaidateAndLoadFibexConfig(sLinConfigContainer& ouFibexContainer);
 
-
     void SaveConfigDataToXML( SCONTROLLER_DETAILS&, xmlNodePtr pNodePtr );
     void vInitialize( SCONTROLLER_DETAILS& controller, BOOL bUpdateHWDesc );
 
@@ -908,11 +825,9 @@ private:
     IBusMasterKernel* mBusmasterKernel = nullptr;
     IBusmasterPluginManager* mPluginManager = nullptr;
     
-
 	VariableLayer mVariableLayer;
 	void setConnectState(ETYPE_BUS busType, bool connected);
 	void setConnectStateJ1939(bool connected);
-    
 	
 	LRESULT OnRibbonCustomize(WPARAM lparam, LPARAM wparam);
 	LRESULT OnAutoItRequest(WPARAM lparam, LPARAM wparam);

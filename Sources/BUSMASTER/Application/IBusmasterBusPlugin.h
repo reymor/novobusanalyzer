@@ -6,9 +6,8 @@
 #include "../Include/BaseDefs.h"
 #include "IMenuInterface.h"
 #include "IBusmasterPlugin.h"
-#include "ILicenseProvider.h"
-class IBusmasterBusPlugin
-{
+
+class IBusmasterBusPlugin {
 public:
 	IBusmasterBusPlugin(){};
 	virtual ETYPE_BUS getBusType() = 0;
@@ -20,8 +19,5 @@ public:
     virtual void setConfiguration(const xmlDocPtr) = 0;            //TODO
 	virtual void closureOperations() = 0;
     
-	virtual ILicenseProvider *getLicenseProvider() = 0;
-
 	virtual ~IBusmasterBusPlugin(){};
 };
-

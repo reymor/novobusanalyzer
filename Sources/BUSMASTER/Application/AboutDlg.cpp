@@ -133,15 +133,6 @@ BOOL CAboutDlg::OnInitDialog()
 				int nDays = 0, nValidLicense = 0;
 				std::string strDateTime = "", strAddOnVersion = "";
 				char result[MAX_PATH] = { 0 }, month[100] = { 0 };
-				if (nullptr != pMainFrame)
-				{
-					CLicenseDetails licenseDetails;
-					pMainFrame->GetLicenseDetails(achKey, licenseDetails);
-					nDays = licenseDetails.nLicenseValidity;
-					strDateTime = licenseDetails.strDateTime;
-					nValidLicense = licenseDetails.nValidLicense;
-					strAddOnVersion = licenseDetails.strVersion;
-				}
 
 				CString strValidity = "0";
 
@@ -248,13 +239,5 @@ void CAboutDlg::OnLvnItemchangedListComponents(NMHDR *pNMHDR, LRESULT *pResult)
 // This function is used to import a license from About Box
 void CAboutDlg::OnBnClickedImportLicense()
 {
-	CMainFrame* pMainFrame = static_cast<CMainFrame*> (theApp.m_pMainWnd);
 
-	if (NULL != pMainFrame)
-	{
-		if (0 == pMainFrame->ImportLicense())
-		{
-			MessageBox("License file is copied successfully.\nRestart BUSMASTER to start using Add-On features.", "BUSMASTER", MB_OK | MB_ICONINFORMATION);
-		}
-	}
 }

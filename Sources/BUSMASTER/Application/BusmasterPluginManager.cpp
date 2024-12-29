@@ -42,7 +42,6 @@ BusmasterPluginManager::BusmasterPluginManager()
     mMenuCreator = nullptr;
     mIdgenerator = new IdGenerator();
 	mIdgenerator->setStartId(20000);
-	mMapLicenseDetails.clear();
     //SchemaPath
     std::string appPath;
     GetBusmasterInstalledFolder(appPath);
@@ -207,20 +206,7 @@ int BusmasterPluginManager::loadBusPlugin(const char* pluginFilePath)
             }
         }
         mBusPluginList.push_back(newPlugin);
-		CLicenseDetails licenseDetails;
-		if (nullptr != newPlugin.mBusPluginInterface)
-		{
-			ILicenseProvider *pLicense = newPlugin.mBusPluginInterface->getLicenseProvider();
-			if (nullptr != pLicense)
-			{
-				pLicense->getLicenseDetails(licenseDetails);
-			}
 
-			if (licenseDetails.strAddOnName != "")
-			{
-				mMapLicenseDetails[licenseDetails.strAddOnName] = licenseDetails;
-			}
-		}
 	}
     return S_OK;
 }
@@ -231,20 +217,6 @@ int BusmasterPluginManager::loadPlugin( const char* pluginFilePath )
 	{
 		loadPluginInformation(busMasterPlugin);
         mPluginList.push_back(busMasterPlugin);
-		if (nullptr != busMasterPlugin.mPluginInterface)
-		{			
-			ILicenseProvider *pLicense = busMasterPlugin.mPluginInterface->getLicenseProvider();
-			CLicenseDetails licenseDetails;
-			if (nullptr != pLicense)
-			{
-				pLicense->getLicenseDetails(licenseDetails);
-			}
-
-			if (licenseDetails.strAddOnName != "")
-			{
-				mMapLicenseDetails[licenseDetails.strAddOnName] = licenseDetails;
-			}
-		}
 	}
     return S_OK;
 }
@@ -706,19 +678,7 @@ int BusmasterPluginManager::notifyAppClose()
 
 	return 0;
 }
-int BusmasterPluginManager::getLicenseDetails(std::string strAddOnName, CLicenseDetails &licenseDetails)
-{
-	std::map<std::string, CLicenseDetails>::iterator itr = mMapLicenseDetails.find(strAddOnName);
-	if (itr != mMapLicenseDetails.end())
-	{
-		licenseDetails = itr->second;
-	}
 
-	
-
-
-	return 0;
-}
 int BusmasterPluginManager::getPluginConfiguration(xmlNodePtr& parentNode)
 {
     for (auto plugin : mBusPluginList)

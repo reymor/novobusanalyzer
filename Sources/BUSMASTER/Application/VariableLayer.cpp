@@ -139,10 +139,6 @@ namespace VariableManager
 		*connectionPoint = nullptr;
 	}
 
-	ILicenseProvider* VariableLayer::getLicenseProvider()
-	{
-		return nullptr;
-	}
 	int VariableLayer::onBusmasterEvent(eBusmaster_Event busEvent, void* eventData)
 	{
 		switch (busEvent)
