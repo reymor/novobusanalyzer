@@ -22,13 +22,14 @@
  * Interface file for CWaveformDataHandler class
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_WAVEFORMDATAHANDLER_H_
+#define BUSMASTER_APPLICATION_WAVEFORMDATAHANDLER_H_
 
+#include <libxml/parser.h>
 #include "DataTypes/MsgSignal_DataTypes.h"
 #include "DataTypes/MainSubEntry.h"
-#include <libxml\parser.h>
-class CWaveFormDataHandler
-{
+
+class CWaveFormDataHandler {
 public:
     CWaveFormDataHandler(void);
     ~CWaveFormDataHandler(void);
@@ -134,3 +135,5 @@ private:
     bool bIsSignalInMsgFoundInDB(UINT& nMsgID, CString& strSignalName);
     int ParseSignalNode(xmlNodePtr pNode, sSigWaveMap& sSignalWave);
 };
+
+#endif // BUSMASTER_APPLICATION_WAVEFORMDATAHANDLER_H_

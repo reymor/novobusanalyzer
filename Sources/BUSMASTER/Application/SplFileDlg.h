@@ -38,9 +38,7 @@ public:
                 CString omStrButtonCaption = "Select");
 
 protected:
-    //{{AFX_MSG(CSplFileDlg)
     virtual BOOL OnInitDialog();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     CString m_omStrButtonCaption;

@@ -87,15 +87,11 @@ CProperties::CProperties(const SPROPERTIESLIST& sProperties)
 void CProperties::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CProperties)
     DDX_Control(pDX, IDC_TREE_PROPERTIES, m_omPropertyTree);
-    //}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CProperties, CDialog)
-    //{{AFX_MSG_MAP(CProperties)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /******************************************************************************/

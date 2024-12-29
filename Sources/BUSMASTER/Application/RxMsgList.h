@@ -29,8 +29,6 @@
 class CRxMsgList: public CFlickerFreeListCtrl
 {
 private:
-    //BOOL m_bIsAppend;
-    //eMode m_eDispMode;
     int m_nIconMinus;
     int m_nIconPlus;
     int m_nIconBlank;

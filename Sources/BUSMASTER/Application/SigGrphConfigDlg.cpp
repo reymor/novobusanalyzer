@@ -28,7 +28,6 @@
 #include "MessageList.h"
 #include "ElementSelection.h"
 #include "GraphConfiguration.h"
-#include ".\siggrphconfigdlg.h"
 
 // Appliction global object
 extern CCANMonitorApp theApp;
@@ -184,7 +183,6 @@ void CSigGrphConfigDlg::OnBnClickedBtnVisible()
                 podList->m_omElementList[ hSelItem ] = odSelectedElement;
 
                 // Update Configuration Module
-                //theApp.bSetData( SIGNAL_GRAPH_LIST, podList);
 
                 // Update Button Text
                 if( odSelectedElement.m_bVisible == TRUE )
@@ -239,7 +237,6 @@ void CSigGrphConfigDlg::OnBnClickedBtnEnable()
                 podList->m_omElementList[ hSelItem ] = odSelectedElement;
 
                 // Update Configuration Module
-                //theApp.bSetData( SIGNAL_GRAPH_LIST, podList);
 
                 // Update Button Text
                 if( odSelectedElement.m_bEnabled == TRUE )
@@ -277,7 +274,6 @@ void CSigGrphConfigDlg::OnBnClickedBtnConfigure()
     omConfig.m_pMainFrame = m_pMainFrame;
     omConfig.m_eBusType = (ETYPE_BUS)m_omCmbBusType.GetCurSel();
 
-    //int nElemCount =
     m_pMainFrame->m_odGraphList[omConfig.m_eBusType].m_omElementList.GetSize();
 
     if( omConfig.DoModal() == IDOK )
@@ -345,7 +341,6 @@ void CSigGrphConfigDlg::vPopulateElementList()
                 unMsgID = odTemp.m_nMsgID;
 
                 // Get Message Name
-                //omStrName =
                 //CAHHNEL, PROTOCOL has to be updated
 
                 frame = nullptr;

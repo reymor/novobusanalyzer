@@ -1,15 +1,12 @@
 #pragma once
 
 #include "../IMenuInterface.h"
-//#include "../UI/Menus.h"
 #include "../MFCRibbonBarEx.h"
 class BusmasterMenuItem : public IMenuItem
 {
 private:
     CMFCRibbonButtonEx* mRibbonButton;
     CCmdUI* mMfcMenu;
-    /*std::string mPluginMenuId;
-    RibbonButton mMenu;*/
 public:
     BusmasterMenuItem(CMFCRibbonButtonEx*, CCmdUI* pMfcCmd);
     ~BusmasterMenuItem();

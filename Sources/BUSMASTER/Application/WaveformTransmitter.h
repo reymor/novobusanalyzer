@@ -22,19 +22,17 @@
  * Waveform data Transmitter Header file
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_WAVEFORMTRANSMITTER_H_
+#define BUSMASTER_APPLICATION_WAVEFORMTRANSMITTER_H_
+
 #include "Include/Basedefs.h"
 #include "struct.h"
-//#include "DataTypes/MsgBufAll_DataTypes.h"
 #include "BaseDIL_CAN.h"
 #include "WaveFormDataHandler.h"
 #include "MsgSignal.h"
 #include "Utility/Utility_Thread.h"
 
-
-
-class CWaveformTransmitter
-{
+class CWaveformTransmitter {
 private:
     CPARAM_THREADPROC m_ouTransmitThread;
     // Holds the Base DIL pointer.
@@ -45,7 +43,6 @@ private:
     IBMNetWorkGetService* m_ppouDBPtr;
     // Waveform signal list
     CSigGenerationInfoList m_omSigGenList;
-    //
     BOOL m_bEnabled;    // Enable / disable state
     BOOL m_bTxON;       // Current Tx state
     int m_nIterLimit;   // Iteration limit
@@ -63,11 +60,9 @@ private:
     //To0 calculate Rounding values for floats.
     float fRound(float val, unsigned int decimals);
 
-    //Services:
 public:
-
-    CWaveformTransmitter();     // Standard / default constructor
-    ~CWaveformTransmitter();    // Destructor
+    CWaveformTransmitter();
+    ~CWaveformTransmitter();
 
     // Helper functions; to be invoked from thread
     // To calculate signal values at the curent iteration and transmit
@@ -96,3 +91,5 @@ public:
     void vSetSignalValue(int byte, int startBitIndexInByte, int length, bool bIntel, unsigned long long u64SignVal, unsigned char* aucData, int dataLenght);
     UINT64 un64GetBitMask(int byte, int startBitIndexInByte, int length, bool bIntel, unsigned char* aucData, unsigned long long u64SignVal);
 };
+
+#endif // BUSMASTER_APPLICATION_WAVEFORMTRANSMITTER_H_

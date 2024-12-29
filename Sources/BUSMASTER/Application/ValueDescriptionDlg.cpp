@@ -53,7 +53,6 @@ CValueDescriptionDlg::CValueDescriptionDlg(const SDBPARAMS& sDbParams,
         CWnd* pParent /*=nullptr*/)
     : CDialog(CValueDescriptionDlg::IDD, pParent)
 {
-    //{{AFX_DATA_INIT(CValueDescriptionDlg)
     m_omStrDescriptor = "";
     m_omStrValue = "";
     m_bIsCanceled = FALSE;
@@ -61,7 +60,6 @@ CValueDescriptionDlg::CValueDescriptionDlg(const SDBPARAMS& sDbParams,
     m_omStrSgName = omStrSgName;
     m_bMode = eMode;
     m_nIndex = nIndex;
-    //}}AFX_DATA_INIT
     bSignalType = "B";
     m_omStrPrevDesc         = "";
     m_omStrPrevSignalVal    = "";
@@ -72,20 +70,16 @@ CValueDescriptionDlg::CValueDescriptionDlg(const SDBPARAMS& sDbParams,
 void CValueDescriptionDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CValueDescriptionDlg)
     DDX_Text(pDX, IDC_EDIT_VALUE_DESC, m_omStrDescriptor);
     DDX_Text(pDX, IDC_EDIT_VAL, m_omStrValue);
     DDX_Control(pDX, IDC_EDIT_VAL, m_ounSigValue);
     DDV_MaxChars(pDX, m_omStrValue, 20);
-    //}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CValueDescriptionDlg, CDialog)
-    //{{AFX_MSG_MAP(CValueDescriptionDlg)
     ON_BN_CLICKED(IDC_CBTN_OK, OnClickedOk)
     ON_BN_CLICKED(IDC_CBTN_CANCEL, OnCancel)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 /******************************************************************************/
 /*  Function Name    :  OnClickedOk                                           */
@@ -110,47 +104,39 @@ void CValueDescriptionDlg::OnClickedOk()
 {
     BOOL bIsUpdated = UpdateData(TRUE);
 
-    if(bIsUpdated == FALSE)
-    {
+    if (bIsUpdated == FALSE) {
         return;
     }
 
     BOOL bRetValue = TRUE;
     BOOL bModifiedFlag = FALSE;
     // Validate data
-    if ( m_omStrDescriptor.IsEmpty() == TRUE )
-    {
+    if ( m_omStrDescriptor.IsEmpty() == TRUE ) {
         AfxMessageBox(_("Signal Description cannot be emtpy!"),MB_OK);
         GetDlgItem(IDC_EDIT_VALUE_DESC)->SetFocus();
         bRetValue = FALSE;
     }
 
-    if ( bRetValue == TRUE)
-    {
-        if ( m_omStrValue.IsEmpty() == TRUE )
-        {
+    if (bRetValue == TRUE) {
+        if (m_omStrValue.IsEmpty() == TRUE) {
             AfxMessageBox(_("Signal value cannot be emtpy!"),MB_OK);
             GetDlgItem(IDC_EDIT_VAL)->SetFocus();
             bRetValue = FALSE;
         }
 
-        if ( bRetValue == TRUE )
-        {
+        if (bRetValue == TRUE) {
             // Get appropriate msg structure ptr
             CMsgSignal* pTempMsgSg = m_sDbParams.m_pouMsgSignalActiveDB;
 
-            if ( pTempMsgSg != nullptr )
-            {
+            if (pTempMsgSg != nullptr) {
                 // Check if description is duplicate
-                if ( m_omStrPrevDesc != m_omStrDescriptor )
-                {
+                if (m_omStrPrevDesc != m_omStrDescriptor) {
                     if(pTempMsgSg->bIsDuplicateValueDescription(m_omStrMessageCode,
                             m_omStrSgName,
                             m_omStrValue,
                             m_omStrDescriptor,
                             m_nIndex,
-                            m_bMode))
-                    {
+                            m_bMode)) {
                         AfxMessageBox(_("Signal Descriptor already exists!"),MB_OK);
                         GetDlgItem(IDC_EDIT_VALUE_DESC)->SetFocus();
                         bRetValue = FALSE;
@@ -158,17 +144,14 @@ void CValueDescriptionDlg::OnClickedOk()
                 }
 
                 // Check if signal value is duplicate
-                if ( bRetValue == TRUE )
-                {
-                    if ( m_omStrPrevSignalVal  != m_omStrValue )
-                    {
-                        if ( pTempMsgSg->bIsDuplicateSignalValue(m_omStrMessageCode,
+                if (bRetValue == TRUE) {
+                    if (m_omStrPrevSignalVal  != m_omStrValue) {
+                        if (pTempMsgSg->bIsDuplicateSignalValue(m_omStrMessageCode,
                                 m_omStrSgName,
                                 m_omStrValue,
                                 m_omStrDescriptor,
                                 m_nIndex,
-                                m_bMode))
-                        {
+                                m_bMode)) {
                             AfxMessageBox(_("Signal Value already exists!"), MB_OK);
                             GetDlgItem(IDC_EDIT_VAL )->SetFocus();
                             bRetValue = FALSE;
@@ -177,73 +160,52 @@ void CValueDescriptionDlg::OnClickedOk()
                 }
 
                 // Check if the signal value is within the range
-                if ( bRetValue == TRUE )
-                {
+                if (bRetValue == TRUE) {
                     if (pTempMsgSg->bIsSignalValueOutofRange(m_omStrMessageCode,
                             m_omStrSgName,
-                            m_omStrValue ))
-                    {
+                            m_omStrValue )) {
                         AfxMessageBox( _(MSG_SG_VAL_OUT_OF_RANGE), MB_OK);
                         GetDlgItem(IDC_EDIT_VAL )->SetFocus();
                         bRetValue = FALSE;
                     }
 
                     //check the value is changed or not
-                    if (bIsDataModified()&&( bRetValue == TRUE ))
-                    {
+                    if (bIsDataModified()&&( bRetValue == TRUE )) {
                         bModifiedFlag = TRUE;
                         // Update the desc into the data structure
                         CSignalDescVal* pNew = new CSignalDescVal;
-                        //                      CMainFrame* pMainFrame =
-                        //                          static_cast<CMainFrame*> (AfxGetApp()->m_pMainWnd);
 
-                        if (pNew != nullptr)
-                        {
+                        if (pNew != nullptr) {
                             CString omStrPrevDesc = "";
-                            if ( MD_ADD == m_bMode )
-                            {
+                            if ( MD_ADD == m_bMode ) {
                                 // new desc and val hence allocate memory
                                 pTempMsgSg->bAddSgDescVal( m_omStrMessageCode,
                                                            m_omStrSgName );
                             }
-                            //                              pNew->m_n64SignalVal = _strtoi64( m_omStrValue, nullptr, 10);
-                            if(bSignalType.CompareNoCase(defSIGNED_INT) == 0)
-                            {
+                            if (bSignalType.CompareNoCase(defSIGNED_INT) == 0) {
 
-                                if(theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX))
-                                {
+                                if (theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX)) {
                                     // Format the min value
                                     pNew->m_DescValue.n64Value = _strtoi64( m_omStrValue, nullptr, 16);
-                                }
-                                else
-                                {
+                                } else {
                                     pNew->m_DescValue.n64Value = _strtoi64( m_omStrValue, nullptr, 10);
                                 }
-
-                            }
-                            else
-                            {
-                                if(theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX))
-                                {
+                            } else {
+                                if (theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX)) {
                                     // Format the min value
                                     pNew->m_DescValue.n64Value = _strtoi64( m_omStrValue, nullptr, 16);
-                                }
-                                else
-                                {
+                                } else {
                                     pNew->m_DescValue.n64Value = _strtoi64( m_omStrValue, nullptr, 10);
                                 }
                             }
 
-                            //                              // convert string to int
-                            //                              pNew->m_n64SignalVal = pMainFrame->nConvertStringToInt( m_omStrValue );
                             pNew->m_omStrSignalDescriptor = m_omStrDescriptor;
 
-                            if (MD_EDIT == m_bMode)
-                            {
+                            if (MD_EDIT == m_bMode) {
                                 m_omStrPrevDesc = m_omStrDescriptor;
                             }
                             // update the edited values to the data structure
-                            if ( !pTempMsgSg->bUpdateSgDescVal( m_omStrMessageCode,
+                            if (!pTempMsgSg->bUpdateSgDescVal( m_omStrMessageCode,
                                                                 m_omStrSgName,
                                                                 m_omStrPrevDesc,
                                                                 pNew ))
@@ -262,14 +224,10 @@ void CValueDescriptionDlg::OnClickedOk()
         }
     }
 
-    if(bRetValue == TRUE)//no error occurs
-    {
-        if(bModifiedFlag == TRUE)//some modification done
-        {
+    if(bRetValue == TRUE) { //no error occurs
+        if(bModifiedFlag == TRUE) { //some modification done
             CDialog::OnOK();
-        }
-        else //no modification
-        {
+        } else { //no modification
             CDialog::OnCancel();
         }
     }
@@ -314,15 +272,13 @@ BOOL CValueDescriptionDlg::OnInitDialog()
 
     CString strMinVal = "";
     CString strMaxVal = "" ;
-    if ( pTempMsgSg != nullptr )
-    {
+    if (pTempMsgSg != nullptr) {
         pTempMsgSg->vGetSignalValidRange(m_omStrMessageCode,
                                          m_omStrSgName, strMinVal, strMaxVal);
 
     }
 
-    if(theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX))
-    {
+    if (theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX)) {
         m_ounSigValue.vSetBase(BASE_HEXADECIMAL);
         m_ounSigValue.vSetBase(BASE_HEXADECIMAL);
 
@@ -330,9 +286,7 @@ BOOL CValueDescriptionDlg::OnInitDialog()
         strRange.Format(_("(Hexadecimal range %s To %s)"), strMinVal, strMaxVal);
 
         GetDlgItem(IDC_STAT_RANGE)->SetWindowText(strRange);
-    }
-    else
-    {
+    } else {
         m_ounSigValue.vSetBase(BASE_DECIMAL);
         m_ounSigValue.vSetBase(BASE_DECIMAL);
 
@@ -342,12 +296,9 @@ BOOL CValueDescriptionDlg::OnInitDialog()
         GetDlgItem(IDC_STAT_RANGE)->SetWindowText(strRange);
     }
 
-
-
-    if ( m_bMode == MD_EDIT )
-    {
-        m_omStrPrevDesc         = m_omStrDescriptor;
-        m_omStrPrevSignalVal    = m_omStrValue;
+    if (m_bMode == MD_EDIT) {
+        m_omStrPrevDesc = m_omStrDescriptor;
+        m_omStrPrevSignalVal = m_omStrValue;
     }
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -373,46 +324,37 @@ BOOL CValueDescriptionDlg::PreTranslateMessage(MSG* pMsg)
     BOOL bSkip = FALSE;
     CEdit* omEditCtrlName   = (CEdit*) GetDlgItem(IDC_EDIT_VAL);
     CEdit* omEditFocusName  = (CEdit*) GetFocus();
-    if ( pMsg->message == WM_CHAR )
-    {
-        if ( omEditCtrlName == omEditFocusName )
-        {
+    if (pMsg->message == WM_CHAR) {
+        if (omEditCtrlName == omEditFocusName) {
             int nStart, nEnd;
             omEditCtrlName->GetSel(nStart, nEnd);
-            if (nStart == 0 &&
-                    pMsg->wParam == MINUS_SIGN)
-            {
+            if (nStart == 0 && pMsg->wParam == MINUS_SIGN) {
                 bSkip = FALSE;
-            }
-            else if ( ( pMsg->wParam >= 0x61 && pMsg->wParam<=0x66 )|| // A-F
+            } else if ( ( pMsg->wParam >= 0x61 && pMsg->wParam<=0x66 )|| // A-F
                       ( pMsg->wParam >= 0x41 && pMsg->wParam<=0x46 )||// a-f
                       ( pMsg->wParam >= '0' && pMsg->wParam <='9' ) ||// 0-9
                       pMsg->wParam == 0x08 )// BackSpace
             {
                 bSkip = FALSE;
-            }
-            else
-            {
+            } else {
                 bSkip = TRUE;
             }
         }
     }
-    if ( bSkip == FALSE )
-    {
+    if (bSkip == FALSE) {
         bSkip = CDialog::PreTranslateMessage(pMsg);
     }
 
     return bSkip;
 }
-//KSS
+
 BOOL CValueDescriptionDlg::bIsDataModified()
 {
     BOOL bDataChanged = FALSE;
     if (m_omStrPrevDesc != m_omStrDescriptor ||
-            m_omStrPrevSignalVal != m_omStrValue)
-    {
+            m_omStrPrevSignalVal != m_omStrValue) {
         bDataChanged = TRUE;
     }
+
     return bDataChanged;
 }
-//KSS

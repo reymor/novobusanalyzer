@@ -28,7 +28,7 @@
 // Definition of CBusStatistics class
 
 // For time manager class
-#include "Utility\TimeManager.h"
+#include "Utility/TimeManager.h"
 // For DIL Interface Class
 #include "Include/BaseDefs.h"
 #include "DataTypes/Base_WrapperErrorLogger.h"
@@ -37,7 +37,6 @@
 #include "BaseDIL_CAN.h"
 
 #include "BusStatisticsDlg.h"
-#include ".\busstatisticsdlg.h"
 #include "NetworkStatistics.h"
 
 #define  BUS_STATICS_CONFIG_PATH     "//BUSMASTER_CONFIGURATION/Module_Configuration/Bus_Statistics/CAN_Statistics/COLUMN"
@@ -78,8 +77,6 @@ CBusStatisticsDlg::CBusStatisticsDlg(CBaseBusStatisticCAN* pouBSCAN,int nChannel
       m_omStrAvgBusLoad( "" )
 
 {
-    //{{AFX_DATA_INIT(CBusStatisticsDlg)
-    //}}AFX_DATA_INIT
     m_nChannelCount = nChannelCount;
 }
 
@@ -91,8 +88,6 @@ CBusStatisticsDlg::CBusStatisticsDlg(CBaseBusStatisticCAN* pouBSCAN, CWnd* /* pP
       m_omStrAvgBusLoad( "" )
 
 {
-    //{{AFX_DATA_INIT(CBusStatisticsDlg)
-    //}}AFX_DATA_INIT
     m_nChannelCount = nChannelCount;
     for( int nChannel = 0; nChannel < m_nChannelCount; nChannel++ )
     {
@@ -122,16 +117,12 @@ CBusStatisticsDlg::CBusStatisticsDlg(CBaseBusStatisticCAN* pouBSCAN, CWnd* /* pP
 void CBusStatisticsDlg::DoDataExchange(CDataExchange* pDX)
 {
     CCommonStatistics::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CBusStatisticsDlg)
     DDX_Control(pDX, IDC_LIST_STAT, m_omStatList);
-    //}}AFX_DATA_MAP
 }
 
 IMPLEMENT_DYNAMIC(CBusStatisticsDlg, CCommonStatistics)
 BEGIN_MESSAGE_MAP(CBusStatisticsDlg, CCommonStatistics)
-    //{{AFX_MSG_MAP(CBusStatisticsDlg)
     ON_WM_ERASEBKGND()
-    //}}AFX_MSG_MAP
     ON_MESSAGE(WM_DISPLAY_MESSAGE, vUpdateFields)
     ON_WM_SIZE()
 END_MESSAGE_MAP()

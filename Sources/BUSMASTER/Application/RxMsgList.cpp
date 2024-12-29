@@ -23,15 +23,13 @@
  */
 
 #include "StdAfx.h"
-#include "Application\RxMsgList.h"
-#include "Application\Resource.h"
-#include "Application\Common.h"
-#include "Application\hashdefines.h"
-#include "Utility\MultiLanguageSupport.h"
+#include "Application/RxMsgList.h"
+#include "Application/Resource.h"
+#include "Application/Common.h"
+#include "Application/hashdefines.h"
+#include "Utility/MultiLanguageSupport.h"
 
 const int nMAX_PSZTEXT_SIZE               = 260;
-
-
 
 /******************************************************************************
 Function Name   :   CRxMsgList
@@ -136,7 +134,6 @@ void CRxMsgList::OnLvnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
     }
     if (sParam.m_bResult != FALSE)
     {
-        //SetItemData(iItemIndx,lst.m_ColourCode);
 
         if ((pItem->mask & LVIF_TEXT) && (pItem->iSubItem!= 0 && (nullptr != m_pomDataPtrArr[pItem->iSubItem-1] ))) //valid text buffer?
         {
@@ -350,7 +347,6 @@ void CRxMsgList::OnDestroy()
 *******************************************************************************/
 void CRxMsgList::OnHdnItemchanged(NMHDR* /*pNMHDR*/, LRESULT* pResult)
 {
-    //LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
     RedrawWindow();
     *pResult = 0;
 }
@@ -413,7 +409,6 @@ BOOL CRxMsgList::OnMouseWheel(UINT /*nFlags*/, short /*zDelta*/, CPoint /*pt*/)
         AfxBeginThread(UpDateThread, (LPVOID)this);
     }
     return FALSE;
-    //return CFlickerFreeListCtrl::OnMouseWheel(nFlags, zDelta, pt);
 }
 
 /*******************************************************************************
@@ -680,15 +675,6 @@ void CRxMsgList::InsertColumnState(int nCol, bool bVisible, int nOrgWidth)
     else
     {
         m_ColumnStates.InsertAt(nCol, columnState);
-        // Insert column in the middle of the array
-        //CArray<ColumnState, ColumnState> newArray;
-        //for(int i=0 ; i < m_ColumnStates.GetSize(); ++i)
-        //{
-        //  if (i == nCol)
-        //      newArray.Add(columnState);
-        //  newArray.Add(m_ColumnStates[i]);
-        //}
-        //m_ColumnStates = newArray;
     }
 }
 
@@ -763,7 +749,6 @@ void CRxMsgList::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
                     lvc.pszText = sColText;
 
                     lvc.cchTextMax = 30;    //Set the Width of Menu Items here
-                    //lvc.cchTextMax = sizeof(sColText)-1;
                     VERIFY( GetColumn(i, &lvc) );
 
                     menu.InsertMenu(0, uFlags, i, lvc.pszText);

@@ -24,8 +24,7 @@
 
 #pragma once
 
-class CDisplayIntMsg : public CDialog
-{
+class CDisplayIntMsg : public CDialog {
     // Construction
 public:
     CDisplayIntMsg(CONST CStringArray& omStrStringArray);

@@ -49,11 +49,9 @@ public:
 
     // Overrides
     // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CUIThread)
 public:
     virtual BOOL InitInstance();
     virtual int ExitInstance();
-    //}}AFX_VIRTUAL
 
     // Implementation
 protected:
@@ -64,12 +62,6 @@ protected:
     // To process thread messages
     afx_msg void vWriteTextToTrace(UINT, LONG);
     afx_msg void vProcessThreadMsg(UINT, LONG);
-
-
-    // Generated message map functions
-    //{{AFX_MSG(CUIThread)
-    // NOTE - the ClassWizard will add and remove member functions here.
-    //}}AFX_MSG
 
     DECLARE_MESSAGE_MAP()
 };

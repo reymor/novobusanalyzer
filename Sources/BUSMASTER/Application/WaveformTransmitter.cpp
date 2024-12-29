@@ -22,8 +22,8 @@
  * Waveform data Transmitter implementation file
  */
 
-#include "stdafx.h"
 #include <math.h>
+#include "stdafx.h"
 #include "WaveFormTransmitter.h"
 
 const float SINE_COEFF = (8 / (PI* PI));
@@ -53,30 +53,26 @@ float CWaveformTransmitter::fRound(float val, unsigned int decimals)
 {
     ASSERT(val!=0);//val must be different from zero to avoid overflow!
 
-    float sign = fabs(val)/val;//we obtain the sign to calculate positive always
-    float tempval = fabs(val*pow((float)10, (float)decimals));//shift decimal places
+    float sign = fabs(val) / val; //we obtain the sign to calculate positive always
+    float tempval = fabs(val * pow((float)10, (float)decimals)); //shift decimal places
     unsigned int tempint = (unsigned int)tempval;
-    float decimalpart = tempval-tempint;//obtain just the decimal part
+    float decimalpart = tempval-tempint; //obtain just the decimal part
 
-    if(decimalpart>=0.5)//next integer number if greater or equal to 0.5
-    {
+    //next integer number if greater or equal to 0.5
+    if (decimalpart >= 0.5) {
         tempval = ceil(tempval);
-    }
-    else
-    {
-        tempval = floor(tempval);    //otherwise stay in the current interger part
+    } else {
+        tempval = floor(tempval); //otherwise stay in the current interger part
     }
 
-    return (tempval*pow((float)10,-(float)decimals))*sign;//shift again to the normal decimal places
+    return (tempval*pow((float)10,-(float)decimals))*sign; //shift again to the normal decimal places
 }
 
-UINT64 CWaveformTransmitter::u64GetCurrAmplitude(int CurrItr,
-        sWaveformInfo& ouCurrSig)
+UINT64 CWaveformTransmitter::u64GetCurrAmplitude(int CurrItr, sWaveformInfo& ouCurrSig)
 {
     float Result = 0.0;
 
-    switch (ouCurrSig.m_eSignalWaveType)
-    {
+    switch (ouCurrSig.m_eSignalWaveType) {
         case eWave_SINE:
         {
             Result = ouCurrSig.m_fAmplitude * sin(CurrItr * ouCurrSig.m_fGranularity);
@@ -98,12 +94,9 @@ UINT64 CWaveformTransmitter::u64GetCurrAmplitude(int CurrItr,
         case eWave_SAWTOOTH:
         {
             UINT unStep = ( 1 / (ouCurrSig.m_fGranularity/(2 * PI )) );
-            if ( unStep == 1 )
-            {
+            if (unStep == 1) {
                 CurrItr = 1;
-            }
-            else
-            {
+            } else {
                 CurrItr= (CurrItr) % unStep;
             }
             Result = ( ( 2 * ouCurrSig.m_fAmplitude * CurrItr * (ouCurrSig.m_fGranularity/(2 * PI))) -  ouCurrSig.m_fAmplitude);/* Sawtooth :((2A t /T) - A) */
@@ -116,8 +109,7 @@ UINT64 CWaveformTransmitter::u64GetCurrAmplitude(int CurrItr,
     //instead of -Amplitude to +Amplitude
     Result += ouCurrSig.m_fAmplitude;
 
-    if(Result!=0)
-    {
+    if (Result!=0) {
         Result = fRound(Result, 0);
     }
 
@@ -131,12 +123,10 @@ BOOL CWaveformTransmitter::bGetSignalEntry(CString omSignalName,
 
     ASSERT(nullptr != pomSigWaveList);
     POSITION CurrSigPos = pomSigWaveList->GetHeadPosition();
-    while ((nullptr != CurrSigPos) && (FALSE == bIsPresent))
-    {
+    while ((nullptr != CurrSigPos) && (FALSE == bIsPresent)) {
         // Retrieve the present signal entry and query for the next one
         sSigWaveMap& ouCurrSig = pomSigWaveList->GetNext(CurrSigPos);
-        if (ouCurrSig.m_omSigName == omSignalName)
-        {
+        if (ouCurrSig.m_omSigName == omSignalName) {
             Result = ouCurrSig;
             bIsPresent = TRUE;
         }
@@ -159,8 +149,7 @@ UINT64 CWaveformTransmitter::un64GetBitMask(int byte, int startBitIndexInByte, i
                   : 64 - ((short)byte * 8 - startBitIndexInByte);
     Result <<= Shift;
 
-    if (false == bIntel)
-    {
+    if (false == bIntel) {
         BYTE* pbStr = (BYTE*)&Result;
 
         BYTE bTmp = 0x0;
@@ -177,6 +166,7 @@ UINT64 CWaveformTransmitter::un64GetBitMask(int byte, int startBitIndexInByte, i
         pbStr[3] = pbStr[4];
         pbStr[4] = bTmp;
     }
+
     return Result;
 }
 void CWaveformTransmitter::vGetDataBytesFromSignal(unsigned long long u64SignVal, std::pair<ISignal*, SignalInstanse>& Signal, int nDLC, unsigned char* pucData)
@@ -191,13 +181,13 @@ void CWaveformTransmitter::vGetDataBytesFromSignal(unsigned long long u64SignVal
     bool bIntel = false;
     eEndianess endian = Signal.second.m_ouSignalEndianess;
 
-    if (eIntel == endian)
-    {
+    if (eIntel == endian) {
         bIntel = true;
     }
     vSetSignalValue(byteStart, signalStartBitInByte, nLength, bIntel, u64SignVal, &ucData[0], nDLC);
     memcpy(pucData, ucData, nDLC);
 }
+
 void CWaveformTransmitter::vSetSignalValue(int byte, int startBitIndexInByte, int length, bool bIntel, unsigned long long u64SignVal, unsigned char* aucData, int dataLenght)
 {
     /* Signal valuedata type happens to be of the same size of the entire CAN
@@ -214,13 +204,10 @@ void CWaveformTransmitter::vSetSignalValue(int byte, int startBitIndexInByte, in
     UINT64 unMaxVal = pow((double)2, (double)length);
     unMaxVal -= 1;
     u64SignVal = u64SignVal&unMaxVal;
-    if (bIntel == true)// If Intel format
-    {
+    if (bIntel == true) { // If Intel format
         int Offset = (byte - 1) * 8 + startBitIndexInByte;
         u64SignVal <<= Offset;// Exactly map the data bits on the databytes.
-    }
-    else// If Motorola format
-    {
+    } else { // If Motorola format
         int Offset = byte * 8 - startBitIndexInByte;
         u64SignVal <<= (64 - Offset);
         BYTE byTmp = 0x0;
@@ -254,13 +241,11 @@ void CWaveformTransmitter::vProcessWaveForm(int CurrItr,int& iStep,eWAVEFORMTYPE
         6. Repeat steps 2 to 5 for the entire set of messages. */
 
     POSITION CurrMsgPos = m_omSigGenList.GetHeadPosition();
-    while (nullptr != CurrMsgPos)
-    {
+    while (nullptr != CurrMsgPos) {
         // Retrieve the present entry and query for the next one
         SSigGeneration& ouCurrEntry = m_omSigGenList.GetNext(CurrMsgPos);
 
-        if(nullptr == m_ppouDBPtr)
-        {
+        if(nullptr == m_ppouDBPtr) {
             break;
         }
 
@@ -268,8 +253,7 @@ void CWaveformTransmitter::vProcessWaveForm(int CurrItr,int& iStep,eWAVEFORMTYPE
         IFrame* frame = nullptr;
         m_ppouDBPtr->GetFrame(CAN, 0, ouCurrEntry.m_nMsgID, nullptr, &frame);
 
-        if (nullptr == frame)
-        {
+        if (nullptr == frame) {
             break;
         }
 
@@ -286,36 +270,27 @@ void CWaveformTransmitter::vProcessWaveForm(int CurrItr,int& iStep,eWAVEFORMTYPE
         std::map<ISignal*, SignalInstanse> signalList;
         frame->GetSignalList(signalList);
 
-
         bool bSawtoothExists = false;
         std::string name = "";
-for (auto signal : signalList)
-        {
+        for (auto signal: signalList) {
             // Search if it occurs in the waveform list.
             sSigWaveMap ouCurrSig;
             signal.first->GetName(name);
-            if (bGetSignalEntry(name.c_str(),
-                                &(ouCurrEntry.m_omSigWaveMapList), ouCurrSig))
-            {
+            if (bGetSignalEntry(name.c_str(), &(ouCurrEntry.m_omSigWaveMapList), ouCurrSig)) {
                 UINT unStep = ( 1 / (ouCurrSig.sWaveInfo.m_fGranularity/(2 * PI )) );
 
-                if ( ouCurrSig.sWaveInfo.m_eSignalWaveType == eWave_SAWTOOTH && ( (CurrItr == 0x00) || (CurrItr % unStep) == 0) )
-                {
+                if (ouCurrSig.sWaveInfo.m_eSignalWaveType == eWave_SAWTOOTH && ( (CurrItr == 0x00) || (CurrItr % unStep) == 0)) {
                     std::pair<ISignal*, SignalInstanse> signalPair(signal.first, signal.second);
                     vGetDataBytesFromSignal((UINT64)ouCurrSig.sWaveInfo.m_fAmplitude * 2, signalPair, sCurrFrame.m_ucDataLen, sCurrFrame.m_ucData);
                     bSawtoothExists = true;
-                }
-                else
-                {
+                } else {
                     UINT64 Amplitude = u64GetCurrAmplitude(CurrItr, ouCurrSig.sWaveInfo);
                     std::pair<ISignal*, SignalInstanse> signalPair(signal.first, signal.second);
                     vGetDataBytesFromSignal((UINT64)Amplitude, signalPair, sCurrFrame.m_ucDataLen, sCurrFrame.m_ucData);
                 }
                 iStep = unStep;
                 eWFType =  ouCurrSig.sWaveInfo.m_eSignalWaveType;
-            }
-            else
-            {
+            } else {
                 std::pair<ISignal*, SignalInstanse> signalPair(signal.first, signal.second);
                 vGetDataBytesFromSignal((UINT64)ouCurrEntry.m_fDefaultAmplitude, signalPair, sCurrFrame.m_ucDataLen, sCurrFrame.m_ucData);
             }
@@ -324,28 +299,21 @@ for (auto signal : signalList)
         m_pouDIL_CAN_Interface->DILC_SendMsg(m_dwClientID, sCurrFrame);
 
         /* If sawtooth signals are present */
-        if ( bSawtoothExists == true)
-        {
+        if ( bSawtoothExists == true) {
             /* Reloop for sending Sawtooth signals with value 0 */
-for (auto signal : signalList)
-            {
+            for (auto signal: signalList) {
                 // Search if it occurs in the waveform list.
                 sSigWaveMap ouCurrSig;
                 std::string name;
                 signal.first->GetName(name);
-                if (bGetSignalEntry(name.c_str(),
-                                    &(ouCurrEntry.m_omSigWaveMapList), ouCurrSig))
-                {
+                if (bGetSignalEntry(name.c_str(), &(ouCurrEntry.m_omSigWaveMapList), ouCurrSig)) {
                     UINT unStep = ( 1 / (ouCurrSig.sWaveInfo.m_fGranularity/(2 * PI )) );
-                    if ( ouCurrSig.sWaveInfo.m_eSignalWaveType == eWave_SAWTOOTH && ( (CurrItr == 0x00) || (CurrItr % unStep) == 0) )
-                    {
+                    if (ouCurrSig.sWaveInfo.m_eSignalWaveType == eWave_SAWTOOTH && ( (CurrItr == 0x00) || (CurrItr % unStep) == 0)) {
                         std::pair<ISignal*, SignalInstanse> signalPair(signal.first, signal.second);
                         vGetDataBytesFromSignal(0, signalPair, sCurrFrame.m_ucDataLen, sCurrFrame.m_ucData);
 
                     }
-                }
-                else
-                {
+                } else {
                     std::pair<ISignal*, SignalInstanse> signalPair(signal.first, signal.second);
                     vGetDataBytesFromSignal((UINT64)ouCurrEntry.m_fDefaultAmplitude, signalPair, sCurrFrame.m_ucDataLen, sCurrFrame.m_ucData);
                 }
@@ -379,18 +347,14 @@ DWORD WINAPI TransmissionThreadProc(LPVOID pVoid)
     int nIterLimit = pCurrObj->nGetIterationLimit();
 
     TIMECAPS time;
-    if (timeGetDevCaps(&time, sizeof(TIMECAPS)) == TIMERR_NOERROR)
-    {
-        if (time.wPeriodMin <= SamplingRate)
-        {
+    if (timeGetDevCaps(&time, sizeof(TIMECAPS)) == TIMERR_NOERROR) {
+        if (time.wPeriodMin <= SamplingRate) {
             MMRESULT mmResult = timeBeginPeriod(time.wPeriodMin);
             if (TIMERR_NOCANDO == mmResult)
             {
                 // TBD
             }
-        }
-        else
-        {
+        } else {
             ASSERT(false); // Unexpected situation.
         }
     }
@@ -402,19 +366,16 @@ DWORD WINAPI TransmissionThreadProc(LPVOID pVoid)
     MMRESULT Result = timeSetEvent(SamplingRate, SamplingRate /*time.wPeriodMin*/,
                                    (LPTIMECALLBACK) pThreadParam->m_hActionEvent, 0,
                                    TIME_CALLBACK_EVENT_SET | TIME_PERIODIC);
-    //ASSERT(nullptr != Result);
 
     bool bLoopON = true;
     int i = 0;
     int iStep =0;
     eWAVEFORMTYPE eWaveType;
 
-    while (bLoopON)
-    {
+    while (bLoopON) {
         WaitForSingleObject(pThreadParam->m_hActionEvent, INFINITE);
 
-        switch (pThreadParam->m_unActionCode)
-        {
+        switch (pThreadParam->m_unActionCode) {
             case INVOKE_FUNCTION:
             {
                 // Calculate signal values at the curent iteration and transmit
@@ -437,22 +398,18 @@ DWORD WINAPI TransmissionThreadProc(LPVOID pVoid)
         if(eWaveType == eWave_SAWTOOTH)
         {
             int nExcess= 0;
-            if( ((nIterLimit % iStep) != 0)&& (nIterLimit > iStep))
-            {
+            if (((nIterLimit % iStep) != 0)&& (nIterLimit > iStep)) {
                 nExcess = (nIterLimit % iStep);
                 nIterLimit = nIterLimit - ( nExcess);
             }
             i = (i < nIterLimit-1) ? ++i : 0;
-        }
-        else
-        {
+        } else {
             i = (i < nIterLimit) ? ++i : 0;
         }
     }
     SetEvent(pThreadParam->hGetExitNotifyEvent());
 
-    if(Result != 0)
-    {
+    if (Result != 0) {
         Result = timeKillEvent(Result);
     }
 
@@ -475,17 +432,14 @@ CWaveformTransmitter::CWaveformTransmitter()
 CWaveformTransmitter::~CWaveformTransmitter()
 {
     //terminate the thread if it is still running
-    while(pThreadParam != nullptr)
-    {
+    while(pThreadParam != nullptr) {
         ::Sleep(10);
-        if(pThreadParam != nullptr) //check for thread is terminated or not
-        {
+        //check for thread is terminated or not
+        if(pThreadParam != nullptr) {
             pThreadParam->m_unActionCode = EXIT_THREAD;
             SetEvent(pThreadParam->hGetExitNotifyEvent());
             continue;
-        }
-        else
-        {
+        } else {
             break;
         }
     }
@@ -520,30 +474,23 @@ BOOL CWaveformTransmitter::bUpdateBlock(BOOL bNodeConnected)
         FALSE      |          X               |    FALSE
     --------------------------------------------------------- */
 
-    if (bNodeConnected)
-    {
-        if (bIsWaveformSignalPresent())
-        {
+    if (bNodeConnected) {
+        if (bIsWaveformSignalPresent()) {
             m_bEnabled = TRUE;
-        }
-        else
-        {
-            if (bIsWaveformTxON())
-            {
+        } else {
+            if (bIsWaveformTxON()) {
                 vStopSignalTransmission();
             }
             m_bEnabled = FALSE;
         }
-    }
-    else
-    {
+    } else {
         // Stop transmission if its ON
-        if (bIsWaveformTxON())
-        {
+        if (bIsWaveformTxON()) {
             vStopSignalTransmission();
         }
         m_bEnabled = FALSE;
     }
+
     return m_bEnabled;
 }
 
@@ -553,18 +500,15 @@ void CWaveformTransmitter::vStartSignalTransmission(DWORD dwClientID)
     m_pWaveDataHandler->GetSigGenerationInfoList(m_omSigGenList);
     short shWvfrm = 0;
     shWvfrm = m_pWaveDataHandler->shGetSamplingTimePeriod();
-    if(shWvfrm > 0)
-    {
+
+    if(shWvfrm > 0) {
         m_nIterLimit = 1000 / shWvfrm - 1;
-    }
-    else
-    {
+    } else {
         shWvfrm = 125;
         m_nIterLimit = 1000 / shWvfrm - 1;
     }
 
-    if (FALSE == m_bTxON)
-    {
+    if (FALSE == m_bTxON) {
         m_ouTransmitThread.m_pBuffer = this;
         m_bTxON = m_ouTransmitThread.bStartThread(TransmissionThreadProc);
     }

@@ -28,8 +28,6 @@
 // For DIL Interface Class
 #include "Include/BaseDefs.h"
 #include "DataTypes/Base_WrapperErrorLogger.h"
-//#include "DataTypes/MsgBufAll_Datatypes.h"
-//#include "DataTypes/DIL_Datatypes.h"
 #include "BaseDIL_CAN.h"
 // DIL CAN interface
 extern CBaseDIL_CAN* g_pouDIL_CAN_Interface;

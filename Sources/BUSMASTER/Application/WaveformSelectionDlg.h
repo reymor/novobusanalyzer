@@ -22,39 +22,26 @@
  * Interface file for CWaveformSelectionDlg class
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_WAVESELECTIONDLG_H_
+#define BUSMASTER_APPLICATION_WAVESELECTIONDLG_H_
 
 #include "Resource.h"
 #include "WaveFormDataHandler.h"
 #include "afxwin.h"
 
-class CWaveformSelectionDlg : public CDialog
-{
-    // Construction
+class CWaveformSelectionDlg : public CDialog {
 public:
-    CWaveformSelectionDlg(CWnd* pParent, CWaveFormDataHandler* pWaveDataHandler, UINT nHardware);   // standard constructor
+    CWaveformSelectionDlg(CWnd* pParent, CWaveFormDataHandler* pWaveDataHandler, UINT nHardware);
 
-    // Dialog Data
-    //{{AFX_DATA(CWaveformSelectionDlg)
     enum { IDD = IDD_DLG_WAVEFORM_CONFIG };
     CListCtrl   m_omListCtrlSignalWatch;
     CListCtrl   m_omListCtrlSignal;
     CComboBox   m_omCombMessage;
-    //}}AFX_DATA
 
-
-    // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CWaveformSelectionDlg)
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
 
-    // Implementation
 protected:
-
-    // Generated message map functions
-    //{{AFX_MSG(CWaveformSelectionDlg)
     afx_msg void OnDestroy();
     virtual BOOL OnInitDialog();
     afx_msg void OnSelChangeMessageName();
@@ -64,8 +51,8 @@ protected:
     afx_msg void OnDblclkUnSelSubEntryList(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnClickSelSubEntryList(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
+
 private:
     //Pointer to CWaveFormDataHandler object
     CWaveFormDataHandler* m_pWaveDataHandler;
@@ -91,9 +78,7 @@ private:
     // Delete temp list. Called from Close and Delete All
     BOOL bDeleteTempList();
     // Fun to get Msg and Signal name from Signal Watch List
-    BOOL bGetMainSubName(const CString& omMsgStr,
-                         CString& omMsg,
-                         CString& omSig);
+    BOOL bGetMainSubName(const CString& omMsgStr, CString& omMsg, CString& omSig);
     // For deleting a signal from the Signal Watch List
     BOOL bDeleteSubEntry(UINT unMsgID, const CString& omSignal);
     // For enabling/ diabling buttons
@@ -106,8 +91,7 @@ private:
     void vPopulateSelSubEntryList();
     //Extract Id from Message name [MsgName0xID]
     UINT unGetMainEntryIDFromName(CString omMsgName);
-    void DefineUpdateWave(CListCtrl* pListCtrl,  UINT nMsgID,
-                          CString strSignalName,sWaveformInfo& objWaveInfo);
+    void DefineUpdateWave(CListCtrl* pListCtrl,  UINT nMsgID, CString strSignalName,sWaveformInfo& objWaveInfo);
     void vInterPretSignalNameMsgID(CString strInterpretData, CString& strSigName, UINT& nMsgID);
     // to adjust the width of the combo box based on its contents
     void vAdjustWidthMessageComboBox();
@@ -122,3 +106,5 @@ public:
     afx_msg void OnEnChangeEditDefaultSignalValue();
     CComboBox m_omMsgChannel;
 };
+
+#endif // BUSMASTER_APPLICATION_WAVESELECTIONDLG_H_

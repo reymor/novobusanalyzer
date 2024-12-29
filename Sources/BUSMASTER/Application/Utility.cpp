@@ -48,8 +48,6 @@ extern  CRITICAL_SECTION g_CritSectNodeBufferRead;
 extern CEvent omMainTimerEvent;
 extern CRITICAL_SECTION g_omDllMsgCritiSec;
 
-
-
 /******************************************************************************/
 /*  Function Name    :  bGetMsgInfo                                           */
 /*  Input(s)         :  UINT unMsgIndex,                                      */
@@ -64,17 +62,11 @@ extern CRITICAL_SECTION g_omDllMsgCritiSec;
 /*  Modifications By :  Amitesh Bharti                                        */
 /*  Modifications on :  31.12.2002, function name & second parameter changed. */
 /******************************************************************************/
-BOOL bGetMsgData(UINT unMsgIndex,
-                 UCHAR aunData[],
-                 PSENDMULTIMSGINFO psSendMultipleMsgInfo)
+BOOL bGetMsgData(UINT unMsgIndex, UCHAR aunData[], PSENDMULTIMSGINFO psSendMultipleMsgInfo)
 {
     BOOL bReturn = FALSE;
-    if ( psSendMultipleMsgInfo != nullptr)
-    {
-        for ( INT nCount = 0;
-                nCount < psSendMultipleMsgInfo->pSendMsgInfo[unMsgIndex].nDLC;
-                nCount++)
-        {
+    if (psSendMultipleMsgInfo != nullptr) {
+        for (INT nCount = 0; nCount < psSendMultipleMsgInfo->pSendMsgInfo[unMsgIndex].nDLC; nCount++) {
             aunData[nCount] =
                 (UCHAR)psSendMultipleMsgInfo->pSendMsgInfo[unMsgIndex].
                 pSendSgInfo[nCount].nValue;
@@ -194,8 +186,7 @@ UINT unReadNodeMsgHandlerBuffer(LPVOID /*pParam*/)
 void CALLBACK TimerProc(UINT /*m_unTimerId*/, UINT /*uMsg*/, DWORD* /*dwUser*/,
                         DWORD* /*dw1*/, DWORD* /*dw2*/)
 {
-    //CExecuteManager::ouGetExecuteManager().vManageTimerSetEvent();
-    //omMainTimerEvent.SetEvent();
+
 }
 
 /*************************************************************************
@@ -243,11 +234,12 @@ UINT unGetMsgIDFromName(CString omMsgName)
     UINT unMsgID = (UINT)-1;
     CHAR* pcStopStr = nullptr;
     int nIndex = omMsgName.ReverseFind(defMSGID_EXTENDED);
-    if(nIndex != -1)
-    {
+
+    if (nIndex != -1) {
         int nLength = omMsgName.GetLength();
         omStrMsgID = omMsgName.Mid(nIndex+1,nLength-1);
         unMsgID = strtol((LPCTSTR )omStrMsgID,&pcStopStr,16);
     }
+
     return unMsgID;
 }

@@ -18,10 +18,10 @@
  * @copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_SPLASH_H_
+#define BUSMASTER_APPLICATION_SPLASH_H_
 
-class CSplashScreen : public CWnd
-{
+class CSplashScreen: public CWnd {
     DECLARE_MESSAGE_MAP()
 
 public:
@@ -45,3 +45,5 @@ protected:
     afx_msg void OnPaint();
     afx_msg void OnTimer(UINT nIDEvent);
 };
+
+#endif // BUSMASTER_APPLICATION_SPLASH_H_

@@ -6,10 +6,6 @@
 #include "ProgressBarDlg.h"
 #include "MsgFrmtWnd.h"
 #define WM_EXIT_DIALOG WM_USER+5
-//#include "afxdialogex.h"
-
-
-
 
 // CProgressBarDlg dialog
 
@@ -153,7 +149,6 @@ LRESULT CProgressBarDlg::OnCloseProgressBar(WPARAM wParam, LPARAM lParam)
     HRESULT hResult = (HRESULT)wParam;
     if(m_pThread!=nullptr)
     {
-        //m_pThread->PostThreadMessage(WM_QUIT, 0, 0);
         WaitForSingleObject(m_pThread->m_hThread, 500);
     }
     //Wait for thread
@@ -176,7 +171,6 @@ LRESULT CProgressBarDlg::OnCloseProgressBar(WPARAM wParam, LPARAM lParam)
             omStrError += m_omImportLogErr[eImportLogInvalid].c_str();
         }
         m_omErrorText.SetWindowText(omStrError);
-        //PostMessage(IDCANCEL);
     }
     return S_OK;
 }

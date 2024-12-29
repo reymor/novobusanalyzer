@@ -3,7 +3,6 @@
 #include "MenuCreator.h"
 #include "..\resource.h"
 #include "..\MFCRibbonBarEx.h"
-#pragma once
 
 #define ID_POPUP_CMD_ID 20000
 

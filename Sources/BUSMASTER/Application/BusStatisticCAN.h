@@ -23,20 +23,14 @@
 #pragma once
 
 #include "Utility/Utility_Thread.h"
-//#include "Include/struct_can.h"
 #include "CANDriverDefines.h"
-//#include "Datatypes/MsgBufAll_Datatypes.h"
 #include "Include/Basedefs.h"
 #include "BaseDIL_CAN.h"
 #include "BaseBusStatisticCAN.h"
 #include "MsgBufFSE.h"
 #include "Flags.h"
 
-
-
-
-class CBusStatisticCAN : public CBaseBusStatisticCAN
-{
+class CBusStatisticCAN : public CBaseBusStatisticCAN {
     //Attributes
 private:
     //used to Creating threads

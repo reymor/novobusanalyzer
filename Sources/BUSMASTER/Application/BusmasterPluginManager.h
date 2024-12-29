@@ -2,9 +2,9 @@
 #include "IBusmasterPlugInManager.h"
 #include <list>
 #include "resource.h"
-#include "UI\MenuCreator.h"
-#include "UI\IIdGenerator.h"
-#include "UI\UICreator.h"
+#include "UI/MenuCreator.h"
+#include "UI/IIdGenerator.h"
+#include "UI/UICreator.h"
 #include <concurrent_vector.h>
 
 class BusmasterPluginManager : public IBusmasterPluginManager

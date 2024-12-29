@@ -38,14 +38,13 @@
 #include "Utility/RadixEdit.h"
 #include "Datatypes/MsgSignal_Datatypes.h"
 #include "IBMNetWorkGetService.h"
-enum ESTATE_TRANS
-{
+enum ESTATE_TRANS {
     TRANS_STOPPED = 0x0,
     TRANS_TO_BE_STOPPED,
     TRANS_STARTED
 };
-typedef struct tagMsgToBeSent
-{
+
+typedef struct tagMsgToBeSent {
     UINT32 m_unPGN;
     EJ1939_MSG_TYPE m_eMsgType;
     UINT m_unChannel;
@@ -59,8 +58,7 @@ typedef struct tagMsgToBeSent
 
 // CTxMsgWndJ1939 dialog
 
-class CTxMsgWndJ1939 : public CDialog
-{
+class CTxMsgWndJ1939 : public CDialog {
     DECLARE_DYNAMIC(CTxMsgWndJ1939)
 
 public:
@@ -140,7 +138,6 @@ public:
     CRadixEdit m_omFromEdit;
     CRadixEdit m_omPriorityEdit;
     CRadixEdit m_omTOEdit;
-    //CRadixEdit m_omPGNEdit;
     CComboBox m_omComboChannel;
     afx_msg void OnBnClickedCheckCyclic();
     afx_msg LRESULT OnMessageConnect(WPARAM /*lParam*/, LPARAM /*wParam*/);

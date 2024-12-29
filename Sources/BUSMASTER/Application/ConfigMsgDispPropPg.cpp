@@ -16,7 +16,6 @@ Modifications   :
 #include "HashDefines.h"
 #include "ConfigMsgDispPropPg.h"
 
-// CConfigMsgDispPropPg dialog
 
 IMPLEMENT_DYNAMIC(CConfigMsgDispPropPg, CPropertyPage)
 CConfigMsgDispPropPg::CConfigMsgDispPropPg()

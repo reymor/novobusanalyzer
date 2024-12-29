@@ -5744,7 +5744,6 @@ void CMainFrame::OnLINConnect()
         g_pouDIL_LIN_Interface->DILL_ResetSlaveRespData();
         hResult = g_pouDIL_LIN_Interface->DILL_StopHardware();
         m_objTxHandler.vBusStatusChanged(LIN, BUS_DISCONNECTED);
-        //m_objLINTxHandler.vStopTransmission(0);
         if (nullptr != m_podMsgWndThread)
         {
             ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(LIN), WM_NOTIFICATION_FROM_OTHER, eBusStatusChanged, false);
@@ -6081,7 +6080,6 @@ void CMainFrame::OnNewConfigFile()
         /*LIN*/
         m_shLINDriverId = DAL_NONE;
         IntializeDILL();
-        //m_ouClusterConfig[LIN].InitialiseConfig();
         m_ouBusmasterNetwork->ReSetNetwork(LIN);
         m_ouBusmasterNetwork->SetChannelCount(LIN, 1);
 
@@ -6105,12 +6103,8 @@ void CMainFrame::vInitialiaseLINConfig(int nChannel)
     IntializeDILL();
 
     m_ouBusmasterNetwork->SetChannelCount(LIN, nChannel);
-    //m_ouClusterConfig[LIN].m_nChannelsConfigured = nChannel;
 
-    //m_ouClusterConfig[LIN].InitialiseConfig();
-
-    for ( int i = 0 ; i < nChannel; i++ )
-    {
+    for (int i = 0 ; i < nChannel; i++) {
         ChannelSettings ouSettings;
         ouSettings.m_ouLINSettings.m_bOverWriteSettings = true;
         ouSettings.m_ouLINSettings.m_nBaudRate = 19200;
@@ -6125,8 +6119,7 @@ void CMainFrame::vGetLoadedCfgFileName(CString& omFileName)
 {
     DATASTORAGEINFO sDataStorageInfo;
     CConfigData::ouGetConfigDetailsObject().GetConfigDatastorage(&sDataStorageInfo);
-    if (sDataStorageInfo.FSInfo != nullptr)
-    {
+    if (sDataStorageInfo.FSInfo != nullptr) {
         omFileName.Format("%s", T2A(sDataStorageInfo.FSInfo->m_FilePath));
         delete sDataStorageInfo.FSInfo;
     }
@@ -6234,8 +6227,7 @@ void CMainFrame::OnSaveAsConfigFile()
                            );
     oCfgFileDlg.m_ofn.lpstrTitle = _("SaveAs Configuration Filename...");
 
-    if(oCfgFileDlg.DoModal() == IDOK)
-    {
+    if (oCfgFileDlg.DoModal() == IDOK) {
         // get the name of the selected file
         CString oCfgFilename = oCfgFileDlg.GetPathName();
         // Save the file
@@ -6272,33 +6264,26 @@ void CMainFrame::OnSaveAsConfigFile()
 *******************************************************************************/
 void CMainFrame::OnClickMruList(CString omStrName)
 {
-	if (!omStrName.IsEmpty() && omStrName != _(defSTR_DEFAULT_MRU_ITEM))
-	{
+	if (!omStrName.IsEmpty() && omStrName != _(defSTR_DEFAULT_MRU_ITEM)) {
 		// Check if any previous configuration file is loaded
 		// and changes are being made to it
-		if (bIsConfigurationModified() == TRUE)
-		{
+		if (bIsConfigurationModified() == true) {
 			// Yes, there is a loaded config and changes have been made to
 			// it Hence display save confirmation message dialog
-			if (AfxMessageBox(_(defSTR_CONF_SAVE_CONFIRM),
-				MB_YESNO | MB_ICONQUESTION) == IDYES)
-			{
+			if (AfxMessageBox(_(defSTR_CONF_SAVE_CONFIRM), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 				// Save
 				OnSaveConfigFile();
 			}
 		}
 		// Get the flag status and stop logging if it already started
-		BOOL bLogON = FALSE;
+		bool bLogON = false;
 		// Get the main menu
 		CFlags* pFlag = nullptr;
 		pFlag = theApp.pouGetFlagsPtr();
-		if (pFlag != nullptr)
-		{
+		if (pFlag != nullptr) {
 			bLogON = pFlag->nGetFlagStatus(LOGTOFILE);
-			if (bLogON == TRUE)
-			{
-				vStartStopLogging(FALSE);
-				//pFlag->vSetFlagStatus( LOGTOFILE, FALSE );
+			if (bLogON == true) {
+				vStartStopLogging(false);
 			}
 		}
 		// Call Configuration Load
@@ -11139,10 +11124,8 @@ int CMainFrame::nLoadXMLConfiguration()
     xmlNodeSetPtr pNodeSet;
     xmlXPathObjectPtr pPathObject;
 
-    for (eSECTION_ID eSecId = DATABASE_SECTION_ID; eSecId < SECTION_TOTAL;)
-    {
-        switch(eSecId)
-        {
+    for (eSECTION_ID eSecId = DATABASE_SECTION_ID; eSecId < SECTION_TOTAL;) {
+        switch(eSecId) {
             case MAINFRAME_SECTION_ID:
             {
                 BYTE byVersion = 0;
@@ -11150,12 +11133,10 @@ int CMainFrame::nLoadXMLConfiguration()
                 // Updating Global configuration parameters in to xml
                 xmlChar* pchPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Global_Configuration";
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchPath);
-                if( nullptr != pPathObject )
-                {
+                if (nullptr != pPathObject) {
                     pNodeSet = pPathObject->nodesetval;
                     INT nCount = pNodeSet->nodeNr;
-                    for(int i = 0; i < nCount; i++)
-                    {
+                    for (int i = 0; i < nCount; i++) {
                         vSetGlobalConfiguration(pNodeSet->nodeTab[i]);
                     }
                 }
@@ -11165,18 +11146,15 @@ int CMainFrame::nLoadXMLConfiguration()
                 // Updating Toolbar Window position in to xml
                 xmlChar* pchWndPosPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Global_Configuration/Window_Position";
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchWndPosPath);
-                if( nullptr != pPathObject && pPathObject->nodesetval != nullptr )
-                {
-                    if ( S_OK != xmlUtils::ParseWindowsPlacement(pPathObject->nodesetval->nodeTab[0], m_sNotificWndPlacement) )
-                    {
+                if( nullptr != pPathObject && pPathObject->nodesetval != nullptr ) {
+                    if (S_OK != xmlUtils::ParseWindowsPlacement(pPathObject->nodesetval->nodeTab[0], m_sNotificWndPlacement)) {
                         m_sNotificWndPlacement.rcNormalPosition.top  = 459;
                         m_sNotificWndPlacement.rcNormalPosition.left = 0;
                         m_sNotificWndPlacement.rcNormalPosition.right = 1089;
                         m_sNotificWndPlacement.rcNormalPosition.bottom = 612;
                         m_sNotificWndPlacement.showCmd = SW_NORMAL;
                     }
-                    if (m_podUIThread != nullptr)
-                    {
+                    if (m_podUIThread != nullptr) {
                         m_sNotificWndPlacement.showCmd = SW_NORMAL;
                         m_podUIThread->vUpdateWndCo_Ords(m_sNotificWndPlacement, TRUE);
                         m_podUIThread->vClearTraceContents();
@@ -11188,7 +11166,6 @@ int CMainFrame::nLoadXMLConfiguration()
             {
                 m_shLINDriverId = DAL_LIN_NONE;
                 IntializeDILL();
-                //m_ouClusterConfig[LIN].InitialiseConfig();
                 m_ouBusmasterNetwork->ReSetNetwork(LIN);
                 m_ouBusmasterNetwork->SetChannelCount(LIN, 1);
             }
@@ -11199,33 +11176,24 @@ int CMainFrame::nLoadXMLConfiguration()
 
                 xmlChar* pchPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Database_Files/FilePath";
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchPath);
-                if( nullptr != pPathObject )
-                {
+                if( nullptr != pPathObject ) {
                     pNodeSet = pPathObject->nodesetval;
 
-                    if(nullptr != pNodeSet)
-                    {
-                        for(int i=0; i < pNodeSet->nodeNr; i++)
-                        {
-                            if (  nullptr != pNodeSet->nodeTab[i]->xmlChildrenNode )
-                            {
+                    if(nullptr != pNodeSet) {
+                        for(int i=0; i < pNodeSet->nodeNr; i++) {
+                            if (  nullptr != pNodeSet->nodeTab[i]->xmlChildrenNode ) {
                                 xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodeSet->nodeTab[i]->xmlChildrenNode, 1);
-                                if ( ( nullptr != ptext ) && ( theApp.m_pouMsgSignal != nullptr ) )
-                                {
+                                if (( nullptr != ptext ) && ( theApp.m_pouMsgSignal != nullptr )) {
                                     dLoadDataBaseFile(ptext, TRUE);
                                     xmlFree(ptext);
                                 }
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         nRetValue = S_OK;
                     }
                     xmlXPathFreeObject (pPathObject);
-                }
-                else
-                {
+                } else {
                     nRetValue = S_OK;
                 }
             }
@@ -11233,8 +11201,7 @@ int CMainFrame::nLoadXMLConfiguration()
             case DATABASE_SECTION_J1939_ID:
             {
                 //Clear all databases
-                if (m_pouMsgSigJ1939 == nullptr)
-                {
+                if (m_pouMsgSigJ1939 == nullptr) {
                     m_pouMsgSigJ1939 = new CMsgSignal(sg_asDbParams[J1939], FALSE);
                 }
 
@@ -11243,18 +11210,13 @@ int CMainFrame::nLoadXMLConfiguration()
                 CStringArray omDBNames;
                 xmlChar* pchPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/J1939_Database_Files/FilePath";
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchPath);
-                if( nullptr != pPathObject )
-                {
+                if(nullptr != pPathObject) {
                     pNodeSet = pPathObject->nodesetval;
-                    if(nullptr != pNodeSet)
-                    {
-                        for(int i=0; i < pNodeSet->nodeNr; i++)
-                        {
-                            if (nullptr != pNodeSet->nodeTab[i]->xmlChildrenNode )
-                            {
+                    if (nullptr != pNodeSet) {
+                        for(int i=0; i < pNodeSet->nodeNr; i++) {
+                            if (nullptr != pNodeSet->nodeTab[i]->xmlChildrenNode) {
                                 xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodeSet->nodeTab[i]->xmlChildrenNode, 1);
-                                if ( nullptr != ptext )
-                                {
+                                if (nullptr != ptext) {
                                     omDBNames.Add(ptext);
                                     nRetValue = S_OK;
                                     xmlFree(ptext);
@@ -11262,33 +11224,22 @@ int CMainFrame::nLoadXMLConfiguration()
                             }
                         }
                         xmlXPathFreeObject (pPathObject);
-                    }
-                    else
-                    {
+                    } else {
                         nRetValue = S_OK ;
                     }
-                }
-                else
-                {
+                } else {
                     nRetValue = S_OK;
-                }
-                if ( ( nRetValue == S_OK ) && ( m_pouMsgSigJ1939  != nullptr ) )
-                {
-                    // m_pouMsgSigJ1939->vSetDataBaseNames(&omDBNames);
-                    for (INT i = 0; i < omDBNames.GetSize(); i++)
-                    {
+                } if (( nRetValue == S_OK ) && ( m_pouMsgSigJ1939  != nullptr )) {
+                    for (INT i = 0; i < omDBNames.GetSize(); i++) {
                         //No need to check return value. Error message will be displayed
                         // in trace window
                         dLoadJ1939DBFile(omDBNames.GetAt(i), TRUE);
                     }
                     SMSGENTRY* psMsgEntry = nullptr;
                     vPopulateMsgEntryFromDB(psMsgEntry, m_pouMsgSigJ1939);
-                    if (m_pouTxMsgWndJ1939 != nullptr)
-                    {
+                    if (m_pouTxMsgWndJ1939 != nullptr) {
                         m_pouTxMsgWndJ1939->vSetDatabaseInfo(m_ouBusmasterNetwork);
-                    }
-                    else
-                    {
+                    } else {
                         //venkat
                         //m_pouTxMsgWndJ1939->vUpdateDataStore( m_ouBusmasterNetwork );
                     }
@@ -11300,138 +11251,95 @@ int CMainFrame::nLoadXMLConfiguration()
                 xmlChar* pchPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/LIN_Cluster_Config/CHANNEL";
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchPath);
 
-
                 /*LIN*/
                 vInitialiaseLINConfig(1);
 
-
-
-
-
-                /*for ( int i = 0; i < m_ouClusterConfig[LIN].m_nChannelsConfigured; i++ )
-                {
-                    m_ouClusterConfig[LIN].m_ouFlexChannelConfig[i].m_eBusChannelType = LIN;
-                    m_ouClusterConfig[LIN].m_ouFlexChannelConfig[i].m_ouLinParams.m_nBaudRate = 19200;
-                    m_ouClusterConfig[LIN].m_ouFlexChannelConfig[i].m_ouLinParams.m_strProtocolVersion = "LIN 2.1";
-                    m_ouClusterConfig[LIN].m_ouFlexChannelConfig[i].m_strDataBasePath = "";
-                    m_ouClusterConfig[LIN].m_ouFlexChannelConfig[i].m_ouLinParams.m_bOverWriteSettings = true;
-                    //m_ouClusterConfig[LIN].m_ouFlexChannelConfig[i].m_ouClusterInfo.clear();
-                    m_ouClusterConfig[LIN].m_ouFlexChannelConfig[i].m_strSlectedEculist.clear();
-                }*/
-
-                if( nullptr != pPathObject )
-                {
+                if (nullptr != pPathObject) {
                     pNodeSet = pPathObject->nodesetval;
-                    if(nullptr != pNodeSet)
-                    {
-                        for(int i=0; i < pNodeSet->nodeNr; i++)
-                        {
+                    if (nullptr != pNodeSet) {
+                        for (int i=0; i < pNodeSet->nodeNr; i++) {
                             xmlNodePtr xmlChannel = pNodeSet->nodeTab[i]->xmlChildrenNode;
-                            if (nullptr != pNodeSet->nodeTab[i] )
-                            {
+                            if (nullptr != pNodeSet->nodeTab[i]) {
                                 xmlNodePtr pNodePtr = pNodeSet->nodeTab[i]->xmlChildrenNode;
 
                                 sLinConfigContainer ouFibexContainer;
                                 INT nCount = 0;
-                                while ( pNodePtr != nullptr )
-                                {
-                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Index")))
-                                    {
+                                while (pNodePtr != nullptr) {
+                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Index"))) {
                                         xmlChar* key = xmlNodeListGetString(pNodePtr->doc, pNodePtr->xmlChildrenNode, 1);
-                                        if(nullptr != key)
-                                        {
+                                        if(nullptr != key) {
                                             ouFibexContainer.m_nChannel = atoi((char*)key);
                                             nCount++;
                                         }
                                     }
 
-                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"HWUri")))
-                                    {
+                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"HWUri"))) {
                                         xmlChar* key = xmlNodeListGetString(pNodePtr->doc, pNodePtr->xmlChildrenNode, 1);
-                                        if(nullptr != key)
-                                        {
+                                        if(nullptr != key) {
                                             ouFibexContainer.m_strHWUri = (char*)key;
                                             nCount++;
                                         }
                                     }
-                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"DbPath")))
-                                    {
+                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"DbPath"))) {
                                         xmlChar* key = xmlNodeListGetString(pNodePtr->doc, pNodePtr->xmlChildrenNode, 1);
-                                        if(nullptr != key)
-                                        {
+                                        if(nullptr != key) {
                                             ouFibexContainer.m_strDbPath = (char*)key;
                                             nCount++;
 
                                         }
                                     }
-                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"ClusterId")))
-                                    {
+                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"ClusterId"))) {
                                         xmlChar* key = xmlNodeListGetString(pNodePtr->doc, pNodePtr->xmlChildrenNode, 1);
-                                        if(nullptr != key)
-                                        {
+                                        if(nullptr != key) {
                                             ouFibexContainer.m_strClusterId = (char*)key;
                                             nCount++;
 
                                         }
                                     }
 
-                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"BaudRate")))
-                                    {
+                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"BaudRate"))) {
                                         xmlChar* key = xmlNodeListGetString(pNodePtr->doc, pNodePtr->xmlChildrenNode, 1);
-                                        if(nullptr != key)
-                                        {
+                                        if(nullptr != key) {
                                             ouFibexContainer.m_nBaudRate = atoi((char*)key);
                                             nCount++;
 
                                         }
                                     }
 
-                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"ProtocolVersion")))
-                                    {
+                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"ProtocolVersion"))) {
                                         xmlChar* key = xmlNodeListGetString(pNodePtr->doc, pNodePtr->xmlChildrenNode, 1);
-                                        if(nullptr != key)
-                                        {
+                                        if(nullptr != key) {
                                             ouFibexContainer.m_srtProtocolVerson = (char*)key;
                                             nCount++;
-
                                         }
                                     }
 
-                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)DEF_LIN_OVERWRITE_SETTINGS)))
-                                    {
+                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)DEF_LIN_OVERWRITE_SETTINGS))) {
                                         xmlChar* key = xmlNodeListGetString(pNodePtr->doc, pNodePtr->xmlChildrenNode, 1);
-                                        if(nullptr != key)
-                                        {
+                                        if(nullptr != key) {
                                             ouFibexContainer.m_bOverwrite = (atoi((char*)key) != 0);
                                             nCount++;
                                         }
                                     }
 
                                     //Master Mode
-                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)DEF_LIN_MASTER_MODE)))
-                                    {
+                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)DEF_LIN_MASTER_MODE))) {
                                         xmlChar* key = xmlNodeListGetString(pNodePtr->doc, pNodePtr->xmlChildrenNode, 1);
-                                        if(NULL != key)
-                                        {
+                                        if(NULL != key) {
                                             ouFibexContainer.m_bIsMasterMode = atoi((char*)key);
                                             nCount++;
                                         }
                                     }
 
-                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"ECU")))
-                                    {
+                                    if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"ECU"))) {
                                         //Nodes
                                         xmlChar* pchPath = (xmlChar*)"Name";
                                         pPathObject = xmlUtils::pGetChildNodes(pNodePtr, pchPath);
-                                        if( nullptr != pPathObject )
-                                        {
+                                        if(nullptr != pPathObject) {
                                             xmlNodeSetPtr pNodeSetEcu = pPathObject->nodesetval;
-                                            if(nullptr != pNodeSetEcu)
-                                            {
+                                            if (nullptr != pNodeSetEcu) {
                                                 nCount++;
-
-                                                for(int i=0; i < pNodeSetEcu->nodeNr; i++)
-                                                {
+                                                for (int i=0; i < pNodeSetEcu->nodeNr; i++) {
                                                     xmlChar* key = xmlNodeListGetString(pNodePtr->doc, pNodeSetEcu->nodeTab[i]->xmlChildrenNode , 1);
                                                     ouFibexContainer.m_strECUList.push_back((char*)key);
                                                 }
@@ -11447,10 +11355,8 @@ int CMainFrame::nLoadXMLConfiguration()
 
                         }   //Channel Configurations
 
-
                     }
-                }
-                else
+                } else
                 {
 
                 }
@@ -11473,83 +11379,59 @@ int CMainFrame::nLoadXMLConfiguration()
 
                 UINT unChannelCount = CHANNEL_ALLOWED;
 
-                //COPY_DATA_2(&m_dwDriverId, pbyTemp, sizeof(DWORD));
-                if(m_xmlConfigFiledoc != nullptr)
-                {
+                if(m_xmlConfigFiledoc != nullptr) {
                     pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchPathDriver);
-                    if( nullptr != pPathObject )
-                    {
+                    if( nullptr != pPathObject ) {
                         nRetValue = S_FALSE;
                         pNodeSet = pPathObject->nodesetval;
-                        if ( pNodeSet != nullptr &&  pNodeSet->nodeTab[0] != nullptr && pNodeSet->nodeTab[0]->xmlChildrenNode != nullptr )
-                            //Tight Checking
-                        {
+                        if ( pNodeSet != nullptr &&  pNodeSet->nodeTab[0] != nullptr && pNodeSet->nodeTab[0]->xmlChildrenNode != nullptr ) {
                             xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodeSet->nodeTab[0]->xmlChildrenNode, 1);
-                            if ( nullptr != ptext)
-                            {
+                            if (nullptr != ptext) {
                                 m_dwDriverId = nGetControllerID((char*)ptext);
                                 //cleaning
                                 xmlFree(ptext);
                             }
-                        }
-                        else
-                        {
+                        } else {
                             m_dwDriverId = DIL_CAN_STUB;
                         }
                         xmlXPathFreeObject (pPathObject);
-                    }
-                    else
-                    {
+                    } else {
                         m_dwDriverId = DIL_CAN_STUB;
                     }
 
-                    //COPY_DATA_2(&m_byControllerMode, pbyTemp, sizeof(BYTE));
                     pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchPathControllerMode);
-                    if( nullptr != pPathObject )
-                    {
+                    if (nullptr != pPathObject) {
                         pNodeSet = pPathObject->nodesetval;
                         if ( pNodeSet != nullptr &&  pNodeSet->nodeTab[0] != nullptr && pNodeSet->nodeTab[0]->xmlChildrenNode != nullptr )
                             //Tight Checking
                         {
                             xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodeSet->nodeTab[0]->xmlChildrenNode, 1);
-                            if ( nullptr != ptext)
-                            {
+                            if ( nullptr != ptext) {
                                 m_byControllerMode = 0;//we are not using
                                 xmlFree(ptext);
                             }
-                        }
-                        else
-                        {
+                        } else {
                             m_byControllerMode = 0;
                         }
                         xmlXPathFreeObject (pPathObject);
-                    }
-                    else
-                    {
+                    } else {
                         m_byControllerMode = 0;
                     }
 
-                    //COPY_DATA_2(m_asControllerDetails, pbyTemp, (sizeof(SCONTROLLER_DETAILS) * unChannelCount));
-                    for(int i = 0; i < defNO_OF_CHANNELS; i++)
-                    {
+                    for(int i = 0; i < defNO_OF_CHANNELS; i++) {
                         vInitialize( m_asControllerDetails[i], TRUE );
                     }
                     pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchPathChannel);
-                    if( nullptr != pPathObject )
-                    {
+                    if( nullptr != pPathObject ) {
                         pNodeSet = pPathObject->nodesetval;
-                        if ( pNodeSet != nullptr )
-                            //Tight Checking
-                        {
+                        if (pNodeSet != nullptr) {
                             unChannelCount = pNodeSet->nodeNr;
-                            for(unsigned int i = 0; i < unChannelCount; i++)
-                            {
+                            for(unsigned int i = 0; i < unChannelCount; i++) {
                                 LoadControllerConfigData(m_asControllerDetails[i], pNodeSet->nodeTab[i]);
                             }
                         }
                         xmlXPathFreeObject (pPathObject);
                     }
-
 
 				IntializeDIL(unChannelCount, FromXMLFile);
                     ASSERT(g_pouDIL_CAN_Interface != nullptr);
@@ -11559,13 +11441,11 @@ int CMainFrame::nLoadXMLConfiguration()
                     g_pouDIL_CAN_Interface->DILC_SetHardwareChannel(m_asControllerDetails,m_dwDriverId, true, unChannelCount);
                 }
 
-                if ((nullptr == m_xmlConfigFiledoc) || ( bProper ==  FALSE))
-                {
+                if ((nullptr == m_xmlConfigFiledoc) || ( bProper ==  FALSE)) {
                     m_dwDriverId = DRIVER_CAN_STUB;
                     m_byControllerMode = defMODE_SIMULATE;
                     IntializeDIL();
-                    for (UINT i = 0; i < defNO_OF_CHANNELS; i++)
-                    {
+                    for (UINT i = 0; i < defNO_OF_CHANNELS; i++) {
                         vInitialize( m_asControllerDetails[i], TRUE );
                     }
 
@@ -11587,8 +11467,7 @@ int CMainFrame::nLoadXMLConfiguration()
 
             case SIMSYS_SECTION_ID:
             {
-                if (GetICANNodeSim() != nullptr)
-                {
+                if (GetICANNodeSim() != nullptr) {
                     GetICANNodeSim()->NS_SetSimSysConfigData(m_xmlConfigFiledoc);
                 }
             }
@@ -11596,8 +11475,7 @@ int CMainFrame::nLoadXMLConfiguration()
 
             case SIMSYS_SECTION_J1939_ID:
             {
-                if (GetIJ1939NodeSim() != nullptr)
-                {
+                if (GetIJ1939NodeSim() != nullptr) {
                     GetIJ1939NodeSim()->NS_SetSimSysConfigData(m_xmlConfigFiledoc);
                 }
             }
@@ -11605,8 +11483,7 @@ int CMainFrame::nLoadXMLConfiguration()
 
             case SIMSYS_SECTION_LIN_ID:
             {
-                if (GetILINNodeSim() != nullptr)
-                {
+                if (GetILINNodeSim() != nullptr) {
                     GetILINNodeSim()->NS_SetSimSysConfigData(m_xmlConfigFiledoc);
                 }
             }
@@ -11628,43 +11505,31 @@ int CMainFrame::nLoadXMLConfiguration()
 
                 xmlChar* pchPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Message_Window/Message_Attribute";
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchPath);
-                if( nullptr != pPathObject )
-                {
+                if (nullptr != pPathObject) {
                     pNodeSet = pPathObject->nodesetval;
-                    if(nullptr != pNodeSet)
-                    {
+                    if (nullptr != pNodeSet) {
                         // Get the Message Count from xml
                         sMsgAttrib.m_usMsgCount = pNodeSet->nodeNr;
                         PSMESSAGEATTR pMessageAtt = new SMESSAGEATTR[sMsgAttrib.m_usMsgCount];
-                        for (UINT i = 0; i < sMsgAttrib.m_usMsgCount; i++)
-                        {
+                        for (UINT i = 0; i < sMsgAttrib.m_usMsgCount; i++) {
                             xmlNodePtr pNodePtr = pNodeSet->nodeTab[i]->xmlChildrenNode;
 
-                            while(pNodePtr != nullptr)
-                            {
-                                if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Name")))
-                                {
+                            while (pNodePtr != nullptr) {
+                                if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Name"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         pMessageAtt[i].omStrMsgname = ((CString)ptext);
                                         xmlFree(ptext);
                                     }
-                                }
-                                else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Message_ID")))
-                                {
+                                } else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Message_ID"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         pMessageAtt[i].unMsgID = atoi(((CString)ptext));
                                         xmlFree(ptext);
                                     }
-                                }
-                                else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Color")))
-                                {
+                                } else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Color"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         CString strColor = ptext;
                                         DWORD dwColor = strtoul(strColor, nullptr, 16);
 
@@ -11680,7 +11545,7 @@ int CMainFrame::nLoadXMLConfiguration()
                         }
                         sMsgAttrib.m_psMsgAttribDetails = pMessageAtt;
                         CMessageAttrib::ouGetHandle(CAN).vSetMessageAttribData(&sMsgAttrib);
-                        vPopulateIDList( CAN );
+                        vPopulateIDList(CAN);
                     }
                 }
 
@@ -11689,26 +11554,20 @@ int CMainFrame::nLoadXMLConfiguration()
                 xmlChar* pchAppBuffSizePath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Message_Window/Append_Buffer_Size";
 
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchAppBuffSizePath);
-                if( nullptr != pPathObject )
-                {
+                if (nullptr != pPathObject) {
                     pNodeSet = pPathObject->nodesetval;
 
-                    if(nullptr != pNodeSet)
-                    {
-                        for(int i=0; i < pNodeSet->nodeNr; i++)
-                        {
+                    if(nullptr != pNodeSet) {
+                        for(int i=0; i < pNodeSet->nodeNr; i++) {
                             xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodeSet->nodeTab[i]->xmlChildrenNode, 1);
 
-                            if ( ( nullptr != ptext ))
-                            {
+                            if ((nullptr != ptext)) {
                                 CString strAppndBufferSize = ptext;
                                 m_anMsgBuffSize[CAN][defAPPEND_DATA_INDEX] = atoi(strAppndBufferSize);
                                 xmlFree(ptext);
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         m_anMsgBuffSize[CAN][defAPPEND_DATA_INDEX] = defDEF_APPEND_BUFFER_SIZE;
                     }
                     xmlXPathFreeObject (pPathObject);
@@ -11718,26 +11577,20 @@ int CMainFrame::nLoadXMLConfiguration()
                 xmlChar* pchOvrBuffSizePath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Message_Window/Overwrite_Buffer_Size";
 
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchOvrBuffSizePath);
-                if( nullptr != pPathObject )
-                {
+                if(nullptr != pPathObject) {
                     pNodeSet = pPathObject->nodesetval;
 
-                    if(nullptr != pNodeSet)
-                    {
-                        for(int i=0; i < pNodeSet->nodeNr; i++)
-                        {
+                    if(nullptr != pNodeSet) {
+                        for(int i=0; i < pNodeSet->nodeNr; i++) {
                             xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodeSet->nodeTab[i]->xmlChildrenNode, 1);
 
-                            if ( ( nullptr != ptext ))
-                            {
+                            if (( nullptr != ptext )) {
                                 CString strOvrwriteBufferSize = ptext;
                                 m_anMsgBuffSize[CAN][defOVERWRITE_DATE_INDEX] = atoi(strOvrwriteBufferSize);
                                 xmlFree(ptext);
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         m_anMsgBuffSize[CAN][defOVERWRITE_DATE_INDEX] = defDEF_OVERWRITE_BUFFER_SIZE;
                     }
                     xmlXPathFreeObject (pPathObject);
@@ -11747,26 +11600,20 @@ int CMainFrame::nLoadXMLConfiguration()
                 xmlChar* pchDispUpTimePath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Message_Window/Display_Update_Time";
 
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchDispUpTimePath);
-                if( nullptr != pPathObject )
-                {
+                if (nullptr != pPathObject) {
                     pNodeSet = pPathObject->nodesetval;
 
-                    if(nullptr != pNodeSet)
-                    {
-                        for(int i=0; i < pNodeSet->nodeNr; i++)
-                        {
+                    if(nullptr != pNodeSet) {
+                        for(int i=0; i < pNodeSet->nodeNr; i++) {
                             xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodeSet->nodeTab[i]->xmlChildrenNode, 1);
 
-                            if ( ( nullptr != ptext ))
-                            {
+                            if ( ( nullptr != ptext )) {
                                 CString strDispUpdTimeSize = ptext;
                                 m_anMsgBuffSize[CAN][defDISPLAY_UPDATE_DATA_INDEX] = atoi(strDispUpdTimeSize);
                                 xmlFree(ptext);
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         m_anMsgBuffSize[CAN][defDISPLAY_UPDATE_DATA_INDEX] = defDEF_DISPLAY_UPDATE_TIME;
                     }
                     xmlXPathFreeObject (pPathObject);
@@ -11775,17 +11622,13 @@ int CMainFrame::nLoadXMLConfiguration()
                 //Msg Filter
                 bool bResult = false;
                 SFILTERAPPLIED_CAN sMsgWndFilter;
-                //pbyTemp = sMsgWndFilter.pbSetConfigData(pbyTemp, bResult);
 
                 // Get the Filter data from xml
                 pchPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Message_Window/Filter";
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchPath);
-                if( nullptr != pPathObject )
-                {
+                if( nullptr != pPathObject ) {
                     pNodeSet = pPathObject->nodesetval;
-                    if(nullptr != pNodeSet)
-                    {
-                        //for(INT nIndex =0; nIndex < pNodeSet->nodeNr; nIndex++)
+                    if(nullptr != pNodeSet) {
                         {
                             sMsgWndFilter.pbSetConfigData(m_sFilterAppliedCAN, pNodeSet, m_xmlConfigFiledoc, bResult);
                             ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(CAN),
@@ -11794,8 +11637,7 @@ int CMainFrame::nLoadXMLConfiguration()
                     }
                 }
 
-                if(nullptr != m_xmlConfigFiledoc)
-                {
+                if(nullptr != m_xmlConfigFiledoc) {
                     ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(CAN),
                                   WM_NOTIFICATION_FROM_OTHER,
                                   eWINID_MSG_WND_SET_CONFIG_DATA_XML,
@@ -11808,8 +11650,7 @@ int CMainFrame::nLoadXMLConfiguration()
                                   (LPARAM)m_ouBusmasterNetwork);
                 }
 
-                if(sMsgAttrib.m_usMsgCount > 0)
-                {
+                if(sMsgAttrib.m_usMsgCount > 0) {
                     //clear msg attributes
                     DELETE_ARRAY(sMsgAttrib.m_psMsgAttribDetails);
                     sMsgAttrib.m_usMsgCount = 0;
@@ -11827,43 +11668,31 @@ int CMainFrame::nLoadXMLConfiguration()
 
                 xmlChar* pchPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/LIN_Message_Window/Message_Attribute";
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchPath);
-                if( nullptr != pPathObject )
-                {
+                if (nullptr != pPathObject) {
                     pNodeSet = pPathObject->nodesetval;
-                    if(nullptr != pNodeSet)
-                    {
+                    if(nullptr != pNodeSet) {
                         // Get the Message Count from xml
                         sMsgAttrib.m_usMsgCount = pNodeSet->nodeNr;
                         PSMESSAGEATTR pMessageAtt = new SMESSAGEATTR[sMsgAttrib.m_usMsgCount];
-                        for (UINT i = 0; i < sMsgAttrib.m_usMsgCount; i++)
-                        {
+                        for (UINT i = 0; i < sMsgAttrib.m_usMsgCount; i++) {
                             xmlNodePtr pNodePtr = pNodeSet->nodeTab[i]->xmlChildrenNode;
 
-                            while(pNodePtr != nullptr)
-                            {
-                                if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Name")))
-                                {
+                            while (pNodePtr != nullptr) {
+                                if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Name"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         pMessageAtt[i].omStrMsgname = ((CString)ptext);
                                         xmlFree(ptext);
                                     }
-                                }
-                                else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Message_ID")))
-                                {
+                                } else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Message_ID"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         pMessageAtt[i].unMsgID = atoi(((CString)ptext));
                                         xmlFree(ptext);
                                     }
-                                }
-                                else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Color")))
-                                {
+                                } else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Color"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         CString strColor = ptext;
                                         DWORD dwColor = strtoul(strColor, nullptr, 16);
 
@@ -11879,7 +11708,6 @@ int CMainFrame::nLoadXMLConfiguration()
                         }
                         sMsgAttrib.m_psMsgAttribDetails = pMessageAtt;
                         CMessageAttrib::ouGetHandle(LIN).vSetMessageAttribData(&sMsgAttrib);
-                        //theApp.vPopulateIDList();
                     }
                 }
 
@@ -11888,26 +11716,20 @@ int CMainFrame::nLoadXMLConfiguration()
                 xmlChar* pchAppBuffSizePath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/LIN_Message_Window/Append_Buffer_Size";
 
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchAppBuffSizePath);
-                if( nullptr != pPathObject )
-                {
+                if(nullptr != pPathObject) {
                     pNodeSet = pPathObject->nodesetval;
 
-                    if(nullptr != pNodeSet)
-                    {
-                        for(int i=0; i < pNodeSet->nodeNr; i++)
-                        {
+                    if(nullptr != pNodeSet) {
+                        for(int i=0; i < pNodeSet->nodeNr; i++) {
                             xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodeSet->nodeTab[i]->xmlChildrenNode, 1);
 
-                            if ( ( nullptr != ptext ))
-                            {
+                            if (( nullptr != ptext )) {
                                 CString strAppndBufferSize = ptext;
                                 m_anMsgBuffSize[LIN][defAPPEND_DATA_INDEX] = atoi(strAppndBufferSize);
                                 xmlFree(ptext);
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         m_anMsgBuffSize[LIN][defAPPEND_DATA_INDEX] = defDEF_APPEND_BUFFER_SIZE;
                     }
                     xmlXPathFreeObject (pPathObject);
@@ -11917,26 +11739,20 @@ int CMainFrame::nLoadXMLConfiguration()
                 xmlChar* pchOvrBuffSizePath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/LIN_Message_Window/Overwrite_Buffer_Size";
 
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchOvrBuffSizePath);
-                if( nullptr != pPathObject )
-                {
+                if (nullptr != pPathObject) {
                     pNodeSet = pPathObject->nodesetval;
 
-                    if(nullptr != pNodeSet)
-                    {
-                        for(int i=0; i < pNodeSet->nodeNr; i++)
-                        {
+                    if(nullptr != pNodeSet) {
+                        for(int i=0; i < pNodeSet->nodeNr; i++) {
                             xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodeSet->nodeTab[i]->xmlChildrenNode, 1);
 
-                            if ( ( nullptr != ptext ))
-                            {
+                            if ((nullptr != ptext)) {
                                 CString strOvrwriteBufferSize = ptext;
                                 m_anMsgBuffSize[LIN][defOVERWRITE_DATE_INDEX] = atoi(strOvrwriteBufferSize);
                                 xmlFree(ptext);
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         m_anMsgBuffSize[LIN][defOVERWRITE_DATE_INDEX] = defDEF_OVERWRITE_BUFFER_SIZE;
                     }
                     xmlXPathFreeObject (pPathObject);
@@ -11946,26 +11762,20 @@ int CMainFrame::nLoadXMLConfiguration()
                 xmlChar* pchDispUpTimePath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/LIN_Message_Window/Display_Update_Time";
 
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchDispUpTimePath);
-                if( nullptr != pPathObject )
-                {
+                if(nullptr != pPathObject) {
                     pNodeSet = pPathObject->nodesetval;
 
-                    if(nullptr != pNodeSet)
-                    {
-                        for(int i=0; i < pNodeSet->nodeNr; i++)
-                        {
+                    if (nullptr != pNodeSet) {
+                        for (int i=0; i < pNodeSet->nodeNr; i++) {
                             xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodeSet->nodeTab[i]->xmlChildrenNode, 1);
 
-                            if ( ( nullptr != ptext ))
-                            {
+                            if (( nullptr != ptext)) {
                                 CString strDispUpdTimeSize = ptext;
                                 m_anMsgBuffSize[LIN][defDISPLAY_UPDATE_DATA_INDEX] = atoi(strDispUpdTimeSize);
                                 xmlFree(ptext);
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         m_anMsgBuffSize[LIN][defDISPLAY_UPDATE_DATA_INDEX] = defDEF_DISPLAY_UPDATE_TIME;
                     }
                     xmlXPathFreeObject (pPathObject);
@@ -11974,17 +11784,13 @@ int CMainFrame::nLoadXMLConfiguration()
                 //Msg Filter
                 bool bResult = false;
                 SFILTERAPPLIED_LIN sMsgWndFilter;
-                //pbyTemp = sMsgWndFilter.pbSetConfigData(pbyTemp, bResult);
 
                 // Get the Filter data from xml
                 pchPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/LIN_Message_Window/Filter";
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchPath);
-                if( nullptr != pPathObject )
-                {
+                if(nullptr != pPathObject) {
                     pNodeSet = pPathObject->nodesetval;
-                    if(nullptr != pNodeSet)
-                    {
-                        //for(INT nIndex =0; nIndex < pNodeSet->nodeNr; nIndex++)
+                    if(nullptr != pNodeSet) {
                         {
                             sMsgWndFilter .pbSetConfigData( m_sFilterAppliedLIN, pNodeSet, m_xmlConfigFiledoc, bResult, LIN);
                             ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(LIN),
@@ -11994,22 +11800,14 @@ int CMainFrame::nLoadXMLConfiguration()
                 }
 
 
-                if(nullptr != m_xmlConfigFiledoc)
-                {
+                if (nullptr != m_xmlConfigFiledoc) {
                     ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(LIN),
                                   WM_NOTIFICATION_FROM_OTHER,
                                   eWINID_MSG_WND_SET_CONFIG_DATA_XML,
                                   (LPARAM)m_xmlConfigFiledoc);
-
-
-                    /*::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(LIN),
-                                  WM_NOTIFICATION_FROM_OTHER,
-                                  eLOAD_DATABASE,
-                                  (LPARAM)&(theApp.m_pouMsgSignal));*/
                 }
 
-                if(sMsgAttrib.m_usMsgCount > 0)
-                {
+                if (sMsgAttrib.m_usMsgCount > 0) {
                     //clear msg attributes
                     DELETE_ARRAY(sMsgAttrib.m_psMsgAttribDetails);
                     sMsgAttrib.m_usMsgCount = 0;
@@ -12019,10 +11817,8 @@ int CMainFrame::nLoadXMLConfiguration()
             case LOG_SECTION_ID:
             {
                 INT nRetVal = S_OK;
-                if (m_xmlConfigFiledoc != nullptr)
-                {
-                    if (sg_pouFrameProcCAN != nullptr)
-                    {
+                if (m_xmlConfigFiledoc != nullptr) {
+                    if (sg_pouFrameProcCAN != nullptr) {
                         sg_pouFrameProcCAN->StartEditingSession();
                         nRetVal = sg_pouFrameProcCAN->SetConfigData(m_xmlConfigFiledoc);
                         sg_pouFrameProcCAN->StopEditingSession(TRUE);
@@ -12030,16 +11826,13 @@ int CMainFrame::nLoadXMLConfiguration()
                     //Start logging if toolbar status is enabled.
                     BOOL bLogON = FALSE;
                     CFlags* pFlag = theApp.pouGetFlagsPtr();
-                    if(pFlag != nullptr)
-                    {
+                    if(pFlag != nullptr) {
                         bLogON = pFlag->nGetFlagStatus(LOGTOFILE);
                         BOOL bFilterON = FALSE;
                         bFilterON = pFlag->nGetFlagStatus(LOGFILTER);
                         vStartStopLogging(bLogON == TRUE);
                     }
-                }
-                else if ( (m_xmlConfigFiledoc != nullptr) || (nRetVal == S_FALSE) )
-                {
+                } else if ((m_xmlConfigFiledoc != nullptr) || (nRetVal == S_FALSE)) {
                     sg_pouFrameProcCAN = GetICANLogger();
                     sg_pouFrameProcCAN->StartEditingSession();
                     sg_pouFrameProcCAN->ClearLoggingBlockList();
@@ -12049,19 +11842,14 @@ int CMainFrame::nLoadXMLConfiguration()
             break;
             case LOG_SECTION_J1939_ID:
             {
-                if (m_xmlConfigFiledoc != nullptr)
-                {
-                    if (GetIJ1939Logger() != nullptr)
-                    {
+                if (m_xmlConfigFiledoc != nullptr) {
+                    if (GetIJ1939Logger() != nullptr) {
                         GetIJ1939Logger()->StartEditingSession();
                         GetIJ1939Logger()->SetConfigData(m_xmlConfigFiledoc);
                         GetIJ1939Logger()->StopEditingSession(true);
                     }
-                }
-                else
-                {
-                    if (GetIJ1939Logger() != nullptr)
-                    {
+                } else {
+                    if (GetIJ1939Logger() != nullptr) {
                         GetIJ1939Logger()->StartEditingSession();
                         GetIJ1939Logger()->ClearLoggingBlockList();
                         GetIJ1939Logger()->StopEditingSession(true);
@@ -12072,10 +11860,8 @@ int CMainFrame::nLoadXMLConfiguration()
             case LOG_SECTION_LIN_ID:
             {
                 INT nRetVal = S_OK;
-                if (m_xmlConfigFiledoc != nullptr)
-                {
-                    if (sg_pouFrameProcLIN != nullptr)
-                    {
+                if (m_xmlConfigFiledoc != nullptr) {
+                    if (sg_pouFrameProcLIN != nullptr) {
                         sg_pouFrameProcLIN->StartEditingSession();
                         nRetVal = sg_pouFrameProcLIN->SetConfigData(m_xmlConfigFiledoc);
                         sg_pouFrameProcLIN->StopEditingSession(TRUE);
@@ -12083,16 +11869,12 @@ int CMainFrame::nLoadXMLConfiguration()
                     //Start logging if toolbar status is enabled.
                     BOOL bLogON = FALSE;
                     CFlags* pFlag = theApp.pouGetFlagsPtr();
-                    if(pFlag != nullptr)
-                    {
+                    if(pFlag != nullptr) {
                         bLogON = pFlag->nGetFlagStatus(LOGTOFILE_LIN);
                         BOOL bFilterON = FALSE;
-                        // bFilterON = pFlag->nGetFlagStatus(LOGFILTER);
                         vStartStopLogging_LIN(bLogON == TRUE);
                     }
-                }
-                else if ( (m_xmlConfigFiledoc != nullptr) || (nRetVal == S_FALSE) )
-                {
+                } else if ((m_xmlConfigFiledoc != nullptr) || (nRetVal == S_FALSE)) {
                     sg_pouFrameProcLIN = GetILINLogger();
                     sg_pouFrameProcLIN->StartEditingSession();
                     sg_pouFrameProcLIN->ClearLoggingBlockList();
@@ -12100,13 +11882,10 @@ int CMainFrame::nLoadXMLConfiguration()
                 }
             }
             break;
-
             case SIGWATCH_SECTION_ID:
             {
-                if ( sg_pouSWInterface[CAN] == nullptr )
-                {
-                    if ( SW_GetInterface( CAN, (void**)&sg_pouSWInterface[CAN] ) == S_OK )
-                    {
+                if (sg_pouSWInterface[CAN] == nullptr) {
+                    if (SW_GetInterface(CAN, (void**)&sg_pouSWInterface[CAN] ) == S_OK) {
                         sg_pouSWInterface[CAN]->SW_DoInitialization( m_ouBusmasterNetwork );
                     }
                 }
@@ -12118,32 +11897,25 @@ int CMainFrame::nLoadXMLConfiguration()
                 xmlChar* pXmlPath = ( xmlChar* )"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Signal_Watch";
                 pOjectPath = xmlUtils::pGetNodes( m_xmlConfigFiledoc, pXmlPath );
 
-                if ( pOjectPath != nullptr )
-                {
+                if (pOjectPath != nullptr) {
                     bProper = TRUE;
                 }
 
-                if ( bProper == TRUE )
-                {
+                if (bProper == TRUE) {
                     sg_pouSWInterface[CAN]->SW_ClearSigWatchWnd();
-                    if ( pOjectPath != nullptr )
-                    {
+                    if (pOjectPath != nullptr) {
                         xmlNodeSetPtr pNodeSet = pOjectPath->nodesetval;
-                        if ( pNodeSet != nullptr )
-                        {
+                        if (pNodeSet != nullptr) {
                             pNodePtr = pNodeSet->nodeTab[0];
-                            if ( pNodePtr != nullptr )
-                            {
+                            if (pNodePtr != nullptr) {
                                 sg_pouSWInterface[CAN]->SW_SetConfigData( (xmlNodePtr)( pNodePtr->children ) );
                             }
                         }
-                        xmlXPathFreeObject( pOjectPath );
-                        //bProper = FALSE;
+                        xmlXPathFreeObject(pOjectPath);
                     }
 
                 }
-                if ( bProper == FALSE )
-                {
+                if ( bProper == FALSE ) {
                     //Set default settings
                     sg_pouSWInterface[CAN]->SW_SetConfigData( nullptr );
                     sg_pouSWInterface[CAN]->SW_ClearSigWatchWnd();
@@ -12154,10 +11926,8 @@ int CMainFrame::nLoadXMLConfiguration()
 
             case SIGWATCH_SECTION_LIN_ID:
             {
-                if (sg_pouSWInterface[LIN] == nullptr)
-                {
-                    if (SW_GetInterface(LIN, (void**)&sg_pouSWInterface[LIN]) == S_OK)
-                    {
+                if (sg_pouSWInterface[LIN] == nullptr) {
+                    if (SW_GetInterface(LIN, (void**)&sg_pouSWInterface[LIN]) == S_OK) {
                         sg_pouSWInterface[LIN]->SW_DoInitialization( m_ouBusmasterNetwork);
                     }
                 }
@@ -12169,32 +11939,25 @@ int CMainFrame::nLoadXMLConfiguration()
                 xmlChar* pXmlPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/LIN_Signal_Watch";
                 pOjectPath = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pXmlPath);
 
-                if(pOjectPath != nullptr)
-                {
+                if(pOjectPath != nullptr) {
                     bProper = TRUE;
                 }
 
-                if(bProper == TRUE)
-                {
+                if(bProper == TRUE) {
                     sg_pouSWInterface[LIN]->SW_ClearSigWatchWnd();
-                    if(pOjectPath != nullptr)
-                    {
+                    if(pOjectPath != nullptr) {
                         xmlNodeSetPtr pNodeSet = pOjectPath->nodesetval;
-                        if(pNodeSet != nullptr)
-                        {
+                        if(pNodeSet != nullptr) {
                             pNodePtr = pNodeSet->nodeTab[0];
-                            if(pNodePtr != nullptr)
-                            {
+                            if(pNodePtr != nullptr) {
                                 sg_pouSWInterface[LIN]->SW_SetConfigData((xmlNodePtr)(pNodePtr->children));
                             }
                         }
                         xmlXPathFreeObject(pOjectPath);
-                        //bProper = FALSE;
                     }
 
                 }
-                if (bProper == FALSE)
-                {
+                if (bProper == FALSE) {
                     //Set default settings
                     sg_pouSWInterface[LIN]->SW_SetConfigData(nullptr);
                     sg_pouSWInterface[LIN]->SW_ClearSigWatchWnd();
@@ -12205,10 +11968,8 @@ int CMainFrame::nLoadXMLConfiguration()
 
             case SIGWATCH_SECTION_J1939_ID:
             {
-                if ( sg_pouSWInterface[J1939] == nullptr )
-                {
-                    if ( SW_GetInterface( J1939, (void**)&sg_pouSWInterface[J1939] ) == S_OK )
-                    {
+                if ( sg_pouSWInterface[J1939] == nullptr ) {
+                    if (SW_GetInterface(J1939, (void**)&sg_pouSWInterface[J1939] ) == S_OK) {
                         sg_pouSWInterface[J1939]->SW_DoInitialization( m_ouBusmasterNetwork );
                     }
                 }
@@ -12220,32 +11981,25 @@ int CMainFrame::nLoadXMLConfiguration()
                 xmlChar* pXmlPath = ( xmlChar* )"//BUSMASTER_CONFIGURATION/Module_Configuration/J1939_Signal_Watch";
                 pOjectPath = xmlUtils::pGetNodes( m_xmlConfigFiledoc, pXmlPath );
 
-                if ( pOjectPath != nullptr )
-                {
+                if (pOjectPath != nullptr) {
                     bProper = TRUE;
                 }
 
-                if ( bProper == TRUE )
-                {
+                if (bProper == TRUE) {
                     sg_pouSWInterface[J1939]->SW_ClearSigWatchWnd();
-                    if ( pOjectPath != nullptr )
-                    {
+                    if (pOjectPath != nullptr) {
                         xmlNodeSetPtr pNodeSet = pOjectPath->nodesetval;
-                        if ( pNodeSet != nullptr )
-                        {
+                        if (pNodeSet != nullptr) {
                             pNodePtr = pNodeSet->nodeTab[0];
-                            if ( pNodePtr != nullptr )
-                            {
+                            if (pNodePtr != nullptr) {
                                 sg_pouSWInterface[J1939]->SW_SetConfigData( (xmlNodePtr)( pNodePtr->children ) );
                             }
                         }
                         xmlXPathFreeObject( pOjectPath );
-                        //bProper = FALSE;
                     }
 
                 }
-                if ( bProper == FALSE )
-                {
+                if (bProper == FALSE) {
                     //Set default settings
                     sg_pouSWInterface[J1939]->SW_SetConfigData( nullptr );
                     sg_pouSWInterface[J1939]->SW_ClearSigWatchWnd();
@@ -12264,14 +12018,11 @@ int CMainFrame::nLoadXMLConfiguration()
                 xmlXPathObjectPtr pTempNode = nullptr;
                 pTempNode = xmlUtils::pGetNodes(m_xmlConfigFiledoc, (xmlChar*)("//BUSMASTER_CONFIGURATION/Module_Configuration/Bus_Statistics"));
 
-                if(pTempNode != nullptr && pTempNode->nodesetval != nullptr && pTempNode->nodesetval->nodeTab[0] != nullptr)
-                {
+                if(pTempNode != nullptr && pTempNode->nodesetval != nullptr && pTempNode->nodesetval->nodeTab[0] != nullptr) {
                     m_pXmlNodeBusStats = xmlCopyNode(pTempNode->nodesetval->nodeTab[0], 1);
                 }
-                if(m_bIsStatWndCreated == TRUE)
-                {
-                    if(m_pXmlNodeBusStats != nullptr)
-                    {
+                if(m_bIsStatWndCreated == TRUE) {
+                    if(m_pXmlNodeBusStats != nullptr) {
                         m_oNetworkStatistics->hSetConfigData((xmlNodePtr)m_pXmlNodeBusStats);
                     }
                 }
@@ -12299,44 +12050,32 @@ int CMainFrame::nLoadXMLConfiguration()
 
                 xmlChar* pchPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/J1939_Message_Window/Message_Attribute";
                 pPathObject = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pchPath);
-                if( nullptr != pPathObject )
-                {
+                if( nullptr != pPathObject ) {
                     pNodeSet = pPathObject->nodesetval;
-                    if(nullptr != pNodeSet)
-                    {
+                    if(nullptr != pNodeSet) {
                         // Get the Message Count from xml
                         sMsgAttrib.m_usMsgCount = pNodeSet->nodeNr;
-                        //COPY_DATA_2(&(sMsgAttrib.m_usMsgCount), pbyTemp, sizeof(UINT));
                         PSMESSAGEATTR pMessageAtt = new SMESSAGEATTR[sMsgAttrib.m_usMsgCount];
-                        for (UINT i = 0; i < sMsgAttrib.m_usMsgCount; i++)
-                        {
+                        for (UINT i = 0; i < sMsgAttrib.m_usMsgCount; i++) {
                             xmlNodePtr pNodePtr = pNodeSet->nodeTab[i]->xmlChildrenNode;
 
                             while(pNodePtr != nullptr)
                             {
-                                if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Name")))
-                                {
+                                if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Name"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         pMessageAtt[i].omStrMsgname = ((CString)ptext);
                                         xmlFree(ptext);
                                     }
-                                }
-                                else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Message_ID")))
-                                {
+                                } else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Message_ID"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         pMessageAtt[i].unMsgID = atoi(((CString)ptext));
                                         xmlFree(ptext);
                                     }
-                                }
-                                else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Color")))
-                                {
+                                } else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"Color"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         CString strColor = ptext;
                                         DWORD dwColor = strtoul(strColor, nullptr, 16);
 
@@ -12356,8 +12095,7 @@ int CMainFrame::nLoadXMLConfiguration()
                     }
                 }
 
-                if(m_xmlConfigFiledoc != nullptr)
-                {
+                if (m_xmlConfigFiledoc != nullptr) {
                     ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(J1939),
                                   WM_NOTIFICATION_FROM_OTHER,
                                   eWINID_MSG_WND_SET_CONFIG_DATA_XML,
@@ -12380,36 +12118,28 @@ int CMainFrame::nLoadXMLConfiguration()
                 xmlXPathObjectPtr pOjectPath = nullptr;
                 xmlChar* pXmlPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Signal_Graph/GRAPH_PARAMETERS";
                 pOjectPath = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pXmlPath);
-                if(pOjectPath != nullptr)
-                {
+                if(pOjectPath != nullptr) {
                     xmlNodeSetPtr pNodeSet = pOjectPath->nodesetval;
-                    if(pNodeSet != nullptr)
-                    {
+                    if(pNodeSet != nullptr) {
                         /* Clear Graph List before setting with current configuration values */
-                        if(m_odGraphList[CAN].m_omElementList.GetSize()>0)
-                        {
+                        if(m_odGraphList[CAN].m_omElementList.GetSize() > 0) {
                             m_odGraphList[CAN].m_omElementList.RemoveAll();
                         }
                         INT nCount = pNodeSet->nodeNr;
-                        for(int i = 0; i < nCount; i++)
-                        {
+                        for(int i = 0; i < nCount; i++) {
                             m_odGraphList[CAN].pbySetConfigData(pNodeSet->nodeTab[i], m_xmlConfigFiledoc);
                         }
                     }
                 }
 
-
                 pOjectPath = nullptr;
                 pXmlPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Signal_Graph/Window_Position";
                 pOjectPath = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pXmlPath);
-                if(pOjectPath != nullptr)
-                {
+                if (pOjectPath != nullptr) {
                     xmlNodeSetPtr pNodeSet = pOjectPath->nodesetval;
-                    if(pNodeSet != nullptr)
-                    {
+                    if(pNodeSet != nullptr) {
                         INT nCount = pNodeSet->nodeNr;
-                        for(int i = 0; i < nCount; i++)
-                        {
+                        for(int i = 0; i < nCount; i++) {
                             vSetWindowPositionForGraph(pNodeSet->nodeTab[i], m_xmlConfigFiledoc);
                         }
                     }
@@ -12418,34 +12148,26 @@ int CMainFrame::nLoadXMLConfiguration()
                 pOjectPath = nullptr;
                 pXmlPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Signal_Graph/Splitter_Window_Col_0";
                 pOjectPath = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pXmlPath);
-                if(pOjectPath != nullptr)
-                {
+                if (pOjectPath != nullptr) {
                     xmlNodeSetPtr pNodeSet = pOjectPath->nodesetval;
-                    if(pNodeSet != nullptr)
-                    {
+                    if(pNodeSet != nullptr) {
                         INT nCount = pNodeSet->nodeNr;
-                        for(int i = 0; i < nCount; i++)
-                        {
+                        for(int i = 0; i < nCount; i++) {
                             xmlNodePtr pNodePtr = pNodeSet->nodeTab[i]->xmlChildrenNode;
 
-                            while(pNodePtr != nullptr)
-                            {
-                                if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxIdeal")))
-                                {
+                            while(pNodePtr != nullptr) {
+                                if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxIdeal"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if (nullptr != ptext) {
                                         CString strCxIdeal = ptext;
                                         m_sGraphSplitterPos[CAN].m_nRootSplitterData[0][0] = atoi(strCxIdeal);
 
                                         xmlFree(ptext);
                                     }
                                 }
-                                else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxMin")))
-                                {
+                                else if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxMin"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         CString strCxMin = ptext;
                                         m_sGraphSplitterPos[CAN].m_nRootSplitterData[0][1] = atoi(strCxMin);
 
@@ -12461,34 +12183,24 @@ int CMainFrame::nLoadXMLConfiguration()
                 pOjectPath = nullptr;
                 pXmlPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Signal_Graph/Splitter_Window_Col_1";
                 pOjectPath = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pXmlPath);
-                if(pOjectPath != nullptr)
-                {
+                if (pOjectPath != nullptr) {
                     xmlNodeSetPtr pNodeSet = pOjectPath->nodesetval;
-                    if(pNodeSet != nullptr)
-                    {
+                    if(pNodeSet != nullptr) {
                         INT nCount = pNodeSet->nodeNr;
-                        for(int i = 0; i < nCount; i++)
-                        {
+                        for (int i = 0; i < nCount; i++) {
                             xmlNodePtr pNodePtr = pNodeSet->nodeTab[i]->xmlChildrenNode;
 
-                            while(pNodePtr != nullptr)
-                            {
-                                if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxIdeal")))
-                                {
+                            while (pNodePtr != nullptr) {
+                                if ((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxIdeal"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if (nullptr != ptext) {
                                         CString strCxIdeal = ptext;
                                         m_sGraphSplitterPos[CAN].m_nRootSplitterData[1][0] = atoi(strCxIdeal);
-
                                         xmlFree(ptext);
                                     }
-                                }
-                                else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxMin")))
-                                {
+                                } else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxMin"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if (nullptr != ptext) {
                                         CString strCxMin = ptext;
                                         m_sGraphSplitterPos[CAN].m_nRootSplitterData[1][1] = atoi(strCxMin);
 
@@ -12504,34 +12216,25 @@ int CMainFrame::nLoadXMLConfiguration()
                 pOjectPath = nullptr;
                 pXmlPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Signal_Graph/Splitter_Window_Row_0";
                 pOjectPath = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pXmlPath);
-                if(pOjectPath != nullptr)
-                {
+                if (pOjectPath != nullptr) {
                     xmlNodeSetPtr pNodeSet = pOjectPath->nodesetval;
-                    if(pNodeSet != nullptr)
-                    {
+                    if (pNodeSet != nullptr) {
                         INT nCount = pNodeSet->nodeNr;
-                        for(int i = 0; i < nCount; i++)
-                        {
+                        for (int i = 0; i < nCount; i++) {
                             xmlNodePtr pNodePtr = pNodeSet->nodeTab[i]->xmlChildrenNode;
 
-                            while(pNodePtr != nullptr)
-                            {
-                                if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxIdeal")))
-                                {
+                            while (pNodePtr != nullptr) {
+                                if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxIdeal"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         CString strCxIdeal = ptext;
                                         m_sGraphSplitterPos[CAN].m_nRightViewSplitterData[0][0] = atoi(strCxIdeal);
 
                                         xmlFree(ptext);
                                     }
-                                }
-                                else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxMin")))
-                                {
+                                } else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxMin"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         CString strCxMin = ptext;
                                         m_sGraphSplitterPos[CAN].m_nRightViewSplitterData[0][1] = atoi(strCxMin);
 
@@ -12547,34 +12250,25 @@ int CMainFrame::nLoadXMLConfiguration()
                 pOjectPath = nullptr;
                 pXmlPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Signal_Graph/Splitter_Window_Row_1";
                 pOjectPath = xmlUtils::pGetNodes(m_xmlConfigFiledoc, pXmlPath);
-                if(pOjectPath != nullptr)
-                {
+                if(pOjectPath != nullptr) {
                     xmlNodeSetPtr pNodeSet = pOjectPath->nodesetval;
-                    if(pNodeSet != nullptr)
-                    {
+                    if(pNodeSet != nullptr) {
                         INT nCount = pNodeSet->nodeNr;
-                        for(int i = 0; i < nCount; i++)
-                        {
+                        for(int i = 0; i < nCount; i++) {
                             xmlNodePtr pNodePtr = pNodeSet->nodeTab[i]->xmlChildrenNode;
 
-                            while(pNodePtr != nullptr)
-                            {
-                                if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxIdeal")))
-                                {
+                            while(pNodePtr != nullptr) {
+                                if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxIdeal"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         CString strCxIdeal = ptext;
                                         m_sGraphSplitterPos[CAN].m_nRightViewSplitterData[1][0] = atoi(strCxIdeal);
 
                                         xmlFree(ptext);
                                     }
-                                }
-                                else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxMin")))
-                                {
+                                } else if((!xmlStrcmp(pNodePtr->name, (const xmlChar*)"CxMin"))) {
                                     xmlChar* ptext = xmlNodeListGetString(m_xmlConfigFiledoc, pNodePtr->xmlChildrenNode, 1);
-                                    if(nullptr != ptext)
-                                    {
+                                    if(nullptr != ptext) {
                                         CString strCxMin = ptext;
                                         m_sGraphSplitterPos[CAN].m_nRightViewSplitterData[1][1] = atoi(strCxMin);
 
@@ -12588,10 +12282,8 @@ int CMainFrame::nLoadXMLConfiguration()
                     }
                 }
 
-                for(int nBUSID=0; nBUSID<AVAILABLE_PROTOCOLS; nBUSID++)
-                {
-                    if(nBUSID == 5)
-                    {
+                for(int nBUSID=0; nBUSID<AVAILABLE_PROTOCOLS; nBUSID++) {
+                    if(nBUSID == 5) {
                         //TODO: When Signal graph for ETHERNET is implemented remove this check
                         //Skip Ethernet protocol
                         continue;
@@ -12611,10 +12303,10 @@ int CMainFrame::nLoadXMLConfiguration()
     nRetValue = S_OK;
     return nRetValue;
 }
+
 void CMainFrame::vVlaidateAndLoadFibexConfig(sLinConfigContainer& ouFibexContainer)
 {
-    if (  ouFibexContainer.m_nChannel >= 0 && ouFibexContainer.m_nChannel < CHANNEL_ALLOWED )
-    {
+    if ( ouFibexContainer.m_nChannel >= 0 && ouFibexContainer.m_nChannel < CHANNEL_ALLOWED) {
         bool bValid = false;
         std::list<LinChannelParam> ouLinParams;
         std::list<LinChannelParam>::iterator itrChannelParam;
@@ -12622,16 +12314,13 @@ void CMainFrame::vVlaidateAndLoadFibexConfig(sLinConfigContainer& ouFibexContain
         std::string strName;
         m_ouBusmasterNetwork->ParseDbFile( ouFibexContainer.m_strDbPath, LIN, ouClusterList );
 
-        if ( ouClusterList.size() > 0 )
-        {
+        if (ouClusterList.size() > 0) {
             itrChannelParam = ouLinParams.begin();
             int nIndex = 0;
             ChannelSettings ouChannelSettings;
-            for ( auto itrCluster = ouClusterList.begin(); itrCluster != ouClusterList.end(); itrCluster++ )
-            {
+            for (auto itrCluster = ouClusterList.begin(); itrCluster != ouClusterList.end(); itrCluster++) {
                 (*itrCluster)->GetName(strName);
-				if (strName == ouFibexContainer.m_strClusterId || ouFibexContainer.m_strClusterId == "")
-                {
+				if (strName == ouFibexContainer.m_strClusterId || ouFibexContainer.m_strClusterId == "") {
                     m_ouBusmasterNetwork->SetDBService(LIN, ouFibexContainer.m_nChannel, 0, *itrCluster);
 
                     ouChannelSettings.m_ouLINSettings.m_nBaudRate = ouFibexContainer.m_nBaudRate;
@@ -12644,15 +12333,11 @@ void CMainFrame::vVlaidateAndLoadFibexConfig(sLinConfigContainer& ouFibexContain
                     std::list<IScheduleTable*> lstScheduleTables;
                     (*itrCluster)->GetElementList(eScheduleTableElement, mapScheduleTables);
 
-for(auto itrScheduleTable : mapScheduleTables)
-                    {
+                    for(auto itrScheduleTable: mapScheduleTables) {
                         lstScheduleTables.push_back((IScheduleTable*)itrScheduleTable.second);
                     }
 
-                    //pCluster->GetProperties(eLINScheduleTableProps, (void *)&lstScheduleTables);
                     vUpdateScheduleTableList(ouChannelSettings, ouFibexContainer.m_nChannel, m_ouBusmasterNetwork);
-                    //ouChannelSettings.m_ouLINSettings.m_ouScheduleTableList = lstScheduleTables;
-
 
                     bValid = true;
                     m_ouBusmasterNetwork->SetChannelSettings(LIN, ouFibexContainer.m_nChannel, &ouChannelSettings);
@@ -12665,18 +12350,13 @@ for(auto itrScheduleTable : mapScheduleTables)
                 }
                 nIndex++;
             }
-            if ( true == bValid )
-            {
+            if (true == bValid) {
                 vPopulateIDList( LIN );
 				OnClusterChanged(LIN);
-            }
-            else
-            {
+            } else {
                 //TODO::
             }
-        }
-        else
-        {
+        } else {
             ChannelSettings ouChannelSettings;
             ouChannelSettings.m_ouLINSettings.m_nBaudRate = ouFibexContainer.m_nBaudRate;
             ouChannelSettings.m_ouLINSettings.m_strProtocolVersion = ouFibexContainer.m_srtProtocolVerson;
@@ -12699,7 +12379,6 @@ void CMainFrame::LoadControllerConfigData(SCONTROLLER_DETAILS& sController, xmlN
     std::string strVar;
     UINT unTemp = 0;
     double fBaudRate = 0.0;
-    //sController.LoadControllerConfigData(pNodePtr);
     while(nullptr != pNodePtr)
     {
         if (xmlUtils::GetDataFrmNode(pNodePtr,"BaudRate",strVar))
@@ -13612,28 +13291,23 @@ void CMainFrame::OnSelectLINDriver(UINT nID)
     }
     // m_bFlxDILChanging = FALSE;
 }
+
 void CMainFrame::OnUpdateSelectDriver(CCmdUI* pCmdUI)
 {
     BOOL bSelected = FALSE;
     // Search for the associated item in the DIL list
     DILINFO* psCurrDIL = psGetDILEntry(pCmdUI->m_nID);
-    if (psCurrDIL != nullptr)
-    {
-        if (g_pouDIL_CAN_Interface != nullptr)
-        {
+    if (psCurrDIL != nullptr) {
+        if (g_pouDIL_CAN_Interface != nullptr) {
             bSelected = (psCurrDIL->m_dwDriverID == g_pouDIL_CAN_Interface->DILC_GetSelectedDriver());
         }
     }
     CFlags* pFlag = theApp.pouGetFlagsPtr();
-    if (pFlag != nullptr)
-    {
+    if (pFlag != nullptr) {
         BOOL bConnected = pFlag->nGetFlagStatus(CONNECTED);
-        if (bConnected == FALSE)
-        {
+        if (bConnected == FALSE) {
             pCmdUI->Enable(!bSelected);
-        }
-        else
-        {
+        } else {
             pCmdUI->Enable(FALSE);
         }
     }
@@ -13646,29 +13320,23 @@ void CMainFrame::OnUpdateSelectLINDriver(CCmdUI* pCmdUI)
     BOOL bSelected = FALSE;
     // Search for the associated item in the DIL list
     DILINFO* psCurrDIL = psGetDILLINEntry(pCmdUI->m_nID);
-    if (psCurrDIL != nullptr)
-    {
-        if (g_pouDIL_LIN_Interface != nullptr)
-        {
+    if (psCurrDIL != nullptr) {
+        if (g_pouDIL_LIN_Interface != nullptr) {
             bSelected = (psCurrDIL->m_dwDriverID == g_pouDIL_LIN_Interface->DILL_GetSelectedDriver());
         }
     }
     CFlags* pFlag = theApp.pouGetFlagsPtr();
-    if (pFlag != nullptr)
-    {
+    if (pFlag != nullptr) {
         BOOL bConnected = pFlag->nGetFlagStatus(LIN_CONNECTED);
-        if (bConnected == FALSE)
-        {
+        if (bConnected == FALSE) {
             pCmdUI->Enable(!bSelected);
         }
-        else
-        {
+        else {
             pCmdUI->Enable(FALSE);
         }
     }
 
-    if(nullptr != psCurrDIL && psCurrDIL->m_dwDriverID != DAL_LIN_NONE)
-    {
+    if (nullptr != psCurrDIL && psCurrDIL->m_dwDriverID != DAL_LIN_NONE) {
         pCmdUI->SetCheck(bSelected);
     }
 }
@@ -13676,42 +13344,35 @@ void CMainFrame::OnUpdateSelectLINDriver(CCmdUI* pCmdUI)
 CMFCRibbonCategory* CMainFrame::GetCategory(const char* categoryName)
         {
 	auto count = mRibbonBar.GetCategoryCount();
-	for (int i = 0; i < count; i++)
-
-    {
+	for (int i = 0; i < count; i++) {
 		auto category = mRibbonBar.GetCategory(i);
-		if (nullptr != category)
-        {
+		if (nullptr != category) {
 			std::string name = category->GetName();
-			if (categoryName == name)
-        {
+			if (categoryName == name) {
 				return category;
+            }
         }
-    }
     }
 
 	return nullptr;
 }
+
 CMFCRibbonPanel* CMainFrame::GetRibbonPanel(CMFCRibbonCategory* category, const char* panelName)
 {
-	if(category == nullptr)
-	{
+	if (category == nullptr) {
 		return nullptr;
 	}
+
 	int panelCount = category->GetPanelCount();
-	for (int i = 0; i < panelCount; i++)
-	{
+	for (int i = 0; i < panelCount; i++) {
 		auto panel = category->GetPanel(i);
-		if (nullptr != panel)
-		{
+		if (nullptr != panel) {
 			std::string name = panel->GetName();
-			if (name == panelName)
-			{
+			if (name == panelName) {
 				return panel;
 			}
 		}
 	}
-	
 	
 	CMFCRibbonPanel* newPanel = category->AddPanel(panelName);
 	newPanel->SetJustifyColumns(FALSE);
@@ -13726,13 +13387,12 @@ bool CMainFrame::bUpdatePopupMenuDIL()
 	auto panel = GetRibbonPanel(canCategory, "Hardware Configuration");
 	if (nullptr == panel) return false;
 
-        /* Create a new popup Menu */
+    /* Create a new popup Menu */
 	
 	auto control = static_cast<CMFCRibbonButton*>(panel->GetElement(2));
 	
-                // Add the DIL list
-	for (int i = 0; (i < m_nDILCount) ; i++)
-                {
+    // Add the DIL list
+	for (int i = 0; (i < m_nDILCount) ; i++) {
 		CMFCRibbonButton* newButton = new CMFCRibbonButton();
 		
 		newButton->SetText(m_ouList[i].m_acName.c_str());
@@ -13741,9 +13401,8 @@ bool CMainFrame::bUpdatePopupMenuDIL()
 		newButton->SetVisible(TRUE);
 		newButton->SetID(IDC_SELECT_DRIVER + i);
 		control->AddSubItem(newButton);
-        }
+    }
         // Added shortcut key
-
 
 	return true;
 }
@@ -13756,24 +13415,19 @@ bool CMainFrame::bUpdatePopupMenuDILL(void)
 	auto panel = GetRibbonPanel(canCategory, "Hardware Configuration");
 	if (nullptr == panel) return false;
 
-        /* Create a new popup Menu */
-
+    /* Create a new popup Menu */
 	auto control = static_cast<CMFCRibbonButton*>(panel->GetElement(2));
 
-                // Add the DIL list
-	for (int i = 0; (i < m_nDILCountLin); i++)
-                {
+    // Add the DIL list
+	for (int i = 0; (i < m_nDILCountLin); i++) {
 		CMFCRibbonButton* newButton = new CMFCRibbonButton();
-		
 		newButton->SetText(m_ouListLin[i].m_acName.c_str());
 		m_ouListLin[i].m_ResourceID = IDC_SELECT_LIN_DRIVER + i;
 
 		newButton->SetVisible(TRUE);
 		newButton->SetID(IDC_SELECT_LIN_DRIVER + i);
 		control->AddSubItem(newButton);
-                    }
-
-        // Added shortcut key
+    }
 
 
 	return true;
@@ -13782,45 +13436,34 @@ bool CMainFrame::bUpdatePopupMenuDILL(void)
 DILINFO* CMainFrame::psGetDILEntry(UINT unKeyID, bool bKeyMenuItem)
 {
     DILINFO* psResult = nullptr;
-    for (int i = 0; i < m_nDILCount; i++)
-    {
-        if (bKeyMenuItem == TRUE)
-        {
-            if (m_ouList[i].m_ResourceID == unKeyID)
-            {
+    for (int i = 0; i < m_nDILCount; i++) {
+        if (bKeyMenuItem == TRUE) {
+            if (m_ouList[i].m_ResourceID == unKeyID) {
                 psResult = &(m_ouList[i]);
                 break;
             }
-        }
-        else
-        {
-            if (m_ouList[i].m_dwDriverID == unKeyID)
-            {
+        } else {
+            if (m_ouList[i].m_dwDriverID == unKeyID) {
                 psResult = &(m_ouList[i]);
                 break;
             }
         }
     }
+
     return psResult;
 }
 
 DILINFO* CMainFrame::psGetDILLINEntry(UINT unKeyID, bool bKeyMenuItem)
 {
     DILINFO* psResult = nullptr;
-    for (int i = 0; i < m_nDILCountLin; i++)
-    {
-        if (bKeyMenuItem == true)
-        {
-            if (m_ouListLin[i].m_ResourceID == unKeyID)
-            {
+    for (int i = 0; i < m_nDILCountLin; i++) {
+        if (bKeyMenuItem == true) {
+            if (m_ouListLin[i].m_ResourceID == unKeyID) {
                 psResult = &(m_ouListLin[i]);
                 break;
             }
-        }
-        else
-        {
-            if (m_ouListLin[i].m_dwDriverID == unKeyID)
-            {
+        } else {
+            if (m_ouListLin[i].m_dwDriverID == unKeyID) {
                 psResult = &(m_ouListLin[i]);
                 break;
             }
@@ -13832,12 +13475,10 @@ DILINFO* CMainFrame::psGetDILLINEntry(UINT unKeyID, bool bKeyMenuItem)
 void CMainFrame::OnConfigureWaveformMessages(void)
 {
     IBMNetWorkGetService* pomDatabase = m_ouBusmasterNetwork;
-    if( pomDatabase != nullptr )
-    {
+    if (pomDatabase != nullptr) {
         std::list<IFrame*> frameList;
-        m_ouBusmasterNetwork->GetFrameList( CAN, 0, frameList );
-        if ( frameList.size() > 0 )
-        {
+        m_ouBusmasterNetwork->GetFrameList(CAN, 0, frameList);
+        if (frameList.size() > 0) {
             vUpdateMainEntryListInWaveDataHandler();
 
             LONG lParam = 0;
@@ -13950,8 +13591,7 @@ LRESULT CMainFrame::OnMessageFromUserDll(WPARAM wParam, LPARAM lParam)
     USES_CONVERSION;
     LRESULT hRetVal = S_OK;
     CFlags* pouFlags = theApp.pouGetFlagsPtr();
-    switch (wParam)
-    {
+    switch (wParam) {
         case LOG_ENABLE_DISABLE:
         {
             if (pouFlags != nullptr)
@@ -14073,8 +13713,7 @@ LRESULT CMainFrame::OnMessageFromUserDll(WPARAM wParam, LPARAM lParam)
 void CMainFrame::vInitializeBusStatCAN(void)
 {
     GetICANBusStat()->BSC_DoInitialization();
-    for (int i = 0; i < defNO_OF_CHANNELS; i++)
-    {
+    for (int i = 0; i < defNO_OF_CHANNELS; i++) {
 #ifdef BOA_FD_VERSION
         GetICANBusStat()->BSC_SetBaudRate(i, m_asControllerDetails[i].m_unDataBitRate);
 #else
@@ -14083,17 +13722,12 @@ void CMainFrame::vInitializeBusStatCAN(void)
     }
 }
 
-
 void CMainFrame::vInitializeBusStatLIN(void)
 {
     GetILINBusStat()->BSL_DoInitialization();
-    //sCONTROLLERDETAILSLIN sControllerDetails[defNO_OF_LIN_CHANNELS];
-    //          int nCount = 0;
-    //g_pouDIL_LIN_Interface->DILL_GetConfiguration(sControllerDetails, nCount);
 
     vSetBaudRateInfo(LIN);
-    for (int i = 0; i < defNO_OF_LIN_CHANNELS; i++)
-    {
+    for (int i = 0; i < defNO_OF_LIN_CHANNELS; i++) {
         GetILINBusStat()->BSL_SetBaudRate(i, m_asControllerDetailsLIN[i].m_BaudRate);
     }
 }
@@ -14730,40 +14364,33 @@ void CMainFrame::OnJ1939DBNew()
 {
 
     // Check if any database is already open
-    if (CMsgSignalDBWnd::sm_bValidJ1939Wnd == TRUE)
-    {
+    if (CMsgSignalDBWnd::sm_bValidJ1939Wnd == TRUE) {
         // Some database is open
         // Flash a message as to whether the user
         // wants to open another database
         INT nReturn =
             AfxMessageBox( _("Are you sure you want to close the \ndatabase that is already open?"), MB_YESNO, MB_ICONINFORMATION);
-        if ( nReturn == IDYES)
-        {
+        if ( nReturn == IDYES) {
             // Close the database that was open
             OnJ1939DBClose();
         }
     }
-    if (m_pouActiveDbJ1939 == nullptr)
-    {
+    if (m_pouActiveDbJ1939 == nullptr) {
         m_pouActiveDbJ1939 = new CMsgSignal(sg_asDbParams[J1939], FALSE);
     }
 
-    if (nullptr != m_podMsgSgWndJ1939 && !IsWindow(m_podMsgSgWndJ1939->m_hWnd))
-    {
+    if (nullptr != m_podMsgSgWndJ1939 && !IsWindow(m_podMsgSgWndJ1939->m_hWnd)) {
         m_podMsgSgWndJ1939 = nullptr;
     }
     sg_asDbParams[J1939].m_pouMsgSignalActiveDB = m_pouActiveDbJ1939;
     sg_asDbParams[J1939].m_pouMsgSignalImportedDBs = m_pouMsgSigJ1939;
-    if (m_podMsgSgWndJ1939 == nullptr)
-    {
+    if (m_podMsgSgWndJ1939 == nullptr) {
         m_podMsgSgWndJ1939 = new CMsgSignalDBWnd(sg_asDbParams[J1939]);
     }
 
-    if (m_podMsgSgWndJ1939 != nullptr)
-    {
+    if (m_podMsgSgWndJ1939 != nullptr) {
         vGetNewJ1939DBName(m_omJ1939DBName);
-        if (bCreateStudioFile(m_omJ1939DBName) == TRUE)
-        {
+        if (bCreateStudioFile(m_omJ1939DBName) == TRUE) {
             sg_asDbParams[J1939].m_omDBPath = m_omJ1939DBName;
             m_podMsgSgWndJ1939->vSetDBName(m_omJ1939DBName);
 
@@ -14783,8 +14410,7 @@ void CMainFrame::OnJ1939DBNew()
             // Set the flag to indicate the opening of database window
             CFlags* pFlags = theApp.pouGetFlagsPtr();
 
-            if(pFlags != nullptr)
-            {
+            if(pFlags != nullptr) {
                 pFlags->vSetFlagStatus( DBOPEN_J1939, TRUE );
             }
         }
@@ -14795,20 +14421,15 @@ void CMainFrame::OnJ1939DBNew()
 void CMainFrame::OnJ1939DBOpen()
 {
     // Check if any database is already open
-    if (CMsgSignalDBWnd::sm_bValidJ1939Wnd == TRUE)
-    {
+    if (CMsgSignalDBWnd::sm_bValidJ1939Wnd == TRUE) {
         // Some database is open
         // Flash a message as to whether the user
         // wants to open another database
-        INT nReturn =
-            AfxMessageBox( _("Are you sure you want to close the \ndatabase that is already open?"), MB_YESNO, MB_ICONINFORMATION);
-        if ( nReturn == IDYES)
-        {
+        INT nReturn = AfxMessageBox( _("Are you sure you want to close the \ndatabase that is already open?"), MB_YESNO, MB_ICONINFORMATION);
+        if ( nReturn == IDYES) {
             // Close the database that was open
             OnJ1939DBClose();
-        }
-        else
-        {
+        } else {
             return;
         }
     }
@@ -14822,12 +14443,10 @@ void CMainFrame::OnJ1939DBOpen()
     // Set Title
     fileDlg.m_ofn.lpstrTitle  = _("Select J1939 Database Filename...");
 
-    if ( IDOK == fileDlg.DoModal() )
-    {
+    if (IDOK == fileDlg.DoModal()) {
         CString strExtName  = fileDlg.GetFileExt();
         CString strDbName   = fileDlg.GetPathName();
-        if ( strDbName.ReverseFind('.') )
-        {
+        if (strDbName.ReverseFind('.')) {
             strDbName = strDbName.Left( strDbName.ReverseFind('.') + 1);
             strDbName.TrimRight();
             strDbName += strExtName;
@@ -14837,31 +14456,24 @@ void CMainFrame::OnJ1939DBOpen()
         // file-attribute information
         struct _finddata_t fileinfo;
         // Auto Select DB File
-        if (_findfirst( strDbName, &fileinfo)!= -1L)
-        {
+        if (_findfirst( strDbName, &fileinfo)!= -1L) {
             // Load the File & fill the Structure
-            if (m_pouActiveDbJ1939 == nullptr)
-            {
+            if (m_pouActiveDbJ1939 == nullptr) {
                 sg_asDbParams[J1939].m_pouMsgSignalActiveDB = m_pouActiveDbJ1939;
                 sg_asDbParams[J1939].m_pouMsgSignalImportedDBs = m_pouMsgSigJ1939;
                 m_pouActiveDbJ1939 = new CMsgSignal(sg_asDbParams[J1939], FALSE);
             }
-            if (m_pouActiveDbJ1939->
-                    bFillDataStructureFromDatabaseFile(strDbName, PROTOCOL_J1939))
-            {
+            if (m_pouActiveDbJ1939->bFillDataStructureFromDatabaseFile(strDbName, PROTOCOL_J1939)) {
                 // No corruption in database, display the editor
                 bDisplayEditor = TRUE;
             }
         }
-        else
-        {
+        else {
             AfxMessageBox(_("Specified database file is not found.\nOperation unsuccessful."), MB_OK|MB_ICONINFORMATION);
         }
 
-        if ( bDisplayEditor == TRUE )
-        {
-            if ( m_podMsgSgWndJ1939 != nullptr )
-            {
+        if (bDisplayEditor == TRUE) {
+            if (m_podMsgSgWndJ1939 != nullptr) {
                 m_podMsgSgWndJ1939 = nullptr;
             }
 
@@ -14870,8 +14482,7 @@ void CMainFrame::OnJ1939DBOpen()
 
             m_podMsgSgWndJ1939 = new CMsgSignalDBWnd(sg_asDbParams[J1939]);
 
-            if ( m_podMsgSgWndJ1939 != nullptr )
-            {
+            if (m_podMsgSgWndJ1939 != nullptr) {
                 sg_asDbParams[J1939].m_omDBPath = m_omJ1939DBName;
                 m_podMsgSgWndJ1939->vSetDBName(m_omJ1939DBName);
                 // Create child window
@@ -14880,8 +14491,7 @@ void CMainFrame::OnJ1939DBOpen()
                                                  WS_CHILD | WS_VISIBLE |
                                                  WS_OVERLAPPED | WS_CAPTION |
                                                  WS_THICKFRAME, rectDefault,
-                                                 this ) )
-                {
+                                                 this ) ) {
                     MessageBox( _("Create J1939 Database Window Failed!"),
                                 nullptr, MB_OK|MB_ICONERROR );
                     return;
@@ -14892,13 +14502,11 @@ void CMainFrame::OnJ1939DBOpen()
 
                 // Set the flag to indicate the opening of database window
                 CFlags* pFlags = theApp.pouGetFlagsPtr();
-                if(pFlags != nullptr)
-                {
+                if(pFlags != nullptr) {
                     pFlags->vSetFlagStatus( DBOPEN_J1939, TRUE );
                 }
             }
-            else
-            {
+            else {
                 AfxMessageBox(_(MSG_MEMORY_CONSTRAINT),
                               MB_OK | MB_ICONINFORMATION);
             }
@@ -14908,49 +14516,39 @@ void CMainFrame::OnJ1939DBOpen()
 
 void CMainFrame::OnJ1939DBClose()
 {
-    if (nullptr == m_podMsgSgWndJ1939)
-    {
+    if (nullptr == m_podMsgSgWndJ1939) {
         return;
     }
     // Get appropriate data structure
     CMsgSignal* pTempMsgSg = m_podMsgSgWndJ1939->m_sDbParams.m_pouMsgSignalActiveDB;
-    if (nullptr == pTempMsgSg)
-    {
+    if (nullptr == pTempMsgSg) {
         return;
     }
-    if (pTempMsgSg->bGetModifiedFlag() == FALSE)
-    {
+    if (pTempMsgSg->bGetModifiedFlag() == FALSE) {
         UINT bRetVal = AfxMessageBox(_(ASK_SAVE_PROMPT),
                                      MB_YESNOCANCEL | MB_ICONQUESTION);
-        if (bRetVal == IDYES)
-        {
+        if (bRetVal == IDYES) {
             //save the database modificatins.
             m_podMsgSgWndJ1939->vSaveModifiedDBs(pTempMsgSg);
         }
-        else if (bRetVal == IDNO)
-        {
+        else if (bRetVal == IDNO) {
             // if this is new database
             // then delete the memory and the file itself
-            if (vGetNewDatabaseFlag())
-            {
+            if (vGetNewDatabaseFlag()) {
                 // This file is no longer required
                 CFile::Remove(m_podMsgSgWndJ1939->m_sDbParams.m_omDBPath);
                 vSetNewDatabaseFlag(FALSE);
             }
         }
-        else if (bRetVal == IDCANCEL)
-        {
+        else if (bRetVal == IDCANCEL) {
             return;
         }
-
     }
-    else
-    {
+    else {
         // If the user just creates new database,
         // and closes the window
         // delete the file
-        if (vGetNewDatabaseFlag())
-        {
+        if (vGetNewDatabaseFlag()) {
             // This file is no longer required
             CFile::Remove(m_podMsgSgWndJ1939->m_sDbParams.m_omDBPath);
             vSetNewDatabaseFlag(FALSE);
@@ -14963,14 +14561,14 @@ void CMainFrame::OnJ1939DBClose()
 
     CMsgSignalDBWnd::sm_bValidJ1939Wnd = FALSE;
     CFlags* pFlags = theApp.pouGetFlagsPtr();
-    if (pFlags != nullptr)
-    {
+    if (pFlags != nullptr) {
         pFlags->vSetFlagStatus(DBOPEN_J1939, FALSE);
     }
 
     m_podMsgSgWndJ1939->MDIDestroy();
     m_podMsgSgWndJ1939 = nullptr;
 }
+
 LRESULT CMainFrame::OnJ1939DBClose(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     OnJ1939DBClose();
@@ -14979,16 +14577,13 @@ LRESULT CMainFrame::OnJ1939DBClose(WPARAM /*wParam*/, LPARAM /*lParam*/)
 
 void CMainFrame::OnJ1939DBSave()
 {
-    if (m_podMsgSgWndJ1939 != nullptr)
-    {
-        if (CMsgSignalDBWnd::sm_bValidJ1939Wnd == TRUE)
-        {
+    if (m_podMsgSgWndJ1939 != nullptr) {
+        if (CMsgSignalDBWnd::sm_bValidJ1939Wnd == TRUE) {
             //send save message
             m_podMsgSgWndJ1939->SendMessage(WM_SAVE_DBJ1939, 0, 0);
 
             // Set all the items in the tree view to normal font
-            if ( m_pomMsgSgTreeViews[J1939] != nullptr)
-            {
+            if ( m_pomMsgSgTreeViews[J1939] != nullptr) {
                 m_pomMsgSgTreeViews[J1939]->vSetAllItemsNormal();
             }
         }
@@ -14998,16 +14593,12 @@ void CMainFrame::OnJ1939DBSave()
 void CMainFrame::OnUpdateJ1939DBSave(CCmdUI* pCmdUI)
 {
     BOOL bResult = FALSE;
-    if (m_podMsgSgWndJ1939 != nullptr)
-    {
-        if (CMsgSignalDBWnd::sm_bValidJ1939Wnd == TRUE)
-        {
+    if (m_podMsgSgWndJ1939 != nullptr) {
+        if (CMsgSignalDBWnd::sm_bValidJ1939Wnd == TRUE) {
             // Get appropriate data structure
             CMsgSignal* pTempMsgSg = m_podMsgSgWndJ1939->m_sDbParams.m_pouMsgSignalActiveDB;
-            if(pTempMsgSg != nullptr)
-            {
-                if (pTempMsgSg->bGetModifiedFlag() == FALSE)
-                {
+            if(pTempMsgSg != nullptr) {
+                if (pTempMsgSg->bGetModifiedFlag() == FALSE) {
                     bResult = TRUE;
                 }
             }
@@ -15019,12 +14610,12 @@ void CMainFrame::OnUpdateJ1939DBSave(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateJ1939DBSaveAs(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable( theApp.pouGetFlagsPtr()->nGetFlagStatus( DBOPEN_J1939 ));
+    pCmdUI->Enable(theApp.pouGetFlagsPtr()->nGetFlagStatus(DBOPEN_J1939));
 }
 
 void CMainFrame::OnUpdateJ1939DBClose(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable( theApp.pouGetFlagsPtr()->nGetFlagStatus( DBOPEN_J1939 ));
+    pCmdUI->Enable(theApp.pouGetFlagsPtr()->nGetFlagStatus(DBOPEN_J1939));
 }
 
 void CMainFrame::OnJ1939DBAssociate()
@@ -15041,50 +14632,42 @@ void CMainFrame::OnJ1939DBAssociate()
     // Set Title
     fileDlg.m_ofn.lpstrTitle = _("Select Active Database Filename...");
 
-    if ( IDOK == fileDlg.DoModal() )
-    {
+    if (IDOK == fileDlg.DoModal()) {
         POSITION pos = nullptr;
         pos = fileDlg.GetStartPosition();
-        while(nullptr != pos)
-        {
+        while (nullptr != pos) {
             CString strTempFile = fileDlg.GetNextPathName(pos);
             strFilePathArray.Add(strTempFile);
         }
         CString omStrMsg = _("Database File: \n ");
         BOOL bAllFilesImported = TRUE;
         int nFileCount = strFilePathArray.GetSize();
-        for(int nCount = 0; nCount < nFileCount; nCount++)
-        {
+        for(int nCount = 0; nCount < nFileCount; nCount++) {
             CString strTempFileName = strFilePathArray.GetAt(nCount);
             //FALSE because it is not called using COM
             DWORD dError = dLoadJ1939DBFile(strTempFileName,FALSE);
-            if(E_INVALIDARG == dError)
-            {
+            if(E_INVALIDARG == dError) {
                 bAllFilesImported = FALSE;
                 //Add the file name for warning display
                 omStrMsg += strTempFileName;
                 omStrMsg += defNEW_LINE;
             }
         }
-        if(bAllFilesImported == FALSE)
-        {
+        if(bAllFilesImported == FALSE) {
             omStrMsg += _(" not found!");
             MessageBox(omStrMsg,"BUSMASTER",MB_OK|MB_ICONERROR);
         }
-        else
-        {
+        else {
             HWND hWnd;
             hWnd = m_podMsgWndThread->hGetHandleMsgWnd(J1939);
             //Set the J1939 DB pointer in MsgFrmtWnd class
-            if(hWnd)
-            {
+            if(hWnd) {
                 ::SendMessage(hWnd, WM_NOTIFICATION_FROM_OTHER,
                               eLOAD_DATABASE,
                               (LPARAM)(m_ouBusmasterNetwork));
                 ::SendMessage(hWnd, WM_DATABASE_CHANGE, (WPARAM)TRUE, 0);
             }
-            if (m_pouTxMsgWndJ1939 != nullptr)
-            {
+            if (m_pouTxMsgWndJ1939 != nullptr) {
                 m_pouTxMsgWndJ1939->vSetDatabaseInfo(m_ouBusmasterNetwork);
             }
         }
@@ -15097,28 +14680,22 @@ void CMainFrame::OnJ1939DBDissociate()
     m_ouBusmasterNetwork->GetDBServiceList(J1939, 0, clusterList);
     std::string path;
     std::list<std::string> dbPathList;
-for (auto cluster : clusterList)
-    {
+    for (auto cluster : clusterList) {
         cluster->GetDBFilePath(path);
         dbPathList.push_back(path);
     }
 
     CDatabaseDissociateDlg odDBDialog(dbPathList);
-    if (IDOK == odDBDialog.DoModal())
-    {
+    if (IDOK == odDBDialog.DoModal()) {
         dbPathList = odDBDialog.GetDissociatedFiles();
-for (auto dbPath : dbPathList)
-        {
+        for (auto dbPath: dbPathList) {
             m_ouBusmasterNetwork->DeleteDBService(J1939, 0, dbPath);
         }
-
-        ////////////////////////////////////////////////////////////
 
         m_ouBusmasterNetwork->SetChannelCount(J1939, 1);
 
         //1. Tx Window
-        if (nullptr != m_pouTxMsgWndJ1939)
-        {
+        if (nullptr != m_pouTxMsgWndJ1939) {
             m_pouTxMsgWndJ1939->vSetDatabaseInfo(m_ouBusmasterNetwork);
         }
         //2. Message Window
@@ -15130,8 +14707,7 @@ for (auto dbPath : dbPathList)
         //3. Node Simulation
         CBaseNodeSim* pNodeSim = nullptr;
         pNodeSim = GetIJ1939NodeSim();
-        if (pNodeSim != nullptr)
-        {
+        if (pNodeSim != nullptr) {
             pNodeSim->NS_SetBmNetworkConfig(m_ouBusmasterNetwork, true);
         }
 
@@ -15139,14 +14715,10 @@ for (auto dbPath : dbPathList)
         sg_pouSWInterface[J1939]->SW_ClearSigWatchWnd();
         sg_pouSWInterface[J1939]->SW_SetClusterInfo(m_ouBusmasterNetwork);
 
-        ////////////////////////////////////////////////////////////////////
-
         vClearSignalInfoList();
 
         //Update Message windows
         vUpdateAllMsgWndInterpretStatus(J1939, FALSE);
-
-
 
     }
 }
@@ -15157,7 +14729,6 @@ void CMainFrame::OnJ1939CfgSimSys()
     GetIJ1939NodeSim()->FE_CreateFuncEditorTemplate(this->GetSafeHwnd(), m_sExFuncPtr[J1939]);
 }
 
-
 void CMainFrame::OnUpdateJ1939CfgSimSys(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(nullptr != sg_pouIJ1939DIL);
@@ -15166,46 +14737,40 @@ void CMainFrame::OnUpdateJ1939CfgSimSys(CCmdUI* pCmdUI)
 void CMainFrame::OnJ1939SignalwatchAdd()
 {
     vSW_DoInitialization(J1939);
-    if ( sg_pouSWInterface[J1939] != nullptr )
-    {
-        sg_pouSWInterface[J1939]->SW_ShowAddDelSignalsDlg( this, m_ouBusmasterNetwork );
+    if ( sg_pouSWInterface[J1939] != nullptr ) {
+        sg_pouSWInterface[J1939]->SW_ShowAddDelSignalsDlg(this, m_ouBusmasterNetwork);
     }
     return;
 }
 
 void CMainFrame::OnJ1939SignalwatchShow()
 {
-
     vSW_DoInitialization(J1939);
-    if (sg_pouSWInterface[J1939] != nullptr)
-    {
+    if (sg_pouSWInterface[J1939] != nullptr) {
         INT nCmd = sg_pouSWInterface[J1939]->SW_IsWindowVisible() ? SW_HIDE : SW_SHOW;
         sg_pouSWInterface[J1939]->SW_ShowSigWatchWnd(this, GetSafeHwnd(), nCmd);
         BOOL bHexON = theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX);
         sg_pouSWInterface[J1939]->SW_SetDisplayMode(bHexON);
     }
 }
+
 void CMainFrame::OnUpdateJ1939SignalwatchShow(CCmdUI* pCmdUI)
 {
-    if(pCmdUI != nullptr )
-    {
-        if(sg_pouSWInterface[J1939] != nullptr)
-        {
-            if (sg_pouSWInterface[J1939]->SW_IsWindowVisible() == TRUE)
-            {
+    if (pCmdUI != nullptr ) {
+        if(sg_pouSWInterface[J1939] != nullptr) {
+            if (sg_pouSWInterface[J1939]->SW_IsWindowVisible() == TRUE) {
                 pCmdUI->SetCheck(TRUE);
             }
-            else
-            {
+            else {
                 pCmdUI->SetCheck(FALSE);
             }
         }
     }
 }
+
 void CMainFrame::OnConfigureMessagedisplayJ1939()
 {
-    if (nullptr == m_podMsgWndThread)
-    {
+    if (nullptr == m_podMsgWndThread) {
         //if Msg Window is not created no need to configure its display.Since there
         //is no way to get the existing details and to save the configured values
         return;
@@ -15216,7 +14781,6 @@ void CMainFrame::OnConfigureMessagedisplayJ1939()
     //Buffer
     settings.mBufferSettings.mISValidSettings = false;
     settings.mBusmasterIsOnline = true;
-
 
     //Filters
     settings.mFilterDetails.mISValidSettings = false;
@@ -15231,16 +14795,13 @@ void CMainFrame::OnConfigureMessagedisplayJ1939()
     m_ouBusmasterNetwork->GetFrameList(J1939, 0, lstFrames);
     settings.mMessageAttribute.mMessageIDs = new UINT[lstFrames.size()];
     unsigned int unIndex = 0, unFrameId;
-for (auto itrFrame : lstFrames)
-    {
+    for (auto itrFrame: lstFrames) {
         itrFrame->GetFrameId(unFrameId);
         settings.mMessageAttribute.mMessageIDs[unIndex] = unFrameId;
         unIndex++;
     }
 
     settings.mMessageAttribute.mMsgCount = unIndex;
-
-
     //Invoke Settings Dialog
     MessageWindowSettingsDialog settingsDlg(defCONFIG_MSG_DISPLAY_J1939, &settings);
     if (IDOK == settingsDlg.DoModal())
@@ -15248,15 +14809,11 @@ for (auto itrFrame : lstFrames)
         ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(J1939), WM_INVALIDATE_LIST_DISPLAY, 0, 0);
     }
 
-
 }
 
 void CMainFrame::OnAutomationTSEditor(void)
 {
-	try
-	{
-		//m_objTSEditorHandler.vShowTSEditorWindow((void*)this);
-
+	try {
 		// Get the working directory
 		char acPath[MAX_PATH] = "";
 		GetModuleFileName(nullptr, acPath, MAX_PATH);
@@ -15264,8 +14821,7 @@ void CMainFrame::OnAutomationTSEditor(void)
 		CString strPath = acPath;
 		strPath += "\\TestSetupEditorGUI.exe";
 
-		if (PathFileExists(strPath) == TRUE)
-		{
+		if (PathFileExists(strPath) == TRUE) {
 			// Launch the converter utility
 			PROCESS_INFORMATION sProcessInfo;
 			STARTUPINFO sStartInfo;
@@ -15276,39 +14832,33 @@ void CMainFrame::OnAutomationTSEditor(void)
 			int nSuccess = CreateProcess(strPath.GetBuffer(MAX_PATH), "",
 				nullptr, nullptr, false, CREATE_NO_WINDOW, nullptr, nullptr,
 				&sStartInfo, &sProcessInfo);
-			if (!nSuccess)
-			{
+			if (!nSuccess) {
 				AfxMessageBox("Unable to launch Test Automation Editor.", MB_ICONSTOP | MB_OK);
 			}
 		}
-	}
-	catch (...)
+	} catch (...)
 	{
 	}
 }
 
 bool CMainFrame::bWaitForNSCodeGenStatus(ETYPE_BUS eBusType)
 {
-    DWORD result = WaitForSingleObject( m_NSCodeGenThreads[eBusType], 0);
+    DWORD result = WaitForSingleObject(m_NSCodeGenThreads[eBusType], 0);
     CWaitIndicator ouWaitIndicator;
 
-    if ( result == WAIT_FAILED || result == WAIT_OBJECT_0)
-    {
+    if (result == WAIT_FAILED || result == WAIT_OBJECT_0) {
         return false;
     }
     ouWaitIndicator.DisplayWindow("Please Wait.. Dependency files are getting generated.", this);
 
-    do
-    {
+    do {
 
-        result = WaitForSingleObject( m_NSCodeGenThreads[eBusType], 500);
+        result = WaitForSingleObject(m_NSCodeGenThreads[eBusType], 500);
 
-    }
-    while ( result != WAIT_OBJECT_0  );
+    } while (result != WAIT_OBJECT_0);
 
     return true;
 }
-
 
 LRESULT CMainFrame::OnNodeSimCodeGenStatus(WPARAM ouWparam, LPARAM oulParam)
 {
@@ -15319,15 +14869,13 @@ LRESULT CMainFrame::OnNodeSimCodeGenStatus(WPARAM ouWparam, LPARAM oulParam)
     bStatusCompleted ? nCurrentThreads-- : nCurrentThreads++;
 
     CString omStrPage = "";
-    if ( nCurrentThreads > 0 )
-    {
+    if (nCurrentThreads > 0) {
         omStrPage = "Dependency Files are Getting Generated...";
     }
     m_wndStatusBar.SetPaneText ( 0, omStrPage);
 
     return S_FALSE;
 }
-
 
 DWORD WINAPI CMainFrame::NSCodeGenerationThread(LPVOID pVoid)
 {
@@ -15341,25 +14889,21 @@ DWORD WINAPI CMainFrame::NSCodeGenerationThread(LPVOID pVoid)
 
     return 0;
 }
+
 void CMainFrame::GenerateNodeSimObjFiles(ETYPE_BUS eBusType)
 {
-    if (nullptr != m_ouBusmasterNetwork)
-    {
+    if (nullptr != m_ouBusmasterNetwork) {
         int nChannels = 0;
 
         ICluster* pCluster = nullptr;
         m_ouBusmasterNetwork->GetChannelCount(eBusType, nChannels);
 
-        for (int i = 0; i < nChannels; i++)
-        {
+        for (int i = 0; i < nChannels; i++) {
             int nDBCount = 0;
             m_ouBusmasterNetwork->GetDBServiceCount(eBusType, i, nDBCount);
-            for (int nDBIndex = 0; nDBIndex < nDBCount; nDBIndex++)
-            {
+            for (int nDBIndex = 0; nDBIndex < nDBCount; nDBIndex++) {
                 m_ouBusmasterNetwork->GetDBService(eBusType, i, nDBIndex, &pCluster);
-                if (nullptr != pCluster)
-                {
-                    //m_ouBusmasterNetwork->GenerateCode(pCluster);
+                if (nullptr != pCluster) {
                     NodeSimCodeGenerator ouCodeGenrator;
                     NSCodeGenHelperFactory helperFactory;
                     ouCodeGenrator.CompileCode(pCluster, false, true, helperFactory.GetNsCodeGenHelper(eBusType));
@@ -15369,13 +14913,11 @@ void CMainFrame::GenerateNodeSimObjFiles(ETYPE_BUS eBusType)
     }
 }
 
-
 void CMainFrame::OnClusterChanged(ETYPE_BUS eBusType)
 {
     DWORD result = WaitForSingleObject( m_NSCodeGenThreads[eBusType], INFINITE);
 
-    if (result == WAIT_OBJECT_0 || result == WAIT_FAILED)
-    {
+    if (result == WAIT_OBJECT_0 || result == WAIT_FAILED) {
         NSCodeGenThreadParam* ouNSCodeGenThreads = new NSCodeGenThreadParam();
         ouNSCodeGenThreads->m_pMainFrame = this;
         ouNSCodeGenThreads->m_eBusType = eBusType;
@@ -15398,7 +14940,6 @@ LRESULT CMainFrame::OnReceiveKeyBoardData(WPARAM wParam, LPARAM lParam)
 
     vProcessKeyPress(&msg);
 
-    /*PostMessage(WM_KEY_PRESSED_MSG_WND, wParam, 0);*/
     return S_OK;
 }
 
@@ -15407,8 +14948,7 @@ LRESULT CMainFrame::onGetConfigPath(WPARAM wParam, LPARAM /* lParam */)
 {
     char* pchPath = (char*) wParam;
 
-    if(pchPath != nullptr)
-    {
+    if(pchPath != nullptr) {
         CString strPath;
         vGetLoadedCfgFileName(strPath);
         strcpy(pchPath, strPath.GetBuffer(MAX_PATH));
@@ -15425,18 +14965,15 @@ LRESULT CMainFrame::OnReceiveKeyDown(WPARAM wParam, LPARAM lParam)
 
     vProcessKeyPress(&msg);
 
-    /*PostMessage(WM_KEY_PRESSED_MSG_WND, wParam, 0);*/
     return S_OK;
 }
 
 void CMainFrame::vProcessKeyPress(MSG* pMsg)
 {
-    if (pMsg->message == WM_CHAR)
-    {
+    if (pMsg->message == WM_CHAR) {
         // Check for key a-z or A-Z, if any of these are press
         // call member function of CExecuteFunc class for key handler
-        if( pMsg->wParam >= 0x20 && pMsg->wParam<= 0x7E )
-        {
+        if( pMsg->wParam >= 0x20 && pMsg->wParam<= 0x7E ) {
 
             // Execute key hanlder only if execution is selected by user
             GetICANNodeSim()->NS_ManageOnKeyHandler((UCHAR)pMsg->wParam);
@@ -15444,24 +14981,19 @@ void CMainFrame::vProcessKeyPress(MSG* pMsg)
             GetILINNodeSim()->NS_ManageOnKeyHandler((UCHAR)pMsg->wParam);
             mPluginManager->notifyPlugins(eBusmaster_Event::key_pressed, &(pMsg->wParam));
 
-            PostMessage(WM_KEY_PRESSED_MSG_WND,
-                        pMsg->wParam, 0);
+            PostMessage(WM_KEY_PRESSED_MSG_WND, pMsg->wParam, 0);
 
         }
 
     }
-    if (pMsg->message == WM_KEYUP)
-    {
+    if (pMsg->message == WM_KEYUP) {
         // Check for key a-z or A-Z, if any of these are press
         // call member function of CExecuteFunc class for key handler
         UINT unKey;
         if(GetKeyState(VK_CONTROL) & 0x8000)
         {
-        }
-        else
-        {
-            switch(pMsg->wParam)
-            {
+        } else {
+            switch(pMsg->wParam) {
                 case VK_TAB:
                     unKey = BMKEY_TAB;
                     break;
@@ -15502,21 +15034,18 @@ void CMainFrame::vProcessKeyPress(MSG* pMsg)
                     unKey = BMKEY_DELETE;
                     break;
                 default:
-                    if(pMsg->wParam >= VK_F1 && pMsg->wParam <= VK_F12)
-                    {
+                    if(pMsg->wParam >= VK_F1 && pMsg->wParam <= VK_F12) {
                         unKey = (pMsg->wParam - VK_F1) + BMKEY_F1;
                     }
-                    else
-                    {
+                    else {
                         unKey = 0xFF;
                     }
                     break;
             }
-            if(unKey != 0xFF)
-            {
-                vManageOnKeyHandler(GetICANNodeSim(),unKey);
-                vManageOnKeyHandler(GetIJ1939NodeSim(),unKey);
-                vManageOnKeyHandler(GetILINNodeSim(),unKey);
+            if (unKey != 0xFF) {
+                vManageOnKeyHandler(GetICANNodeSim(), unKey);
+                vManageOnKeyHandler(GetIJ1939NodeSim(), unKey);
+                vManageOnKeyHandler(GetILINNodeSim(), unKey);
                 mPluginManager->notifyPlugins(eBusmaster_Event::key_pressed, &(unKey));
 
             }
@@ -15525,82 +15054,61 @@ void CMainFrame::vProcessKeyPress(MSG* pMsg)
         // Execute key hanlder only if execution is selected by user
 
     }
-    if (pMsg->message == WM_KEYDOWN)
-    {
+    if (pMsg->message == WM_KEYDOWN) {
         CFlags* pouFlag = nullptr;
         pouFlag     = theApp.pouGetFlagsPtr();
-        if(pouFlag != nullptr)
-        {
+        if (pouFlag != nullptr) {
             BOOL bConnected = FALSE;
             BOOL bConnectedLIN = FALSE;
             // Get the current status of Connected/Disconnected state
             bConnected  = pouFlag->nGetFlagStatus(CONNECTED);
             bConnectedLIN  = pouFlag->nGetFlagStatus(LIN_CONNECTED);
             //Procees the key "F2" and "ESC"
-            if (pMsg->wParam == VK_F2)
-            {
-                CFrameWnd*   pFrmWnd = GetActiveFrame() ;
-                if(m_podMsgSgWnd == pFrmWnd)//check for CAN Database
-                {
+            if (pMsg->wParam == VK_F2) {
+                CFrameWnd*   pFrmWnd = GetActiveFrame();
+                if(m_podMsgSgWnd == pFrmWnd) {
                     CWnd* pViewWnd = m_podMsgSgWnd->GetWorkingView();
-                    if(m_pomMsgSgDetViews[CAN] == pViewWnd)//check for Signal view
-                    {
+                    if(m_pomMsgSgDetViews[CAN] == pViewWnd) {
                         m_pomMsgSgDetViews[CAN]->vEditSignalName();
                     }
-                    else if(m_pomMsgSgTreeViews[CAN] == pViewWnd)//check for Treeview
-                    {
+                    else if(m_pomMsgSgTreeViews[CAN] == pViewWnd) {
                         m_pomMsgSgTreeViews[CAN]->SendMessage(WM_COMMAND, IDM_EDIT_MSG,0);
                     }
-                }
-                else if (m_podMsgSgWndJ1939 == pFrmWnd)//check for J1939 Database
-                {
-                    //if (CMsgSignalDBWnd::sm_bValidJ1939Wnd == TRUE)
+                } else if (m_podMsgSgWndJ1939 == pFrmWnd) {
                     CWnd* pViewWnd = m_podMsgSgWndJ1939->GetWorkingView();
-                    if(m_pomMsgSgDetViews[J1939] == pViewWnd)//check for Signal view
-                    {
+                    if (m_pomMsgSgDetViews[J1939] == pViewWnd) {
                         m_pomMsgSgDetViews[J1939]->vEditSignalName();
-                    }
-                    else if(m_pomMsgSgTreeViews[J1939] == pViewWnd)//check for Treeview
-                    {
+                    } else if(m_pomMsgSgTreeViews[J1939] == pViewWnd) {
                         m_pomMsgSgTreeViews[J1939]->SendMessage(WM_COMMAND, IDM_EDIT_MSG,0);
                     }
 
                 }
-                else if(bConnected == FALSE)
-                {
+                else if(bConnected == FALSE) {
                     OnFileConnect();
                 }
-            }//if (pMsg->wParam == VK_F2)
-            else if (pMsg->wParam == VK_ESCAPE)
+            } else if (pMsg->wParam == VK_ESCAPE)
             {
-                if(bConnected == TRUE)
-                {
+                if(bConnected == TRUE) {
                     OnFileConnect();
                 }
-            }//else if (pMsg->wParam == VK_ESCAPE)
-            
-            // For LIN F4 - Connect and F11 - Disconnect
-            else if (pMsg->wParam == VK_F4)
-            {
-                if( m_shLINDriverId != DAL_NONE && bConnectedLIN == FALSE )
-                {
+            } else if (pMsg->wParam == VK_F4) {
+                // For LIN F4 - Connect and F11 - Disconnect
+                if (m_shLINDriverId != DAL_NONE && bConnectedLIN == FALSE) {
                     OnLINConnect();
                 }
             }
-            else if (pMsg->wParam == VK_F11)
-            {
-                if( m_shLINDriverId != DAL_NONE && bConnectedLIN == TRUE )
-                {
+            else if (pMsg->wParam == VK_F11) {
+                if (m_shLINDriverId != DAL_NONE && bConnectedLIN == TRUE) {
                     OnLINConnect();
                 }
             }
         }
     }
 }
+
 void CMainFrame::vManageOnKeyHandler(CBaseNodeSim* pBaseNodeSim, UINT unKey)
 {
-    if(nullptr != pBaseNodeSim)
-    {
+    if (nullptr != pBaseNodeSim) {
         pBaseNodeSim->NS_ManageOnKeyHandler(unKey);
     }
 }
@@ -15620,11 +15128,9 @@ void CMainFrame::OnConfigChannelSelectionLIN()
     /* Deselect hardware interfaces if selected */
     hResult = g_pouDIL_LIN_Interface->DILL_DeselectHwInterfaces();
 
-    if (g_pouDIL_LIN_Interface->DILL_ListHwInterfaces(m_asINTERFACE_HW, nCount) == S_OK)
-    {
+    if (g_pouDIL_LIN_Interface->DILL_ListHwInterfaces(m_asINTERFACE_HW, nCount) == S_OK) {
         hResult = g_pouDIL_LIN_Interface->DILL_SelectHwInterfaces(m_asINTERFACE_HW, nCount);
-        if ((hResult == HW_INTERFACE_ALREADY_SELECTED) || (hResult == S_OK))
-        {
+        if ((hResult == HW_INTERFACE_ALREADY_SELECTED) || (hResult == S_OK)) {
             /* Updates the number of channels selected */
             m_nNumChannels = nCount;
 
@@ -15633,15 +15139,9 @@ void CMainFrame::OnConfigChannelSelectionLIN()
 
             //Update NW statistics window channel information
             vUpdateChannelInfo();
-
-            // Update controller information
-            // g_pouDIL_LIN_Interface->DILL_SetConfigData(m_asControllerDetails, nCount);
         }
-    }
-    else
-    {
+    } else {
         /* Select previously available channels */
-        // g_pouDIL_LIN_Interface->DILL_SelectHwInterfaces(m_asINTERFACE_HW, nCount);
     }
 }
 
@@ -15666,17 +15166,14 @@ void CMainFrame::OnCfgSendMsgsLIN()
 // START LIN RELATED HELPER FUNCTIONS
 HRESULT CMainFrame::ProcessLINInterfaces(void)
 {
-    HRESULT Result = S_FALSE;
-
-    return Result;
+    return S_FALSE;
 }
 
 HRESULT CMainFrame::DeselectLINInterfaces(void)
 {
-    HRESULT Result = S_OK;
-
-    return Result;
+    return S_OK;
 }
+
 void CMainFrame::OnUpdateLinClusterConfig(CCmdUI* pCmdUI)
 {
     CFlags* pouFlag  = theApp.pouGetFlagsPtr();
@@ -15694,10 +15191,9 @@ void CMainFrame::OnLinClusterConfig()
 {
     CStringArray strFilePathArray;
 
-    CChannelConfigurationDlg ouConfig( m_ouBusmasterNetwork, LIN, nullptr);
+    CChannelConfigurationDlg ouConfig(m_ouBusmasterNetwork, LIN, nullptr);
 
-    if ( ouConfig.DoModal() == IDOK)
-    {
+    if (ouConfig.DoModal() == IDOK) {
         m_ouBusmasterNetwork->SetChannelCount(LIN, 1);
 
         m_objTxHandler.SetNetworkConfig(LIN, m_ouBusmasterNetwork);
@@ -15957,10 +15453,10 @@ void CMainFrame::vInitialize( SCONTROLLER_DETAILS& controller, BOOL bUpdateHWDes
     controller.m_omStrAccMaskByte3[1] = "FF";
     controller.m_omStrAccMaskByte4[1] = "FF";
 
-    if ( bUpdateHWDesc )
-    {
+    if (bUpdateHWDesc) {
         controller.m_omHardwareDesc = "";
     }
+
     controller.m_bAccFilterMode = FALSE;
     controller.m_ucControllerMode = 0x1;
     controller.m_enmHWFilterType[0] = HW_FILTER_ACCEPT_ALL;
@@ -15978,37 +15474,39 @@ void CMainFrame::vInitialize( SCONTROLLER_DETAILS& controller, BOOL bUpdateHWDes
     controller.m_unDataSJW = 03;
     controller.m_bTxDelayCompensationControl = 0;   // OCI_CANFD_TX_DELAY_COMPENSATION_OFF
     controller.m_unTxSecondarySamplePointOffset = 0;
-    
 }
 
 void CMainFrame::vLoadBusmasterKernel()
 {
-    getBusmasterKernel( &mBusmasterKernel );
-    mBusmasterKernel->getDatabaseService( &m_ouBusmasterNetwork );
-    //return S_OK;
+    getBusmasterKernel(&mBusmasterKernel);
+    mBusmasterKernel->getDatabaseService(&m_ouBusmasterNetwork);
 }
+
 int CMainFrame::getDilService( ETYPE_BUS bus, IBusService** busService )
 {
-    return mBusmasterKernel->getBusService( bus, busService );
+    return mBusmasterKernel->getBusService(bus, busService);
 }
+
 int CMainFrame::getDbService( IBMNetWorkGetService** dbService )
 {
     *dbService = m_ouBusmasterNetwork;
     return S_OK;
 }
+
 int CMainFrame::getDbSetService(IBMNetWorkService** dbService)
 {
     *dbService = m_ouBusmasterNetwork;
     return S_OK;
 }
+
 int CMainFrame::notifyPlugins(eBusmaster_Event event, void* data)
 {
     return mPluginManager->notifyPlugins(event, data);
 }
+
 int CMainFrame::displayMessage( char* message )
 {
-    if (nullptr != m_podUIThread)
-    {
+    if (nullptr != m_podUIThread) {
         CString omStr(message);
         m_podUIThread->vAddString(omStr);
     }
@@ -16023,8 +15521,7 @@ HWND CMainFrame::getBusmasterHandle()
 
 int CMainFrame::getInfo(int infoType, EXT_INFO_PARAM, /*IN, OUT*/ OUT_INFO_PARAM infoData)
 {
-    switch ( infoType )
-    {
+    switch ( infoType ) {
         case busmaster_window:
         {
             *( (HWND*)infoData ) = GetSafeHwnd();
@@ -16065,11 +15562,11 @@ int CMainFrame::getInfo(int infoType, EXT_INFO_PARAM, /*IN, OUT*/ OUT_INFO_PARAM
     }
     return S_OK;
 }
+
 void CMainFrame::provideBusmasterConfiguredPaths(int pathType, char* infoData)
 {
     std::string path;
-    switch (pathType)
-    {
+    switch (pathType) {
         case busmaster_install_path:
         {
             GetBusmasterInstalledFolder(path);
@@ -16084,25 +15581,26 @@ void CMainFrame::provideBusmasterConfiguredPaths(int pathType, char* infoData)
     char* retVal = (char*)infoData;
     strcpy_s(retVal, 1024, path.c_str());
 }
+
 int CMainFrame::getPluginConnectionPoint(const char* pluginId, IBusmasterPluginConnection** connectionPoint)
 {
     *connectionPoint = mPluginManager->getPluginConnectionPoint(pluginId);
-    if (*connectionPoint == nullptr)
-    {
+    if (*connectionPoint == nullptr) {
         return S_FALSE;
     }
     return S_OK;
 }
+
 int CMainFrame::getVariableCommunicationLayer(IVariableLayer** variableLayer)
 {
 	*variableLayer = &mVariableLayer;
 	return S_OK;
 }
+
 afx_msg void CMainFrame::OnApplicationLook(UINT id)
 {
 	CWaitCursor wait;
-	switch (id)
-	{
+	switch (id) {
 	case ID_VIEW_APPLOOK_WIN_2000:
 		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManager));
 		break;
@@ -16130,8 +15628,7 @@ afx_msg void CMainFrame::OnApplicationLook(UINT id)
 		CDockingManager::SetDockingMode(DT_SMART);
 		break;
 	default:
-		switch (id)
-		{
+		switch (id) {
 		case ID_VIEW_APPLOOK_OFF_2007_BLUE:
 			CMFCVisualManagerOffice2007::SetStyle(CMFCVisualManagerOffice2007::Office2007_LunaBlue);
 			break;
@@ -16150,31 +15647,26 @@ afx_msg void CMainFrame::OnApplicationLook(UINT id)
 	}
 	RedrawWindow(NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME | RDW_ERASE);
 }
-//plugin
 
 void CMainFrame::onPluginMenuClicked(UINT menuId)
 {
-    if( S_FALSE == mPluginManager->noifyMenuClick( menuId ))
-    {
+    if( S_FALSE == mPluginManager->noifyMenuClick(menuId)) {
         //TODO::Display Error Info
     }
 }
+
 void CMainFrame::onPluginMenuUpadate( CCmdUI* pCmdUI )
 {
     auto buttonCmd = dynamic_cast<CMFCRibbonCmdUI*>(pCmdUI);
-    if (buttonCmd != nullptr)
-    {
+    if (buttonCmd != nullptr) {
         CMFCRibbonButtonEx* btn = dynamic_cast<CMFCRibbonButtonEx*>(buttonCmd->m_pUpdated);
-        if (nullptr != btn)
-        {
+        if (nullptr != btn) {
             BusmasterMenuItem menuItem(btn, pCmdUI);
             mPluginManager->noifyMenuUpdate(pCmdUI->m_nID, &menuItem);
         }
-        else
-        {
+        else {
             CMFCRibbonButtonEx* btn = dynamic_cast<CMFCRibbonButtonEx*>(buttonCmd->m_pUpdated->GetOriginal());
-            if (nullptr != btn)
-            {
+            if (nullptr != btn) {
                 BusmasterMenuItem menuItem(btn, pCmdUI);
                 mPluginManager->noifyMenuUpdate(pCmdUI->m_nID, &menuItem);
             }
@@ -16191,20 +15683,18 @@ void CMainFrame::setConnectStateJ1939(bool connected)
 	if (nullptr == panel) return;
 	int count = panel->GetCount();
 	auto control = static_cast<CMFCRibbonButton*>(panel->GetElement(0));
-	if (connected == true)
-	{
+	if (connected == true) {
 		control->SetImageIndex(19, TRUE);
 		control->SetImageIndex(3, FALSE);
 		control->SetText("Deactivate");
-	}
-	else
-	{
+	} else {
 		control->SetImageIndex(18, TRUE);
 		control->SetImageIndex(0, FALSE);
 		control->SetText("Activate");
 	}
 	mRibbonBar.ForceRecalcLayout();
 }
+
 void CMainFrame::setConnectState(ETYPE_BUS busType, bool connected)
 {
 	CMFCRibbonCategory* canCategory = GetCategory(getBusInString(busType).c_str());
@@ -16215,15 +15705,12 @@ void CMainFrame::setConnectState(ETYPE_BUS busType, bool connected)
 	int count = panel->GetCount();
 	auto control = static_cast<CMFCRibbonButton*>(panel->GetElement(0));
     CString text;
-    if (connected == true)
-	{
+    if (connected == true) {
 		control->SetImageIndex(11, TRUE);
 		control->SetImageIndex(3, FALSE);
         text.LoadString(IDS_DISCONNECT);
         control->SetText((LPCSTR)text);
-	}
-	else
-	{
+	} else {
 		control->SetImageIndex(0, TRUE);
 		control->SetImageIndex(2, FALSE);
         text.LoadString(IDS_CONNECT);
@@ -16234,11 +15721,8 @@ void CMainFrame::setConnectState(ETYPE_BUS busType, bool connected)
 
 LRESULT CMainFrame::OnAutoItRequest(WPARAM wparam, LPARAM lparam)
 {
-	//MessageBox("Request");
-	if (wparam == 0)
-	{
-		if (lparam != theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX))
-		{
+	if (wparam == 0) {
+		if (lparam != theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX)) {
 			OnHex_DecButon();
 		}
 		return wparam;

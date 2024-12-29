@@ -22,7 +22,7 @@
  * Implementation file for CWaveformSelectionDlg class
  */
 
-
+#include <atlconv.h>
 #include "stdafx.h"
 #include "HashDefines.h"
 #include "SignalWatch/SignalWatchDefs.h"
@@ -31,8 +31,6 @@
 #include "CSignalGeneration.h"
 #include "Utility/WaitIndicator.h"
 #include "SignalDefiner/SignalDefiner_Extern.h"
-#include <atlconv.h>
-//#include "GettextBusmaster.h"
 #include "Utility\MultiLanguageSupport.h"
 /////////////////////////////////////////////////////////////////////////////
 // CWaveformSelectionDlg dialog
@@ -42,9 +40,6 @@ CWaveformSelectionDlg::CWaveformSelectionDlg(CWnd* pParent, CWaveFormDataHandler
     : CDialog(CWaveformSelectionDlg::IDD, pParent)
     , m_fDefAmplitude(0)
 {
-    //{{AFX_DATA_INIT(CWaveformSelectionDlg)
-    // NOTE: the ClassWizard will add member initialization here
-    //}}AFX_DATA_INIT
     m_pWaveDataHandler = pWaveDataHandler;
     m_nHardware = nHardware;
 }
@@ -53,18 +48,14 @@ CWaveformSelectionDlg::CWaveformSelectionDlg(CWnd* pParent, CWaveFormDataHandler
 void CWaveformSelectionDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CWaveformSelectionDlg)
     DDX_Control(pDX, IDC_LSTC_SIGNAL_WATCH, m_omListCtrlSignalWatch);
     DDX_Control(pDX, IDC_LSTC_SIGNAL, m_omListCtrlSignal);
     DDX_Control(pDX, IDC_COMB_MSGNAME, m_omCombMessage);
-    //}}AFX_DATA_MAP
     DDX_Text(pDX, IDC_EDIT_DEFAULT_SIGNAL_VALUE, m_fDefAmplitude);
     DDX_Control(pDX, IDC_COMB_MSG_CHANNEL, m_omMsgChannel);
 }
 
-
 BEGIN_MESSAGE_MAP(CWaveformSelectionDlg, CDialog)
-    //{{AFX_MSG_MAP(CWaveformSelectionDlg)
     ON_WM_DESTROY()
     ON_CBN_SELCHANGE(IDC_COMB_MSGNAME, OnSelChangeMessageName)
     ON_BN_CLICKED(IDM_SIGNALDLG_ADD, OnBtnAddSubEntries)
@@ -75,7 +66,6 @@ BEGIN_MESSAGE_MAP(CWaveformSelectionDlg, CDialog)
     ON_COMMAND(IDM_SIGNALDLG_ADD, OnBtnAddSubEntries)
     ON_COMMAND(IDM_SIGNALDLG_DELETE, OnBtnDelSubEntires)
     ON_WM_HELPINFO()
-    //}}AFX_MSG_MAP
     ON_NOTIFY(LVN_ITEMCHANGED, IDC_LSTC_SIGNAL, OnLvnItemchangedLstcSignal)
     ON_NOTIFY(NM_DBLCLK, IDC_LSTC_SIGNAL_WATCH, OnNMDblclkLstcSignalWatch)
     ON_BN_CLICKED(IDCANCEL, OnBnClickedCancel)
@@ -110,8 +100,7 @@ BOOL CWaveformSelectionDlg::OnInitDialog()
 
     CStringArray arrMsgIDsList;
     m_pWaveDataHandler->vGetCompleteMsgList(arrMsgIDsList);
-    for(int i = 0; i<arrMsgIDsList.GetSize(); i++)
-    {
+    for (int i = 0; i<arrMsgIDsList.GetSize(); i++) {
         m_omCombMessage.AddString(arrMsgIDsList.GetAt(i));
     }
     m_omCombMessage.SetCurSel(0);
@@ -144,8 +133,7 @@ BOOL CWaveformSelectionDlg::OnInitDialog()
     m_omMsgChannel.ResetContent();
     // Add All Channels as first item
     m_omMsgChannel.AddString(_(defSTR_SELECTION_ALL));
-    for (UINT Index = 1; Index <= m_nHardware; Index++)
-    {
+    for (UINT Index = 1; Index <= m_nHardware; Index++) {
         CString omStr;
         // Format Channel ID String Say 1,2,...
         omStr.Format(defFORMAT_MSGID_DECIMAL, Index);
@@ -158,7 +146,6 @@ BOOL CWaveformSelectionDlg::OnInitDialog()
     GetDlgItem(IDC_STATIC_CHANNEL)->EnableWindow(FALSE);
 
     UpdateData(FALSE);
-
 
     return FALSE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE
@@ -184,24 +171,20 @@ void CWaveformSelectionDlg::vPopulateUnSelSubEntryList(UINT unMainEntryID)
 {
     m_omListCtrlSignal.DeleteAllItems();
     CStringArray arrSignalsList;
-    //UINT nMsgID =
     unGetSelectedMainEntryID();
     m_pWaveDataHandler->vGetAvailableSignalsInMsgID(unMainEntryID, arrSignalsList,true);
 
     UINT unMaxLen = 0;
-    for(int nCount = 0; nCount<arrSignalsList.GetSize(); nCount++)
-    {
+    for(int nCount = 0; nCount<arrSignalsList.GetSize(); nCount++) {
         UINT unLen = m_omListCtrlSignal.GetStringWidth(arrSignalsList.GetAt(nCount));
         // Save the length if it is the max.
-        if(unMaxLen < unLen )
-        {
+        if(unMaxLen < unLen ) {
             unMaxLen = unLen;
         }
         m_omListCtrlSignal.InsertItem(nCount, arrSignalsList.GetAt(nCount));
     }
     // Set the column width if it is valid
-    if( unMaxLen > 0 )
-    {
+    if (unMaxLen > 0) {
         m_omListCtrlSignal.SetColumnWidth(0, unMaxLen + defSIZE_OF_IMAGE);
     }
 
@@ -270,14 +253,13 @@ UINT CWaveformSelectionDlg::unGetSelectedMainEntryID()
     CString omMainEntryName;
 
     // Check for visible window
-    if( m_omCombMessage.GetSafeHwnd() != nullptr )
-    {
+    if( m_omCombMessage.GetSafeHwnd() != nullptr ) {
         m_omCombMessage.GetWindowText(omMainEntryName);
     }
     // Get the selected message name
     unMainEntryId = unGetMainEntryIDFromName(omMainEntryName);
-    return unMainEntryId;
 
+    return unMainEntryId;
 }
 
 /*******************************************************************************
@@ -322,12 +304,10 @@ Modification on  :
 void CWaveformSelectionDlg::DefineUpdateWave(CListCtrl* pListCtrl, UINT nMsgID,
         CString strSignalName, sWaveformInfo& objWaveInfo)
 {
-    if (pListCtrl->GetSelectionMark() != -1)
-    {
+    if (pListCtrl->GetSelectionMark() != -1) {
         CString strSignalDetails;
         strSignalDetails.Format(_("0x%x->%s"), nMsgID, strSignalName);
 
-        //BSTR bstrName = (BSTR)strSignalDetails.GetBuffer(MAX_PATH);
         BSTR bstrName(L"");
 
         SignalDefiner_SetSignalDetails(bstrName);
@@ -338,8 +318,7 @@ void CWaveformSelectionDlg::DefineUpdateWave(CListCtrl* pListCtrl, UINT nMsgID,
         SignalDefiner_SetSamplingTimePeriod(m_pWaveDataHandler->shGetSamplingTimePeriod());
         SignalDefiner_SetAutoCorrect(m_pWaveDataHandler->m_bSignalDefinerAutoCorrect);
 
-        if ( SignalDefiner_ShowDlg() == IDOK )
-        {
+        if ( SignalDefiner_ShowDlg() == IDOK ) {
             SIGNAL_TYPE enSelSignalType;
             SignalDefiner_GetType(&enSelSignalType);
             objWaveInfo.m_eSignalWaveType = (eWAVEFORMTYPE)enSelSignalType;
@@ -347,12 +326,9 @@ void CWaveformSelectionDlg::DefineUpdateWave(CListCtrl* pListCtrl, UINT nMsgID,
             SignalDefiner_GetFrequency(&objWaveInfo.m_fFrequency);
             SignalDefiner_GetAutoCorrect(&m_pWaveDataHandler->m_bSignalDefinerAutoCorrect);
 
-            if(pListCtrl == &m_omListCtrlSignal)
-            {
+            if (pListCtrl == &m_omListCtrlSignal) {
                 m_pWaveDataHandler->bAddSignalToDefinedWavesList(nMsgID, strSignalName, objWaveInfo);
-            }
-            else
-            {
+            } else {
                 m_pWaveDataHandler->vSetSignalWavePatternDetails(nMsgID, strSignalName, objWaveInfo);
             }
 
@@ -361,8 +337,6 @@ void CWaveformSelectionDlg::DefineUpdateWave(CListCtrl* pListCtrl, UINT nMsgID,
             SignalDefiner_GetSamplingTimePeriod(&nTimePeriod);
             m_pWaveDataHandler->vSetSamplingTimePeriod(nTimePeriod);
         }
-        //Free the BSTR memory allocated
-        //::SysFreeString(bstrName); //KSS
     }
 }
 
@@ -387,20 +361,16 @@ void CWaveformSelectionDlg::vInterPretSignalNameMsgID(CString strInterpretData, 
     char* pcStopStr = nullptr;
     int nIndex = -1;
     nIndex = strInterpretData.Find(_("->"));
-    if(nIndex != -1)
-    {
+    if (nIndex != -1) {
         omMsgId = strInterpretData.Left(nIndex);
         nMsgID = _tcstol((LPCTSTR )omMsgId,&pcStopStr,16);
         CString strTemp;
         strTemp= strInterpretData.Right(strInterpretData.GetLength()-(nIndex+2));
         //Now remove the Wave form name.
         nIndex = strTemp.Find(_("("));
-        if(nIndex!=-1)
-        {
+        if(nIndex!=-1) {
             strSigName = strTemp.Left(nIndex-1);
-        }
-        else
-        {
+        } else {
             strSigName = strTemp;
         }
     }
@@ -458,12 +428,9 @@ Modification on  :
 *******************************************************************************/
 void CWaveformSelectionDlg::OnClickUnSelSubEntryList(NMHDR* /*pNMHDR*/, LRESULT* pResult)
 {
-    if(m_omListCtrlSignal.GetSelectedCount() == 0)
-    {
+    if (m_omListCtrlSignal.GetSelectedCount() == 0) {
         GetDlgItem(IDM_SIGNALDLG_ADD)->EnableWindow(FALSE);
-    }
-    else
-    {
+    } else {
         GetDlgItem(IDM_SIGNALDLG_ADD)->EnableWindow(TRUE);
     }
     *pResult = 0;
@@ -486,8 +453,7 @@ Modifications    : Raja N
 *******************************************************************************/
 void CWaveformSelectionDlg::OnDblclkUnSelSubEntryList(NMHDR* /*pNMHDR*/, LRESULT* pResult)
 {
-    if(m_omListCtrlSignal.GetSelectedCount() != 0)
-    {
+    if (m_omListCtrlSignal.GetSelectedCount() != 0) {
         sWaveformInfo objWaveInfo;
         m_pWaveDataHandler->vGetDefaultSignalWaveValues(objWaveInfo);
         DefineUpdateWave(&m_omListCtrlSignal, unGetSelectedMainEntryID(),
@@ -517,15 +483,11 @@ Modification on  :
 *******************************************************************************/
 void CWaveformSelectionDlg::OnClickSelSubEntryList(NMHDR* /*pNMHDR*/, LRESULT* pResult)
 {
-    if(m_omListCtrlSignalWatch.GetSelectedCount() == 0)
-    {
+    if (m_omListCtrlSignalWatch.GetSelectedCount() == 0) {
         GetDlgItem(IDM_SIGNALDLG_DELETE)->EnableWindow(FALSE);
-    }
-    else
-    {
+    } else {
         GetDlgItem(IDM_SIGNALDLG_DELETE)->EnableWindow(TRUE);
     }
-
 
     *pResult = 0;
 }
@@ -549,43 +511,30 @@ Modification on  :
 void CWaveformSelectionDlg::vEnableDisableButtons()
 {
     // Signal List Operation
-    if( m_omListCtrlSignal.GetItemCount() > 0)
-    {
+    if (m_omListCtrlSignal.GetItemCount() > 0) {
         GetDlgItem(IDM_SIGNALDLG_ADDALL)->EnableWindow(TRUE);
-        if( m_omListCtrlSignal.GetSelectedCount() > 0)
-        {
+        if (m_omListCtrlSignal.GetSelectedCount() > 0) {
             GetDlgItem(IDM_SIGNALDLG_ADD)->EnableWindow(TRUE);
-        }
-        else
-        {
+        } else {
             GetDlgItem(IDM_SIGNALDLG_ADD)->EnableWindow(FALSE);
         }
-    }
-    else
-    {
+    } else {
         GetDlgItem(IDM_SIGNALDLG_ADDALL)->EnableWindow(FALSE);
         GetDlgItem(IDM_SIGNALDLG_ADD)->EnableWindow(FALSE);
     }
 
     // Signal Watch Lsit operation
-    if( m_omListCtrlSignalWatch.GetItemCount() > 0)
-    {
+    if (m_omListCtrlSignalWatch.GetItemCount() > 0) {
         GetDlgItem(IDM_SIGNALDLG_DELETEALL)->EnableWindow(TRUE);
-        if( m_omListCtrlSignalWatch.GetSelectedCount() > 0)
-        {
+        if (m_omListCtrlSignalWatch.GetSelectedCount() > 0) {
             GetDlgItem(IDM_SIGNALDLG_DELETE)->EnableWindow(TRUE);
-        }
-        else
-        {
+        } else {
             GetDlgItem(IDM_SIGNALDLG_DELETE)->EnableWindow(FALSE);
         }
-    }
-    else
-    {
+    } else {
         GetDlgItem(IDM_SIGNALDLG_DELETEALL)->EnableWindow(FALSE);
         GetDlgItem(IDM_SIGNALDLG_DELETE)->EnableWindow(FALSE);
     }
-
 
 }
 
@@ -610,19 +559,16 @@ void CWaveformSelectionDlg::vPopulateSelSubEntryList()
     m_pWaveDataHandler->vGetAllDefinedSignalsNames(arrAllDefinedSignals);
 
     UINT unMaxLen = 0;
-    for(int nCount = 0; nCount<arrAllDefinedSignals.GetSize(); nCount++)
-    {
+    for (int nCount = 0; nCount<arrAllDefinedSignals.GetSize(); nCount++) {
         UINT unLen = m_omListCtrlSignalWatch.GetStringWidth(arrAllDefinedSignals.GetAt(nCount));
         // Save the length if it is the max.
-        if(unMaxLen < unLen )
-        {
+        if(unMaxLen < unLen) {
             unMaxLen = unLen;
         }
         m_omListCtrlSignalWatch.InsertItem(nCount, arrAllDefinedSignals.GetAt(nCount));
     }
     // Set the column width if it is valid
-    if( unMaxLen > 0 )
-    {
+    if (unMaxLen > 0) {
         m_omListCtrlSignalWatch.SetColumnWidth(0, unMaxLen + defSIZE_OF_IMAGE);
     }
 }
@@ -642,8 +588,6 @@ Modifications    :
 *******************************************************************************/
 BOOL CWaveformSelectionDlg::OnHelpInfo(HELPINFO* /*pHelpInfo*/)
 {
-    //vSetHelpID(pHelpInfo->dwContextId);
-    //return CDialog::OnHelpInfo(pHelpInfo);
     return FALSE;
 }
 
@@ -654,16 +598,17 @@ UINT CWaveformSelectionDlg::unGetMainEntryIDFromName(CString omMainEntryName)
     char* pcStopStr = nullptr;
     int nIndex = omMainEntryName.Find(defMSGID_EXTENDED);
     int nCloseBraceIndex = omMainEntryName.Find(defMSG_NAME_END_CHAR);
-    if((nIndex != -1) && (nCloseBraceIndex != -1))
-    {
+
+    if ((nIndex != -1) && (nCloseBraceIndex != -1)) {
         omMainEntryId = omMainEntryName.Mid(nIndex + 1, nCloseBraceIndex - (nIndex + 1));
         unMainEntryID = _tcstol((LPCTSTR )omMainEntryId,&pcStopStr,16);
     }
+
     return unMainEntryID;
 }
+
 void CWaveformSelectionDlg::OnLvnItemchangedLstcSignal(NMHDR* /*pNMHDR*/, LRESULT* pResult)
 {
-    //LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
     // TODO: Add your control notification handler code here
     *pResult = 0;
 }
@@ -728,16 +673,14 @@ void CWaveformSelectionDlg::vAdjustWidthMessageComboBox()
     // Get the text metrics for avg char width
     pDC->GetTextMetrics(&tm);
 
-    for (int i = 0; i < m_omCombMessage.GetCount(); i++)
-    {
+    for (int i = 0; i < m_omCombMessage.GetCount(); i++) {
         m_omCombMessage.GetLBText(i, str);
         sz = pDC->GetTextExtent(str);
 
         // Add the avg width to prevent clipping
         sz.cx += tm.tmAveCharWidth;
 
-        if (sz.cx > dx)
-        {
+        if (sz.cx > dx) {
             dx = sz.cx;
         }
     }

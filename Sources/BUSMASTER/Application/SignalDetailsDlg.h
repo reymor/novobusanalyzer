@@ -49,7 +49,6 @@ public:
     CSignalDetailsDlg( eMODES eMode, sSIGNALS* psSigInfo,
                        CWnd* pParent /*=nullptr*/);
     // Dialog Data
-    //{{AFX_DATA(CSignalDetailsDlg)
     enum { IDD = IDD_DLG_SIGNAL };
     CRadixEdit  m_odScale;
     CRadixEdit  m_odOffset;
@@ -65,17 +64,13 @@ public:
     CString m_omStrSignalName;
     BYTE    m_byStartBit;
     CString m_omStrUnit;
-    //}}AFX_DATA
 
     CAlphanumiricEdit m_odNumericEdit;
     // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CSignalDetailsDlg)
 public:
     virtual BOOL PreTranslateMessage(MSG* pMsg);
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
 
 public:
     bool IsRangeChanged();
@@ -85,7 +80,6 @@ public:
 protected:
 
     // Generated message map functions
-    //{{AFX_MSG(CSignalDetailsDlg)
     virtual BOOL OnInitDialog();
     afx_msg void OnKillfocusEditSgname();
     afx_msg void OnKillfocusEditByindex();
@@ -99,7 +93,6 @@ protected:
     virtual void OnOK();
     afx_msg void OnChangeEditSglen();
     afx_msg void OnChangeEditSgname();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     SDBPARAMS m_sDbParams;
@@ -108,7 +101,6 @@ private:
     BOOL m_bDupliacateFound;
     // rajesh : 04.03.2003 : changed arguments
     void vCalculateMaxMinValues(SIG_VALUE& rMinVal, SIG_VALUE& rMaxVal);
-    // void vCalculateMaxMinValues(long &minVal, long &maxVal);
     //  krishnaswamy B.N 28.08.2003
     //  Validation of minimum and maximum values in OnOk function
     BOOL bIsEditMinMaxValueValid();

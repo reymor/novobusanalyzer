@@ -182,7 +182,6 @@ set(HEADER_LIST
   UI/IdGenerator.h
   UI/IUICreator.h
   UI/UICreator.h
-  UI/ToolBarCreator.h
   ValueDescriptionDlg.h
   VariableLayer.h
   WaveFormDataHandler.h
@@ -233,6 +232,7 @@ add_dependencies(${PROJECT_NAME}
   BusEmulation
   BusmasterDriverInterface
   CAN_STUB
+  CommonClass
 )
 
 ################################################################################

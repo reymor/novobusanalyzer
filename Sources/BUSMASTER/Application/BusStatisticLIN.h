@@ -25,8 +25,6 @@
 
 #include "Utility/Utility_Thread.h"
 #include "LINDriverDefines.h"
-//#include "Datatypes/MsgBufAll_Datatypes.h"
-//#include "Include/Basedefs.h"
 #include "BaseDIL_LIN.h"
 #include "BaseBusStatisticLIN.h"
 #include "MsgBufFSE.h"

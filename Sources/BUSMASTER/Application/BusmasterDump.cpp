@@ -10,7 +10,6 @@ CBusmasterDump::CBusmasterDump( std::string strAppName )
 {
     // Two instances of BUSMASTER dump is not allowed
     m_strAppName = strAppName;
-    //ASSERT( m_strAppName.length() > 0 );
     ::SetUnhandledExceptionFilter( ExceptionFilter );
 }
 

@@ -34,16 +34,14 @@
 #include "Splash.h"             // splash screen implementation file
 #include "Replay/Replay_Extern.h"
 #include "ConfigData.h"
-//#include "ConfigAdapter.h"
 #include "InterfaceGetter.h"
 
 #include "BusmasterDump.h"
 #include "BUSMASTER_Interface.h"
 #include "BUSMASTER_Interface.c"
 #include "../Application/MultiLanguage.h"
-#include "Utility\MultiLanguageSupport.h"
+#include "Utility/MultiLanguageSupport.h"
 #include "AboutDlg.h"
-//extern DWORD GUI_dwThread_MsgDisp;
 extern BOOL g_bStopSendMultMsg;
 extern BOOL g_bStopKeyHandlers;
 extern BOOL g_bStopErrorHandlers;
@@ -126,7 +124,6 @@ BOOL CCANMonitorApp::InitInstance()
         AfxMessageBox(_("Fail to Intilaize OLE"));
         return FALSE;
     }
-    //CoInitializeEx(nullptr, COINIT_MULTITHREADED );
 
     CBusmasterDump dump("BUSMASTER");
     // END CHANGES MADE FOR AUTOMATION
@@ -236,8 +233,6 @@ BOOL CCANMonitorApp::InitInstance()
     m_pMainWnd->UpdateWindow();
     //// Create message window
 
-
-
     if(m_pouMsgSgInactive == nullptr )
     {
         if(m_bFromAutomation==FALSE)
@@ -318,14 +313,6 @@ BOOL CCANMonitorApp::InitInstance()
         //omSampleDatabasePath.Format("%s\\Samples\\SampleDB.dbf",m_acApplicationDirectory);
         //DWORD dRetVal = pMainFrame->dLoadDataBaseFile(omSampleDatabasePath, FALSE);
 
-        //if (dRetVal == S_OK)
-        //{
-        //    //omDatabaseArray.Add(omSampleDatabasePath);
-        //    //Store in configdetails
-        //    //bSetData(DATABASE_FILE_NAME, &omDatabaseArray);
-        //    bWriteIntoTraceWnd(_(MSG_DEFAULT_DATABASE));
-        //    bWriteIntoTraceWnd(_(MSG_CREATE_UNLOAD_DATABASE));
-        //}
         pMainFrame->OnHex_DecButon();           // setting HEX by default
     }
 
@@ -352,8 +339,7 @@ BOOL CCANMonitorApp::InitInstance()
             //CLogManager::ouGetLogManager().vStartStopLogging( TRUE );
         }
     }
-    //pMainFrame->OnHex_DecButon();           // setting HEX by default
-    //CExecuteManager::ouGetExecuteManager().vStartDllReadThread();
+
     return TRUE;
 }
 void CCANMonitorApp::ReadRecentFileList()

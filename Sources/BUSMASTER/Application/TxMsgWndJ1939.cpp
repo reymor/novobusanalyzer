@@ -49,19 +49,15 @@
 #include "HashDefines.h"
 #include "Utility/Utility_Thread.h"
 #include "DataTypes/J1939_Datatypes.h"
-//#include "DataTypes/MsgBufAll_Datatypes.h"
-//#include "Dil_Interface_extern.h"
 #include "BaseDIL_CAN.h"
 #include "BaseDIL_J1939.h"
 #include "Application/InterfaceGetter.h"
 #include "TxMsgWndJ1939.h"
-#include ".\txmsgwndj1939.h"
-#include "Utility\MultiLanguageSupport.h"
+#include "Utility/MultiLanguageSupport.h"
 #include "CANDefines.h"
 HANDLE sg_hMsgSent = nullptr;
 HANDLE sg_hMsgStopped = nullptr;
-typedef struct
-{
+typedef struct {
     EJ1939_MSG_TYPE m_eType;
     CString         m_omTypeName;
     BOOL            m_bShow;
@@ -69,15 +65,13 @@ typedef struct
 
 #define SIZE_TYPE_COMB    3
 
-SCONFIGDATA_COMB sg_asMsgType[SIZE_TYPE_COMB] =
-{
+SCONFIGDATA_COMB sg_asMsgType[SIZE_TYPE_COMB] = {
     {MSG_TYPE_REQUEST,          "Request PGN",          TRUE},
     {MSG_TYPE_DATA,             "Data",                 TRUE},
     {MSG_TYPE_BROADCAST,        "Broadcast",            TRUE},
 };
 
-SCONFIGDATA_COMB sg_asSupportedMsgType[SIZE_TYPE_COMB-1] =
-{
+SCONFIGDATA_COMB sg_asSupportedMsgType[SIZE_TYPE_COMB-1] = {
     {MSG_TYPE_REQUEST,          "Request PGN",          TRUE},
     {MSG_TYPE_DATA,             "Data",                 TRUE},
 };

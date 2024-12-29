@@ -25,7 +25,6 @@
 #include "StdAfx.h"
 #include "WrapperErrorLogger.h"
 
-
 WrapperErrorLogger::WrapperErrorLogger(void)
 {
 }
@@ -33,7 +32,7 @@ WrapperErrorLogger::WrapperErrorLogger(void)
 WrapperErrorLogger::~WrapperErrorLogger(void)
 {
 }
-/* This function is thread safe */
+
 void WrapperErrorLogger::vLogAMessage(char* /*File*/, int /*Line*/, std::string /*Msg*/)
 {
 }

@@ -1,17 +1,16 @@
-#pragma once
-#include<iostream>
-#include<list>
+#ifndef BUSMASTER_APPLICATION_UI_MENUS_H_
+#define BUSMASTER_APPLICATION_UI_MENUS_H_
 
+#include <iostream>
+#include <list>
 
-enum eMenuTypes
-{
+enum eMenuTypes {
     PopUp,
     MenuItem,
     Separator
 };
 
-class ToolButton
-{
+class ToolButton {
 public:
     bool isToolButtonReq = false;
     std::string iconPathEnable;
@@ -19,8 +18,7 @@ public:
     std::string iconPathHot;
 };
 
-class RibbonElement
-{
+class RibbonElement {
 public:
     eMenuTypes mMenuType;
     std::string mId;
@@ -29,13 +27,10 @@ public:
 	std::list<RibbonElement> submenulist;
 	std::string mAcceleratorKey;
 
-	RibbonElement()
-    {
-    }
+	RibbonElement() { }
 };
 
-class RibbonButton
-{
+class RibbonButton {
 public:
 	std::string mCategory;
 	std::string mName;
@@ -50,3 +45,5 @@ public:
 	std::string mAcceleratorKey;
 	std::list<RibbonElement> submenulist;
 };
+
+#endif // BUSMASTER_APPLICATION_UI_MENUS_H_

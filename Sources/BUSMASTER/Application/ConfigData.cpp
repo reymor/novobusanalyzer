@@ -21,7 +21,6 @@
 #include "StdAfx.h"
 #include "ProjectConfiguration/ProjectConfiguration_extern.h"
 #include "ConfigData.h"
-//#include "GettextBusmaster.h"
 #include "Utility\MultiLanguageSupport.h"
 
 #define DEFAULT_PROJECT_NAME                         "BUSMASTER"
@@ -137,7 +136,6 @@ BOOL CConfigData::bGetData(void*& lpData, int& nStreamLength, std::string strSec
     BOOL bRetVal = FALSE;
 
     // is the configuration loaded?
-    // if((m_bConfigInfoLoaded == TRUE) && (bRetVal == TRUE))
     {
         SECTIONDATA tempSecData;
         tempSecData.m_omSectionName = strSectionName;

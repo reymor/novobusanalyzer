@@ -27,12 +27,10 @@
 //Definition of CNotificListbox class
 #include "NotificListbox.h"
 #include "MDIChildBase.h"   // For Common MDI base class
-//#include "Structs.h"
 /////////////////////////////////////////////////////////////////////////////
 // CNotificWnd
 typedef struct tagNOTIFICWNDPARAMS
 {
-    //LOGPARAMS           m_sLogParams;
     WINDOWPLACEMENT     m_sWndPlacement;
     BYTE                m_bSetFlag_Disp;
     BYTE                m_bSetFlag_Log;

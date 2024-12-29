@@ -19,8 +19,6 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 #pragma once
-//#include "d:\autosat_tools\signal graph window\implementation\auto-sat_tools\utility\colourpicker.h"
-//#include "afxwin.h"
 #include "Utility/ColorSelector.h"
 #include "messagelist.h"
 // For Main Frame Definition

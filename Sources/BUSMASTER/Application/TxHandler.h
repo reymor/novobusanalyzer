@@ -24,8 +24,7 @@
 #pragma once
 #include "TxWindow/TxWnd_Extern.h"
 
-class CTxHandler
-{
+class CTxHandler {
 private:
     HMODULE m_hTxHandle;
     void vInitializeFuncPtrs();

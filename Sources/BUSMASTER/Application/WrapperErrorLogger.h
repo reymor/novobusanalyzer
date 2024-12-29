@@ -22,19 +22,19 @@
  * Concrete data type definition file for error logger wrapper.
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_WRAPPERERRORLOGGER_H_
+#define BUSMASTER_APPLICATION_WRAPPERERRORLOGGER_H_
 
-/* C++ includes */
 #include <string>
 
-/* Project includes */
 #include "DataTypes/Base_WrapperErrorLogger.h"
 
-class WrapperErrorLogger : public Base_WrapperErrorLogger
-{
+class WrapperErrorLogger : public Base_WrapperErrorLogger {
 public:
     WrapperErrorLogger(void);
     ~WrapperErrorLogger(void);
 
     void vLogAMessage(char* File, int Line, std::string Msg);
 };
+
+#endif // BUSMASTER_APPLICATION_WRAPPERERRORLOGGER_H_

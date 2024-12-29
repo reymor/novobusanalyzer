@@ -72,7 +72,6 @@ int BusmasterPluginManager::init(IBusmasterBusPluginInterface* busmasterInterfac
 {
     mBusmasterInterface = busmasterInterface;
 
-    //createPluginMenuMap();
     return S_OK;
 }
 
@@ -440,44 +439,7 @@ RibbonElement BusmasterPluginManager::CreateCommandList(xmlNodePtr& childnodeptr
     xmlFree(cId);
     submenu.mMenuType = eMenuTypes::MenuItem;
     auto tooltipptr = (char*)xmlHasProp(childnodeptr, (xmlChar*)"tooltip");
-    /*if (tooltipptr != NULL)
-    {
-        submenu.isToolTipReq = true;
-    }
-    if (submenu.isToolTipReq)
-    {
-        cToolTip = xmlGetProp(childnodeptr, (xmlChar*)"tooltip");
-        submenu.tooltip = (char*)cToolTip;
-        xmlFree(cToolTip);
-    }*/
 
-    /*xmlNodePtr toolbutton = childnodeptr->children;
-    while (toolbutton != NULL)
-    {
-        char* abspathptr;
-        std::string pathvalue;
-        if ((!xmlStrcmp(toolbutton->name, (const xmlChar*)"toolbutton")))
-        {
-            submenu.mToolbar.isToolButtonReq = true;
-            cEnabled = xmlGetProp(toolbutton, (xmlChar*)"enabledpath");
-            abspathptr = CheckforRelativePath((char*)cEnabled, xmlFilePath);
-            submenu.mToolbar.iconPathEnable = abspathptr;
-            delete[]abspathptr;
-            xmlFree(cEnabled);
-            cDisabled = xmlGetProp(toolbutton, (xmlChar*)"disabledpath");
-            abspathptr = CheckforRelativePath((char*)cDisabled, xmlFilePath);
-            submenu.mToolbar.iconPathDisable = abspathptr;
-            delete[]abspathptr;
-            xmlFree(cDisabled);
-            cHot = xmlGetProp(toolbutton, (xmlChar*)"hotpath");
-            abspathptr = CheckforRelativePath((char*)cHot, xmlFilePath);
-            submenu.mToolbar.iconPathHot = abspathptr;
-            delete[]abspathptr;
-            xmlFree(cHot);
-            break;
-        }
-        toolbutton = childnodeptr->children->next;
-    }*/
     return submenu;
 }
 char* BusmasterPluginManager::CheckforRelativePath(const char* revpath, std::string xmlFilePath)

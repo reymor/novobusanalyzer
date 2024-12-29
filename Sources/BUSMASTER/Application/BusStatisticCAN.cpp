@@ -21,9 +21,7 @@
 //To Include BusStatisticCAN Definitions.
 
 #include "BusStatisticCAN.h"
-//#include "Include/Can_Error_Defs.h"
-//#include "DIL_Interface_Extern.h"
-#include "Utility\TimeManager.h"
+#include "Utility/TimeManager.h"
 #include "BUSMASTER.h"   // App class header
 #include "IBusMasterKernel.h"
 extern CCANMonitorApp theApp;
@@ -43,7 +41,6 @@ int ReadBSDataBuffer(CBusStatisticCAN* pBSCan)
     while (pBSCan->m_ouCanBufFSE.GetMsgCount() > 0)
     {
         static STCANDATA sCanData;
-        //sCanData.m_lTickCount.QuadPart;
         int Result = pBSCan->m_ouCanBufFSE.ReadFromBuffer(&sCanData);
         if (Result == ERR_READ_MEMORY_SHORT)
         {
@@ -516,17 +513,14 @@ HRESULT CBusStatisticCAN::BSC_GetTotalErrCount(UINT unChannelIndex, eDirection e
 {
     EnterCriticalSection(&m_omCritSecBS);
 
-    //eDir == DIR_RX
     if( DIR_RX == eDir )
     {
         nErrCount = m_sBusStatistics[ unChannelIndex ].m_unErrorRxCount;
     }
-    //eDir == DIR_TX
     else if( DIR_TX == eDir )
     {
         nErrCount = m_sBusStatistics[ unChannelIndex ].m_unErrorTxCount;
     }
-    //eDir == DIR_ALL
     else
     {
         nErrCount = m_sBusStatistics[ unChannelIndex ].m_unErrorTotalCount;
@@ -1175,15 +1169,6 @@ void CBusStatisticCAN::vCalculateBusParametres(void)
 
             }
         }
-
-        /* m_sBusStatistics[ nChannelIndex ].m_unMsgPerSecond =
-             m_sBusStatistics[ nChannelIndex ].m_unTotalMsgCount -
-             m_sPrevStatData[ nChannelIndex ].m_unTotalMsgCount;
-         m_sBusStatistics[ nChannelIndex ].m_unMsgPerSecond =
-             static_cast<UINT>
-             (m_sBusStatistics[ nChannelIndex ].m_unMsgPerSecond / m_dDiffTime );*/
-
-
 
         // Calculate Error Count & Rate
         m_sBusStatistics[ nChannelIndex ].m_unErrorTotalCount =

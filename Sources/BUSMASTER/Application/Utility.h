@@ -22,7 +22,8 @@
  * This file contain the definition of all global utility function
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_UTILITY_H_
+#define BUSMASTER_APPLICATION_UTILITY_H_
 
 #include "HashDefines.h"
 // Global flag user for terminating the thread and disabling GUI.
@@ -38,7 +39,6 @@ BOOL g_bStopErrorHandlers   = TRUE; // Stopped
 
 // used for Error Handlers
 BOOL g_bStopDLLHandlers   = TRUE; // Stopped
-
 
 //read index
 UINT g_unReadDllMsg=0;
@@ -58,13 +58,9 @@ CRITICAL_SECTION g_CritSectionForTimer;
 CRITICAL_SECTION g_CritSectNodeBufferRead;
 
 
-
 // Takes send message structure and message data array,and index to get the msg data
 // functionality
-BOOL bGetMsgData(UINT unMsgIndex,
-                 UCHAR aunData[],
-                 PSENDMULTIMSGINFO psSendMultipleMsgInfo);
-
+BOOL bGetMsgData(UINT unMsgIndex, UCHAR aunData[], PSENDMULTIMSGINFO psSendMultipleMsgInfo);
 
 void vProcessTimerCallBack(UINT unIndex, APPTIMERPOINTER pFTimerCallback);
 // protoype of the Key Handler thread function
@@ -82,3 +78,5 @@ UINT unTimerHandlerProc(LPVOID pParam);
 UINT unReadNodeMsgHandlerBuffer(LPVOID pParam);
 // to read ExecuteManager buffer of message queue
 UINT unReadDllMsgBuffer(LPVOID pParam);
+
+#endif // BUSMASTER_APPLICATION_UTILITY_H_

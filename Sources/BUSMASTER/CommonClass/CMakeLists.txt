@@ -23,6 +23,10 @@ include_directories(
   ${LIBXML2_INCLUDE_DIR}
   ${MFC_INCLUDE_DIRS})
 
+target_include_directories(${PROJECT_NAME}
+  PUBLIC .
+)
+
 # compiler options
 add_definitions(-D_LIB)
 

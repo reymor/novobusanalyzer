@@ -22,7 +22,6 @@
 #pragma pack(8)
 
 #include <string>
-//#include "Utility/ComputeCheckSum.h"
 #include "DataTypes/ProjConfig_DataTypes.h"
 
 class CConfigData

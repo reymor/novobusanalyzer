@@ -25,11 +25,7 @@
 #pragma once
 #include "CANDriverDefines.h"
 #include "LINDriverDefines.h"
-//#include "include/Struct_CAN.h"
-//#include "include/Struct_LIN.h"
 #include "HashDefines.h"
-//#include "canapi2.h"
-//#include "include/Basedefs.h"
 #include "CANDefines.h"
 #include "DataTypes/Filter_DataTypes.h"
 

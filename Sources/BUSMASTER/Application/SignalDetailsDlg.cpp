@@ -21,14 +21,13 @@
  *
  * This file contain definition of all function of
  */
+#include <math.h>               // for pow(...)
 #include "stdafx.h"             // Standard header
 #include "BUSMASTER.h"        // App class header
-#include <math.h>               // for pow(...)
 #include "DataType.h"           // For max DLC CAN
 #include "SignalDetailsDlg.h"   // for creating and editing signal details
 #include "MainFrm.h"            // Hex validation is defined here
 #include "Utility/UtilFunctions.h"      // For Utility Functions
-#include ".\signaldetailsdlg.h"
 
 extern CCANMonitorApp theApp;
 /////////////////////////////////////////////////////////////////////////////
@@ -62,7 +61,6 @@ CSignalDetailsDlg::CSignalDetailsDlg(const SDBPARAMS& sDbParams,
                                      CWnd* pParent /*=nullptr*/)
     : CDialog(CSignalDetailsDlg::IDD, pParent)
 {
-    //{{AFX_DATA_INIT(CSignalDetailsDlg)
     m_unMinVal = 1;
     m_shByteIndex = 0;
     m_unSgLen = 1;
@@ -77,7 +75,6 @@ CSignalDetailsDlg::CSignalDetailsDlg(const SDBPARAMS& sDbParams,
     m_unMode = eMode;
     m_nDataFormat = nDataFormat;
     m_omStrSgType = omStrSignalType;
-    //}}AFX_DATA_INIT
 
     m_omStrMaxVal = omStrMaxVal;
     m_omStrMinVal = omStrMinVal;
@@ -122,7 +119,6 @@ CSignalDetailsDlg::CSignalDetailsDlg( eMODES eMode,
     m_unMode = eMode;
     m_nDataFormat = eEndianess::eIntel;
     m_omStrSgType = "";
-    //}}AFX_DATA_INIT
 
     m_omStrMaxVal = "";
     m_omStrMinVal = "";
@@ -184,7 +180,6 @@ CSignalDetailsDlg::CSignalDetailsDlg( eMODES eMode,
 void CSignalDetailsDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CSignalDetailsDlg)
     DDX_Control(pDX, IDC_EDIT_FACTOR, m_odScale);
     DDX_Control(pDX, IDC_EDIT_OFFSET, m_odOffset);
     DDX_Control(pDX, IDC_EDIT_MIN, m_odMinValue);
@@ -201,12 +196,10 @@ void CSignalDetailsDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT_STBIT, m_byStartBit);
     DDV_MinMaxByte(pDX, m_byStartBit, 0, 7);
     DDX_Text(pDX, IDC_EDIT_UNIT, m_omStrUnit);
-    //}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CSignalDetailsDlg, CDialog)
-    //{{AFX_MSG_MAP(CSignalDetailsDlg)
     ON_EN_KILLFOCUS(IDC_EDIT_SGNAME, OnKillfocusEditSgname)
     ON_EN_KILLFOCUS(IDC_EDIT_BYINDEX, OnKillfocusEditByindex)
     ON_EN_KILLFOCUS(IDC_EDIT_FACTOR, OnKillfocusEditFactor)
@@ -217,7 +210,6 @@ BEGIN_MESSAGE_MAP(CSignalDetailsDlg, CDialog)
     ON_CBN_SELCHANGE(IDC_COMB_SGTYPE, OnSelchangeCombSgtype)
     ON_EN_CHANGE(IDC_EDIT_SGLEN, OnChangeEditSglen)
     ON_EN_CHANGE(IDC_EDIT_SGNAME, OnChangeEditSgname)
-    //}}AFX_MSG_MAP
     ON_BN_CLICKED(IDC_RADIO_INTEL, OnBnClickedRadioIntel)
     ON_BN_CLICKED(IDC_RADIO_MOTOROLA, OnBnClickedRadioMotorola)
 END_MESSAGE_MAP()
@@ -606,9 +598,7 @@ void CSignalDetailsDlg::OnKillfocusEditSgname()
             }
             else
             {
-                /*AfxMessageBox( "Signal name cannot be empty",
-                    MB_OK|MB_ICONINFORMATION);
-                GetDlgItem(IDC_EDIT_SGNAME)->SetFocus();*/
+
             }
         }
     }
@@ -1565,10 +1555,7 @@ void CSignalDetailsDlg::vCalculateMaxMinValues(SIG_VALUE& rMinVal,
         rMinVal.un64Value = 0;
         rMaxVal.un64Value = 1;
         UINT nPower = m_unSgLen;
-        //        if(m_unSgLen == defMAX_BITS )
-        //        {
-        //            nPower = m_unSgLen - 1;
-        //        }
+
         // Get the 2 power Signal Len
         // 2 ^ n == 2 << n
         rMaxVal.un64Value <<= nPower;
@@ -1716,9 +1703,6 @@ BOOL CSignalDetailsDlg::bIsMaximumValueValid()
             n64MaxVal = _strtoi64(m_omStrMaxVal, nullptr, 10);
             n64MinVal = _strtoi64(m_omStrMinVal, nullptr, 10);
         }
-        // Extend the Sign bit
-        //        CUtilFunctions::s_vExtendSignBit( n64MinVal, m_unSgLen );
-        //      CUtilFunctions::s_vExtendSignBit( n64, m_unSgLen );
 
         if ( n64MaxVal < n64MinVal )
         {
@@ -1831,16 +1815,6 @@ BOOL CSignalDetailsDlg::bIsMinimumValueValid()
 
     if( !strSignalType.CompareNoCase(defSIGNED_INT))
     {
-        //__int64 n64 = 0;
-        //if(pMainFrame != nullptr)
-        //{
-        //n64 = pMainFrame->nConvertStringToInt(m_omStrMinVal);
-        //    // Extend the Sign Bit
-        //    CUtilFunctions::s_vExtendSignBit( n64, m_unSgLen );
-        //}
-
-
-        //        CUtilFunctions::s_vExtendSignBit( n64MaxVal, m_unSgLen );
         __int64 n64MaxVal, n64MinVal;
         if(theApp.pouGetFlagsPtr()->nGetFlagStatus(HEX))
         {

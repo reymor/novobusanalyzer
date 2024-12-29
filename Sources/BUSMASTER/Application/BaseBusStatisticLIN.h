@@ -47,7 +47,6 @@ typedef sSUBBUSSTATISTICS_LIN* PSSUBBUSSTATISTICS_LIN;
 struct sBUSSTATISTICS_LIN
 {
     unsigned int    m_unTotalBitsperSec;
-    //unsigned int    m_unRxSTDMsgBits;
 
     double          m_dBusLoad;
     double          m_dPeakBusLoad;

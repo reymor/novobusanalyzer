@@ -33,8 +33,6 @@
 // For DIL Interface Class
 #include "Include/BaseDefs.h"
 #include "DataTypes/Base_WrapperErrorLogger.h"
-//#include "DataTypes/MsgBufAll_Datatypes.h"
-//#include "DataTypes/DIL_Datatypes.h"
 #include "BaseDIL_CAN.h"
 
 // DIL CAN interface
@@ -44,8 +42,7 @@ extern UINT unGetMsgIDFromName(CString omMsgName);
 #define DEF_WARN_DELETE_SIGNAL "You are about to delete this signal. \nAre you sure you want to Delete?"
 #define DEF_WARN_DELETE_ALL_SIGNALS "You are about to delete all the signals. \nAre you sure you want to Delete?"
 // Types of Tree Nodes
-typedef enum
-{
+typedef enum {
     eROOT = 1,
     eMESSAGE,
     eSIGNAL,
@@ -56,8 +53,7 @@ typedef enum
 } eTREE_NODE_TYPES;
 
 // Color Table for global assignment
-COLORREF g_dColorTable[] =
-{
+COLORREF g_dColorTable[] = {
     RGB(0, 0, 255),
     RGB(0, 255, 0),
     RGB(0, 255, 255),
@@ -95,9 +91,6 @@ COLORREF g_dColorTable[] =
 CElementSelection::CElementSelection( IBMNetWorkGetService* bmNetwork, UINT nHardware, CWnd* pParent /*=nullptr*/ )
     : CDialog(CElementSelection::IDD, pParent)
 {
-    //{{AFX_DATA_INIT(CElementSelection)
-    // NOTE: the ClassWizard will add member initialization here
-    //}}AFX_DATA_INIT
     m_bmNetwork = bmNetwork;
     m_pMainFrame = nullptr;
     m_hMessageRoot = m_hStatRoot = nullptr;
@@ -118,15 +111,12 @@ CElementSelection::CElementSelection( IBMNetWorkGetService* bmNetwork, UINT nHar
 void CElementSelection::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CElementSelection)
     DDX_Control(pDX, IDC_LSTC_GRAPH_ELEMENTS, m_omElementList);
     DDX_Control(pDX, IDC_TREE_SIGNAL, m_omTreeEntries);
-    //}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CElementSelection, CDialog)
-    //{{AFX_MSG_MAP(CElementSelection)
     ON_NOTIFY(NM_DBLCLK, IDC_TREE_SIGNAL, OnDblclkTreeSignal)
     ON_BN_CLICKED(IDC_BTN_ADD, OnBtnAdd)
     ON_BN_CLICKED(IDC_BTN_DELETE, OnBtnDelete)
@@ -136,7 +126,6 @@ BEGIN_MESSAGE_MAP(CElementSelection, CDialog)
     ON_NOTIFY(NM_CLICK, IDC_LSTC_GRAPH_ELEMENTS, OnClickLstcGraphElements)
     ON_NOTIFY(LVN_ITEMCHANGED, IDC_LSTC_GRAPH_ELEMENTS, OnItemchangedLstcGraphElements)
     ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_SIGNAL, OnSelchangedTreeSignal)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 
@@ -291,22 +280,14 @@ void CElementSelection::vPopulateDBTree( CTreeCtrl& omTree,
     {
         std::string omStr;
         std::string omStrSignalName;
-        //UINT unNoOfMsgs = pomDatabase->unGetNumerOfMessages();
-        //UINT* pIDArray = new UINT[unNoOfMsgs];
         unsigned int id = 0;
         std::list<IFrame*> frameList;
         std::map<ISignal*, SignalInstanse> signalList;
         //// Get List of database Messages
         //CStringList omMsgList;
-        //pomDatabase->omStrListGetMessageNames( omMsgList );
-        //if (pIDArray != nullptr )
         {
             int channel = 0;
             pomDatabase->GetFrameList( m_eBusType, channel, frameList );
-            //SpomDatabase->unListGetMessageIDs( pIDArray );
-            // Get the list iterator
-            /*POSITION psPos = nullptr;
-            psPos = omMsgList.GetHeadPosition();*/
             IFrame* pMessage = nullptr;
             ISignal* pSignals = nullptr;
             // Init helping variables
@@ -317,24 +298,12 @@ void CElementSelection::vPopulateDBTree( CTreeCtrl& omTree,
             int nEliminate = 0;
             CGraphElement odTemp;
             // Get all messages from the database
-            //for(UINT nCount=0 ; nCount<unNoOfMsgs ; nCount++)
-for ( auto itrFrame : frameList )
-            {
-                // Init both pointers at the begining of each iteration
-                //pMessage = nullptr;
-                //pSignals = nullptr;
-                // Get next message
-                /*omStr = omMsgList.GetNext( psPos );*/
-                //pMessage = pomDatabase->psGetMessagePointer( pIDArray[nCount] );
-                //if(pMessage != nullptr)
+            for (auto itrFrame: frameList) {
                 {
                     itrFrame->GetName( omStr );
                     itrFrame->GetFrameId( id );
-                    //omStr = pMessage->m_omStrMessageName;
-                    //omStr += defUNDERSCORE;
                     CString omStrMsgId;
                     omStrMsgId.Format(defSTR_MSG_ID_IN_HEX,id);
-                    //omStrMsgId.MakeUpper();
                     omStr += omStrMsgId;
                     // Inset the message Name
                     // Use SORT filter to have sorted tree items
@@ -344,13 +313,9 @@ for ( auto itrFrame : frameList )
                     omTree.SetItemData( hMessage, eMESSAGE );
                     signalList.clear();
                     itrFrame->GetSignalList( signalList );
-                    // Get Signal Details
-                    //pSignals = pMessage->m_psSignals;
                 }
                 // Insert Signals of this message
-                //while( pSignals != nullptr )
-for ( auto itrSignal : signalList )
-                {
+                for (auto itrSignal: signalList) {
                     // This will be set if found in the element list
                     // Values
                     // 0 - Not Found
@@ -360,8 +325,7 @@ for ( auto itrSignal : signalList )
                     nEliminate = 0;
                     itrSignal.first->GetName( omStrSignalName );
                     // Iterate through element list
-                    for( int nIndex = 0; nIndex < nElementCount; nIndex ++ )
-                    {
+                    for(int nIndex = 0; nIndex < nElementCount; nIndex ++) {
                         odTemp = odElementList[ nIndex ];
 
                         // Check for the presence
@@ -374,8 +338,7 @@ for ( auto itrSignal : signalList )
                     }
                     // If both values are not added in to the list then add the signal
                     // Node
-                    if( nEliminate < ( eRAW_VALUE + ePHY_VALUE ))
-                    {
+                    if (nEliminate < ( eRAW_VALUE + ePHY_VALUE )) {
                         // Insert Signal Name
                         HTREEITEM hSignal =
                             omTree.InsertItem( omStrSignalName.c_str(),
@@ -383,16 +346,14 @@ for ( auto itrSignal : signalList )
                         omTree.SetItemData( hSignal, eSIGNAL );
 
                         // Insert Raw & Phy Entries
-                        if( nEliminate != eRAW_VALUE )
-                        {
+                        if (nEliminate != eRAW_VALUE ) {
                             HTREEITEM hRawVal = omTree.InsertItem( _(defSTR_RAW_VALUE),
                                                                    nRawImgIndex,
                                                                    nRawImgIndex,
                                                                    hSignal, TVI_SORT );
                             omTree.SetItemData( hRawVal, eVAL_TYPE_RAW );
                         }
-                        if( nEliminate != ePHY_VALUE )
-                        {
+                        if (nEliminate != ePHY_VALUE) {
                             HTREEITEM hPhyVal = omTree.InsertItem( _(defSTR_PHY_VALUE),
                                                                    nPhyImgIndex,
                                                                    nPhyImgIndex,
@@ -400,8 +361,6 @@ for ( auto itrSignal : signalList )
                             omTree.SetItemData( hPhyVal, eVAL_TYPE_PHY );
                         }
                     }
-                    // Get next Signal from the list
-                    //pSignals = pSignals->m_psNextSignalList;
                 }
             }
         }
@@ -436,15 +395,13 @@ void CElementSelection::vPopulateStatTree(
     CString omStrEntry;
     BOOL bSkip;
     // Iterate through list of Stat params
-    for( int nIndex = 0; nIndex < nStatParamCount; nIndex ++ )
-    {
+    for (int nIndex = 0; nIndex < nStatParamCount; nIndex ++) {
         bSkip = FALSE;
-        for( int nItem = 0; nItem < nListItemCount; nItem++ )
-        {
+        for(int nItem = 0; nItem < nListItemCount; nItem++) {
             // If it is stat item &
             // if the channel is same &
             // Same parameter then skip
-            if( odElementList[ nItem ].m_nValueType == eSTAT_PARAM &&
+            if (odElementList[ nItem ].m_nValueType == eSTAT_PARAM &&
                     odElementList[ nItem ].m_nFrameFormat == nChannel &&
                     odElementList[ nItem ].m_nMsgID == nIndex )
             {
@@ -452,8 +409,7 @@ void CElementSelection::vPopulateStatTree(
             }
         }
         // If not found in the element list then add it
-        if( bSkip == FALSE )
-        {
+        if (bSkip == FALSE) {
             // Insert the item now
             hItem = omTree.InsertItem( acStatParams[ nIndex ],
                                        nStatImageIndex, nStatImageIndex,
@@ -491,14 +447,11 @@ void CElementSelection::vPopulateElementList(
     int nCount = odElementList.GetSize();
     CGraphElement odTemp;
     // Iterate through list of graph elements
-    for( int nIndex = 0; nIndex < nCount; nIndex++ )
-    {
+    for(int nIndex = 0; nIndex < nCount; nIndex++) {
         odTemp = odElementList[ nIndex ];
         // Insert Stat Param
-        if( odTemp.m_nValueType == eSTAT_PARAM )
-        {
-            if( odTemp.m_nMsgID < defSTAT_PARAMETERS_COUNT )
-            {
+        if(odTemp.m_nValueType == eSTAT_PARAM) {
+            if (odTemp.m_nMsgID < defSTAT_PARAMETERS_COUNT) {
                 // Insert Catogory
                 omListCtrl.InsertItem( nIndex,
                                        _(defSTR_STATISTICS_NAME),
@@ -516,21 +469,16 @@ void CElementSelection::vPopulateElementList(
                 omListCtrl.SetItemData( nIndex, eSTAT_PARAM );
 
             }
-        }
-        // Insert Signal
-        else
-        {
+        } else {
             // Get Message Name from the database
-            if( pomDatabase != nullptr )
-            {
+            if (pomDatabase != nullptr) {
                 // Find the image index
                 int nImageIndex = odTemp.m_nValueType == eRAW_VALUE ?
                                   nRawValImgIndex : nPhyValImgIndex;
                 IFrame* frame = nullptr;
                 std::string name="";
                 pomDatabase->GetFrame( m_eBusType, 0, odTemp.m_nMsgID, nullptr, &frame );
-                if ( nullptr != frame )
-                {
+                if (nullptr != frame) {
                     frame->GetName( name );
                 }
                 CString omStrMsgName = name.c_str();
@@ -539,12 +487,9 @@ void CElementSelection::vPopulateElementList(
                 // Insert signal Name
                 omListCtrl.SetItemText( nIndex, 1, odTemp.m_omStrElementName );
                 // Insert Value Type
-                if( odTemp.m_nValueType == eRAW_VALUE )
-                {
+                if (odTemp.m_nValueType == eRAW_VALUE) {
                     omListCtrl.SetItemText( nIndex, 2, _(defSTR_RAW_VALUE) );
-                }
-                else
-                {
+                } else {
                     omListCtrl.SetItemText( nIndex, 2, _(defSTR_PHY_VALUE) );
                 }
                 // Set Item type
@@ -614,11 +559,9 @@ void CElementSelection::vAddSelectedItem()
 {
     // Get selected item handle
     HTREEITEM hValType = m_omTreeEntries.GetSelectedItem();
-    if( hValType != nullptr )
-    {
+    if (hValType != nullptr) {
         // Check whether user has clocked only on value type or Stat param
-        switch( m_omTreeEntries.GetItemData( hValType ) )
-        {
+        switch (m_omTreeEntries.GetItemData( hValType )) {
                 // User clicked on Root nodes. Ignore now
             case eROOT:
                 break;
@@ -634,18 +577,15 @@ void CElementSelection::vAddSelectedItem()
                 // User clicked on Raw Value of Signal.
             case eVAL_TYPE_RAW:
             {
-                if( m_omElementList.GetItemCount() < defMAX_ELEMENTS_COUNT )
-                {
+                if (m_omElementList.GetItemCount() < defMAX_ELEMENTS_COUNT) {
                     // Get Catogory, Element Name
                     HTREEITEM hCatogory = nullptr, hElement = nullptr;
                     hElement = m_omTreeEntries.GetParentItem( hValType );
-                    if( hElement != nullptr )
-                    {
+                    if(hElement != nullptr) {
                         hCatogory =
                             m_omTreeEntries.GetParentItem( hElement );
                     }
-                    if( hElement != nullptr && hCatogory != nullptr )
-                    {
+                    if (hElement != nullptr && hCatogory != nullptr) {
                         int nIndex = m_omElementList.GetItemCount();
                         CString omStrMsg, omStrSig;
                         // Insert Message Name
@@ -663,15 +603,11 @@ void CElementSelection::vAddSelectedItem()
                         // Remove the element from the tree
                         // Remove the node if this is the only element
                         m_omTreeEntries.DeleteItem( hValType );
-                        if( m_omTreeEntries.ItemHasChildren( hElement ) ==
-                                FALSE )
-                        {
-                            m_omTreeEntries.DeleteItem( hElement );
+                        if (m_omTreeEntries.ItemHasChildren(hElement) == FALSE) {
+                            m_omTreeEntries.DeleteItem(hElement);
                         }
                     }
-                }
-                else
-                {
+                } else {
                     // Show exelemt exceed the maximun allowed count message
                     AfxMessageBox( _(defSTR_MAX_ELEMENTS_EXCEEDED_MSG) );
                 }
@@ -680,18 +616,15 @@ void CElementSelection::vAddSelectedItem()
             // User clicked on Phy Value of Signal.
             case eVAL_TYPE_PHY:
             {
-                if( m_omElementList.GetItemCount() < defMAX_ELEMENTS_COUNT )
-                {
+                if (m_omElementList.GetItemCount() < defMAX_ELEMENTS_COUNT) {
                     // Get Catogory, Element Name
                     HTREEITEM hCatogory = nullptr, hElement = nullptr;
                     hElement = m_omTreeEntries.GetParentItem( hValType );
-                    if( hElement != nullptr )
-                    {
+                    if (hElement != nullptr) {
                         hCatogory =
                             m_omTreeEntries.GetParentItem( hElement );
                     }
-                    if( hElement != nullptr && hCatogory != nullptr )
-                    {
+                    if (hElement != nullptr && hCatogory != nullptr) {
                         int nIndex = m_omElementList.GetItemCount();
                         CString omStrMsg, omStrSig;
                         // Insert Message Name
@@ -709,15 +642,11 @@ void CElementSelection::vAddSelectedItem()
                         // Remove the element from the tree
                         // Remove the node if this is the only element
                         m_omTreeEntries.DeleteItem( hValType );
-                        if( m_omTreeEntries.ItemHasChildren( hElement ) ==
-                                FALSE )
-                        {
+                        if (m_omTreeEntries.ItemHasChildren( hElement ) == FALSE) {
                             m_omTreeEntries.DeleteItem( hElement );
                         }
                     }
-                }
-                else
-                {
+                } else {
                     // Show exelemt exceed the maximun allowed count message
                     AfxMessageBox( _(defSTR_MAX_ELEMENTS_EXCEEDED_MSG) );
                 }
@@ -725,43 +654,34 @@ void CElementSelection::vAddSelectedItem()
             break;
             case eSTAT_VAL:
             {
-                if( m_omElementList.GetItemCount() < defMAX_ELEMENTS_COUNT )
-                {
+                if (m_omElementList.GetItemCount() < defMAX_ELEMENTS_COUNT) {
                     // Get Catogory, Element Name
                     HTREEITEM hCatogory = nullptr;
                     HTREEITEM hChannel = nullptr;
                     // Get channel Index
                     hChannel = m_omTreeEntries.GetParentItem( hValType );
-                    if( hChannel != nullptr )
-                    {
+                    if (hChannel != nullptr) {
                         // Get catogory
-                        hCatogory =
-                            m_omTreeEntries.GetParentItem( hChannel );
+                        hCatogory = m_omTreeEntries.GetParentItem( hChannel );
                     }
-                    if( hChannel != nullptr && hCatogory != nullptr )
-                    {
+                    if (hChannel != nullptr && hCatogory != nullptr) {
                         int nIndex = m_omElementList.GetItemCount();
                         // Insert Statistics parameter
-                        m_omElementList.InsertItem( nIndex,
-                                                    m_omTreeEntries.GetItemText( hCatogory), 2);
+                        m_omElementList.InsertItem(nIndex, m_omTreeEntries.GetItemText( hCatogory), 2);
                         // Set the parameter name
-                        m_omElementList.SetItemText( nIndex, 1,
-                                                     m_omTreeEntries.GetItemText( hValType ) );
+                        m_omElementList.SetItemText(nIndex, 1, m_omTreeEntries.GetItemText( hValType ) );
                         // Set the channel index
-                        m_omElementList.SetItemText( nIndex, 2,
-                                                     m_omTreeEntries.GetItemText( hChannel ) );
+                        m_omElementList.SetItemText(nIndex, 2, m_omTreeEntries.GetItemText( hChannel ) );
                         // Set entry type
-                        m_omElementList.SetItemData( nIndex, eSTAT_PARAM );
+                        m_omElementList.SetItemData(nIndex, eSTAT_PARAM);
                         // Add the selected value to the list
                         vAddStatToElementList(
-                            m_omTreeEntries.GetItemText( hValType ),
-                            m_omTreeEntries.GetItemText( hChannel ));
+                            m_omTreeEntries.GetItemText(hValType),
+                            m_omTreeEntries.GetItemText(hChannel));
                         // Remove the element from the list
-                        m_omTreeEntries.DeleteItem( hValType );
+                        m_omTreeEntries.DeleteItem(hValType);
                     }
-                }
-                else
-                {
+                } else {
                     // Show exelemt exceed the maximun allowed count message
                     AfxMessageBox( _(defSTR_MAX_ELEMENTS_EXCEEDED_MSG) );
                 }
@@ -769,7 +689,7 @@ void CElementSelection::vAddSelectedItem()
             break;
             // Invalid value for Item data.
             default:
-                ASSERT( FALSE );
+                ASSERT(FALSE);
         }
     }
 }
@@ -801,16 +721,14 @@ void CElementSelection::vAddToElementList( CString omStrMsgName,
 
     IBMNetWorkGetService* pomDatabase = m_bmNetwork;
     // Add Element to the list
-    if( pomDatabase != nullptr )
-    {
+    if (pomDatabase != nullptr) {
         CGraphElement odNewElement;
         int nMsgID = unGetMsgIDFromName( omStrMsgName );
         odNewElement.m_nMsgID = nMsgID;
         odNewElement.m_omStrElementName = omStrSigName;
         IFrame* frame = nullptr;
         pomDatabase->GetFrame( CAN, 0, nMsgID, nullptr, &frame );
-        if( nullptr != frame )
-        {
+        if(nullptr != frame) {
             std::string name;
             frame->GetName( name );
             odNewElement.m_strMsgName = name.c_str();
@@ -819,18 +737,15 @@ void CElementSelection::vAddToElementList( CString omStrMsgName,
         // Auto assignment of Color
         int nCount = m_odElementList.GetSize();
         // Assign next color index to this element
-        odNewElement.m_nLineColor =
-            g_dColorTable[ nCount % defMAX_ELEMENTS_COUNT ];
+        odNewElement.m_nLineColor = g_dColorTable[ nCount % defMAX_ELEMENTS_COUNT ];
         // Assign symbol to the next index
         odNewElement.m_nPointType = nCount + 1;
-        if( odNewElement.m_nPointType > defAVAILABLE_POINT_TYPES )
-        {
+        if (odNewElement.m_nPointType > defAVAILABLE_POINT_TYPES) {
             odNewElement.m_nPointType -= defAVAILABLE_POINT_TYPES;
         }
         // Assign symbol Color
         int nReverseIndex = defMAX_ELEMENTS_COUNT - nCount - 1;
-        if( nReverseIndex < 0 )
-        {
+        if(nReverseIndex < 0) {
             nReverseIndex = 0;
         }
         odNewElement.m_nPointColor = g_dColorTable[ nReverseIndex ];
@@ -838,7 +753,7 @@ void CElementSelection::vAddToElementList( CString omStrMsgName,
             m_pMainFrame->m_odGraphList[m_eBusType].m_odGraphParameters.m_eDisplayType;
 
         // Add the element to the list
-        m_odElementList.Add( odNewElement );
+        m_odElementList.Add(odNewElement);
     }
 }
 

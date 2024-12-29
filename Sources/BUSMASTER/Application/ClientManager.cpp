@@ -65,18 +65,6 @@ void ClientManager::HandleImportInstruments()
 	}
 }
 
-//bool ClientManager::RemoveListner(std::string variableName, VariableChangeListnerInfo listner)
-//{
-//    for (auto &client : mClientList)
-//    {
-//        if (client.RemoveListner(variableName, listner) == true)
-//        {
-//            return true;
-//        }
-//    }
-//    return false;
-//}
-
 int ClientManager::NotifyVariableChange(const STCAN_MSG& canMsg)
 {
 	for (auto& client : mClientList)
@@ -162,7 +150,6 @@ int FrameClient::NotifyVariableChange(const STCAN_MSG& canMsg)
 				}
 				data.mPhysicalValue = interPretedSignal.mPhyicalValue;
 				
-				//bool bValueChanged = true;
 				for (auto &client : clientList->second)
 				{
 					data.mVariablePath = client.mRegVariablePath;
@@ -226,10 +213,6 @@ int FrameClient::NotifyVariableChange(const STLIN_MSG& canMsg)
 					data.mValue.ULongValue = interPretedSignal.mUnValue;
 				}
 				data.mPhysicalValue = interPretedSignal.mPhyicalValue;
-
-				//data.mValue.mRawValueType = Ulong;
-				//data.mValue.ULongValue = interPretedSignal.mUnValue;// _strtoui64(interPretedSignal.m_omRawValue.c_str(), nullptr, 10);
-				//data.mPhysicalValue = interPretedSignal.mPhyicalValue;// strtod(interPretedSignal.m_omEnggValue.c_str(), nullptr);
 
 				for (auto &client : clientList->second)
 				{

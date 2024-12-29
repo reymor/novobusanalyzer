@@ -20,13 +20,13 @@
  */
 
 #pragma once
-#include"DataType.h"
-#include"MsgSignal.h"
+#include "DataType.h"
+#include "MsgSignal.h"
 #include "resource.h"
 #include "MessageList.h"
 #include "MessageAttrib.h"
-class CPPageMessage : public CPropertyPage
-{
+
+class CPPageMessage : public CPropertyPage {
     DECLARE_DYNCREATE(CPPageMessage)
 
 protected:
@@ -36,31 +36,23 @@ protected:
 public:
     CPPageMessage(BOOL bForDBMsg, UINT* msgIds, unsigned int msgCount, CMessageAttrib* msgAttributes);
     ~CPPageMessage();
-    /*void vSetMsgIDList(); */
 
     // Dialog Data
-    //{{AFX_DATA(CPPageMessage)
     enum { IDD = IDD_PPAGE_MESSAGE };
     CMessageList    m_odMsgList;
     CButton m_ctrlRemove;
     CButton m_ctrlAdd;
-    //}}AFX_DATA
-
 
     // Overrides
-    // ClassWizard generate virtual function overrides
-    //{{AFX_VIRTUAL(CPPageMessage)
 public:
     virtual void OnCancel();
     virtual void OnOK();
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
 
     // Implementation
 protected:
     // Generated message map functions
-    //{{AFX_MSG(CPPageMessage)
     virtual BOOL OnInitDialog();
     afx_msg void OnButtonAdd();
     afx_msg void OnButtonEdit();
@@ -68,7 +60,6 @@ protected:
     afx_msg void OnDblclkListMessage(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnItemchangedListMessage(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnNMCustomdrawListMessage(NMHDR* pNMHDR, LRESULT* pResult);
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 
 protected:

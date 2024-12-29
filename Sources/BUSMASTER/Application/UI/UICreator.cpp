@@ -2,12 +2,10 @@
 #include "UICreator.h"
 #include "MenuCreator.h"
 #include "IdGenerator.h"
-//#include "ToolBarCreator.h"
 
 UICreator::~UICreator()
 {
-    if (nullptr != mMenucreator)
-    {
+    if (nullptr != mMenucreator) {
         delete mMenucreator;
     }
 }

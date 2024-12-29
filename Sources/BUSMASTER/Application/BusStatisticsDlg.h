@@ -48,15 +48,12 @@ public:
 
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
 
     // Implementation
 protected:
     // Generated message map functions
-    //{{AFX_MSG(CBusStatisticsDlg)
     virtual BOOL OnInitDialog();
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
     afx_msg LRESULT vUpdateFields(WPARAM wParam, LPARAM lParam);
 private:

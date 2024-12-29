@@ -22,18 +22,17 @@
  * This header file contains the defintion of class
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_VALUEDESCRIPTIONDLG_H_
+#define BUSMASTER_APPLICATION_VALUEDESCRIPTIONDLG_H_
 
 /////////////////////////////////////////////////////////////////////////////
 // CValueDescriptionDlg dialog
 
 #include "Utility/RadixEdit.h"
 
-class CValueDescriptionDlg : public CDialog
-{
-    // Construction
+class CValueDescriptionDlg: public CDialog {
 public:
-    CValueDescriptionDlg(   const SDBPARAMS& sDbParams,
+    CValueDescriptionDlg(const SDBPARAMS& sDbParams,
                             eMODES eMode,
                             CString omStrMessageCode,
                             CString omStrSgName,
@@ -41,33 +40,26 @@ public:
                             CWnd* pParent = nullptr );
 
     // Dialog Data
-    //{{AFX_DATA(CValueDescriptionDlg)
     enum { IDD = IDD_DLG_VALUE_DESCRIPTOR };
     CString m_omStrDescriptor;
     CString m_omStrValue;
     CRadixEdit m_ounSigValue;
-    //}}AFX_DATA
 
     CString bSignalType;
 
     // Overrides
     // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CValueDescriptionDlg)
 public:
     virtual BOOL PreTranslateMessage(MSG* pMsg);
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
 
-    // Implementation
 protected:
 
     // Generated message map functions
-    //{{AFX_MSG(CValueDescriptionDlg)
     afx_msg void OnClickedOk();
     afx_msg void OnCancel();
     virtual BOOL OnInitDialog();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     SDBPARAMS m_sDbParams;
@@ -80,3 +72,5 @@ private:
     INT m_nIndex;
     BOOL bIsDataModified(); //KSS
 };
+
+#endif // BUSMASTER_APPLICATION_VALUEDESCRIPTIONDLG_H_

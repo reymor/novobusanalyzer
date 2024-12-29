@@ -50,9 +50,7 @@ IMPLEMENT_DYNCREATE(CUIThread, CWinThread)
 /*****************************************************************************/
 CUIThread::CUIThread()
 {
-    //m_omDispStrArray.RemoveAll();
     m_podTraceWinObj = nullptr;
-    //InitializeCriticalSection(&m_sCriticalSection);
 }
 /******************************************************************************
     Function Name    :  ~CUIThread
@@ -198,12 +196,10 @@ void CUIThread::vClearTraceContents()
 }
 
 BEGIN_MESSAGE_MAP(CUIThread, CWinThread)
-    //{{AFX_MSG_MAP(CUIThread)
     // NOTE - the ClassWizard will add and remove mapping macros here.
     ON_THREAD_MESSAGE(WM_LOAD_SAVE_WINSTATUS, vUpdateWinStatusFromCfg)
     ON_THREAD_MESSAGE(WM_THREADMSG_PROC, vProcessThreadMsg)
     ON_THREAD_MESSAGE(WM_WRITE_TO_TRACE, vWriteTextToTrace)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -274,7 +270,6 @@ BOOL CUIThread::bIsTraceWindowVisible(void)
 
 void CUIThread::vWriteTextToTrace(UINT /*unParam*/, LONG lParam)
 {
-    //CHAR* pacText = (CHAR*)lParam;
     CString strText((CHAR*)lParam);
     m_podTraceWinObj->vDisplayString(strText);
 }

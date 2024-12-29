@@ -1,13 +1,16 @@
-#pragma once
-#include<iostream>
+#ifndef BUSMASTER_APPLICATION_UI_MENUCREATOR_H_
+#define BUSMASTER_APPLICATION_UI_MENUCREATOR_H_
+
+#include <iostream>
 #include <list>
-#include "Menus.h"
-#include "IMenuCreator.h"
 #include <string>
 #include <map>
+
+#include "Menus.h"
+#include "IMenuCreator.h"
 #include "IIdGenerator.h"
-struct pluginIdtoMenuId
-{
+
+struct pluginIdtoMenuId {
     std::string mPluginId;
     std::string mMenuId;
 };
@@ -33,3 +36,4 @@ private:
     int GetRibbonCategoryIndex(std::string name);
 };
 
+#endif // BUSMASTER_APPLICATION_UI_MENUCREATOR_H_

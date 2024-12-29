@@ -1,22 +1,19 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_UI_UICREATOR_H_
+#define BUSMASTER_APPLICATION_UI_UICREATOR_H_
+
 #include <map>
 #include <string>
-#include<iostream>
+#include <iostream>
+
 #include "IUICreator.h"
 #include "IMenuCreator.h"
-//#include "ToolBarCreator.h"
 #include "IIdgenerator.h"
 
-struct UIElements
-{
+struct UIElements {
     CMFCRibbonBar* mRibbonBar;
 };
-/*class IIdGenerator;
-class IMenuCreator;
-class ToolBarCreator;*/
 
-class UICreator:public IUICreator
-{
+class UICreator:public IUICreator {
 private :
     UIElements mUiElements;
     IMenuCreator* mMenucreator = nullptr;
@@ -31,3 +28,4 @@ public:
     int CreateToolbar(CImageList* imagelist, std::list<ToolButton> path);
 };
 
+#endif // BUSMASTER_APPLICATION_UI_UICREATOR_H_

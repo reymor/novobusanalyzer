@@ -43,7 +43,6 @@ private:
     INT m_nChannelConfigured;
     ETYPE_BUS m_eBusType;
     std::list<ICluster*> m_ouCurrentChannelCluster;
-    //std::list<LinChannelParam> m_ouLinChannelParams;
     int m_nLinBaudRate;
 
 

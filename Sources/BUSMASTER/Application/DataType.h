@@ -25,8 +25,7 @@
 
 const int DATA_LENGTH_MAX = 1785;
 
-typedef struct tagCanIDList
-{
+typedef struct tagCanIDList {
     CString omCANIDName;
     unsigned int nCANID;
     COLORREF Colour;

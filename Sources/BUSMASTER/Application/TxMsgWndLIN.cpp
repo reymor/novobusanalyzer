@@ -55,13 +55,11 @@
 #include "DIL_Interface/BaseDIL_J1939.h"
 #include "Application/InterfaceGetter.h"
 #include "TxMsgWndJ1939.h"
-#include ".\txmsgwndj1939.h"
-#include "Utility\MultiLanguageSupport.h"
+#include "Utility/MultiLanguageSupport.h"
 
 HANDLE sg_hMsgSent = NULL;
 HANDLE sg_hMsgStopped = NULL;
-typedef struct
-{
+typedef struct {
     EJ1939_MSG_TYPE m_eType;
     CString         m_omTypeName;
     BOOL            m_bShow;
@@ -69,15 +67,13 @@ typedef struct
 
 #define SIZE_TYPE_COMB    3
 
-SCONFIGDATA_COMB sg_asMsgType[SIZE_TYPE_COMB] =
-{
+SCONFIGDATA_COMB sg_asMsgType[SIZE_TYPE_COMB] = {
     {MSG_TYPE_REQUEST,          "Request PGN",          TRUE},
     {MSG_TYPE_DATA,             "Data",                 TRUE},
     {MSG_TYPE_BROADCAST,        "Broadcast",            TRUE},
 };
 
-SCONFIGDATA_COMB sg_asSupportedMsgType[SIZE_TYPE_COMB-1] =
-{
+SCONFIGDATA_COMB sg_asSupportedMsgType[SIZE_TYPE_COMB-1] = {
     {MSG_TYPE_REQUEST,          "Request PGN",          TRUE},
     {MSG_TYPE_DATA,             "Data",                 TRUE},
 };
@@ -388,7 +384,6 @@ BOOL CTxMsgWndJ1939::OnInitDialog()
     CDialog::OnInitDialog();
     // TODO:  Add extra initialization here
 
-
     m_omCheckCyclic.SetCheck(BST_UNCHECKED);
     m_omMiliSecs.vSetBase(BASE_DECIMAL);
     m_omMiliSecs.vSetSigned(false);
@@ -396,7 +391,6 @@ BOOL CTxMsgWndJ1939::OnInitDialog()
     m_omMiliSecs.EnableWindow(FALSE);
 
     vInitializeTpfFields();
-
 
     vInitializeNmFields();
 
@@ -848,7 +842,6 @@ void CTxMsgWndJ1939::OnBnClickedCmdAddress()
 void CTxMsgWndJ1939::OnCbnSelchangeComboMsgtype()
 {
     //Set From address field readonly
-    //m_omFromEdit.SetReadOnly(TRUE);
     m_nMsgTypeIndex = m_omMsgTypeCombo.GetCurSel();
     switch (sg_asSupportedMsgType[m_nMsgTypeIndex].m_eType)
     {
@@ -953,7 +946,6 @@ UINT CTxMsgWndJ1939::unGetTimerVal(void)
 void CTxMsgWndJ1939::vProcessTransmission(BOOL bStart)
 {
     m_CS_CyclicTrans.Lock();
-
 
     CString omWndText = bStart ? _T(_("Stop")) : _T(_("Transmit"));
     CButton* pButton = (CButton*)GetDlgItem(IDC_SEND);

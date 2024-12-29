@@ -7,24 +7,12 @@ int IdGenerator::generateId(std::string menuid, int& id)
     std::map<std::string, int>::iterator lastid;
     auto found = menuidlist.find(menuid);
 
-    if (found != menuidlist.end())
-    {
+    if (found != menuidlist.end()) {
         id = found->second;
         return 0;
     }
-    else
-    {
+    else {
 		id = ++mCurrentId;
-		/*if (menuidlist.size() > 1)
-		{
-			lastid = menuidlist.end();
-			--lastid;
-			if (id < lastid->second)
-			{
-				id = lastid->second;
-			}
-		}*/
-
 		menuidlist.insert(std::pair<std::string, int>(menuid, mCurrentId));
         return 1;
     }

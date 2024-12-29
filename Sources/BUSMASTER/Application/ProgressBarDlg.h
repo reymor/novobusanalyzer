@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\CommonClass\MsgContainerBase.h"
+#include "MsgContainerBase.h"
 
 // CProgressBarDlg dialog
 struct sLoadFile

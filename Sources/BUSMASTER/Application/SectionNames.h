@@ -21,8 +21,7 @@
 
 #pragma once
 
-enum eSECTION_ID // These IDs should be maintained with load sequence
-{
+enum eSECTION_ID { // These IDs should be maintained with load sequence
     DATABASE_SECTION_ID = 0x0,
     BUS_STATISTICS_SECTION_ID,
     DATABASE_SECTION_J1939_ID,
@@ -59,8 +58,7 @@ enum eSECTION_ID // These IDs should be maintained with load sequence
 };
 
 //This Names shold be maintained with eSECTION_ID sequence
-static char SectionName[SECTION_TOTAL][MAX_PATH] =
-{
+static char SectionName[SECTION_TOTAL][MAX_PATH] = {
     "DatabaseConfigSectionName",
     "DatabaseConfigSectionNameJ1939",
     "DilConfigSectionName",

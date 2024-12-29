@@ -47,7 +47,6 @@ class ClientManager
 public:
 	int AddListner(unsigned int canId, unsigned int channel, std::string variableName, VariableChangeListnerInfo listner, IFrame* frame);
     int RemoveListner(unsigned int canId, unsigned int channel, std::string variableName, VariableChangeListnerInfo listner);
-    //bool RemoveListner(std::string variableName, VariableChangeListnerInfo listner);
     void Clear();
 	int NotifyVariableChange(const STCAN_MSG& canMsg);
 	int NotifyVariableChange(const STLIN_MSG& canMsg);

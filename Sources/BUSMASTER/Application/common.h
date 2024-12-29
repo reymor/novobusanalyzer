@@ -21,16 +21,14 @@
 
 #pragma once
 
-enum
-{
+enum {
     LOAD_CONFIG,
     SAVE_CONFIG,
     NEW_CONFIG,
     IS_CONFIG_CHANGED
 };
 
-enum
-{
+enum {
     eWINID_INVALID = 0,
     eWINID_MSGWND,
     eWINID_MSG_INTERPRETATION,
@@ -49,11 +47,6 @@ enum
 };
 
 #define IDC_LSTB_OUTPUT             300
-
-// User defined Window messages
-//#define WM_LSTC_DBLCLK              (WM_USER + 59)
-//#define WM_OWNER_DATA_NOTIFICATION  (WM_USER + 60)
-
 
 //#define WM_NOTIFICATION_FROM_OTHER  (WM_USER + 34)
 #define WM_RX_COMPLETE              (WM_USER + 61)
@@ -159,8 +152,7 @@ enum
 #define NINTH_COL       8
 #define TENTH_COL       9
 
-struct DisplaySettings
-{
+struct DisplaySettings {
     BOOL m_bFrameDisplay;
     BOOL m_bPDUDisplay;
 };

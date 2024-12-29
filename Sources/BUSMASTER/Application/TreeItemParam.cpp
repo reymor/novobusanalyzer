@@ -20,8 +20,7 @@
  */
 #include "StdAfx.h"
 #include "TreeItemParam.h"
-//#include "GettextBusmaster.h"
-#include "Utility\MultiLanguageSupport.h"
+#include "Utility/MultiLanguageSupport.h"
 UINT CTreeItemParam::m_unID = 0x500;
 
 CTreeItemParam::CTreeItemParam(void)

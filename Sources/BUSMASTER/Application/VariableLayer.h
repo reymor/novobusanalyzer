@@ -1,9 +1,14 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_VARIABLELAYER_H_
+#define BUSMASTER_APPLICATION_VARIABLELAYER_H_
+
+#include <string>
+#include <vector>
+
 #include "IVariableLayer.h"
 #include "IBusmasterPlugin.h"
 #include "IBusmasterPluginInterface.h"
 
-#include "Utility\Utility_Thread.h"
+#include "Utility/Utility_Thread.h"
 #include "MsgBufFSE.h"
 #include "BaseDIL_CAN.h"
 #include "BaseDIL_LIN.h"
@@ -12,12 +17,8 @@
 #include "CANSignalExtractor.h"
 #include "LINSignalExtractor.h"
 
-#include <string>
-#include <vector>
-namespace VariableManager
-{
-	class VariableLayer : public IVariableLayer, public IBusmasterPlugin, public IEvent, public IDbChangeListner
-	{
+namespace VariableManager {
+	class VariableLayer : public IVariableLayer, public IBusmasterPlugin, public IEvent, public IDbChangeListner {
 		CANSignalExtractor mCanSignalExtractor;
 		LINSignalExtractor mLINSignalExtractor;
 		IBusmasterPluginInterface* mBmPluginInterface = nullptr;
@@ -70,3 +71,4 @@ namespace VariableManager
 	};
 };
 
+#endif // BUSMASTER_APPLICATION_VARIABLELAYER_H_
