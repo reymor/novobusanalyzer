@@ -26,7 +26,7 @@
 
 
 //libxml file includes
-
+#include <memory>
 
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
@@ -54,8 +54,6 @@
 #include "GraphParameters.h"        // For Graph Parameter Class
 #include "GraphElement.h"           // For Graph Element class
 #include "GraphList.h"              // For CGraphList class declaration
-//#include "GraphChildframe.h"        // For Graph Child Window
-////#include "GraphUIThread.h"          // For Graph UI Thread Definition
 
 #include "UIThread.h"               // For Trace window UI Thread definition
 #include "Utility/FlexListCtrl.h"   // For editable list control implementation
@@ -822,7 +820,7 @@ private:
     int m_nMaxLinChannels;
 
     IBMNetWorkService* m_ouBusmasterNetwork = nullptr;
-    IBusMasterKernel* mBusmasterKernel = nullptr;
+    std::shared_ptr<IBusMasterKernel> mBusmasterKernel;
     IBusmasterPluginManager* mPluginManager = nullptr;
     
 	VariableLayer mVariableLayer;

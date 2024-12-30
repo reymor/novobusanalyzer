@@ -1,25 +1,28 @@
 #ifndef KERNEL_BUSMASTERKERNEL_BUSMASTERKERNEL_H_
 #define KERNEL_BUSMASTERKERNEL_BUSMASTERKERNEL_H_
-#include <Windows.h>
 
 #include "BusmasterDriverInterface.h"
 #include "IBMNetWorkService.h"
 #include "IBusMasterKernel.h"
 
-class BusMasterKernel : public IBusMasterKernel {
-  pDIL_GetInterface mDIL_GetInterface;
-  HMODULE mDriverLibrary;
-  static BusMasterKernel* mKernel;
-  IBMNetWorkService* mBmNetworkService;
+#include <Windows.h>
 
+#include <memory>
+
+class BusMasterKernel : public IBusMasterKernel {
  public:
   BusMasterKernel();
   virtual ~BusMasterKernel();
-  HRESULT getBusService(ETYPE_BUS busType, IBusService** busService);
-  HRESULT getDatabaseService(IBMNetWorkService** dbService);
-  static BusMasterKernel* create();
+  HRESULT getBusService(ETYPE_BUS busType, IBusService** busService) override;
+  HRESULT getDatabaseService(IBMNetWorkService** dbService) override;
+  static std::shared_ptr<BusMasterKernel> create();
 
  private:
+  pDIL_GetInterface mDIL_GetInterface;
+  HMODULE mDriverLibrary;
+  static std::shared_ptr<BusMasterKernel> mKernel;
+  IBMNetWorkService* mBmNetworkService;
+
   bool loadDilInterface();
 };
 

@@ -615,9 +615,6 @@ CMainFrame::~CMainFrame()
     if (nullptr != m_ouBusmasterNetwork) {
         delete m_ouBusmasterNetwork;
     }
-    if (nullptr != mBusmasterKernel) {
-        delete mBusmasterKernel;
-    }
 }
 
 
@@ -15478,7 +15475,7 @@ void CMainFrame::vInitialize( SCONTROLLER_DETAILS& controller, BOOL bUpdateHWDes
 
 void CMainFrame::vLoadBusmasterKernel()
 {
-    getBusmasterKernel(&mBusmasterKernel);
+    getBusmasterKernel(mBusmasterKernel);
     mBusmasterKernel->getDatabaseService(&m_ouBusmasterNetwork);
 }
 

@@ -6,14 +6,17 @@
 #include "BaseDIL_LIN.h"
 #include "BusMasterNetWork.h"
 
+#include <memory>
+
 #define defBusmaster_Dil_Dll_Name "BusmasterDriverInterface.dll"
 #define defBusmaster_Dil_GetDil_Func "GetDilInterface"
 
-BusMasterKernel* BusMasterKernel::mKernel = nullptr;
+std::shared_ptr<BusMasterKernel> BusMasterKernel::mKernel;
 
-BusMasterKernel* BusMasterKernel::create() {
-  if (nullptr == mKernel) {
-    mKernel = new BusMasterKernel();
+std::shared_ptr<BusMasterKernel> BusMasterKernel::create()
+{
+  if (mKernel == nullptr) {
+    mKernel = std::make_shared<BusMasterKernel>();
   }
   return mKernel;
 }
@@ -26,8 +29,7 @@ BusMasterKernel::BusMasterKernel() {
 
 BusMasterKernel::~BusMasterKernel() {}
 
-HRESULT BusMasterKernel::getBusService(ETYPE_BUS busType,
-                                       IBusService** busService) {
+HRESULT BusMasterKernel::getBusService(ETYPE_BUS busType, IBusService** busService) {
   if (nullptr != mDIL_GetInterface) {
     return mDIL_GetInterface(busType, busService);
   }
@@ -48,8 +50,7 @@ bool BusMasterKernel::loadDilInterface() {
     if (nullptr == mDriverLibrary) {
       result = false;
     }
-    mDIL_GetInterface = (pDIL_GetInterface)GetProcAddress(
-        mDriverLibrary, defBusmaster_Dil_GetDil_Func);
+    mDIL_GetInterface = (pDIL_GetInterface)GetProcAddress(mDriverLibrary, defBusmaster_Dil_GetDil_Func);
     if (nullptr == mDIL_GetInterface) {
       result = false;
     }
@@ -57,15 +58,15 @@ bool BusMasterKernel::loadDilInterface() {
   return result;
 }
 
-KERNEL_USAGEMODE HRESULT getBusmasterKernel(IBusMasterKernel** kernel) {
-  *kernel = BusMasterKernel::create();
+KERNEL_USAGEMODE HRESULT getBusmasterKernel(std::shared_ptr<IBusMasterKernel>& kernel) {
+  kernel = BusMasterKernel::create();
   return S_OK;
 }
 
-KERNEL_USAGEMODE HRESULT DIL_GetInterface(ETYPE_BUS eBusType,
-                                          void** ppvInterface) {
-  IBusMasterKernel* kernel;
-  getBusmasterKernel(&kernel);
+KERNEL_USAGEMODE HRESULT DIL_GetInterface(ETYPE_BUS eBusType, void** ppvInterface)
+{
+  std::shared_ptr<IBusMasterKernel> kernel;
+  getBusmasterKernel(kernel);
   if (nullptr != kernel) {
     IBusService* busService;
     kernel->getBusService(eBusType, &busService);

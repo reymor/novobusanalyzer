@@ -29,6 +29,8 @@
 #include "IBusService.h"
 #include "ProtocolsDefinitions.h"
 
+#include <Windows.h>
+
 #if defined BUSMASTERDRIVERINTERFACE_EXPORTS
 #define USAGEMODE __declspec(dllexport)
 #else
