@@ -22,25 +22,14 @@
  * This file contain the definition CNotificWnd class. The user can
  */
 
-
-#if !defined(AFX_NOTIFICWND_H__E81A5585_2DDD_11D7_BFC8_00096B9231A9__INCLUDED_)
-#define AFX_NOTIFICWND_H__E81A5585_2DDD_11D7_BFC8_00096B9231A9__INCLUDED_
-
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-// NotificWnd.h : header file
-//
+#ifndef BUSMASTER_APPLICATION_TRACEWND_NOTIFICWND_H_
+#define BUSMASTER_APPLICATION_TRACEWND_NOTIFICWND_H_
 
 //Definition of CNotificListbox class
 #include "NotificListbox.h"
-#include "Application\MDIChildBase.h"   // For Common MDI base class
-//#include "Structs.h"
-/////////////////////////////////////////////////////////////////////////////
-// CNotificWnd
-typedef struct tagNOTIFICWNDPARAMS
-{
-    //LOGPARAMS           m_sLogParams;
+#include "Application/MDIChildBase.h"   // For Common MDI base class
+
+typedef struct tagNOTIFICWNDPARAMS {
     WINDOWPLACEMENT     m_sWndPlacement;
     BYTE                m_bSetFlag_Disp;
     BYTE                m_bSetFlag_Log;
@@ -50,37 +39,19 @@ class CNotificWnd : public CMDIChildBase
 {
     DECLARE_DYNCREATE(CNotificWnd)
 public:
-    CNotificWnd();           // public constructor used by dynamic creation
-    virtual ~CNotificWnd(); //destructor
-    // Attributes
-public:
-    //CStringArray m_omDispStrArray;
-
-    // Operations
+    CNotificWnd();
+    virtual ~CNotificWnd();
 public:
     // Set the font of window
     BOOL bCreateNotificWindow(CMDIFrameWnd* pomParentWnd);
     // To display a string into trace window
     void vDisplayString(const CString& omStr);
-
-    // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CNotificWnd)
 protected:
     virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
-    //}}AFX_VIRTUAL
-
-    // Implementation
-protected:
-
-    // Generated message map functions
-    //{{AFX_MSG(CNotificWnd)
     afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnClose();
     afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
-    //}}AFX_MSG
-    //afx_msg void vAddString(WPARAM wParam, LPARAM lParam);
     DECLARE_MESSAGE_MAP()
 private:
     CCriticalSection m_omCriticalSection;
@@ -109,9 +80,4 @@ public:
     afx_msg void OnTimer(UINT nIDEvent);
 };
 
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_NOTIFICWND_H__051FC126_3176_11D6_BFEB_0010B599CE39__INCLUDED_)
+#endif // BUSMASTER_APPLICATION_TRACEWND_NOTIFICWND_H_

@@ -56,9 +56,7 @@ IMPLEMENT_DYNCREATE(CUIThread, CWinThread)
 /*****************************************************************************/
 CUIThread::CUIThread()
 {
-    //m_omDispStrArray.RemoveAll();
     m_podTraceWinObj = NULL;
-    //InitializeCriticalSection(&m_sCriticalSection);
 }
 /******************************************************************************
     Function Name    :  ~CUIThread
@@ -73,7 +71,6 @@ CUIThread::CUIThread()
 /*****************************************************************************/
 CUIThread::~CUIThread()
 {
-    //DeleteCriticalSection(&m_sCriticalSection);
 }
 /******************************************************************************
     Function Name    :  InitInstance
@@ -128,15 +125,12 @@ BOOL CUIThread::bCreateTraceWindow(CMDIFrameWnd* pomParentWnd)
 {
     BOOL bResult = FALSE;
 
-    if (m_podTraceWinObj == NULL)
-    {
+    if (m_podTraceWinObj == NULL) {
         m_podTraceWinObj = new CNotificWnd();
-        if (m_podTraceWinObj != NULL)
-        {
+        if (m_podTraceWinObj != NULL) {
             m_pMainWnd = m_podTraceWinObj;
             bResult = m_podTraceWinObj->bCreateNotificWindow(pomParentWnd);
-            if (bResult == TRUE)
-            {
+            if (bResult == TRUE) {
                 m_podTraceWinObj->ShowWindow(SW_SHOW);
                 m_podTraceWinObj->UpdateWindow();
                 m_podTraceWinObj->SendMessage(WM_NCPAINT, 1, 0);
@@ -161,12 +155,9 @@ BOOL CUIThread::bCreateTraceWindow(CMDIFrameWnd* pomParentWnd)
 /*****************************************************************************/
 void CUIThread::vUpdateWndCo_Ords(WINDOWPLACEMENT& wndPlacement, BOOL bLoadIntoTrace)
 {
-    if (m_podTraceWinObj != NULL)
-    {
-        if (bLoadIntoTrace == TRUE)
-        {
-            if ((wndPlacement.length == 0) || (wndPlacement.rcNormalPosition.top == -1))
-            {
+    if (m_podTraceWinObj != NULL) {
+        if (bLoadIntoTrace == TRUE) {
+            if ((wndPlacement.length == 0) || (wndPlacement.rcNormalPosition.top == -1)) {
                 CRect omRect;
                 GetClientRect(m_pMainWnd->GetParent()->GetSafeHwnd(), &omRect);
                 omRect.top   += static_cast<LONG> ( omRect.Height() *
@@ -176,16 +167,11 @@ void CUIThread::vUpdateWndCo_Ords(WINDOWPLACEMENT& wndPlacement, BOOL bLoadIntoT
                 wndPlacement.rcNormalPosition = omRect;
             }
             m_podTraceWinObj->SetWindowPlacement(&wndPlacement);
-        }
-        else
-        {
+        } else {
             m_podTraceWinObj->GetWindowPlacement(&wndPlacement);
         }
-    }
-    else
-    {
-        if (bLoadIntoTrace == FALSE)
-        {
+    } else {
+        if (bLoadIntoTrace == FALSE) {
             wndPlacement.length = 0;
             wndPlacement.rcNormalPosition.top = -1;
         }
@@ -193,12 +179,9 @@ void CUIThread::vUpdateWndCo_Ords(WINDOWPLACEMENT& wndPlacement, BOOL bLoadIntoT
 }
 
 BEGIN_MESSAGE_MAP(CUIThread, CWinThread)
-    //{{AFX_MSG_MAP(CUIThread)
-    // NOTE - the ClassWizard will add and remove mapping macros here.
     ON_THREAD_MESSAGE(WM_LOAD_SAVE_WINSTATUS, vUpdateWinStatusFromCfg)
     ON_THREAD_MESSAGE(WM_THREADMSG_PROC, vProcessThreadMsg)
     ON_THREAD_MESSAGE(WM_WRITE_TO_TRACE, vWriteTextToTrace)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -221,27 +204,11 @@ END_MESSAGE_MAP()
 /*****************************************************************************/
 void CUIThread::vUpdateWinStatusFromCfg(UINT /*unParam*/, LONG lParam)
 {
-    if (m_podTraceWinObj != NULL)
-    {
+    if (m_podTraceWinObj != NULL) {
         WINDOWPLACEMENT* pWndCo_ords = (WINDOWPLACEMENT*)lParam;
         vUpdateWndCo_Ords(*pWndCo_ords, (BOOL)lParam);
     }
 }
-
-/******************************************************************************
-    Function Name    :  vModifyVisibilityStatus
-    Input(s)         :  unParam - SW_SHOW if trace window is to be shown
-                                  SW_HIDE if trace window is to be hidden
-                        lParam - Unused
-    Output           :  -
-    Functionality    :  Handler for the user defined message
-                        WM_MODIFY_VISIBILITY sent to show/hide trace window
-    Member of        :  CUIThread
-    Author(s)        :  Ratnadip Choudhury
-    Date Created     :  29-01-2004
-    Modified by      :
-    Modification     :
-/*****************************************************************************/
 
 /******************************************************************************
     Function Name    :  vAddString
@@ -256,8 +223,7 @@ void CUIThread::vUpdateWinStatusFromCfg(UINT /*unParam*/, LONG lParam)
 /*****************************************************************************/
 void CUIThread::vAddString(CString omStr)
 {
-    if (m_podTraceWinObj != NULL)
-    {
+    if (m_podTraceWinObj != NULL) {
         m_podTraceWinObj->vDisplayString(omStr);
     }
 }
@@ -269,15 +235,13 @@ BOOL CUIThread::bIsTraceWindowVisible(void)
 
 void CUIThread::vWriteTextToTrace(UINT /*unParam*/, LONG lParam)
 {
-    //CHAR* pacText = (CHAR*)lParam;
     CString strText((CHAR*)lParam);
     m_podTraceWinObj->vDisplayString(strText);
 }
 
 void CUIThread::vProcessThreadMsg(UINT unParam, LONG lParam)
 {
-    switch (unParam)
-    {
+    switch (unParam) {
         case WM_CLOSE:
         {
             PostQuitMessage(0);
@@ -286,8 +250,7 @@ void CUIThread::vProcessThreadMsg(UINT unParam, LONG lParam)
         case WM_MODIFY_VISIBILITY:
         {
             m_podTraceWinObj->ShowWindow(lParam);
-            if (lParam == SW_SHOW)
-            {
+            if (lParam == SW_SHOW) {
                 m_podTraceWinObj->SendMessage(WM_NCPAINT, 1, 0);
             }
         }

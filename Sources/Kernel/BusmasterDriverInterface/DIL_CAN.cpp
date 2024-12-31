@@ -465,16 +465,14 @@ HRESULT CDIL_CAN::DILC_GetTimeModeMapping(SYSTEMTIME& CurrSysTime,
 HRESULT CDIL_CAN::DILC_ListHwInterfaces(
     INTERFACE_HW_LIST& sSelHwInterface, INT& nCount,
     PSCONTROLLER_DETAILS InitData,
-    bool
-        bLoadedFromXml /* =1 only when loaded from nLoadXMLConfiguration() */) {
+    bool bLoadedFromXml) {
+/* bLoadedFromXml=1 only when loaded from nLoadXMLConfiguration() */
   if (nullptr == m_pBaseDILCAN_Controller) {
     return S_FALSE;
   }
 
-  if (m_dwDriverID != m_dwOldDriverID &&
-      bLoadedFromXml != 1)  // Flag is used to prevent initialization when
-                            // loaded from XMl Config
-  {
+// Flag is used to prevent initialization when loaded from XMl Config
+  if (m_dwDriverID != m_dwOldDriverID && bLoadedFromXml != 1) {
     for (int i = 0; i < defNO_OF_CHANNELS; i++) {
       m_asOldControllerDetails[i] = InitData[i];
       vInitialize(InitData[i], FALSE);

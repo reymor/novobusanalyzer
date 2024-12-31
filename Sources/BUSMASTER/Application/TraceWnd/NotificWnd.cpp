@@ -24,10 +24,10 @@
 // For all standard header file include
 #include "StdAfx.h"
 // Definition of App class
-#include "Application\CAN_Monitor.h"
+#include "Application/CAN_Monitor.h"
 #include "NotificWnd.h"
-#include "Application\Common.h"
-#include "Application\resource.h"
+#include "Application/Common.h"
+#include "Application/resource.h"
 #include <queue>
 
 
@@ -84,14 +84,12 @@ CNotificWnd::~CNotificWnd()
 }
 
 BEGIN_MESSAGE_MAP(CNotificWnd, CMDIChildBase)
-    //{{AFX_MSG_MAP(CNotificWnd)
     ON_WM_HELPINFO()
     ON_WM_SIZE()
     ON_MESSAGE(WM_CONFIG_QUESTION, DoConfigOperation)
     ON_WM_CLOSE()
     ON_WM_SHOWWINDOW()
     ON_WM_DESTROY()
-    //}}AFX_MSG_MAP
     ON_WM_TIMER()
 END_MESSAGE_MAP()
 
@@ -126,13 +124,10 @@ VOID CNotificWnd::vSetWindowFont()
     _tcscpy(LF.lfFaceName, _T("Tahoma"));
 
     LF.lfWeight = FW_NORMAL;
-    if (m_omNewFont.CreateFontIndirect(&LF) == TRUE)
-    {
+    if (m_omNewFont.CreateFontIndirect(&LF) == TRUE) {
         // font setting.
         m_omListBox.SetFont(&m_omNewFont, TRUE);
-    }
-    else
-    {
+    } else {
         AfxMessageBox(_T("Font creation unsuccessful"));
     }
 }
@@ -185,7 +180,6 @@ BOOL CNotificWnd::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 /******************************************************************************/
 BOOL CNotificWnd::OnHelpInfo(HELPINFO* pHelpInfo)
 {
-    //theApp.vSetHelpID(pHelpInfo->dwContextId);
     return CMDIChildBase::OnHelpInfo(pHelpInfo);
 }
 
@@ -302,12 +296,9 @@ void CNotificWnd::OnShowWindow(BOOL bShow, UINT nStatus)
 {
     CMDIChildBase::OnShowWindow(bShow, nStatus);
     GetMDIFrame()->SendMessage(WM_NOTIFICATION_FROM_OTHER, eWINID_TRACEWND, bShow);
-    if (bShow)
-    {
+    if (bShow) {
         m_sNotificWndParams.m_bSetFlag_Disp = SW_SHOW;
-    }
-    else
-    {
+    } else {
         m_sNotificWndParams.m_bSetFlag_Disp = SW_HIDE;
     }
 }
@@ -327,20 +318,17 @@ void CNotificWnd::OnShowWindow(BOOL bShow, UINT nStatus)
 *****************************************************************************/
 void CNotificWnd::vAddString(CString omStr)
 {
-    if (! omStr.IsEmpty())
-    {
+    if (! omStr.IsEmpty()) {
         LPLONG lpPreviousCount = NULL;
         m_omListBox.AddString(omStr);
         // Set horizontal extent of the list box to max string available
         // so that user can scroll
-        CSize   sz(0,0);
-        static INT s_nDx             = 0;
-        CDC*  pDC = m_omListBox.GetDC();
-        if (pDC != NULL)
-        {
+        CSize sz(0,0);
+        static INT s_nDx = 0;
+        CDC* pDC = m_omListBox.GetDC();
+        if (pDC != NULL) {
             sz = pDC->GetTextExtent(omStr);
-            if (sz.cx > s_nDx)
-            {
+            if (sz.cx > s_nDx) {
                 s_nDx = sz.cx;
                 // Set the horizontal extent so every character of all strings
                 // can be scrolled to.
@@ -364,16 +352,6 @@ void CNotificWnd::vAddString(CString omStr)
 *****************************************************************************/
 void CNotificWnd::vSaveNotificWndConfig()
 {
-    //UINT unBufferSize = unGetStoreNFBufferSize(); //Get the required size
-    //BYTE *SectionBuffer = new BYTE[unBufferSize];
-    //if (SectionBuffer != NULL)
-    //{
-    //  SaveNFDataIntoBuffer(SectionBuffer);// save the config into buffer
-    //  /* Add into a different section NOTIFIC_WND_CONFIG_SECTION_NAME*/
-    //  CConfigDetails::ouGetConfigDetailsObject().bSetData((LPVOID)SectionBuffer,
-    //                                  unBufferSize, NOTIFIC_WND_CONFIG_SECTION_NAME);
-    //  delete[] SectionBuffer;
-    //}
 }
 
 /******************************************************************************
@@ -428,8 +406,7 @@ void CNotificWnd::SaveNFDataIntoBuffer(BYTE* DesBuffer)
 *****************************************************************************/
 LRESULT CNotificWnd::DoConfigOperation(WPARAM WParam, LPARAM LParam)
 {
-    switch ((UINT)WParam)
-    {
+    switch ((UINT)WParam) {
         case LOAD_CONFIG :
         {
             vLoadNotificWndConfig();
@@ -573,8 +550,7 @@ void CNotificWnd::OnDestroy()
     CMDIChildBase::OnDestroy();
 
     // TODO: Add your message handler code here;
-    if (TIMER_INVALID != m_unTimer)
-    {
+    if (TIMER_INVALID != m_unTimer) {
         ::KillTimer(NULL, m_unTimer);
         m_unTimer = TIMER_INVALID;
     }
@@ -583,11 +559,9 @@ void CNotificWnd::OnDestroy()
 void CNotificWnd::OnTimer(UINT nIDEvent)
 {
     // TODO: Add your message handler code here and/or call default
-    if (nIDEvent == m_unTimer)
-    {
+    if (nIDEvent == m_unTimer) {
         m_omCriticalSection.Lock();
-        while (sg_odStringQueue.empty() == false)
-        {
+        while (sg_odStringQueue.empty() == false) {
             vAddString(sg_odStringQueue.front());
             sg_odStringQueue.pop();
         }

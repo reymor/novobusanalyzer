@@ -31,6 +31,8 @@
 // Utility functions
 #include "Utility/Utility.h"
 
+#include <memory>
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -70,11 +72,9 @@ CNotificListbox::~CNotificListbox()
 
 
 BEGIN_MESSAGE_MAP(CNotificListbox, CListBox)
-    //{{AFX_MSG_MAP(CNotificListbox)
     ON_WM_RBUTTONDOWN()
     ON_COMMAND(IDM_OPRTN_CLEAR, OnTraceWndClear)
     ON_COMMAND(IDM_OPRTN_DELETE, OnTraceWndDelete)
-    //}}AFX_MSG_MAP
     ON_COMMAND(ID_NOTIFICWND_SELECTALL, OnNotificwndSelectall)
     ON_COMMAND(ID_NOTIFICWND_COPYTOCLIPBOARD, OnNotificwndCopytoclipboard)
 END_MESSAGE_MAP()
@@ -99,29 +99,23 @@ END_MESSAGE_MAP()
 ******************************************************************************/
 void CNotificListbox::OnRButtonDown(UINT nFlags, CPoint point)
 {
-    if (GetCount() > 0)
-    {
-        CMenu* pomContextMenu = new CMenu;
-        if (pomContextMenu != NULL)
-        {
+    if (GetCount() > 0) {
+        std::unique_ptr<CMenu> pomContextMenu = std::make_unique<CMenu>();
+        if (pomContextMenu != NULL) {
             // Load the Menu from the resource
             pomContextMenu->DestroyMenu();
             pomContextMenu->LoadMenu(IDM_OPERATION_LIST);
             CMenu* pomSubMenu = pomContextMenu->GetSubMenu(0);
 
-            if (pomSubMenu != NULL)
-            {
+            if (pomSubMenu != NULL) {
                 CPoint omSrcPt = point;
                 ClientToScreen(&omSrcPt);
                 UINT unEnable;
                 /* If no item is selected, make "Clear" and "Delete" menu
                 items disabled */
-                if (GetCurSel() == -1)
-                {
+                if (GetCurSel() == -1) {
                     unEnable = MF_BYCOMMAND | MF_DISABLED | MF_GRAYED;
-                }
-                else
-                {
+                } else {
                     unEnable = MF_BYCOMMAND | MF_ENABLED;
                 }
 
@@ -131,8 +125,6 @@ void CNotificListbox::OnRButtonDown(UINT nFlags, CPoint point)
                 pomSubMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON,
                                            omSrcPt.x, omSrcPt.y, this, NULL);
             }
-            delete pomContextMenu;
-            pomContextMenu = NULL;
         }
     }
 
@@ -162,8 +154,7 @@ void CNotificListbox::OnTraceWndClear()
 /* OnClick menu Select All*/
 void CNotificListbox::OnNotificwndSelectall()
 {
-    for (int i = 0; i < GetCount(); i++)
-    {
+    for (int i = 0; i < GetCount(); i++) {
         SetSel(i, TRUE);
     }
 }
@@ -173,15 +164,11 @@ void CNotificListbox::OnNotificwndCopytoclipboard()
 {
 
     CString omFullText = _T("");
-    for (int i = 0; i < GetCount(); i++)
-    {
-        if (GetSel(i))
-        {
+    for (int i = 0; i < GetCount(); i++) {
+        if (GetSel(i)) {
             CString omText = _T("");
             GetText(i, omText);
-            if (!omText.IsEmpty())
-            {
-                //omText = omText + L"\r\n";
+            if (!omText.IsEmpty()) {
                 omText.Format(_T("%s\r\n"), omText);
                 omFullText = omFullText + omText;
             }
@@ -206,10 +193,8 @@ void CNotificListbox::OnNotificwndCopytoclipboard()
 ******************************************************************************/
 void CNotificListbox::OnTraceWndDelete()
 {
-    for (int i = 0; i < GetCount(); i++)
-    {
-        if (GetSel(i))
-        {
+    for (int i = 0; i < GetCount(); i++) {
+        if (GetSel(i)) {
             DeleteString(i);
             --i;
         }
