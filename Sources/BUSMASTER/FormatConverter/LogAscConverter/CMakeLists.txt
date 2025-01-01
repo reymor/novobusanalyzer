@@ -34,6 +34,7 @@ add_custom_command(OUTPUT Log_Asc_Parser.c Log_Asc_Parser.h
   ARGS -d -l -o${CMAKE_CURRENT_BINARY_DIR}/Log_Asc_Parser.c ${CMAKE_CURRENT_SOURCE_DIR}/Log_Asc_Parser.y
   DEPENDS Log_Asc_Parser.y
   WORKING_DIRECTORY ${BISON_PATH})
+add_custom_target(generate_log_asc_parser DEPENDS Log_Asc_Parser.c)
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
