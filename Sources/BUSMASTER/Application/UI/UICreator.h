@@ -20,7 +20,6 @@ private :
     IIdGenerator* mIdgenerator;
     std::map<std::string, std::list<RibbonButton>> mPluginMenuList;
 public:
-
     UICreator(UICreator::UIElements, IIdGenerator*);
     ~UICreator();
 	int Create(std::map<std::string, std::list<RibbonButton>> populatelist);

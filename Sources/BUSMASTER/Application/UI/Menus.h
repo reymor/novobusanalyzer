@@ -27,7 +27,7 @@ public:
 	std::list<RibbonElement> submenulist;
 	std::string mAcceleratorKey;
 
-	RibbonElement() { }
+	RibbonElement() {}
 };
 
 class RibbonButton {

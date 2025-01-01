@@ -1,4 +1,4 @@
-#include "..\stdafx.h"
+#include "stdafx.h"
 #include "IdGenerator.h"
 
 
@@ -10,8 +10,7 @@ int IdGenerator::generateId(std::string menuid, int& id)
     if (found != menuidlist.end()) {
         id = found->second;
         return 0;
-    }
-    else {
+    } else {
 		id = ++mCurrentId;
 		menuidlist.insert(std::pair<std::string, int>(menuid, mCurrentId));
         return 1;
@@ -21,13 +20,10 @@ int IdGenerator::generateId(std::string menuid, int& id)
 bool IdGenerator::removeid(std::string menuid)
 {
     auto found = menuidlist.find(menuid);
-    if (found != menuidlist.end())
-    {
+    if (found != menuidlist.end()) {
         menuidlist.erase(menuid);
         return true;
-    }
-    else
-    {
+    } else {
         return false;
     }
 }
@@ -37,4 +33,3 @@ int IdGenerator::setStartId(int mid)
 	mCurrentId = mid;
 	return mCurrentId;
 }
-

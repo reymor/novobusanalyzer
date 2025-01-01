@@ -1,9 +1,10 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_UI_BUSMASTERMENUITEM_H_
+#define BUSMASTER_APPLICATION_UI_BUSMASTERMENUITEM_H_
 
-#include "../IMenuInterface.h"
-#include "../MFCRibbonBarEx.h"
-class BusmasterMenuItem : public IMenuItem
-{
+#include "IMenuInterface.h"
+#include "MFCRibbonBarEx.h"
+
+class BusmasterMenuItem : public IMenuItem {
 private:
     CMFCRibbonButtonEx* mRibbonButton;
     CCmdUI* mMfcMenu;
@@ -16,3 +17,5 @@ public:
     void getName(char*, int maxlength);
     void setImageIndex(int index, BOOL isLarge);
 };
+
+#endif // BUSMASTER_APPLICATION_UI_BUSMASTERMENUITEM_H_

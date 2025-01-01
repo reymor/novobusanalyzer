@@ -1,32 +1,32 @@
 #ifndef BUSMASTER_APPLICATION_UI_MENUCREATOR_H_
 #define BUSMASTER_APPLICATION_UI_MENUCREATOR_H_
 
+#include "Menus.h"
+#include "IMenuCreator.h"
+#include "IIdGenerator.h"
+
 #include <iostream>
 #include <list>
 #include <string>
 #include <map>
-
-#include "Menus.h"
-#include "IMenuCreator.h"
-#include "IIdGenerator.h"
 
 struct pluginIdtoMenuId {
     std::string mPluginId;
     std::string mMenuId;
 };
 
-class MenuCreator : public IMenuCreator
-{
-	CMFCRibbonBar* mMainRibbon;
-	IIdGenerator* mIdGenerator;
-    std::map < int, pluginIdtoMenuId> mMenuIdPluginInfo;
-    std::map<std::string, pluginMenuList> mPluginList;
-	std::map<std::string, std::vector<std::string>> mCategortToImage;
+class MenuCreator : public IMenuCreator{
 public:
 	void populateRibbonBar(CMFCRibbonBar* mainMenu, std::map<std::string, pluginMenuList> menulist, IIdGenerator* idgenerator);
     void getPluginMenuInfo(unsigned int id, std::string& pluginId, std::string& actualMenuId);
 
 private:
+	CMFCRibbonBar* mMainRibbon;
+	IIdGenerator* mIdGenerator;
+    std::map <int, pluginIdtoMenuId> mMenuIdPluginInfo;
+    std::map<std::string, pluginMenuList> mPluginList;
+	std::map<std::string, std::vector<std::string>> mCategortToImage;
+
 	void populateRibbon(std::string pluginId, RibbonButton menu, IIdGenerator* idgenerator);
 	void populateRibbonForPlugin(std::string pluginId, pluginMenuList&, IIdGenerator* idgenerator);
 
