@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../ProtocolDefinitions/ProtocolsDefinitions.h"
-#include "../BusmasterDBNetwork/Include/IBMNetWorkService.h"
-#include "../BusmasterDriverInterface/Include/IBusService.h"
-#include "../Include/BaseDefs.h"
+#include "ProtocolsDefinitions.h"
+#include "IBMNetWorkService.h"
+#include "IBusService.h"
+#include "BaseDefs.h"
 #include "IMenuInterface.h"
 #include "IBusmasterPlugin.h"
 

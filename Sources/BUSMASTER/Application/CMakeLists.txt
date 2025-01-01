@@ -4,7 +4,6 @@ set(PROJECT_NAME NovoBusAnalyzer)
 # Source, header and resources files
 ################################################################################
 set(SOURCE_LIST
-  Application.cpp
   AppServices_Impl.cpp
   AboutDlg.cpp
   BUSMASTER.cpp

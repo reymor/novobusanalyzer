@@ -24,17 +24,11 @@
 #define defSTR_FLEXRAY           "FlexRay"
 #define defSTR_INSTRUMENTS       "Instruments"
 
-// CAboutDlg dialog
-
-
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
-	ON_NOTIFY(NM_CLICK, IDC_CONTACT_LINK, &CAboutDlg::OnContactLinkClicked)
 	ON_BN_CLICKED(IDOK, &CAboutDlg::OnBnClickedOk)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST_COMPONENTS, &CAboutDlg::OnLvnItemchangedListComponents)
-	ON_BN_CLICKED(IDC_IMPORT_LICENSE, &CAboutDlg::OnBnClickedImportLicense)
 END_MESSAGE_MAP()
 
-extern CCANMonitorApp theApp;
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
 {
 }
@@ -92,8 +86,7 @@ BOOL CAboutDlg::OnInitDialog()
 
 	lError = RegOpenKeyEx(HKEY_CURRENT_USER, strCompleteSubKey, 0, KEY_READ, &sKey);
 
-	if (ERROR_SUCCESS == lError)
-	{
+	if (ERROR_SUCCESS == lError) {
 		lError = RegQueryInfoKey(sKey, NULL, NULL, NULL, &cSubKeys, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 	}
 
@@ -104,16 +97,12 @@ BOOL CAboutDlg::OnInitDialog()
 	m_lstComponents.SetItemText(nItemIndex, 3, "-");
 	m_lstComponents.SetItemText(nItemIndex, 4, "-");
 
-	CMainFrame* pMainFrame = static_cast<CMainFrame*> (theApp.m_pMainWnd);	
-	
 	// If the registry key open successfully, get the value in "path"
 	// sub key
 	int nIndex = 0;
-	if (lError == ERROR_SUCCESS)
-	{
+	if (lError == ERROR_SUCCESS) {
 		CString omAddOnName = "";
-		while (nIndex < cSubKeys)
-		{
+		while (nIndex < cSubKeys) {
 			cbName = 255;
 			lError = RegEnumKeyEx(sKey, nIndex,
 				achKey,
@@ -124,8 +113,7 @@ BOOL CAboutDlg::OnInitDialog()
 				NULL);
 			nIndex++;
 
-			if (lError == ERROR_SUCCESS)
-			{
+			if (lError == ERROR_SUCCESS) {
 				int nCount = m_lstComponents.GetItemCount();
 				int nItemIndex = m_lstComponents.InsertItem(m_lstComponents.GetItemCount(), achKey);
 				m_lstComponents.SetItemText(nItemIndex, 0, achKey);
@@ -136,26 +124,19 @@ BOOL CAboutDlg::OnInitDialog()
 
 				CString strValidity = "0";
 
-				if (nDays > 0)
-				{
+				if (nDays > 0) {
 					strValidity.Format("%d days", nDays);
 				}
-				if (strAddOnVersion.empty() == false)
-				{
+				if (strAddOnVersion.empty() == false) {
 					m_lstComponents.SetItemText(nItemIndex, 2, strAddOnVersion.c_str());
-				}
-				else
-				{
+				} else {
 					m_lstComponents.SetItemText(nItemIndex, 2, "-");
 				}
 				
-				if (1 == nValidLicense)
-				{
+				if (1 == nValidLicense) {
 					m_lstComponents.SetItemText(nItemIndex, 3, strValidity);
 					m_lstComponents.SetItemText(nItemIndex, 4, strDateTime.c_str());
-				}
-				else
-				{
+				} else {
 					m_lstComponents.SetItemText(nItemIndex, 3, "0");
 					m_lstComponents.SetItemText(nItemIndex, 4, "Invalid");
 				}
@@ -178,53 +159,32 @@ BOOL CAboutDlg::OnInitDialog()
     return TRUE;
 }
 
-void CAboutDlg::OnContactLinkClicked(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	PNMLINK pNMLink = (PNMLINK)pNMHDR;
-
-	CString contactUrl = "http://www.etas.com/en/products/applications_busmaster.php";
-
-	if (::ShellExecute(NULL, NULL, contactUrl, NULL, NULL, SW_SHOWNORMAL) <(HINSTANCE)32)
-	{
-		TRACE(_T("Can't open URL: %s\n"), contactUrl);
-	}
-
-	*pResult = 0;
-}
 void CAboutDlg::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
 	CDialog::OnOK();
 }
 
-
 void CAboutDlg::OnLvnItemchangedListComponents(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
-	
-	if (pNMLV->uNewState & LVIS_SELECTED)
-	{
+
+	if (pNMLV->uNewState & LVIS_SELECTED) {
 		UINT nSelectedItem = pNMLV->iItem;
 
-		if (-1 != nSelectedItem)
-		{
+		if (-1 != nSelectedItem) {
 			CString strComponent = "";
 			strComponent = m_lstComponents.GetItemText(nSelectedItem, 0);
 
-			if (defSTR_BUSMASTER == strComponent)
-			{
+			if (defSTR_BUSMASTER == strComponent) {
 				GetDlgItem(IDC_STATIC_COPYRIGHT)->SetWindowText(defSTR_OSS_COPYRIGHT);
 				GetDlgItem(IDC_STATIC_LICENSE_INFO)->SetWindowText(defSTR_OSS_LICENSE);
-			}
-			else if (defSTR_FLEXRAY == strComponent)
-			{
+			} else if (defSTR_FLEXRAY == strComponent) {
 				CString strLicense = "";
 				strLicense.Format(defSTR_LICENSE, strComponent);
 				GetDlgItem(IDC_STATIC_COPYRIGHT)->SetWindowText(defSTR_COPYRIGHT);
 				GetDlgItem(IDC_STATIC_LICENSE_INFO)->SetWindowText(strLicense);
-			}
-			else if (defSTR_INSTRUMENTS == strComponent)
-			{
+			} else if (defSTR_INSTRUMENTS == strComponent) {
 				CString strLicense = "";
 				strLicense.Format(defSTR_LICENSE, strComponent);
 				GetDlgItem(IDC_STATIC_COPYRIGHT)->SetWindowText(defSTR_COPYRIGHT_INST);
@@ -234,10 +194,4 @@ void CAboutDlg::OnLvnItemchangedListComponents(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	*pResult = 0;
-}
-
-// This function is used to import a license from About Box
-void CAboutDlg::OnBnClickedImportLicense()
-{
-
 }
