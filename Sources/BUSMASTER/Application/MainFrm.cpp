@@ -475,7 +475,6 @@ CMainFrame::CMainFrame()
     m_omStrPrevLoadedDll            = "";
     m_bIsSendingMsg                 = FALSE;
     m_bMessageName                  = TRUE;
-    //m_bDateActive                   = FALSE;
     m_bAbortMsgHandler              = FALSE;
     m_bMsgHandlerRxDataByte         = FALSE;
     m_bNoHardwareFound              = true;
@@ -578,7 +577,6 @@ CMainFrame::CMainFrame()
     }
     vLoadBusmasterKernel();
 
-    //m_ouBusmasterNetwork = new BMNetwork();
 }
 
 CMainFrame::~CMainFrame()
@@ -790,9 +788,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     vGetWinStatus(m_WinCurrStatus);
     // Update the window placement
     SetWindowPlacement(&m_WinCurrStatus);
-	//mMenuBar.Create(this);
-	//mDefaultMenu = mMenuBar.GetHMenu();
-	//mMenuBar.EnableDocking(CBRS_ALIGN_ANY);
 	mRibbonBar.Create(this);
 	mRibbonBar.LoadFromResource(IDR_BUSMASTER_RIBBON);
     mRibbonBar.UpdateRibbonBarMinimisedIcon();
@@ -864,7 +859,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     //EnableWindowsDialog(ID_WINDOW_MANAGER, ID_WINDOW_MANAGER, TRUE);
 	
 	theApp.ReadRecentFileList();
-    //vCreateMRU_Menus();
 
     //Update DIL List
     if (g_pouDIL_CAN_Interface == nullptr) {
@@ -878,7 +872,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     }
     m_nDILCountLin = g_pouDIL_LIN_Interface->DILL_GetDILList(false, &m_ouListLin);
 
-    mPluginManager = new BusmasterPluginManager(); // TODO::
+    mPluginManager = new BusmasterPluginManager();
     mPluginManager->init( this );
 
 	mPluginManager->loadBusPlugins( nullptr );
@@ -940,7 +934,6 @@ void CMainFrame::Dump(CDumpContext& dc) const
 {
     CMDIFrameWndEx::Dump(dc);
 }
-
 #endif //_DEBUG
 
 
@@ -4588,86 +4581,27 @@ void CMainFrame::OnDestroy()
     byStopThread |= BIT_REPLAY_THREAD  ;
     byStopThread |= BIT_MULTI_MSG_THREAD  ;
 
-    // Destroy all running thread
-    //theApp.vDestroyUtilThreads(defMAX_WAIT_UTIL_THREAD,byStopThread);
-    //Stop the dll read thread
-    g_bReadDllMsg=FALSE;
-    // Destroy Message Handler Thread
-    // If DLL is loaded, then delete threads if anything is running/waiting
-    //CExecuteManager::ouGetExecuteManager().vDeleteAllNode();
-    // Write the MRU file list into the registry
-	//bWriteIntoRegistry(HKEY_CURRENT_USER, defSECTION_MRU, defSECTION_MRU_FILE1, REG_SZ, m_omStrMRU_ConfigurationFiles[0]);
-    //bWriteIntoRegistry(HKEY_CURRENT_USER, defSECTION_MRU, defSECTION_MRU_FILE2, REG_SZ, m_omStrMRU_ConfigurationFiles[1]);
-    //bWriteIntoRegistry(HKEY_CURRENT_USER, defSECTION_MRU, defSECTION_MRU_FILE3, REG_SZ, m_omStrMRU_ConfigurationFiles[2]);
-    //bWriteIntoRegistry(HKEY_CURRENT_USER, defSECTION_MRU, defSECTION_MRU_FILE4, REG_SZ, m_omStrMRU_ConfigurationFiles[3]);
-    //bWriteIntoRegistry(HKEY_CURRENT_USER, defSECTION_MRU, defSECTION_MRU_FILE5, REG_SZ, m_omStrMRU_ConfigurationFiles[4]);
-
+    g_bReadDllMsg = FALSE;
 
     vEmptySimsysList();
 
     // Clean Network statistics dialog
-    if( m_podBusStatistics != nullptr )
-    {
+    if(m_podBusStatistics != nullptr) {
         // Delete the memory associated with this member
         delete m_podBusStatistics;
         m_podBusStatistics = nullptr;
     }
 
-
-
     CMDIFrameWndEx::OnDestroy();
 
     // Check for the current status of the window
-    if (GetWindowPlacement(&m_WinCurrStatus))
-    {
+    if (GetWindowPlacement(&m_WinCurrStatus)) {
         vSaveWinStatus(m_WinCurrStatus);    // save in the registry
     }
 
-    // The closure operation is done in the ::OnClose() so commenting the below
-    // performClosureOperations() for CAN interface. This is causing application
-    // crash on closure
-    /*if (g_pouDIL_CAN_Interface != nullptr)
-    {
-        g_pouDIL_CAN_Interface->DILC_PerformClosureOperations();
-    }*/
-
-    //Destruction of Menu Pointer--by Arun
-    /*if (pMyMenu)
-    {
-        pMyMenu->Detach();
-        delete pMyMenu;
-        pMyMenu = 0;
-    }*/
 }
 
-/******************************************************************************/
-/*  Function Name    :  podSetFunctionViewPtr
-/*  Input(s)         :  Pointer to CFunctionEditorDoc class
-/*  Output           :
-/*  Functionality    :  Sets Pointer to CFunctionEditorDoc class
-/*  Member of        :  CMainFrame
-/*  Friend of        :      -
-/*  Author(s)        :  Amarnath Shastry
-/*  Date Created     :  05.03.2002
-/******************************************************************************/
-//void CMainFrame::podSetFunctionViewPtr(CFunctionEditorDoc* pDoc)
-//{
-//    m_pomFunctionEditorDoc = pDoc;
-//}
-/******************************************************************************/
-/*  Function Name    :  podGetFunctionEditorDoc
-/*  Input(s)         :
-/*  Output           :  Pointer to CFunctionEditorDoc class
-/*  Functionality    :  Reutns Pointer to CFunctionEditorDoc class
-/*  Member of        :  CMainFrame
-/*  Friend of        :      -
-/*  Author(s)        :  Amarnath Shastry
-/*  Date Created     :  05.03.2002
-/******************************************************************************/
-//CFunctionEditorDoc* CMainFrame::podGetFunctionEditorDoc()
-//{
-//    return m_pomFunctionEditorDoc;
-//}
+
 /******************************************************************************/
 /*  Function Name    :  OnUpdateFileNew
 /*  Input(s)         :  CCmdUI* pCmdUI
@@ -4683,6 +4617,7 @@ void CMainFrame::OnUpdateFileNew(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(TRUE);
 }
+
 /******************************************************************************/
 /*  Function Name    :  OnUpdateFileOpen
 /*  Input(s)         :  CCmdUI* pCmdUI
@@ -4698,6 +4633,7 @@ void CMainFrame::OnUpdateFileOpen(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(TRUE);
 }
+
 /******************************************************************************/
 /*  Function Name    :  OnCfgLogFile                                          */
 /*  Input(s)         :                                                        */
@@ -4760,7 +4696,6 @@ void CMainFrame::OnCfgLogFile()
 /*  Author(s)        :  Shashank Vernekar                                     */
 /*  Date Created     :  30.04.2002                                            */
 /******************************************************************************/
-
 void CMainFrame::OnCfgLogFile_LIN()
 {
     if (sg_pouFrameProcLIN != nullptr)
@@ -4786,14 +4721,6 @@ Date Created     :  1.07.2010
 void CMainFrame::OnUpdateCfgnLog(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(sg_pouFrameProcCAN != nullptr);
-    /*  if (nullptr != sg_pouFrameProcCAN)
-        {
-            pCmdUI->Enable(!sg_pouFrameProcCAN->FPC_IsLoggingON());
-        }
-        else
-        {
-            pCmdUI->Enable(sg_pouFrameProcCAN != nullptr);
-        }*/
 }
 
 /******************************************************************************
@@ -4826,7 +4753,7 @@ void CMainFrame::OnUpdateCfgnLog_LIN(CCmdUI* pCmdUI)
 /******************************************************************************/
 void CMainFrame::OnUpdateToolButtonMsgDisp(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable( FALSE );
+    pCmdUI->Enable(FALSE);
 }
 
 /*****************************************************************************/
@@ -4846,8 +4773,7 @@ void CMainFrame::OnEndSession(BOOL bEnding)
 {
     CMDIFrameWndEx::OnEndSession(bEnding);
 
-    if (bEnding == TRUE)
-    {
+    if (bEnding == TRUE) {
         // Initiate window closing process.
         DestroyWindow();
     }
@@ -5231,8 +5157,7 @@ void CMainFrame::OnFileConnect()
     // Hour glass cursor
     CWaitCursor omWait;
 
-    pouFlags   = theApp.pouGetFlagsPtr();
-
+    pouFlags = theApp.pouGetFlagsPtr();
 
     if(pouFlags != nullptr)
     {
@@ -5303,7 +5228,6 @@ void CMainFrame::OnFileConnect()
         }
         // If message transmission thread is waiting for key event then reset it
         // so that thread is terminated. Delete the event.
-        //theApp.vDestroyUtilThreads(500, BIT_MULTI_MSG_THREAD);
         // Pre Connect Activities
 
         if (m_podMsgWndThread != nullptr)
@@ -5383,7 +5307,6 @@ void CMainFrame::OnFileConnect()
                 ::SendMessage(m_podMsgWndThread->hGetHandleMsgWnd(CAN), WM_NOTIFICATION_FROM_OTHER,
                               eWINID_STOP_READ, 0);
             }
-            //m_n64TimeElapsedSinceConnection =0;
 
             //send time to nodesim for calculation
             if (NS_GetInterface(CAN, (void**) &pNodeSim) == S_OK)
@@ -5418,7 +5341,6 @@ void CMainFrame::OnFileConnect()
                 }
             }
             // Commented to avoid Timedelay in log file
-            //Sleep (200);
             ouWaitIndicator.CloseWindow();
         }
         else
@@ -5532,7 +5454,6 @@ void CMainFrame::OnFileConnect()
 					::KillTimer(nullptr, m_unTimerSBLog);
 					m_unTimerSBLog = 0;
 					// Update Status bar
-					//m_wndStatusBar.SetPaneText(INDEX_LOG_RECORD, "CAN");
 					m_wndStatusBar.SetPaneIcon(INDEX_CAN_LOG_ICON, m_hLogOffIcon);
 				}
 			}
@@ -7765,77 +7686,7 @@ void CMainFrame::OnGraphWindow()
 {
     m_objSigGrphHandler.CreateGraphWindow(this, CAN);
 
-    //SGW Code commented by Arun 21-10-2010
-    //// Get the show status
-    //int nShowStatus = m_bGraphWindowVisible ? SW_HIDE : SW_SHOW;
-    //// Create UI thread only if it is not created and show flag is true
-    //if( m_pomGraphThread == nullptr && (nShowStatus == SW_SHOW) )
-    //{
-    //    // This function creates UI thread and window object
-    //    bCreateGraphWindow();
-    //}
-    //// If thread is active then post the show message to the thread
-    //// Note::
-    //// The thread will update m_bGraphWindowVisible variable after displaying
-    //// the window by a notification message to this class
-    //if( m_pomGraphThread != nullptr )
-    //{
-    //    m_pomGraphThread->PostThreadMessage( WM_MODIFY_VISIBILITY,
-    //                                         nShowStatus, 0);
-    //}
-    //SGW Code commented by Arun 21-10-2010
 }
-
-/*******************************************************************************
-  Function Name  : bCreateGraphWindow
-  Input(s)       : -
-  Output         : BOOL - TRUE on success. FALSE otherwise
-  Functionality  : Creates Graph MDI child window.
-  Member of      : CMainFrame
-  Author(s)      : Raja N
-  Date Created   : 02/12/2004
-  Modifications  :
-*******************************************************************************/
-//SGW Code commented by Arun 21-10-2010
-//BOOL CMainFrame::bCreateGraphWindow()
-//{
-//    BOOL bResult = FALSE;
-//    // If thread doesn't exist
-//    if (m_pomGraphThread == nullptr)
-//    {
-//        // Create Graph UI Thread
-//        m_pomGraphThread = (CGraphUIThread *)
-//            AfxBeginThread( RUNTIME_CLASS(CGraphUIThread),
-//                            THREAD_PRIORITY_NORMAL, 0, 0 );
-//        // If success
-//        if (m_pomGraphThread != nullptr)
-//        {
-//            // Create Graph Window
-//            bResult = m_pomGraphThread->nCreateGraphWindow( this,
-//                                                            g_pouDIL_CAN_Interface,
-//                                                            m_sGraphWndPlacement,
-//                                                            m_sGraphSplitterPos);
-//
-//            if (bResult != 0)
-//            {
-//                // Terminate UI thread
-//                TerminateThread(m_pomGraphThread->m_hThread, 0);
-//                // Invalidate the pointer
-//                m_pomGraphThread = nullptr;
-//            }
-//            else
-//            {
-//                // Successfully created
-//                m_pomGraphThread->bStartGraphReadThread();
-//                bResult = TRUE;
-//
-//            }
-//        }
-//    }
-//    // Return the result
-//    return bResult;
-//}
-//SGW Code commented by Arun 21-10-2010
 
 /*******************************************************************************
   Function Name  : OnUpdateGraphWnd
@@ -7849,10 +7700,7 @@ void CMainFrame::OnGraphWindow()
 *******************************************************************************/
 void CMainFrame::OnUpdateGraphWnd(CCmdUI* /*pCmdUI*/)
 {
-    // Set check if the window is visible
-    //SGW Code commented by Arun 21-10-2010
-    //pCmdUI->SetCheck( m_bGraphWindowVisible );
-    //SGW Code commented by Arun 21-10-2010
+
 }
 
 /*******************************************************************************
@@ -8010,51 +7858,10 @@ void CMainFrame::vUpdateGraphStatsData()
 *******************************************************************************/
 void CMainFrame::vRestoreWindowPostion()
 {
-    //m_pouBuildProgram = CExecuteManager::ouGetExecuteManager().m_pouBuildProgram;
-    //       // Output window coordinates
-    //   if(m_pouBuildProgram != nullptr)
-    //   {
-    //       if(m_pouBuildProgram->m_podOutWnd != nullptr)
-    //       {
-    //           if(m_pouBuildProgram->m_podOutWnd->m_hWnd != nullptr)
-    //           {
-    //               // so that only the data for the output window is set..
-    //               m_pouBuildProgram->m_podOutWnd->vUpdateWinStatus();
-    //           }
-    //       }
-    //   }
-    // Get Message window, signal watch and message interptetation window
-    // postions
-    /*if (m_podMsgMDIChild != nullptr)
-    {
-        if (::IsWindow(m_podMsgMDIChild->m_hWnd))
-        {
-            m_podMsgMDIChild->vUpdateWinStatus();
-        }
-        // Save Signal Watch Window position
-        m_podMsgMDIChild->vUpdateSignalWatchWindow(FALSE);
-        // Save Message Interpretation window position
-        m_podMsgMDIChild->vUpdateInterpretationWindow(FALSE);
-    }*/
-    // Get Trace Window Postion
     if ((m_podUIThread != nullptr) && (m_bNotificWndVisible == TRUE))
     {
         m_podUIThread->PostThreadMessage(WM_LOAD_SAVE_WINSTATUS, TRUE, 0);
     }
-
-    //SGW Code commented by Arun 21-10-2010
-    // Update Graph window
-    /*if( m_pomGraphThread != nullptr )
-    {
-        m_pomGraphThread->pomGetChildFramePointer()->vUpdateWinStatus();
-    }*/
-    //SGW Code commented by Arun 21-10-2010
-
-    // Update Tx Window
-    /*if( m_pomTxMsgChildWindow != nullptr )
-    {
-        m_pomTxMsgChildWindow->vUpdateWinStatus();
-    }*/
 }
 
 /*******************************************************************************
@@ -8078,10 +7885,6 @@ void CMainFrame::vStartStopLogging(bool bStart)
         // To reduce the unwanted functional call incase of stop logging
         if (bStart)
         {
-            /*if(pouFlags->nGetFlagStatus(CONNECTED) != 0)
-            {
-                sg_pouFrameProcCAN->vSetMeasurementFileName();
-            }*/
             vSetAssociatedDatabaseFiles(CAN);   // Update the db file names associated
             vSetBaudRateInfo(CAN);              // Update the baud rate details
         }
@@ -8105,24 +7908,17 @@ void CMainFrame::vStartStopLogging_LIN(bool bStart)
 {
     // Enable Logging or stop logging
     if (nullptr != sg_pouFrameProcLIN)
-        //  if (nullptr != sg_pouFrameProcLIN)
     {
         // To reduce the unwanted functional call incase of stop logging
         if (bStart)
         {
-
             vSetAssociatedDatabaseFiles(LIN);   // Update the db file names associated
 
-            //  vSetAssociatedDatabaseFiles(LIN);
-
             vSetBaudRateInfo(LIN);              // Update the baud rate details
-
-            //vSetBaudRateInfo(LIN);
         }
 
         sg_pouFrameProcLIN->EnableLogging(bStart);
     }
-    //LogKadoor CLogManager::ouGetLogManager().vStartStopLogging( bStart );
 }
 
 
@@ -8375,10 +8171,8 @@ static int App_SendMsgLIN(void* pMsg, HMODULE /*hModule*/)
 /******************************************************************************/
 void CMainFrame::vNS_LINInitCFileFunctPtrs()
 {
-    //vSetAppService((CBaseAppServices *) &sg_ouAppServiceObj);
 
     m_sExFuncPtr[LIN].m_hWmdMDIParentFrame = this->GetSafeHwnd();
-    //m_sExFuncPtr.m_pouTraceWnd = m_podUIThread;
     m_sExFuncPtr[LIN].m_omAPIList.RemoveAll();
     for (int nIndex = 0; nIndex < TOTAL_API_COUNT_LIN; nIndex++)
     {
@@ -8409,12 +8203,6 @@ void CMainFrame::vNS_LINInitCFileFunctPtrs()
         pNodeSim->NS_SetBmNetworkConfig( m_ouBusmasterNetwork );
     }
 
-
-
-    // vUpdateMsgNameCodeList(theApp.m_pouMsgSignal, m_sExFuncPtr[LIN].m_odMsgNameMsgCodeListDB);
-    // Send KeyPanel list pointer
-    //m_sExFuncPtr.m_podNodeToDllMap = &g_odNodeToDllMap;
-    //m_sExFuncPtr.m_podKeyPanelEntryList = &g_odKeyPanelEntryList;
     m_sExFuncPtr[LIN].m_omAppDirectory = m_omAppDirectory;
     m_sExFuncPtr[LIN].m_omObjWrapperName = WRAPPER_NAME_LIN;
     m_sExFuncPtr[LIN].m_omStructFile = STRUCT_FILE_LIN;
@@ -8425,8 +8213,6 @@ void CMainFrame::vNS_LINInitCFileFunctPtrs()
     m_sExFuncPtr[LIN].WriteToLog = nullptr;
     m_sExFuncPtr[LIN].RestController = nullptr;
     m_sExFuncPtr[LIN].m_pouITraceWndPtr = &sg_ouAppServiceObj;
-    //m_sExFuncPtr.m_pNetWorkMcNet = &m_odNetwork;
-
 }
 
 /******************************************************************************
@@ -8499,14 +8285,12 @@ void CMainFrame::OnDissociateDatabase()
         cluster->GetDBFilePath( path );
         dbPathList.push_back( path );
     }
-
     CDatabaseDissociateDlg odDBDialog( dbPathList );
     if (IDOK == odDBDialog.DoModal()) {
         dbPathList = odDBDialog.GetDissociatedFiles();
         for (auto dbPath : dbPathList) {
             m_ouBusmasterNetwork->DeleteDBService( CAN, 0, dbPath );
         }
-
         ////////////////////////////////////////////////////////////
 
         m_ouBusmasterNetwork->SetChannelCount( CAN, 1 );
@@ -8517,7 +8301,6 @@ void CMainFrame::OnDissociateDatabase()
                        WM_NOTIFICATION_FROM_OTHER,
                        eLOAD_DATABASE,
                        (LPARAM)m_ouBusmasterNetwork );
-
 
         CBaseNodeSim* pNodeSim = nullptr;
         pNodeSim = GetICANNodeSim();
@@ -8721,13 +8504,6 @@ CWnd* CMainFrame::IsWindowCreated()
 
 void CMainFrame::vCloseFormatconverters()
 {
-    // Close format converters window if it is already displayed
-    ////Method 1
-    //CWnd* pWndCreated = IsWindowCreated();
-    //if (nullptr != pWndCreated && pWndCreated->GetSafeHwnd())
-    //{
-    //  pWndCreated->SendMessageA(WM_CLOSE);
-    //}
 
     try
     {
@@ -8897,8 +8673,7 @@ HRESULT CMainFrame::IntializeDIL(UINT unDefaultChannelCnt, bool bLoadedFromXml)
     }
     else
     {
-        //g_pouDIL_CAN_Interface->DILC_PerformClosureOperations();
-        //DeselectJ1939Interfaces();
+
     }
     if (hResult == S_OK)
     {
@@ -9023,10 +8798,6 @@ HRESULT CMainFrame::IntializeDIL(UINT unDefaultChannelCnt, bool bLoadedFromXml)
 
 HRESULT CMainFrame::IntializeDILL(UINT unDefaultChannelCnt)
 {
-    /* if ( m_podMsgWndThread != nullptr )
-     {
-         m_podMsgWndThread->vModifyVisibilityStatus( SW_SHOW, (LONG)LIN);
-     }*/
     HRESULT hResult = S_OK;
     WPARAM wMsgWndState = SW_HIDE;
     m_bNoHardwareFound = true;
@@ -9036,8 +8807,6 @@ HRESULT CMainFrame::IntializeDILL(UINT unDefaultChannelCnt)
     }
     else
     {
-        //g_pouDIL_CAN_Interface->DILC_PerformClosureOperations();
-        //DeselectJ1939Interfaces();
     }
     if (hResult == S_OK)
     {
@@ -9047,7 +8816,6 @@ HRESULT CMainFrame::IntializeDILL(UINT unDefaultChannelCnt)
             INT nCount = unDefaultChannelCnt;
             if ((hResult = g_pouDIL_LIN_Interface->DILL_ListHwInterfaces(m_asINTERFACE_HW, nCount)) == S_OK)
             {
-                //DeselectJ1939Interfaces();
                 HRESULT hResult = g_pouDIL_LIN_Interface->DILL_SelectHwInterfaces(m_asINTERFACE_HW, nCount);
                 if ((hResult == HW_INTERFACE_ALREADY_SELECTED) || (hResult == S_OK))
                 {
@@ -9154,11 +8922,6 @@ HRESULT CMainFrame::IntializeDILL(UINT unDefaultChannelCnt)
 			else if (m_shLINDriverId <= 0) // Dummy Driver for Deactvation
 			{
 				wMsgWndState = SW_HIDE;
-				// Disable the Deactivate menu as a valid driver is selected
-				/*if ( m_pDILSubMenuLin != nullptr )
-				{
-				m_pDILSubMenuLin->EnableMenuItem(IDC_SELECT_LIN_DRIVER + 0, false);
-				}*/
 			}
         }
         m_objTxHandler.vSetDILInterfacePtr(LIN, (void*)g_pouDIL_LIN_Interface);
@@ -9316,8 +9079,6 @@ LRESULT CMainFrame::OnProvidePGNNameFromCode(WPARAM wParam, LPARAM lParam)
     }
 
     return 0;
-
-
 }
 
 bool CMainFrame::bInitFrameProcCAN(void)
@@ -9400,10 +9161,8 @@ static int App_SendMsg(void* pMsg, HMODULE /*hModule*/)
 
 void CMainFrame::vInitCFileFunctPtrs()
 {
-    //vSetAppService((CBaseAppServices *) &sg_ouAppServiceObj);
 
     m_sExFuncPtr[CAN].m_hWmdMDIParentFrame = this->GetSafeHwnd();
-    //m_sExFuncPtr.m_pouTraceWnd = m_podUIThread;
     m_sExFuncPtr[CAN].m_omAPIList.RemoveAll();
     for (int i = 0; i < TOTAL_API_COUNT; i++)
     {
@@ -9425,9 +9184,6 @@ void CMainFrame::vInitCFileFunctPtrs()
     m_sExFuncPtr[CAN].m_omDefinedMsgHeaders.RemoveAll();
 
     vUpdateMsgNameCodeList(theApp.m_pouMsgSignal, m_sExFuncPtr[CAN].m_odMsgNameMsgCodeListDB);
-    // Send KeyPanel list pointer
-    //m_sExFuncPtr.m_podNodeToDllMap = &g_odNodeToDllMap;
-    //m_sExFuncPtr.m_podKeyPanelEntryList = &g_odKeyPanelEntryList;
     m_sExFuncPtr[CAN].m_omAppDirectory = m_omAppDirectory;
     m_sExFuncPtr[CAN].m_omObjWrapperName = WRAPPER_NAME;
     m_sExFuncPtr[CAN].m_omStructFile = STRUCT_FILE;
@@ -9446,13 +9202,11 @@ void CMainFrame::vInitCFileFunctPtrs()
     {
         pNodeSim->NS_SetBmNetworkConfig(m_ouBusmasterNetwork, false);
     }
-    //m_sExFuncPtr.m_pNetWorkMcNet = &m_odNetwork;
-
 }
+
 void CMainFrame::NS_InitJ1939SpecInfo()
 {
     m_sExFuncPtr[J1939].m_hWmdMDIParentFrame = this->GetSafeHwnd();
-    //m_sExFuncPtr.m_pouTraceWnd = m_podUIThread;
     m_sExFuncPtr[J1939].m_omAPIList.RemoveAll();
     for (int i = 0; i < TOTAL_API_COUNT_J1939; i++)
     {
@@ -9471,9 +9225,6 @@ void CMainFrame::NS_InitJ1939SpecInfo()
 
 
     vUpdateMsgNameCodeList(m_pouMsgSigJ1939, m_sExFuncPtr[J1939].m_odMsgNameMsgCodeListDB);
-    // Send KeyPanel list pointer
-    //m_sExFuncPtr.m_podNodeToDllMap = &g_odNodeToDllMap;
-    //m_sExFuncPtr.m_podKeyPanelEntryList = &g_odKeyPanelEntryList;
     m_sExFuncPtr[J1939].m_omAppDirectory = m_omAppDirectory;
     m_sExFuncPtr[J1939].m_omObjWrapperName = WRAPPER_NAME_J1939;
     m_sExFuncPtr[J1939].m_omStructFile = STRUCT_FILE_J1939;
@@ -9491,7 +9242,6 @@ void CMainFrame::NS_InitJ1939SpecInfo()
     {
         pNodeSim->NS_SetBmNetworkConfig(m_ouBusmasterNetwork, false);
     }
-    //m_sExFuncPtr.m_pNetWorkMcNet = &m_odNetwork;
 
 }
 void CMainFrame::vUpdateMsgNameCodeList(CMsgSignal* pMsgSig, CMsgNameMsgCodeListDataBase& odMsgNameMsgCodeListDB)
@@ -9561,7 +9311,6 @@ INT CMainFrame::nLoadConfigFile(CString omConfigFileName)
     ApplyReplayFilter();
     ApplyMessagewindowOverwrite();
     ApplyLINLogFilter();
-    //vCreateMRU_Menus();
     m_podMsgWndThread->vModifyVisibilityStatus(SW_HIDE, J1939);
 
     m_podMsgWndThread->vModifyVisibilityStatus(SW_HIDE, LIN);
@@ -9577,11 +9326,8 @@ void CMainFrame::BuildAllNodes()
 {
     GetICANNodeSim()->NS_DLLBuildAll();
 
-
     vReRegisterAllJ1939Nodes();
     GetIJ1939NodeSim()->NS_DLLBuildAll();
-
-
     vReRegisterAllLINNodes();
     GetILINNodeSim()->NS_DLLBuildAll();
 }
@@ -9592,15 +9338,11 @@ int CMainFrame::nLoadXMLConfiguration(std::string& m_strCfxFile)
     int nRetValue = S_FALSE;
 
     m_xmlConfigFiledoc = xmlReadFile(m_strCfxFile.c_str(), "UTF-8", 0);
-    //m_xmlConfigFiledoc = xmlParseFile(m_strCfxFile.c_str());
 
     CString strEncoding = "UTF-8";
 
-    //m_xmlConfigFiledoc->encoding = (BAD_CAST strEncoding.GetBuffer(strEncoding.GetLength()));
-
     if ( nullptr != m_xmlConfigFiledoc )           //1. Try to Load as a XML file
     {
-        //AfxMessageBox("Loaded");
         mPluginManager->notifyPlugins(eBusmaster_Event::new_configuration_loading, nullptr);
 
         nRetValue = nLoadXMLConfiguration();
@@ -9667,10 +9409,6 @@ INT CMainFrame::vSaveXMLConfiguration(const char* filename)
     if(pXMLDocPtr != nullptr)
     {
         xmlSaveFormatFileEnc(filename, pXMLDocPtr, "UTF-8", 1);
-
-        //xmlSaveToFilename(filename, "UTF-8", nullptr);
-
-        //xmlSaveFileEnc(filename, pXMLDocPtr, "UTF-8");
 
         xmlFreeDoc(pXMLDocPtr);
     }
@@ -9944,10 +9682,6 @@ void CMainFrame::vGetCurrentSessionData(eSECTION_ID eSecId, xmlNodePtr pNodePtr)
         break;
         case LOG_SECTION_J1939_ID:
         {
-            /*if (GetIJ1939Logger() != nullptr)
-            {
-                GetIJ1939Logger()->FPJ1_GetConfigData(&pbyConfigData, nSize);
-            }*/
             if (GetIJ1939Logger() != nullptr)
             {
                 xmlNodePtr pJ1939LogPtr = xmlNewNode(nullptr, BAD_CAST DEF_J1939_LOG);
@@ -9959,11 +9693,6 @@ void CMainFrame::vGetCurrentSessionData(eSECTION_ID eSecId, xmlNodePtr pNodePtr)
         break;
         case LOG_SECTION_ID:
         {
-            /* if (sg_pouFrameProcCAN != nullptr)
-             {
-                 sg_pouFrameProcCAN->FPC_GetConfigData(&pbyConfigData, nSize);
-             }*/
-
             if (sg_pouFrameProcCAN != nullptr)
             {
                 xmlNodePtr pCanLogPtr = xmlNewNode(nullptr, BAD_CAST DEF_CAN_LOG);
@@ -10170,7 +9899,6 @@ void CMainFrame::vGetCurrentSessionData(eSECTION_ID eSecId, xmlNodePtr pNodePtr)
                     nR = GetRValue(sMsgAttrib.m_psMsgAttribDetails[i].sColor);
                     nG = GetGValue(sMsgAttrib.m_psMsgAttribDetails[i].sColor);
                     nB = GetBValue(sMsgAttrib.m_psMsgAttribDetails[i].sColor);
-                    //csColor.Format("%x%x%x",nR,nG,nB);
 
                     char ch[10];
 
@@ -10245,7 +9973,6 @@ void CMainFrame::vGetCurrentSessionData(eSECTION_ID eSecId, xmlNodePtr pNodePtr)
                     nR = GetRValue(sMsgAttrib.m_psMsgAttribDetails[i].sColor);
                     nG = GetGValue(sMsgAttrib.m_psMsgAttribDetails[i].sColor);
                     nB = GetBValue(sMsgAttrib.m_psMsgAttribDetails[i].sColor);
-                    //csColor.Format("%2x%2x%2x",nR,nG,nB);
 
                     char ch[7] = {0};
 
@@ -10308,10 +10035,7 @@ void CMainFrame::vGetCurrentSessionData(eSECTION_ID eSecId, xmlNodePtr pNodePtr)
 
                 if(pNodeDBFilePtr != nullptr)
                 {
-                    // Get the selected driver Name
-                    //CString omstrDriverName = m_ouList[nDriverId].m_acName.c_str();
 
-                    //omstrDriverName.Replace("&", "");
                     const char* strDriverName = omstrDriverName;
 
                     const char* strControllerMode = "";
@@ -10360,16 +10084,13 @@ void CMainFrame::vGetCurrentSessionData(eSECTION_ID eSecId, xmlNodePtr pNodePtr)
 
                         for(int nChnlIndex = 0; nChnlIndex < nNumOfChannelsSel; nChnlIndex++)
                         {
-                            //xmlNodePtr pChnlPtr = xmlNewChild(pNodeDBFilePtr, nullptr, BAD_CAST DEF_CHANNEL, BAD_CAST "");
                             xmlNodePtr pChnlPtr = xmlNewNode(nullptr, (xmlChar*)DEF_CHANNEL);
                             xmlAddChild(pCntrlSettngsPtr, pChnlPtr);
 
                             SaveConfigDataToXML( m_asControllerDetails[nChnlIndex], pChnlPtr );
                         }
-                        //xmlNewChild(pCntrlSettngsPtr, nullptr, BAD_CAST DEF_DRIVER_NAME, BAD_CAST strDriverName);
                     }
 
-                    //xmlTextWriterSetIndent(pNodeDBFilePtr, 1);
                 }
             }
         }
@@ -12734,37 +12455,12 @@ void CMainFrame::vClearDbInfo(ETYPE_BUS eBus)
         {
             m_ouBusmasterNetwork->ReSetNetwork( CAN );
             m_ouBusmasterNetwork->SetChannelCount( CAN, 1 );
-            /*CFlags* pFlags = theApp.pouGetFlagsPtr();
-            BOOL bDatabaseOpen = FALSE;
-            if( pFlags != nullptr)
-            {
-                bDatabaseOpen = pFlags->nGetFlagStatus(DBOPEN) ;
-            }
-            if(bDatabaseOpen == TRUE)
-            {
-                OnCloseDatabase();
-            }
-            theApp.m_pouMsgSignal->bDeAllocateMemory("");
-            CStringArray omDatabase;
-            omDatabase.RemoveAll();
-            theApp.m_pouMsgSignal->vSetDataBaseNames(&omDatabase);*/
         }
         break;
         case J1939:
         {
             m_ouBusmasterNetwork->ReSetNetwork( J1939 );
             m_ouBusmasterNetwork->SetChannelCount( J1939, 1 );
-            /*if (CMsgSignalDBWnd::sm_bValidJ1939Wnd == TRUE)
-            {
-                OnJ1939DBClose();
-            }
-            if (m_pouMsgSigJ1939 != nullptr)
-            {
-                m_pouMsgSigJ1939->bDeAllocateMemory("");
-                CStringArray omDatabase;
-                omDatabase.RemoveAll();
-                m_pouMsgSigJ1939->vSetDataBaseNames(&omDatabase);
-            }*/
         }
         break;
         default:
@@ -12779,7 +12475,7 @@ bool CMainFrame::CompareFile(CString FirstFile, CString SecFile)
     CString strTemp;
     BOOL bAllFine = TRUE;
     CStringArray ArrFFile, ArrSFile, ArrDisC;
-    //reads First XML file data\
+    //reads First XML file data
 
     InFile.Open(FirstFile,CFile::modeRead);
     InFile2.Open(SecFile,CFile::modeRead);
@@ -12881,8 +12577,6 @@ bool CMainFrame::bIsConfigurationModified(void)
         vSaveXMLConfiguration(strTempPath);
         bResult = CompareFile(strTempPath, oCfgFilename);
 
-        /*bResult |= (GetICANNodeSim()->NS_IsSimSysConfigChanged() == TRUE);
-        bResult |= (GetIJ1939NodeSim()->NS_IsSimSysConfigChanged() == TRUE);*/
 
     }
 
@@ -13224,18 +12918,6 @@ void CMainFrame::OnSelectDriver(UINT nID)
 
 void CMainFrame::OnSelectLINDriver(UINT nID)
 {
-    //DILINFO* psCurrDIL = psGetDILLINEntry(nID);
-    // Above lines have to be changed.
-
-
-    /*if (psCurrDIL != nullptr)
-    {
-        m_dwLINDriverId =  psCurrDIL->m_dwDriverID;
-
-        HRESULT hResult = IntializeDILL();
-    }*/
-
-    //m_bFlxDILChanging = TRUE;
     DILINFO* psCurrDIL = psGetDILLINEntry(nID);
 
     //TODO::FIBEX Validation is Required
@@ -13286,7 +12968,6 @@ void CMainFrame::OnSelectLINDriver(UINT nID)
             }
         }
     }
-    // m_bFlxDILChanging = FALSE;
 }
 
 void CMainFrame::OnUpdateSelectDriver(CCmdUI* pCmdUI)
@@ -13425,7 +13106,6 @@ bool CMainFrame::bUpdatePopupMenuDILL(void)
 		newButton->SetID(IDC_SELECT_LIN_DRIVER + i);
 		control->AddSubItem(newButton);
     }
-
 
 	return true;
 }

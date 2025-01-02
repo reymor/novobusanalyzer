@@ -28,7 +28,6 @@
 #include "FunctionEditorDoc.h"
 #include "EventHandlerDlg.h"
 
-
 // CEventHandlerDlg dialog
 
 IMPLEMENT_DYNAMIC(CEventHandlerDlg, CDialog)

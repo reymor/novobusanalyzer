@@ -25,7 +25,6 @@
 
 #include "StdAfx.h"
 // For some essential data types
-//#include "DataTypes/MsgBufAll_Datatypes.h"
 // For CAN DIL interface
 #include "BaseDIL_CAN.h"
 #include "BaseDIL_J1939.h"

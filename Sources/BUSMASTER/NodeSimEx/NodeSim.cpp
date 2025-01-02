@@ -29,7 +29,6 @@
 #include "SimSysManager.h"
 #include "Utility/Utility.h"
 
-//#include "DIL_Interface_extern.h"
 #include "NodeSim.h"
 
 #define defSTR_SIMSYS_WINDOW_TITLE              "Configure Simulated Systems"
@@ -76,7 +75,6 @@ int CNodeSim::ExitInstance(void)
  */
 HRESULT CNodeSim::FE_CreateFuncEditorTemplate(HWND handle, S_EXFUNC_PTR& sExInitStruct)
 {
-    //AFX_MANAGE_STATE(AfxGetStaticModuleState());
     if (mpGlobalObj->m_pEditorDocTemplate == nullptr)
     {
         CEditFrameWnd::sm_eBus = m_eBus;
@@ -86,7 +84,6 @@ HRESULT CNodeSim::FE_CreateFuncEditorTemplate(HWND handle, S_EXFUNC_PTR& sExInit
                 RUNTIME_CLASS(CFunctionEditorDoc),
                 RUNTIME_CLASS(CEditFrameWnd), // custom MDI child frame
                 RUNTIME_CLASS(CFileView));
-        //AddDocTemplate(CGlobalObj::m_pEditorDocTemplate);
     }
     CGlobalObj::sm_hWndMDIParentFrame = handle;
     NS_UpdateFuncStructsNodeSimEx((PVOID)&sExInitStruct, UPDATE_ALL);

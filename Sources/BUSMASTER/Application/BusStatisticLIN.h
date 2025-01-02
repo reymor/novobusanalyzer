@@ -21,16 +21,16 @@
  *
  * This File contains the BusStatics Class Declaration.
  */
-#pragma once
+#ifndef BUSMASTER_APPLICATION_BUSSTATISTICLIN_H_
+#define BUSMASTER_APPLICATION_BUSSTATISTICLIN_H_
 
 #include "Utility/Utility_Thread.h"
 #include "LINDriverDefines.h"
 #include "BaseDIL_LIN.h"
 #include "BaseBusStatisticLIN.h"
 #include "MsgBufFSE.h"
-class CBusStatisticLIN : public CBaseBusStatisticLIN
-{
-    //Attributes
+
+class CBusStatisticLIN : public CBaseBusStatisticLIN {
 private:
     //used to Creating threads
     CPARAM_THREADPROC m_ouReadThread;
@@ -58,8 +58,6 @@ private:
     static void* sm_pouBSLin;
 
     UINT m_unBitsStdMsg[9];
-
-
 
 public:
     CMsgBufFSE<STLINDATA> m_ouLinBufFSE;
@@ -113,3 +111,5 @@ private:
     //Starts the BS Read Thread
     BOOL bStartBSReadThread_LIN(void);
 };
+
+#endif // BUSMASTER_APPLICATION_BUSSTATISTICLIN_H_

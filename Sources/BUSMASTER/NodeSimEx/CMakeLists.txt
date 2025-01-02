@@ -12,6 +12,8 @@ set(SOURCE_LIST
   BusEventHandlerDlg.cpp
   DefineTimerHandler.cpp
   ConvertCpp.cpp
+  ../Application/CNVTCToolBar.cpp
+  ../Application/CNVTCImageList.cpp
   DLLHandlerDlg.cpp
   EditFrameWnd.cpp
   ErrHandlerDlg.cpp
@@ -79,8 +81,6 @@ set(HEADER_LIST
   KeyValue.h
   MsgHandlerDlg.h
   ../Application/MultiLanguage.h
-  ../Application/CNVTCToolBar.cpp
-  ../Application/CNVTCImageList.cpp
   NodeDetailsDlg.h
   NodeSim.h
   NodeSimEx_Extern.h

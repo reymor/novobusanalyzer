@@ -22,17 +22,16 @@
  * CBaseBusStatisticCAN declaration.
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_BASEBUSSTATISTICCAN_H_
+#define BUSMASTER_APPLICATION_BASEBUSSTATISTICCAN_H_
 
-enum eLOAD
-{
+enum eLOAD {
     CURRENT = 0,
     AVERAGE,
     PEAK
 };
 
-struct sSUBBUSSTATISTICS
-{
+struct sSUBBUSSTATISTICS {
     /** error transmit count */
     unsigned int m_unErrorTxCount;
 
@@ -84,8 +83,7 @@ typedef sSUBBUSSTATISTICS* PSSUBBUSSTATISTICS;
 /**
 * Bus statistics structure
 */
-struct sBUSSTATISTICS
-{
+struct sBUSSTATISTICS {
     /** total bits per second */
     unsigned int m_unTotalBitsperSec;
 
@@ -197,7 +195,6 @@ struct sBUSSTATISTICS
     /** status */
     unsigned char m_ucStatus;
 
-
     sBUSSTATISTICS& operator = ( sSUBBUSSTATISTICS& objRef )
     {
         m_unErrorTxCount = objRef.m_unErrorTxCount;
@@ -263,3 +260,5 @@ public:
     //Get the required channel's BusStistic structure.
     virtual HRESULT BSC_GetBusStatistics(UINT unChannelIndex, SBUSSTATISTICS& sBusStatistics) = 0;
 };
+
+#endif // BUSMASTER_APPLICATION_BASEBUSSTATISTICCAN_H_

@@ -27,7 +27,7 @@
 
 #include "NodeSimEx_Struct.h"
 #include "FunctionEditorStruct.h"
-#include "DataTypes\MsgSignal_Datatypes.h"
+#include "DataTypes/MsgSignal_Datatypes.h"
 #include <list>
 #include <regex>
 

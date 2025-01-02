@@ -14,20 +14,20 @@
  */
 
 /**
- * \file      BaseBusStatisticCAN.h
- * \brief     CBaseBusStatisticCAN declaration.
+ * \file      BaseBusStatisticLIN.h
+ * \brief     CBaseBusStatisticLIN declaration.
  * \author    Shashank Vernekar
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  *
  * CBaseBusStatisticLIN declaration.
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_BASEBUSSTATISTICLIN_H_
+#define BUSMASTER_APPLICATION_BASEBUSSTATISTICLIN_H_
 
 #include"BaseBusStatisticCAN.h"
 
-struct sSUBBUSSTATISTICS_LIN
-{
+struct sSUBBUSSTATISTICS_LIN {
     unsigned int m_unErrorTxCount;
     unsigned int m_unTotalTxMsgCount;
     unsigned int m_unTotalBitsperSec;
@@ -44,8 +44,7 @@ typedef sSUBBUSSTATISTICS_LIN* PSSUBBUSSTATISTICS_LIN;
 /**
 * Bus statistics structure
 */
-struct sBUSSTATISTICS_LIN
-{
+struct sBUSSTATISTICS_LIN {
     unsigned int    m_unTotalBitsperSec;
 
     double          m_dBusLoad;
@@ -98,9 +97,7 @@ struct sBUSSTATISTICS_LIN
 typedef sBUSSTATISTICS_LIN SBUSSTATISTICS_LIN;
 typedef sBUSSTATISTICS_LIN* PBUSSTATISTICS_LIN;
 
-class CBaseBusStatisticLIN
-{
-
+class CBaseBusStatisticLIN {
 public:
 
     /* This function should be called for the very first time. */
@@ -134,3 +131,5 @@ public:
     //Get the required channel's BusStistic structure.
     virtual HRESULT BSL_GetBusStatistics(UINT unChannelIndex, SBUSSTATISTICS_LIN& sBusStatistics_LIN) = 0;
 };
+
+#endif // BUSMASTER_APPLICATION_BASEBUSSTATISTICLIN_H_

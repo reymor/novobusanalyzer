@@ -32,8 +32,6 @@
 // For DIL Interface Class
 #include "Include/BaseDefs.h"
 #include "DataTypes/Base_WrapperErrorLogger.h"
-//#include "DataTypes/MsgBufAll_Datatypes.h"
-//#include "DataTypes/DIL_Datatypes.h"
 #include "BaseDIL_CAN.h"
 
 #include "BusStatisticsDlg.h"
@@ -42,7 +40,6 @@
 #define  BUS_STATICS_CONFIG_PATH     "//BUSMASTER_CONFIGURATION/Module_Configuration/Bus_Statistics/CAN_Statistics/COLUMN"
 /////////////////////////////////////////////////////////////////////////////
 // CBusStatisticsDlg dialog
-//extern SBUSSTATISTICS g_sBusStatistics[ defNO_OF_CHANNELS];
 // For application object
 extern CCANMonitorApp theApp;
 // DIL CAN interface
@@ -89,8 +86,7 @@ CBusStatisticsDlg::CBusStatisticsDlg(CBaseBusStatisticCAN* pouBSCAN, CWnd* /* pP
 
 {
     m_nChannelCount = nChannelCount;
-    for( int nChannel = 0; nChannel < m_nChannelCount; nChannel++ )
-    {
+    for (int nChannel = 0; nChannel < m_nChannelCount; nChannel++ ) {
         SBUSSTATISTICS sBusStatistics;
         m_pouBSCAN->BSC_GetBusStatistics(nChannel, sBusStatistics);
     }
@@ -154,10 +150,8 @@ END_MESSAGE_MAP()
 LRESULT CBusStatisticsDlg::vUpdateFields(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     // Update the list control only if the dialog is visible
-    if( IsWindowVisible() == TRUE )
-    {
-        for( int nChannel = 0; nChannel < m_nChannelCount; nChannel++ )
-        {
+    if (IsWindowVisible() == TRUE) {
+        for (int nChannel = 0; nChannel < m_nChannelCount; nChannel++) {
             SBUSSTATISTICS sBusStatistics;
             m_pouBSCAN->BSC_GetBusStatistics(nChannel, sBusStatistics);
             // Update Window Text
@@ -185,8 +179,7 @@ LRESULT CBusStatisticsDlg::vUpdateFields(WPARAM /*wParam*/, LPARAM /*lParam*/)
             nIndex++;
             // Bus Load
             // Format to show only two decimal digit.
-			if (theApp.pouGetFlagsPtr()->nGetFlagStatus(CONNECTED) == TRUE)
-			{
+			if (theApp.pouGetFlagsPtr()->nGetFlagStatus(CONNECTED) == TRUE) {
             m_omStrBusLoad.Format( defSTR_FORMAT_BUS_LOAD,
                                    sBusStatistics .m_dBusLoad );
             m_omStatList.SetItemText(nIndex, nChannel + 1, m_omStrBusLoad);
@@ -303,8 +296,7 @@ LRESULT CBusStatisticsDlg::vUpdateFields(WPARAM /*wParam*/, LPARAM /*lParam*/)
             nIndex++;
 
             // Controller status
-            switch( sBusStatistics.m_ucStatus )
-            {
+            switch (sBusStatistics.m_ucStatus) {
                 case defCONTROLLER_ACTIVE:
                 {
                     omDispText = _(defSTR_ACTIVE_STATE);
@@ -326,7 +318,7 @@ LRESULT CBusStatisticsDlg::vUpdateFields(WPARAM /*wParam*/, LPARAM /*lParam*/)
                 }
             }
             // Set controller state
-            m_omStatList.SetItemText( nIndex, nChannel + 1, omDispText );
+            m_omStatList.SetItemText(nIndex, nChannel + 1, omDispText);
             nIndex++;
             // Set Tx Error Counter value
             omDispText.Format( defSTR_FORMAT_UINT_DATA,
@@ -386,8 +378,7 @@ BOOL CBusStatisticsDlg::OnInitDialog()
     m_omStatList.InsertColumn( 0, _(defSTR_COL_PARAMETER) );
     m_omStatList.SetColumnWidth( 0, defPARAMETER_COL_WIDTH );
 
-    for( nIndex = 0; nIndex < m_nChannelCount; nIndex++)
-    {
+    for (nIndex = 0; nIndex < m_nChannelCount; nIndex++) {
         CString cs;
         cs.Format( defSTR_CHANNEL_NAME_FORMAT, defSTR_CHANNEL_NAME, nIndex + 1);
         m_omStatList.InsertColumn( nIndex + 1, cs, LVCFMT_CENTER );
@@ -593,8 +584,7 @@ BOOL CBusStatisticsDlg::OnInitDialog()
     nIndex++;
     GetWindowPlacement(&sm_sBusSerializationData.m_sDefaultBusStatsDlgCoOrd);
 
-    if(sm_sBusSerializationData.m_sBusStatsDlgCoOrd.rcNormalPosition.left == 0)
-    {
+    if (sm_sBusSerializationData.m_sBusStatsDlgCoOrd.rcNormalPosition.left == 0) {
         sm_sBusSerializationData.m_sBusStatsDlgCoOrd = sm_sBusSerializationData.m_sDefaultBusStatsDlgCoOrd;
     }
 
@@ -638,11 +628,9 @@ void CBusStatisticsDlg::OnSize(UINT nType, int cx, int cy)
 {
     CCommonStatistics::OnSize(nType, cx, cy);
 
-    if(m_omStatList.m_hWnd)
-    {
+    if(m_omStatList.m_hWnd) {
         CRect omClientRect;
         GetClientRect(&omClientRect);
         m_omStatList.MoveWindow(&omClientRect);
     }
 }
-

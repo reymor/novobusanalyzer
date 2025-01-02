@@ -51,9 +51,7 @@ extern CBaseDIL_CAN* g_pouDIL_CAN_Interface;
 CDriverInfoDlg::CDriverInfoDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CDriverInfoDlg::IDD, pParent)
 {
-    //{{AFX_DATA_INIT(CDriverInfoDlg)
     m_omStrDriverInfo = "";
-    //}}AFX_DATA_INIT
     CString omStrFormatDriverInfo;
     m_omStrDriverInfo = "";
 }
@@ -74,15 +72,11 @@ CDriverInfoDlg::CDriverInfoDlg(CWnd* pParent /*=nullptr*/)
 void CDriverInfoDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CDriverInfoDlg)
     DDX_Text(pDX, IDC_STAT_DRIVER_VERSION, m_omStrDriverInfo);
-    //}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CDriverInfoDlg, CDialog)
-    //{{AFX_MSG_MAP(CDriverInfoDlg)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

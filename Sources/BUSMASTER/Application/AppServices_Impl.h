@@ -21,12 +21,12 @@
  * Concrete class definition for the application service layer
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_APPSERVICES_IMPL_H_
+#define BUSMASTER_APPLICATION_APPSERVICES_IMPL_H_
 
 #include "DataTypes/BaseAppServices.h"
 
-class CAppServices_Impl : public CBaseAppServices
-{
+class CAppServices_Impl : public CBaseAppServices {
 public:
     CAppServices_Impl();
     virtual ~CAppServices_Impl();
@@ -35,3 +35,5 @@ public:
 
     CUIThread* m_podUIThread;
 };
+
+#endif // BUSMASTER_APPLICATION_APPSERVICES_IMPL_H_

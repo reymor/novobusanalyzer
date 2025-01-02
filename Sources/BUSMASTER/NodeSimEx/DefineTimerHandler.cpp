@@ -27,8 +27,7 @@
 // CDefineTimerHandler class definition
 #include "DefineTimerHandler.h"
 #include "GlobalObj.h"
-#include "Utility\MultiLanguageSupport.h"
-//#include "../Application/GettextBusmaster.h"
+#include "Utility/MultiLanguageSupport.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -53,12 +52,10 @@ CDefineTimerHandler::CDefineTimerHandler(CFunctionEditorDoc* pDoc, CWnd* pParent
       m_omStrTimerFunctionName("")
 
 {
-    //{{AFX_DATA_INIT(CDefineTimerHandler)
     m_omEditStrTimerFuncName = "";
     m_unEditTimerValue = 1;
     m_bIsTimerEdited = FALSE;
     m_omStrCurrentTimerName = "";
-    //}}AFX_DATA_INIT
     m_pDoc = pDoc;
 }
 /******************************************************************************/
@@ -78,17 +75,13 @@ CDefineTimerHandler::CDefineTimerHandler(CFunctionEditorDoc* pDoc, CWnd* pParent
 void CDefineTimerHandler::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CDefineTimerHandler)
     DDX_Control(pDX, IDC_EDIT_TIMER_VALUE, m_omEditTimerValue);
     DDX_Control(pDX, IDC_EDIT_TIMER_FUNCTION_NAME, m_omEditTimerFuncName);
     DDX_Text(pDX, IDC_EDIT_TIMER_FUNCTION_NAME, m_omEditStrTimerFuncName);
     DDX_Text(pDX, IDC_EDIT_TIMER_VALUE, m_unEditTimerValue);
-    //}}AFX_DATA_MAP
 }
 BEGIN_MESSAGE_MAP(CDefineTimerHandler, CDialog)
-    //{{AFX_MSG_MAP(CDefineTimerHandler)
     ON_WM_HELPINFO()
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 /******************************************************************************/
 /*  Function Name    :  OnHelpInfo                                            */
@@ -107,7 +100,6 @@ END_MESSAGE_MAP()
 /******************************************************************************/
 BOOL CDefineTimerHandler::OnHelpInfo(HELPINFO* pHelpInfo)
 {
-    //theApp.vSetHelpID(pHelpInfo->dwContextId);
     return CDialog::OnHelpInfo(pHelpInfo);
 }
 /******************************************************************************/
@@ -278,7 +270,6 @@ BOOL CDefineTimerHandler::OnInitDialog()
 
     // Set the initial value of the timer
     // as 50msec
-    //m_omEditTimerValue.vSetValue( defONE );
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE

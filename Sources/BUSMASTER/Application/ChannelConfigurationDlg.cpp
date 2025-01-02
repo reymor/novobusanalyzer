@@ -16,7 +16,7 @@
 #include "stdafx.h"
 #include "ChannelConfigurationDlg.h"
 
-#include "Utility\WaitIndicator.h"
+#include "Utility/WaitIndicator.h"
 #include "LinChannelParam.h"
 struct LinProcolBaudRate
 {

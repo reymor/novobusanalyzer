@@ -19,8 +19,6 @@ using namespace VariableManager;
 #define bus_status              0x10        //extended param - nullptr, expected INFO param: 
 #define numeric_mode            0x11        //extended param - nullptr, expected INFO param: &eNumeric_mode
 
-
-
 class IBusmasterPluginInterface
 {
 public:

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_BUSMASTERDUMP_H_
+#define BUSMASTER_APPLICATION_BUSMASTERDUMP_H_
 
 #include "dbghelp.h"
 
@@ -9,13 +10,14 @@ typedef BOOL (WINAPI* MINIDUMPWRITEDUMP)
  CONST PMINIDUMP_USER_STREAM_INFORMATION sserStreamParams,
  CONST PMINIDUMP_CALLBACK_INFORMATION CallbackParam );
 
-class CBusmasterDump
-{
+class CBusmasterDump {
 public:
     CBusmasterDump(std::string strAppName);
 private:
     static std::string m_strAppName;
 
-    static LONG WINAPI ExceptionFilter( struct _EXCEPTION_POINTERS* pExceptionInfo );
+    static LONG WINAPI ExceptionFilter(struct _EXCEPTION_POINTERS* pExceptionInfo);
 
 };
+
+#endif // BUSMASTER_APPLICATION_BUSMASTERDUMP_H_

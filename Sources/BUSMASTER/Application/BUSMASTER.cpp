@@ -31,7 +31,7 @@
 #include "BUSMASTER.h"
 #include "MainFrm.h"
 #include "MessageAttrib.h"
-#include "Splash.h"             // splash screen implementation file
+#include "Splash.h"
 #include "Replay/Replay_Extern.h"
 #include "ConfigData.h"
 #include "InterfaceGetter.h"
@@ -39,9 +39,10 @@
 #include "BusmasterDump.h"
 #include "BUSMASTER_Interface.h"
 #include "BUSMASTER_Interface.c"
-#include "../Application/MultiLanguage.h"
+#include "MultiLanguage.h"
 #include "Utility/MultiLanguageSupport.h"
 #include "AboutDlg.h"
+
 extern BOOL g_bStopSendMultMsg;
 extern BOOL g_bStopKeyHandlers;
 extern BOOL g_bStopErrorHandlers;
@@ -87,15 +88,15 @@ static HINSTANCE ghLangInst=nullptr;
 BOOL CCANMonitorApp::InitInstance()
 {
     // Begin of Multiple Language support
-    if ( CMultiLanguage::m_nLocales <= 0 )    // Not detected yet
-    {
+    // Not detected yet
+    if (CMultiLanguage::m_nLocales <= 0) {
         CMultiLanguage::DetectLangID(); // Detect language as user locale
         CMultiLanguage::DetectUILanguage();    // Detect language in MUI OS
     }
+
     TCHAR szModuleFileName[MAX_PATH];        // Get Module File Name and path
     int ret = ::GetModuleFileName(theApp.m_hInstance, szModuleFileName, MAX_PATH);
-    if ( ret == 0 || ret == MAX_PATH )
-    {
+    if ( ret == 0 || ret == MAX_PATH ) {
         ASSERT(false);
     }
     // Load resource-only language DLL. It will use the languages
@@ -103,8 +104,7 @@ BOOL CCANMonitorApp::InitInstance()
     // or you can specify another language as second parameter to
     // LoadLangResourceDLL. And try that first.
     ghLangInst = CMultiLanguage::LoadLangResourceDLL( szModuleFileName );
-    if (ghLangInst)
-    {
+    if (ghLangInst) {
         AfxSetResourceHandle( ghLangInst );
     }
     // End of Multiple Language support
@@ -119,8 +119,7 @@ BOOL CCANMonitorApp::InitInstance()
 	CWinAppEx::InitInstance();
 
     // Initialize OLE libraries
-    if (!AfxOleInit())
-    {
+    if (!AfxOleInit()) {
         AfxMessageBox(_("Fail to Intilaize OLE"));
         return FALSE;
     }
@@ -140,11 +139,7 @@ BOOL CCANMonitorApp::InitInstance()
     // If you are not using these features and wish to reduce the size
     //  of your final executable, you should remove from the following
     //  the specific initialization routines you do not need. DEBUG
-//#ifdef _AFXDLL
-//    Enable3dControls();         // Call this when using MFC in a shared DLL
-//#else
-//    Enable3dControlsStatic();   // Call this when linking to MFC statically
-//#endif
+
     // Change the registry key under which our settings are stored.
     // TODO: You should modify this string to be something appropriate
     // such as the name of your company or organization.
@@ -152,54 +147,42 @@ BOOL CCANMonitorApp::InitInstance()
     // START CHANGES MADE FOR AUTOMATION
     COleTemplateServer::RegisterAll();
     // END CHANGES MADE FOR AUTOMATION
-    //LoadStdProfileSettings(0); // Load standard INI file options (including MRU)
     // Enable drag/drop open
     // Enable DDE Execute open
-    //EnableShellOpen();
-    //RegisterShellFileTypes(TRUE);
     // Display splash screen
     CCommandLineInfo cmdInfo;
     ParseCommandLine(cmdInfo);
     short shRegServer = -1;
     short shUnRegServer = -1;
 
-    if (__argc > 1)
-    {
+    if (__argc > 1) {
         shRegServer = (short) strcmpi(__targv[1],"/regserver");
         shUnRegServer = (short) strcmpi(__targv[1],"/unregserver");
     }
 
     // Don't display a new MDI child window during startup
     if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew
-            || cmdInfo.m_nShellCommand == CCommandLineInfo::FileOpen)
-    {
+            || cmdInfo.m_nShellCommand == CCommandLineInfo::FileOpen) {
         cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
     }
 
     // START CHANGES MADE FOR AUTOMATION
 
-    if (cmdInfo.m_bRunEmbedded || cmdInfo.m_bRunAutomated)
-    {
+    if (cmdInfo.m_bRunEmbedded || cmdInfo.m_bRunAutomated) {
         m_bFromAutomation = TRUE;
         //      return TRUE;
-    }
-    else if (cmdInfo.m_nShellCommand == CCommandLineInfo::AppUnregister)
-    {
+    } else if (cmdInfo.m_nShellCommand == CCommandLineInfo::AppUnregister) {
         AfxOleUnregisterTypeLib(LIBID_CAN_MonitorApp);
-    }
-    else
-    {
+    } else {
         COleObjectFactory::UpdateRegistryAll();
         AfxOleRegisterTypeLib(AfxGetInstanceHandle(), LIBID_CAN_MonitorApp);
     }
 
-    if (  shRegServer == 0  || shUnRegServer == 0 ) //If command line argument match
-    {
+    if (shRegServer == 0 || shUnRegServer == 0) {
         return FALSE;
     }
 
-    if (!m_bFromAutomation)
-    {
+    if (!m_bFromAutomation) {
         CSplashScreen::ActivateSplashScreen(cmdInfo.m_bShowSplash);
     }
 
@@ -208,22 +191,19 @@ BOOL CCANMonitorApp::InitInstance()
     // create main MDI Frame window
     CMainFrame* pMainFrame = new CMainFrame;
 
-    if ( pMainFrame == nullptr )
-    {
+    if (pMainFrame == nullptr) {
         ::PostQuitMessage(0);
         return FALSE;
     }
 
-    if (!pMainFrame->LoadFrame(IDR_MAINFRAME))
-    {
+    if (!pMainFrame->LoadFrame(IDR_MAINFRAME)) {
         return FALSE;
     }
 
     m_pMainWnd = pMainFrame;
 
     // Dispatch commands specified on the command line
-    if (!ProcessShellCommand(cmdInfo))
-    {
+    if (!ProcessShellCommand(cmdInfo)) {
         return FALSE;
     }
 
@@ -233,8 +213,7 @@ BOOL CCANMonitorApp::InitInstance()
     m_pMainWnd->UpdateWindow();
     //// Create message window
 
-    if(m_pouMsgSgInactive == nullptr )
-    {
+    if (m_pouMsgSgInactive == nullptr) {
         if(m_bFromAutomation==FALSE)
             MessageBox(nullptr,_(MSG_MEMORY_CONSTRAINT),
                        "BUSMASTER", MB_OK|MB_ICONINFORMATION);
@@ -252,43 +231,32 @@ BOOL CCANMonitorApp::InitInstance()
 
     // If user has double click the .cfg file then assign that file name else
     // read from registry.
-    if(cmdInfo.m_strFileName.IsEmpty() == TRUE)
-    {
-        //ostrCfgFilename =
-        //    GetProfileString(_(SECTION), defCONFIGFILENAME, "");
+    if (cmdInfo.m_strFileName.IsEmpty() == TRUE) {
         DWORD dwVal;
         bReadFromRegistry(HKEY_CURRENT_USER, _(SECTION), defCONFIGFILENAME, REG_SZ, ostrCfgFilename, dwVal);
-    }
-    else
-    {
+    } else {
         ostrCfgFilename = cmdInfo.m_strFileName;
     }
 
     BOOL bValidDir = TRUE;
     CFileFind findFile;
-    if (!ostrCfgFilename.IsEmpty() && !findFile.FindFile(ostrCfgFilename))
-    {
+    if (!ostrCfgFilename.IsEmpty() && !findFile.FindFile(ostrCfgFilename)) {
         DWORD dwErr = GetLastError();
         CString strMsg = "";
-        if (dwErr == ERROR_PATH_NOT_FOUND)
-        {
+        if (dwErr == ERROR_PATH_NOT_FOUND) {
             bValidDir = FALSE;
             FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, dwErr, 0, strMsg.GetBuffer(1024), 1024, nullptr);
             AfxMessageBox(strMsg);
         }
     }
-    if(ostrCfgFilename.IsEmpty() == FALSE && bValidDir == TRUE)
-    {
+    if (ostrCfgFilename.IsEmpty() == FALSE && bValidDir == TRUE) {
         bInitialiseConfiguration(m_bFromAutomation);
 
         // load the configuration information
-        if(pMainFrame->nLoadConfigFile(ostrCfgFilename) != defCONFIG_FILE_SUCCESS)
-        {
+        if(pMainFrame->nLoadConfigFile(ostrCfgFilename) != defCONFIG_FILE_SUCCESS) {
             //m_oConfigDetails.vInitDefaultValues();
             m_ostrConfigFilename = "";
-        }
-        else
-        {
+        } else {
             m_ostrConfigFilename = ostrCfgFilename;
         }
 
@@ -297,67 +265,47 @@ BOOL CCANMonitorApp::InitInstance()
         //build all nodes -- Node Simulation.
         pMainFrame->BuildAllNodes();
 
-    }
-    else
-    {
+    } else {
         BOOL bReturn = bInitialiseConfiguration(m_bFromAutomation);
 
-        if(bReturn == FALSE )
-        {
+        if(bReturn == FALSE ) {
             ::PostQuitMessage(0);
         }
-
-        // Load a default database file
-        //CStringArray omDatabaseArray;
-        //CString omSampleDatabasePath;
-        //omSampleDatabasePath.Format("%s\\Samples\\SampleDB.dbf",m_acApplicationDirectory);
-        //DWORD dRetVal = pMainFrame->dLoadDataBaseFile(omSampleDatabasePath, FALSE);
-
-        pMainFrame->OnHex_DecButon();           // setting HEX by default
+        // setting HEX by default
+        pMainFrame->OnHex_DecButon();
     }
 
     // ********  Filter workaround  ********
     // Filter list is initialised before msg wnd creation. So update display
     // filter here
-    // Update Message Display Filter List
-    //::PostThreadMessage(GUI_dwThread_MsgDisp, TM_UPDATE_FILTERLIST, nullptr, nullptr );
     // ********  Filter workaround  ********
 
     // Start Logging if is enabled
     // Get the Flag Pointer
     CFlags* pomFlag =  pouGetFlagsPtr();
 
-    if( pomFlag != nullptr )
-    {
+    if (pomFlag != nullptr) {
         // Get the Logging Status
         BOOL bLogON = pomFlag->nGetFlagStatus(LOGTOFILE);
-
-        // If it is on then post a message to display thread to start logging
-        if(bLogON == TRUE )
-        {
-            // Start Logging
-            //CLogManager::ouGetLogManager().vStartStopLogging( TRUE );
-        }
     }
 
     return TRUE;
 }
+
 void CCANMonitorApp::ReadRecentFileList()
 {
 	LoadStdProfileSettings( defMAX_RECENTFILE_LIST );
 }
+
 void CCANMonitorApp::AddToRecentFileList(LPCTSTR lpszPathName)
 {
-    if (nullptr == lpszPathName)
-    {
+    if (nullptr == lpszPathName) {
         return;
     }
     CString ext = PathFindExtension(lpszPathName);
     ext.MakeLower();
-    if (ext == defVALIDEXTN)
-    {
-        if (nullptr != m_pRecentFileList)
-        {
+    if (ext == defVALIDEXTN) {
+        if (nullptr != m_pRecentFileList) {
             m_pRecentFileList->Add(lpszPathName);
         }
     }
@@ -372,21 +320,15 @@ bool CCANMonitorApp::bWriteIntoRegistry(HKEY /* hRootKey */, CString strSubKey, 
 	strCompleteSubKey.Format("Software\\NovoBusAnalyzer_v%d.%d.%d\\%s", VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD, strSubKey);
 	LONG iSuccess = RegCreateKeyEx(HKEY_CURRENT_USER, strCompleteSubKey, 0L, nullptr, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &hKey, lpdwDisp);
 	LSTATUS ls = 0;
-	if (iSuccess == ERROR_SUCCESS)
-	{
-		if (bytType == REG_SZ)
-		{
+	if (iSuccess == ERROR_SUCCESS) {
+		if (bytType == REG_SZ) {
 			ls = RegSetValueEx(hKey, strName.GetBuffer(MAX_PATH), 0L, REG_SZ, (CONST BYTE*) strValue.GetBuffer(MAX_PATH), strValue.GetLength());
-		}
-		else if (bytType == REG_DWORD)
-		{
+		} else if (bytType == REG_DWORD) {
 			ls = RegSetValueEx(hKey, strName.GetBuffer(MAX_PATH), 0L, REG_DWORD, (CONST BYTE*) &dwValue, sizeof(dwValue));
 		}
 		RegCloseKey(hKey);
 		return true;
-	}
-	else
-	{
+	} else {
 		return false;
 	}
 }
@@ -403,25 +345,18 @@ bool CCANMonitorApp::bReadFromRegistry(HKEY hRootKey, CString strSubKey, CString
     strCompleteSubKey.Format("Software\\NovoBusAnalyzer_v%d.%d.%d\\%s",VERSION_MAJOR,VERSION_MINOR,VERSION_BUILD,strSubKey);
 	strValue = "";
     lError = RegOpenKeyEx( hRootKey, strCompleteSubKey, 0, KEY_READ, &hKey);
-    // If the registry key open successfully, get the value in "path"
-    // sub key
-    if(lError==ERROR_SUCCESS)
-    {
-        if ( dwType == REG_SZ )
-        {
+    // If the registry key open successfully, get the value in "path" sub key
+    if (lError==ERROR_SUCCESS) {
+        if (dwType == REG_SZ) {
             lError = RegQueryValueEx(hKey,strName,0, &dwType, acRegValue,&dwSize);
             strValue.Format("%s", acRegValue);
-        }
-        else if ( dwType == REG_DWORD )
-        {
+        } else if (dwType == REG_DWORD) {
             lError = RegQueryValueEx(hKey,strName,0, &dwType, (LPBYTE)&dwValue,&cbData);
         }
 
         RegCloseKey(hKey);
         return true;
-    }
-    else
-    {
+    } else {
         return false;
     }
 }
@@ -435,14 +370,12 @@ int CCANMonitorApp::ExitInstance()
 {
     unloadInternationalizationLibrary();
 
-    if (ghLangInst)
-    {
+    if (ghLangInst) {
         FreeLibrary( ghLangInst );
     }
 
 
-    if (m_pouMsgSignal != nullptr )
-    {
+    if (m_pouMsgSignal != nullptr ) {
         m_pouMsgSignal->bDeAllocateMemory("");
         delete m_pouMsgSignal;
         m_pouMsgSignal = nullptr;
@@ -451,8 +384,7 @@ int CCANMonitorApp::ExitInstance()
     // if the user directly closes the appln when the database
     // is opened,
     // Delete memory associated with the in-active data structure.
-    if ( m_pouMsgSgInactive != nullptr )
-    {
+    if ( m_pouMsgSgInactive != nullptr ) {
         m_pouMsgSgInactive->bDeAllocateMemoryInactive();
         delete m_pouMsgSgInactive;
         m_pouMsgSgInactive = nullptr;
@@ -460,8 +392,7 @@ int CCANMonitorApp::ExitInstance()
 
     DWORD dwResult = WaitForSingleObject(m_aomState[UI_THREAD], MAX_TIME_LIMIT);
 
-    switch (dwResult)
-    {
+    switch (dwResult) {
         case WAIT_ABANDONED:
             break;
 
@@ -580,8 +511,7 @@ void CCANMonitorApp::vSetFileStorageInfo(CString oCfgFilename)
     CConfigData::ouGetConfigDetailsObject().vSetCurrProjName(_(DEFAULT_PROJECT_NAME));
     CMainFrame* pMainFrame = static_cast<CMainFrame*> (m_pMainWnd);
 
-    if (pMainFrame != nullptr)
-    {
+    if (pMainFrame != nullptr) {
         pMainFrame->vPushConfigFilenameDown(oCfgFilename);
     }
 }
@@ -595,12 +525,12 @@ BOOL CCANMonitorApp::OnOpenRecentFile(UINT nID)
 {
 	CMainFrame* pMainFrame = static_cast<CMainFrame*> (m_pMainWnd);
 	int index = nID - ID_FILE_MRU_FILE1;
-	if (index >= 0 && index < m_pRecentFileList->m_nSize)
-	{
+	if (index >= 0 && index < m_pRecentFileList->m_nSize) {
 		pMainFrame->OnClickMruList(m_pRecentFileList->m_arrNames[index]);
 	}
 	return TRUE;
 }
+
 /**
  * \brief message handler for ID_FILE_OPEN
  *
@@ -625,13 +555,11 @@ void CCANMonitorApp::OnFileOpen()
     // Set Title
     fileDlg.m_ofn.lpstrTitle  = _("Select BUSMASTER Source Filename...");
 
-    if ( IDOK == fileDlg.DoModal() )
-    {
+    if (IDOK == fileDlg.DoModal()) {
         CString strExtName  = fileDlg.GetFileExt();
         CString omStrNewCFileName   = fileDlg.GetPathName();
 
-        if ( omStrNewCFileName.ReverseFind('.') )
-        {
+        if (omStrNewCFileName.ReverseFind('.')) {
             omStrNewCFileName = omStrNewCFileName.
                                 Left( omStrNewCFileName.ReverseFind('.') + 1);
             omStrNewCFileName.TrimRight();
@@ -642,12 +570,10 @@ void CCANMonitorApp::OnFileOpen()
         struct _finddata_t fileinfo;
 
         // Check if file exists
-        if (_findfirst( omStrNewCFileName.GetBuffer(MAX_PATH), &fileinfo) != -1L)
-        {
+        if (_findfirst( omStrNewCFileName.GetBuffer(MAX_PATH), &fileinfo) != -1L) {
             // Now open the selected file
             CMainFrame* pMainFrame = static_cast<CMainFrame*> (m_pMainWnd);
-            if(pMainFrame != nullptr)
-            {
+            if(pMainFrame != nullptr) {
                 GetICANNodeSim()->FE_OpenFunctioneditorFile(omStrNewCFileName, pMainFrame->GetSafeHwnd(),
                         pMainFrame->m_sExFuncPtr[CAN]);
             }
@@ -661,9 +587,7 @@ void CCANMonitorApp::OnFileOpen()
             // the same.
             // And this should be created only once.
             
-        }
-        else
-        {
+        } else {
             MessageBox(nullptr,_("Specified filename not found!"),
                        "BUSMASTER",MB_OK|MB_ICONINFORMATION);
         }
@@ -681,22 +605,16 @@ void CCANMonitorApp::vDisplayConfigErrMsgbox(UINT unErrorCode,
 {
     CString omStrSuffixMessage("");
 
-    if ( bOperation == defCONFIG_FILE_LOADING )
-    {
+    if (bOperation == defCONFIG_FILE_LOADING) {
         omStrSuffixMessage = _(" while loading.\nOperation unsuccessful.");
-    }
-    else if ( bOperation == defCONFIG_FILE_SAVING )
-    {
+    } else if (bOperation == defCONFIG_FILE_SAVING) {
         omStrSuffixMessage = _(" while saving.\nOperation unsuccessful.");
-    }
-    else
-    {
+    } else {
         omStrSuffixMessage = _(".\nOperation unsuccessful.");
     }
 
     // Get actual error message
-    switch(unErrorCode)
-    {
+    switch(unErrorCode) {
         case defCONFIG_FILE_ERROR:
         {
             m_omConfigErr = _("File error occured");
@@ -786,14 +704,10 @@ Corrupt configuration file found");
 
     m_omConfigErr += omStrSuffixMessage;
 
-    //UINT unMsgboxType = MB_OK | MB_ICONEXCLAMATION;
-    if(m_bFromAutomation==FALSE)
-    {
+    if (m_bFromAutomation==FALSE) {
         bWriteIntoTraceWnd(m_omConfigErr.GetBuffer(MAX_PATH));
-        //MessageBox(nullptr, m_omConfigErr, _("BUSMASTER"), unMsgboxType);
     }
 }
-
 
 /**
  * \brief message handler for ID_FILE_NEW
@@ -808,8 +722,7 @@ void CCANMonitorApp::OnFileNew()
     BOOL bOneChildWndOpen = FALSE;
     bOneChildWndOpen = m_pouFlags->nGetFlagStatus(FUNCEDITOR);
 
-    if(bOneChildWndOpen != TRUE )
-    {
+    if (bOneChildWndOpen != TRUE ) {
         struct _tfinddata_t fileinfo;
         // Find if the current directory has some .c file already created.
         // Check if it has name "NewEdn" if yes, the new file name will be
@@ -821,14 +734,12 @@ void CCANMonitorApp::OnFileNew()
         BOOL bStop = FALSE;
         UINT unCount = 0;
 
-        while (bStop == FALSE)
-        {
+        while (bStop == FALSE) {
             omStrCFileName.Format("%s%d%s", "NewEd", ++unCount, ".c");
 
             // Search for the file name and if it is not present, set
             // the flag to TRUE to break the loop.
-            if (_tfindfirst( omStrCFileName.GetBuffer(MAX_PATH), &fileinfo) == -1L)
-            {
+            if (_tfindfirst( omStrCFileName.GetBuffer(MAX_PATH), &fileinfo) == -1L) {
                 strFilePath = cBuffer ;
                 strFilePath += "\\"+ omStrCFileName ;
                 bStop = TRUE;
@@ -836,20 +747,16 @@ void CCANMonitorApp::OnFileNew()
         }
 
         CMainFrame* pMainFrame = static_cast<CMainFrame*> (m_pMainWnd);
-        if(pMainFrame != nullptr)
-        {
+        if(pMainFrame != nullptr) {
             GetICANNodeSim()->FE_OpenFunctioneditorFile(strFilePath, pMainFrame->GetSafeHwnd(),
                     pMainFrame->m_sExFuncPtr[CAN]);
         }
-        //CWinApp::OnFileNew();
         // Since creating of the document
         // loads another menu,
         // the menu created for the MRU
         // would have destroyed. So create
         // the same.
         // And this should be created only once.
-
-        
     }
 }
 
@@ -866,21 +773,16 @@ BOOL CCANMonitorApp::bInitialiseConfiguration(BOOL bFromCom)
     BOOL bReturn = TRUE;
     CMainFrame* pMainFrame = static_cast<CMainFrame*> (m_pMainWnd);
 
-    if(pMainFrame != nullptr )
-    {
+    if (pMainFrame != nullptr) {
         BOOL bIsDatabaseFoundInConfigFile = FALSE;
 
-        if(m_pouMsgSignal != nullptr)
-        {
+        if(m_pouMsgSignal != nullptr) {
             m_pouMsgSignal->bDeAllocateMemory("");
-        }
-        else
-        {
+        } else {
             m_pouMsgSignal = new CMsgSignal(sg_asDbParams[CAN], m_bFromAutomation);
         }
 
-        if ( m_pouMsgSignal != nullptr )
-        {
+        if (m_pouMsgSignal != nullptr) {
             //Get the Database names
             CStringArray aomOldDatabases;
             //To keep all the files which are successfully imported
@@ -889,42 +791,33 @@ BOOL CCANMonitorApp::bInitialiseConfiguration(BOOL bFromCom)
             m_pouMsgSignal->vGetDataBaseNames(&aomOldDatabases);
             int nFileCount = aomOldDatabases.GetSize();
 
-            if(nFileCount == 0)
-            {
+            if(nFileCount == 0) {
                 bIsDatabaseFoundInConfigFile = FALSE;
                 // Reset corresponding flag
                 m_pouFlags->vSetFlagStatus( SELECTDATABASEFILE, FALSE );
-            }
-            else
-            {
+            } else {
                 CString omStrDatabase;
                 int nDatabaseNotFound = 0;
 
-                for(int nCount = 0; nCount < nFileCount; nCount++)
-                {
+                for (int nCount = 0; nCount < nFileCount; nCount++) {
                     omStrDatabase  = aomOldDatabases.GetAt(nCount);
 
-                    if (omStrDatabase.IsEmpty())
-                    {
+                    if (omStrDatabase.IsEmpty()) {
                         nDatabaseNotFound++;
                         aomOldDatabases.RemoveAt(nCount);
                         --nCount;
                         --nFileCount;
-                    }
-                    else
-                    {
+                    } else {
                         bIsDatabaseFoundInConfigFile = TRUE;
                         // Check if the file really exists
                         struct _finddata_t fileinfo;
 
-                        if (_findfirst(omStrDatabase.GetBuffer(MAX_PATH) ,&fileinfo) == -1L)
-                        {
+                        if (_findfirst(omStrDatabase.GetBuffer(MAX_PATH) ,&fileinfo) == -1L) {
                             CString omStrMsg = _("Database File: ");
                             omStrMsg += omStrDatabase;
                             omStrMsg += _(" not found!");
 
-                            if(bFromCom==FALSE)
-                            {
+                            if (bFromCom==FALSE) {
                                 MessageBox(nullptr,omStrMsg,"BUSMASTER",MB_OK|MB_ICONERROR);
                             }
 
@@ -933,9 +826,7 @@ BOOL CCANMonitorApp::bInitialiseConfiguration(BOOL bFromCom)
                             aomOldDatabases.RemoveAt(nCount);
                             --nCount;
                             --nFileCount;
-                        }
-                        else
-                        {
+                        } else {
                             // Reset corresponding flag
                             m_pouFlags->vSetFlagStatus( SELECTDATABASEFILE, TRUE );
                             m_pouMsgSignal->
@@ -946,8 +837,7 @@ BOOL CCANMonitorApp::bInitialiseConfiguration(BOOL bFromCom)
                     }
                 }
 
-                if(nDatabaseNotFound > 0)
-                {
+                if (nDatabaseNotFound > 0) {
                     BYTE* pbyConfigData = nullptr;
                     UINT unSize = 0;
                     unSize += (sizeof (UINT) + ((sizeof(char) *MAX_PATH) * aomNewDatabases.GetSize()));
@@ -956,8 +846,7 @@ BOOL CCANMonitorApp::bInitialiseConfiguration(BOOL bFromCom)
                     UINT nCount = 0;
                     COPY_DATA(pbyTemp, &nCount, sizeof(UINT));
 
-                    for (UINT i = 0; i < nCount; i++)
-                    {
+                    for (UINT i = 0; i < nCount; i++) {
                         char acName[MAX_PATH] = { '\0' };
                         CString omDBName = aomNewDatabases.GetAt(i);
                         strcpy_s(acName, MAX_PATH, omDBName.GetBuffer(MAX_PATH));
@@ -969,16 +858,13 @@ BOOL CCANMonitorApp::bInitialiseConfiguration(BOOL bFromCom)
                     pbyConfigData = nullptr;
                 }
 
-                if(aomNewDatabases.GetSize()== 0)
-                {
+                if(aomNewDatabases.GetSize()== 0) {
                     // Reset the flag and prompt user of file not in disk.
                     m_pouFlags->vSetFlagStatus( SELECTDATABASEFILE, FALSE );
                 }
             }
-        }
-        else
-        {
-            if(bFromCom==FALSE)
+        } else {
+            if (bFromCom==FALSE)
                 // Display a message and quit the application
                 MessageBox(nullptr,
                            _(MSG_MEMORY_CONSTRAINT),
@@ -1021,20 +907,17 @@ BOOL CCANMonitorApp::bGetDefaultValue(eCONFIGDETAILS /*eParam*/,
  */
 BOOL CCANMonitorApp::bWriteIntoTraceWnd(char* omText, BOOL bTrace)
 {
-    if(bTrace == FALSE)
-    {
+    if (bTrace == FALSE) {
         return FALSE;
     }
 
     BOOL bResult = FALSE;
     CMainFrame* pMainFrame = static_cast<CMainFrame*> (m_pMainWnd);
 
-    if (pMainFrame != nullptr)
-    {
+    if (pMainFrame != nullptr) {
         pMainFrame->SendMessage(IDM_TRACE_WND);
 
-        if (pMainFrame->m_podUIThread != nullptr)
-        {
+        if (pMainFrame->m_podUIThread != nullptr) {
             pMainFrame->m_podUIThread->PostThreadMessage(WM_WRITE_TO_TRACE, 0, (LPARAM)omText);
             bResult = TRUE;
         }

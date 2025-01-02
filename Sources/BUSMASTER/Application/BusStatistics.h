@@ -22,7 +22,10 @@
  * contains the BS_GetInterface declaration.
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_BUSSTATISTICS_H_
+#define BUSMASTER_APPLICATION_BUSSTATISTICS_H_
 
 HRESULT BS_GetInterface(ETYPE_BUS eBus, void** ppvInterface);
 HRESULT BS_ReleaseInterface(ETYPE_BUS eBus);
+
+#endif // BUSMASTER_APPLICATION_BUSSTATISTICS_H_

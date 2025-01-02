@@ -23,8 +23,10 @@
 #include "BusStatisticLIN.h"
 
 #include "BusStatistics.h"
+
 static CBusStatisticCAN* sg_pouBS_CAN = nullptr;
 static CBusStatisticLIN* sg_pouBS_LIN = nullptr;
+
 /**
  * \param[in] eBus specifies the Type of bus,Either CAN or FRAME
  * \param[in] ppvInterface on function return it will have the pointer of BusStatistics.
@@ -35,18 +37,15 @@ static CBusStatisticLIN* sg_pouBS_LIN = nullptr;
  */
 HRESULT BS_ReleaseInterface(ETYPE_BUS eBus)
 {
-    switch (eBus)
-    {
+    switch (eBus) {
         case CAN:
-            if (nullptr != sg_pouBS_CAN)
-            {
+            if (nullptr != sg_pouBS_CAN) {
                 delete sg_pouBS_CAN;
                 sg_pouBS_CAN = nullptr;
             }
             break;
         case LIN:
-            if (nullptr != sg_pouBS_LIN)
-            {
+            if (nullptr != sg_pouBS_LIN) {
                 delete sg_pouBS_LIN;
                 sg_pouBS_LIN = nullptr;
             }
@@ -56,18 +55,16 @@ HRESULT BS_ReleaseInterface(ETYPE_BUS eBus)
     }
     return S_OK;
 }
+
 HRESULT BS_GetInterface(ETYPE_BUS eBus, void** ppvInterface)
 {
     HRESULT hResult = S_OK;
 
-    switch (eBus)
-    {
+    switch (eBus) {
         case CAN:
         {
-            if (nullptr == sg_pouBS_CAN)
-            {
-                if ((sg_pouBS_CAN = new CBusStatisticCAN) == nullptr)
-                {
+            if (nullptr == sg_pouBS_CAN) {
+                if ((sg_pouBS_CAN = new CBusStatisticCAN) == nullptr) {
                     ASSERT(false);
                     hResult = S_FALSE;
                 }
@@ -88,10 +85,8 @@ HRESULT BS_GetInterface(ETYPE_BUS eBus, void** ppvInterface)
 
         case LIN:
         {
-            if (nullptr == sg_pouBS_LIN)
-            {
-                if ((sg_pouBS_LIN = new CBusStatisticLIN) == nullptr)
-                {
+            if (nullptr == sg_pouBS_LIN) {
+                if ((sg_pouBS_LIN = new CBusStatisticLIN) == nullptr) {
                     ASSERT(false);
                     hResult = S_FALSE;
                 }

@@ -34,14 +34,11 @@
 #include "DLLHandlerDlg.h"      // Dialog class for dll handlers
 #include "BusEventHandlerDlg.h" // Dialog class for BusEvent Handler
 #include "MsgHandlerDlg.h"      // Dialog class for message handlers
-//#include "StartCycleHandlerDlg.h"      // Dialog class for Start handlers
-//#include "PDUHandlerDlg.h"              //Dialog class for PDU handlers
 #include "EventHandlerDlg.h"    // Dialog class for event handlers
 #include "UtlityDlg.h"          // Dialog class for adding utility func
 #include "FnsTreeView.h"        // Class defintion file
-#include "Utility\MultiLanguageSupport.h"
-#include "Utility\UtilFunctions.h"
-//#include "../Application/GettextBusmaster.h"
+#include "Utility/MultiLanguageSupport.h"
+#include "Utility/UtilFunctions.h"
 
 #define defERR_NONEDITABLE_TIMER_HANDLER "This Timer Handler is non-editable.\n Since the handler name is invalid."
 #ifdef _DEBUG

@@ -45,9 +45,7 @@ public:
 
     void vSetTxWndConfigData( ETYPE_BUS eBusType, xmlDocPtr pDoc);
 
-
     HRESULT SetNetworkConfig(ETYPE_BUS eBusType, IBMNetWorkGetService* ouFlexConfig);
-
 
     //LIN
     void vShowLINScheduleConfigDlg(bool bShow);

@@ -40,10 +40,7 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(CFileView, CScrollView)
 
 BEGIN_MESSAGE_MAP(CFileView, CScrollView)
-    //{{AFX_MSG_MAP(CFileView)
     ON_WM_ERASEBKGND()
-    //}}AFX_MSG_MAP
-    // Standard printing commands
     ON_COMMAND(ID_FILE_PRINT, CScrollView::OnFilePrint)
     ON_COMMAND(ID_FILE_PRINT_DIRECT, CScrollView::OnFilePrint)
     ON_COMMAND(ID_FILE_PRINT_PREVIEW, CScrollView::OnFilePrintPreview)

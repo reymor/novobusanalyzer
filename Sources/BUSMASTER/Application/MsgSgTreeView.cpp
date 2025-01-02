@@ -61,7 +61,6 @@ CMsgSgTreeView::~CMsgSgTreeView()
 
 
 BEGIN_MESSAGE_MAP(CMsgSgTreeView, CTreeView)
-    //{{AFX_MSG_MAP(CMsgSgTreeView)
     ON_WM_CREATE()
     ON_NOTIFY_REFLECT(TVN_ITEMEXPANDING, OnItemexpanding)
     ON_WM_LBUTTONDOWN()
@@ -73,7 +72,6 @@ BEGIN_MESSAGE_MAP(CMsgSgTreeView, CTreeView)
     ON_COMMAND(IDM_EDIT_MSG, OnEditMsg)
     ON_NOTIFY_REFLECT(TVN_SELCHANGED, OnSelchanged)
     ON_NOTIFY_REFLECT(TVN_KEYDOWN, OnTvnKeydown)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /**

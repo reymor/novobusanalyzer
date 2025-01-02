@@ -18,13 +18,11 @@
  * @copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 #include "StdAfx.h"
-//To Include BusStatisticCAN Definitions.
 
 #include "BusStatisticLIN.h"
 #include "Utility/TimeManager.h"
 #include "HashDefines.h"
 #include "IBusMasterKernel.h"
-//LIN interface to Bus Statistics
 void* CBusStatisticLIN:: sm_pouBSLin;
 
 /**
@@ -37,24 +35,17 @@ void* CBusStatisticLIN:: sm_pouBSLin;
 int ReadBSDataBuffer(CBusStatisticLIN* pBSLin)
 {
     ASSERT(pBSLin != nullptr);
-    while (pBSLin->m_ouLinBufFSE.GetMsgCount() > 0)
-    {
+    while (pBSLin->m_ouLinBufFSE.GetMsgCount() > 0) {
         static STLINDATA sLinData;
 
         int Result = pBSLin->m_ouLinBufFSE.ReadFromBuffer(&sLinData);
-        if (Result == ERR_READ_MEMORY_SHORT)
-        {
+        if (Result == ERR_READ_MEMORY_SHORT) {
             TRACE("ERR_READ_MEMORY_SHORT");
-        }
-        else if (Result == EMPTY_APP_BUFFER)
-        {
+        } else if (Result == EMPTY_APP_BUFFER) {
             TRACE("EMPTY_APP_BUFFER");
-        }
-        else
-        {
+        } else {
             pBSLin->vUpdateBusStatistics(sLinData);
         }
-
     }
     return 0;
 }
@@ -68,24 +59,20 @@ int ReadBSDataBuffer(CBusStatisticLIN* pBSLin)
 DWORD WINAPI BSDataReadThreadProc_LIN(LPVOID pVoid)
 {
     CPARAM_THREADPROC* pThreadParam = (CPARAM_THREADPROC*) pVoid;
-    if (pThreadParam == nullptr)
-    {
+    if (pThreadParam == nullptr) {
         return ((DWORD)-1);
     }
 
     CBusStatisticLIN* pBusStatistics_LIN = static_cast<CBusStatisticLIN*> (pThreadParam->m_pBuffer);
 
-    if (pBusStatistics_LIN == nullptr)
-    {
+    if (pBusStatistics_LIN == nullptr) {
         return ((DWORD)-1);
     }
     bool bLoopON = true;
     pThreadParam->m_unActionCode = INVOKE_FUNCTION;
-    while (bLoopON)
-    {
+    while (bLoopON) {
         WaitForSingleObject(pThreadParam->m_hActionEvent, INFINITE);
-        switch (pThreadParam->m_unActionCode)
-        {
+        switch (pThreadParam->m_unActionCode) {
             case INVOKE_FUNCTION:
             {
                 ReadBSDataBuffer(pBusStatistics_LIN); // Retrieve message from the driver
@@ -130,7 +117,6 @@ CBusStatisticLIN::CBusStatisticLIN(void)
     UINT unBitsStdMsg[] = {34, 54, 64, 74, 84, 94, 104, 114, 124};
     memcpy(m_unBitsStdMsg, unBitsStdMsg, 9*sizeof(UINT));
 
-
     m_nFactorSTDFrame = 0;
     m_nFactorErrorFrame = 0;
     m_dDiffTime = 0;
@@ -142,12 +128,10 @@ CBusStatisticLIN::CBusStatisticLIN(void)
  */
 CBusStatisticLIN::~CBusStatisticLIN(void)
 {
-
     m_ouReadThread.bTerminateThread();      // Terminate read thread
     m_ouLinBufFSE.vClearMessageBuffer();    // clear can buffer
     DeleteCriticalSection(&m_omCritSecBS);  // delete critical section
-    if( m_nTimerHandle != 0 )
-    {
+    if (m_nTimerHandle != 0) {
         KillTimer(nullptr, m_nTimerHandle);
     }
 }
@@ -160,8 +144,7 @@ CBusStatisticLIN::~CBusStatisticLIN(void)
  */
 HRESULT CBusStatisticLIN::BSL_DoInitialization(void)
 {
-    if ( DIL_GetInterface( LIN, (void**)&m_pouDIL_LIN ) == S_OK )
-    {
+    if (DIL_GetInterface(LIN, (void**)&m_pouDIL_LIN) == S_OK) {
         DWORD dwClientId = 0;
         m_pouDIL_LIN->DILL_RegisterClient(TRUE, dwClientId, LIN_MONITOR_NODE);
         m_pouDIL_LIN->DILL_ManageMsgBuf(MSGBUF_ADD, dwClientId, &m_ouLinBufFSE);
@@ -172,7 +155,7 @@ HRESULT CBusStatisticLIN::BSL_DoInitialization(void)
 
     //Start the read thread
 
-    return bStartBSReadThread_LIN()?S_OK:S_FALSE;
+    return bStartBSReadThread_LIN() ? S_OK:S_FALSE;
 }
 
 /**
@@ -182,15 +165,11 @@ HRESULT CBusStatisticLIN::BSL_DoInitialization(void)
  */
 BOOL CBusStatisticLIN::BSL_bStartUpdation(BOOL bStart)
 {
-    if(bStart == TRUE)
-    {
-        if(m_nTimerHandle == 0)
-        {
+    if(bStart == TRUE) {
+        if (m_nTimerHandle == 0) {
             m_nTimerHandle = ::SetTimer(nullptr, 0, 1000, OnTimeWrapper);
         }
-    }
-    else
-    {
+    } else {
         KillTimer(nullptr, m_nTimerHandle);
         m_nTimerHandle = 0;
     }
@@ -217,13 +196,9 @@ HRESULT CBusStatisticLIN::BSL_GetTotalMsgCount(UINT unChannelIndex, eDirection e
 {
     EnterCriticalSection(&m_omCritSecBS);
 
-    if( eDir == DIR_RX )
-    {
+    if (eDir == DIR_RX) {
         nMsgCount = m_sBusStatistics_LIN[unChannelIndex].m_unTotalRxMsgCount;
-    }
-
-    else
-    {
+    } else {
         nMsgCount = m_sBusStatistics_LIN[unChannelIndex].m_unTotalTxMsgCount;
     }
 
@@ -242,24 +217,18 @@ HRESULT CBusStatisticLIN::BSL_GetTotalMsgCount(UINT unChannelIndex, eDirection e
  * Returns the total number of error messages occurred while
  * receiving or transmitting
  */
-HRESULT CBusStatisticLIN::BSL_GetTotalErrCount(UINT unChannelIndex, eDirection eDir,
-        UINT& nErrCount)
+HRESULT CBusStatisticLIN::BSL_GetTotalErrCount(UINT unChannelIndex, eDirection eDir, UINT& nErrCount)
 {
     EnterCriticalSection(&m_omCritSecBS);
 
     //eDir == DIR_RX
-    if( DIR_RX == eDir )
-    {
+    if (DIR_RX == eDir) {
         nErrCount = m_sBusStatistics_LIN[ unChannelIndex ].m_unErrorRxCount;
-    }
-    //eDir == DIR_TX
-    else if( DIR_TX == eDir )
-    {
+    } else if( DIR_TX == eDir ) {
+        //eDir == DIR_TX
         nErrCount = m_sBusStatistics_LIN[ unChannelIndex ].m_unErrorTxCount;
-    }
-    //eDir == DIR_ALL
-    else
-    {
+    } else {
+        //eDir == DIR_ALL
         nErrCount = m_sBusStatistics_LIN[ unChannelIndex ].m_unErrorTotalCount;
     }
     LeaveCriticalSection(&m_omCritSecBS);
@@ -275,12 +244,9 @@ HRESULT CBusStatisticLIN::BSL_GetAvgMsgCountPerSec(UINT unChannelIndex,
 {
     EnterCriticalSection(&m_omCritSecBS);
 
-    if( eDir == DIR_RX )
-    {
+    if (eDir == DIR_RX) {
         dMsgRate = m_sBusStatistics_LIN[unChannelIndex].m_dTotalRxMsgRate;
-    }
-    else
-    {
+    } else {
         dMsgRate = m_sBusStatistics_LIN[unChannelIndex].m_dTotalTxMsgRate;
     }
 
@@ -297,18 +263,13 @@ HRESULT CBusStatisticLIN::BSL_GetAvgErrCountPerSec(UINT unChannelIndex,
     EnterCriticalSection(&m_omCritSecBS);
 
     //eDir == DIR_RX
-    if( eDir == DIR_RX )
-    {
+    if (eDir == DIR_RX) {
         dErrCount = m_sBusStatistics_LIN[unChannelIndex].m_dErrorRxRate;
-    }
-    //eDir == DIR_TX
-    else if( eDir == DIR_TX )
-    {
+    } else if (eDir == DIR_TX) {
+        //eDir == DIR_TX
         dErrCount = m_sBusStatistics_LIN[unChannelIndex].m_dErrorTxRate;
-    }
-    //eDir == DIR_ALL
-    else
-    {
+    } else {
+        //eDir == DIR_ALL
         dErrCount = m_sBusStatistics_LIN[unChannelIndex].m_dErrorRate;
     }
     LeaveCriticalSection(&m_omCritSecBS);
@@ -323,18 +284,13 @@ HRESULT CBusStatisticLIN::BSL_GetBusLoad(UINT unChannelIndex, eLOAD eLoad, doubl
     EnterCriticalSection(&m_omCritSecBS);
 
     //eLoad = AVERAGE
-    if( eLoad == AVERAGE )
-    {
+    if (eLoad == AVERAGE) {
         dBusLoad = m_sBusStatistics_LIN[unChannelIndex].m_dAvarageBusLoad;
-    }
-    //eLoad = PEAK
-    else if( eLoad == PEAK )
-    {
+    } else if (eLoad == PEAK) {
+        //eLoad = PEAK
         dBusLoad = m_sBusStatistics_LIN[unChannelIndex].m_dPeakBusLoad;
-    }
-    //eLoad = CURRENT
-    else
-    {
+    } else {
+        //eLoad = CURRENT
         dBusLoad = m_sBusStatistics_LIN[unChannelIndex].m_dBusLoad;
     }
     LeaveCriticalSection(&m_omCritSecBS);
@@ -359,43 +315,30 @@ HRESULT CBusStatisticLIN::BSL_GetErrorCounter(UINT unChannelIndex, eDirection eD
 {
     EnterCriticalSection(&m_omCritSecBS);
 
-    if( eDir == DIR_RX )
-    {
+    if (eDir == DIR_RX) {
         //eDir == DIR_RX; eLoad == CURRENT
-        if( eLoad == CURRENT )
-        {
+        if (eLoad == CURRENT) {
             ucErrCounter = m_sBusStatistics_LIN[unChannelIndex].m_ucRxErrorCounter;
-        }
-        //eDir == DIR_RX; eLoad == PEAK
-        else if( eLoad == PEAK )
-        {
+        } else if(eLoad == PEAK) {
+            //eDir == DIR_RX; eLoad == PEAK
             ucErrCounter = m_sBusStatistics_LIN[unChannelIndex].m_ucRxPeakErrorCount;
         }
-    }
-    else if( eDir == DIR_TX )
-    {
+    } else if (eDir == DIR_TX) {
         //eDir == DIR_TX; eLoad == CURRENT
-        if( eLoad == CURRENT )
-        {
+        if (eLoad == CURRENT) {
             ucErrCounter = m_sBusStatistics_LIN[unChannelIndex].m_ucTxErrorCounter;
-        }
-        //eDir == DIR_TX; eLoad == PEAK
-        else if( eLoad == PEAK )
-        {
+        } else if (eLoad == PEAK) {
+            //eDir == DIR_TX; eLoad == PEAK
             ucErrCounter = m_sBusStatistics_LIN[unChannelIndex].m_ucTxPeakErrorCount;
         }
-    }
-    else
-    {
-        //eDir == DIR_ALL; eLoad == CURRENT
-        if( eLoad == CURRENT )
-        {
+    } else {
+        
+        if (eLoad == CURRENT) {
+            //eDir == DIR_ALL; eLoad == CURRENT
             ucErrCounter = m_sBusStatistics_LIN[unChannelIndex].m_ucRxErrorCounter +
                            m_sBusStatistics_LIN[unChannelIndex].m_ucTxErrorCounter;
-        }
-        //eDir == DIR_ALL; eLoad == PEAK
-        else if( eLoad == PEAK )
-        {
+        } else if (eLoad == PEAK) {
+            //eDir == DIR_ALL; eLoad == PEAK
             ucErrCounter = m_sBusStatistics_LIN[unChannelIndex].m_ucRxPeakErrorCount +
                            m_sBusStatistics_LIN[unChannelIndex].m_ucTxPeakErrorCount;
         }
@@ -479,27 +422,20 @@ void CBusStatisticLIN::vInitialiseBSData(void)
 {
     EnterCriticalSection(&m_omCritSecBS);
 
-    for( int nChannelIndex = 0; nChannelIndex < defNO_OF_LIN_CHANNELS; nChannelIndex++ )
-    {
+    for (int nChannelIndex = 0; nChannelIndex < defNO_OF_LIN_CHANNELS; nChannelIndex++) {
         // Reset whole statucture
-        memset( &m_sBusStatistics_LIN[ nChannelIndex ] , 0, sizeof(SBUSSTATISTICS_LIN) );
-        memset( &m_sPrevStatData_LIN[ nChannelIndex ] , 0, sizeof(SBUSSTATISTICS_LIN) );
+        memset(&m_sBusStatistics_LIN[ nChannelIndex ] , 0, sizeof(SBUSSTATISTICS_LIN) );
+        memset(&m_sPrevStatData_LIN[ nChannelIndex ] , 0, sizeof(SBUSSTATISTICS_LIN) );
         // Set Baud rate Manually
         m_sBusStatistics_LIN[ nChannelIndex ].m_dBaudRate = _tstof(defBAUDRATE);
 
-        memset( &m_sSubBusStatistics_LIN[nChannelIndex], 0, sizeof(SSUBBUSSTATISTICS_LIN) );
+        memset(&m_sSubBusStatistics_LIN[nChannelIndex], 0, sizeof(SSUBBUSSTATISTICS_LIN) );
     }
 
+    memset(&m_unPrevStandardCount, 0, sizeof( m_unPrevStandardCount ) );
+    memset(&m_unPrevErrorTotalCount, 0, sizeof( m_unPrevErrorTotalCount ) );
 
-    memset( &m_unPrevStandardCount, 0, sizeof( m_unPrevStandardCount ) );
-    memset( &m_unPrevErrorTotalCount, 0, sizeof( m_unPrevErrorTotalCount ) );
-
-
-
-
-    // m_nFactorSTDFrame     = defBITS_STD_FRAME + defBITS_INTER_FRAME;
-    // m_nFactorErrorFrame   = defBITS_ERROR_FRAME + defBITS_INTER_FRAME;
-    m_dDiffTime           = defTIME_INTERVAL_LIN;
+    m_dDiffTime = defTIME_INTERVAL_LIN;
     m_unPreviousTime = -1;
     LeaveCriticalSection(&m_omCritSecBS);
 }
@@ -509,18 +445,14 @@ void CBusStatisticLIN::vInitialiseBSData(void)
  */
 void CBusStatisticLIN::vCalculateDiffTime(void)
 {
-
     // check if the previous time value is not stored. take 1.0s as initial
     // value for calculation.
-    if(m_unPreviousTime != -1 )
-    {
+    if (m_unPreviousTime != -1) {
         m_dDiffTime         = CTimeManager::nCalculateCurrTimeStamp(FALSE) -
                               m_unPreviousTime;
         m_unPreviousTime += static_cast<UINT>(m_dDiffTime);
         m_dDiffTime         = m_dDiffTime / defDIV_FACT_FOR_SECOND_LIN;
-    }
-    else
-    {
+    } else {
         m_unPreviousTime = CTimeManager::nCalculateCurrTimeStamp(FALSE);
     }
 }
@@ -540,89 +472,60 @@ void CBusStatisticLIN::vUpdateBusStatistics(STLINDATA& sLinData)
     int nCurrentChannelIndex = sLinData.m_uDataInfo.m_sLINMsg.m_ucChannel - 1;
     INT nDLC = sLinData.m_uDataInfo.m_sLINMsg.m_ucDataLen;
 
-    if ((nCurrentChannelIndex < 0) || (nCurrentChannelIndex > (defNO_OF_LIN_CHANNELS - 1)))
-    {
+    if ((nCurrentChannelIndex < 0) || (nCurrentChannelIndex > (defNO_OF_LIN_CHANNELS - 1))) {
         nCurrentChannelIndex = 0;   //take appropriate action
     }
 
     //is it Tx Message
-    if(IS_TX_MESSAGE(sLinData.m_ucDataType))
-    {
-        if((sLinData.m_eLinMsgType)== LIN_EVENT)
-        {
-            if(sLinData.m_uDataInfo.m_sErrInfo.m_eEventType == EVENT_LIN_WAKEUP)
-            {
+    if (IS_TX_MESSAGE(sLinData.m_ucDataType)) {
+        if ((sLinData.m_eLinMsgType)== LIN_EVENT) {
+            if (sLinData.m_uDataInfo.m_sErrInfo.m_eEventType == EVENT_LIN_WAKEUP) {
                 m_sSubBusStatistics_LIN[nCurrentChannelIndex].m_unTotalWakeUpsCount++;
 
-            }
-            else if(sLinData.m_uDataInfo.m_sErrInfo.m_eEventType == EVENT_LIN_SLEEP )
-            {
+            } else if (sLinData.m_uDataInfo.m_sErrInfo.m_eEventType == EVENT_LIN_SLEEP) {
 
-            }
-            else
-            {
+            } else {
                 m_sSubBusStatistics_LIN[nCurrentChannelIndex].m_unErrorTxCount++;
             }
-        }
-        else
-        {
+        } else {
             m_sSubBusStatistics_LIN[nCurrentChannelIndex].m_unTotalTxMsgCount++;
 
             m_sSubBusStatistics_LIN[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsStdMsg[nDLC];
         }
 
-    }
-    //is it Rx Message
-    else if(IS_RX_MESSAGE(sLinData.m_ucDataType))
-    {
-        if((sLinData.m_eLinMsgType == LIN_EVENT))
-        {
+    } else if (IS_RX_MESSAGE(sLinData.m_ucDataType)) { //is it Rx Message
+        if ((sLinData.m_eLinMsgType == LIN_EVENT)) {
 
-            if(sLinData.m_uDataInfo.m_sErrInfo.m_eEventType == EVENT_LIN_WAKEUP)
-            {
+            if (sLinData.m_uDataInfo.m_sErrInfo.m_eEventType == EVENT_LIN_WAKEUP) {
                 m_sSubBusStatistics_LIN[nCurrentChannelIndex].m_unTotalWakeUpsCount++;
 
-            }
-            else if(sLinData.m_uDataInfo.m_sErrInfo.m_eEventType == EVENT_LIN_SLEEP )
+            } else if (sLinData.m_uDataInfo.m_sErrInfo.m_eEventType == EVENT_LIN_SLEEP )
             {
                 //no action taken
-            }
-            else
-            {
+            } else {
 
                 m_sSubBusStatistics_LIN[nCurrentChannelIndex].m_unErrorRxCount++;
             }
-        }
-        else
-        {
+        } else {
             m_sSubBusStatistics_LIN[nCurrentChannelIndex].m_unTotalRxMsgCount++;
             m_sSubBusStatistics_LIN[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsStdMsg[nDLC];
 
         }
 
-    }
-    else if(sLinData.m_uDataInfo.m_sErrInfo.m_eEventType == EVENT_LIN_WAKEUP)
-    {
+    } else if (sLinData.m_uDataInfo.m_sErrInfo.m_eEventType == EVENT_LIN_WAKEUP) {
         m_sSubBusStatistics_LIN[nCurrentChannelIndex].m_unTotalWakeUpsCount++;
 
-    }
-
-    else
-    {
+    } else {
         //Is it is Error
         m_sSubBusStatistics_LIN[nCurrentChannelIndex].m_unErrorTotalCount++;
-        if (sLinData.m_uDataInfo.m_sErrInfo.m_eEventType == EVENT_LIN_ERRMSG)
-        {
+        if (sLinData.m_uDataInfo.m_sErrInfo.m_eEventType == EVENT_LIN_ERRMSG) {
             // Update Statistics information
             m_sSubBusStatistics_LIN[ nCurrentChannelIndex ].m_unErrorTotalCount++;
             USHORT usErrorID = sLinData.m_uDataInfo.m_sErrInfo.m_ucReg_ErrCap /*& 0xE0*/;
             // Received message
-            if (usErrorID & 0x20)
-            {
+            if (usErrorID & 0x20) {
                 m_sSubBusStatistics_LIN[ nCurrentChannelIndex ].m_unErrorRxCount++;
-            }
-            else
-            {
+            } else {
                 m_sSubBusStatistics_LIN[ nCurrentChannelIndex ].m_unErrorTxCount++;
             }
             m_sSubBusStatistics_LIN[ nCurrentChannelIndex ].m_unTotalBitsperSec += defBITS_ERR_FRAME;
@@ -653,8 +556,7 @@ void CBusStatisticLIN::vCalculateBusParametres(void)
     EnterCriticalSection(&m_omCritSecBS);
     vCalculateDiffTime();
     m_dDiffTime = 1;
-    for(int nChannelIndex = 0; nChannelIndex <defNO_OF_LIN_CHANNELS; nChannelIndex++)
-    {
+    for (int nChannelIndex = 0; nChannelIndex <defNO_OF_LIN_CHANNELS; nChannelIndex++) {
         m_sBusStatistics_LIN[nChannelIndex] = m_sSubBusStatistics_LIN[nChannelIndex];
         m_sBusStatistics_LIN[nChannelIndex].m_nSamples++;
         m_sBusStatistics_LIN[ nChannelIndex ].m_unTotalMsgCount =
@@ -666,13 +568,10 @@ void CBusStatisticLIN::vCalculateBusParametres(void)
             m_sPrevStatData_LIN[ nChannelIndex ].m_unTotalMsgCount;
 
         FLOAT msgPerSec= (m_sBusStatistics_LIN[ nChannelIndex ].m_unMsgPerSecond /(FLOAT) m_dDiffTime );
-        if( msgPerSec > 0.50 && msgPerSec < 1)
-        {
+        if (msgPerSec > 0.50 && msgPerSec < 1) {
             m_sBusStatistics_LIN[ nChannelIndex ].m_unMsgPerSecond =1;
 
-        }
-        else
-        {
+        } else {
             m_sBusStatistics_LIN[ nChannelIndex ].m_unMsgPerSecond =
                 static_cast<UINT>
                 (m_sBusStatistics_LIN[ nChannelIndex ].m_unMsgPerSecond / m_dDiffTime );
@@ -720,9 +619,7 @@ void CBusStatisticLIN::vCalculateBusParametres(void)
         // Get the controller status
         LPARAM lParam = 0;
 
-        if (m_pouDIL_LIN->DILL_GetControllerParams( lParam, nChannelIndex,
-                HW_MODE) == S_OK)
-        {
+        if (m_pouDIL_LIN->DILL_GetControllerParams( lParam, nChannelIndex, HW_MODE) == S_OK) {
             m_sBusStatistics_LIN[ nChannelIndex ].m_ucStatus = (UCHAR)lParam;
         }
 
@@ -739,11 +636,9 @@ void CBusStatisticLIN::vCalculateBusParametres(void)
         dBusLoad = dBusLoad * defMAX_PERCENTAGE_BUS_LOAD_LIN;
 
         // check for peak load
-        if( dBusLoad > m_sBusStatistics_LIN[ nChannelIndex ].m_dPeakBusLoad )
-        {
+        if (dBusLoad > m_sBusStatistics_LIN[ nChannelIndex ].m_dPeakBusLoad) {
             // if peak load is greater than or equal to 100% assign it 99.99%
-            if( dBusLoad > defMAX_PERCENTAGE_BUS_LOAD_LIN )
-            {
+            if(dBusLoad > defMAX_PERCENTAGE_BUS_LOAD_LIN) {
                 dBusLoad = defMAX_PERCENTAGE_BUS_LOAD_ALLOWED_LIN;
             }
 

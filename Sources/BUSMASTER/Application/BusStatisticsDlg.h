@@ -22,7 +22,8 @@
  * This file contain the declaration of CBusStatisticsDlg class
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_BUSSTATISTICSDLG_H_
+#define BUSMASTER_APPLICATION_BUSSTATISTICSDLG_H_
 
 // For Color ListBox
 #include "MessageList.h"
@@ -32,8 +33,7 @@
 #include "NetworkStatistics.h"
 
 //BusStatistics Class
-class CBusStatisticsDlg : public CCommonStatistics
-{
+class CBusStatisticsDlg : public CCommonStatistics {
     DECLARE_DYNCREATE(CBusStatisticsDlg)
     // Construction
 public:
@@ -66,3 +66,5 @@ private:
 public:
     afx_msg void OnSize(UINT nType, int cx, int cy);
 };
+
+#endif // BUSMASTER_APPLICATION_BUSSTATISTICSDLG_H_

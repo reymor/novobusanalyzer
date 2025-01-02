@@ -50,13 +50,11 @@ CGraphConfiguration::CGraphConfiguration(CWnd* pParent /*=nullptr*/)
     : CDialog(CGraphConfiguration::IDD, pParent)
     , m_nLineDisplay(0)
 {
-    //{{AFX_DATA_INIT(CGraphConfiguration)
     m_nYGridCount = 0;
     m_nXGridCount = 0;
     m_nUpdateRate = 0;
     m_nBufferSize = 0;
     m_omFrameType = -1;
-    //}}AFX_DATA_INIT
     m_eBusType = CAN;
 }
 
@@ -73,7 +71,6 @@ CGraphConfiguration::CGraphConfiguration(CWnd* pParent /*=nullptr*/)
 void CGraphConfiguration::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CGraphConfiguration)
     DDX_Control(pDX, IDC_AXIS_COLOR, m_omAxisColor);
     DDX_Control(pDX, IDC_FRAME_COLOR, m_omFrameColor);
     DDX_Control(pDX, IDC_GRID_COLOR, m_omGridColor);
@@ -87,15 +84,12 @@ void CGraphConfiguration::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT_BUFFER_SIZE, m_nBufferSize);
     DDV_MinMaxInt(pDX, m_nBufferSize, 1000, 50000);
     DDX_CBIndex(pDX, IDC_COMBO_FRAME, m_omFrameType);
-    //}}AFX_DATA_MAP
     DDX_CBIndex(pDX, IDC_COMBO_LINE_DISPLAY, m_nLineDisplay);
 }
 
 
 BEGIN_MESSAGE_MAP(CGraphConfiguration, CDialog)
-    //{{AFX_MSG_MAP(CGraphConfiguration)
     ON_BN_CLICKED(IDC_CBTN_SET_DEFAULT, OnSetDefault)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

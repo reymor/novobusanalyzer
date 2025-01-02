@@ -57,8 +57,7 @@ BOOL CAppServices_Impl::bWriteToTrace(char* pcTraceStr)
 {
     BOOL Result = FALSE;
 
-    if (nullptr != m_podUIThread)
-    {
+    if (nullptr != m_podUIThread) {
         CString omStr(pcTraceStr);
         m_podUIThread->vAddString(omStr);
         Result = TRUE;

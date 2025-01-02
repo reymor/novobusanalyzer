@@ -1,8 +1,7 @@
 
 #include "stdafx.h"
 #include "BusmasterDump.h"
-//#include "GettextBusmaster.h"
-#include "Utility\MultiLanguageSupport.h"
+#include "Utility/MultiLanguageSupport.h"
 
 std::string CBusmasterDump::m_strAppName;
 
@@ -20,38 +19,32 @@ LONG CBusmasterDump::ExceptionFilter( struct _EXCEPTION_POINTERS* pExceptionInfo
     HMODULE hDll = nullptr;
     char szDbgHelpPath[_MAX_PATH];
 
-    if (GetModuleFileName( nullptr, szDbgHelpPath, _MAX_PATH ))
-    {
+    if (GetModuleFileName(nullptr, szDbgHelpPath, _MAX_PATH)) {
         std::string strDbgHelpPath = szDbgHelpPath;
         strDbgHelpPath = strDbgHelpPath.find_last_of("\\");
 
-        if (!strDbgHelpPath.empty())
-        {
+        if (!strDbgHelpPath.empty()) {
             strDbgHelpPath += "DBGHELP.DLL";
             hDll = ::LoadLibrary( strDbgHelpPath.c_str() );
         }
     }
 
-    if (hDll==nullptr)
-    {
+    if (hDll==nullptr) {
         // Load the default from windows path
         hDll = ::LoadLibrary( "DBGHELP.DLL" );
     }
 
     std::string strResult = "";
 
-    if (hDll)
-    {
+    if (hDll) {
         MINIDUMPWRITEDUMP pDump = (MINIDUMPWRITEDUMP)::GetProcAddress( hDll, "MiniDumpWriteDump" );
-        if (pDump)
-        {
+        if (pDump) {
             char szDumpPath[_MAX_PATH];
             std::string strDumpPath;
             std::string strDumpMsg;
 
             // Place the dump file in Temp folder
-            if (!GetTempPath( _MAX_PATH, szDumpPath ))
-            {
+            if (!GetTempPath(_MAX_PATH, szDumpPath)) {
                 strDumpPath = "c:\\temp\\";
             }
 
@@ -59,16 +52,14 @@ LONG CBusmasterDump::ExceptionFilter( struct _EXCEPTION_POINTERS* pExceptionInfo
             strDumpPath += m_strAppName;
             strDumpPath += ".dmp";
 
-            // Prompt the user for saving the busmaster dump file
-            if (::MessageBox( nullptr, _("Unhandled exception in BUSMASTER. Would you like to save a dump file?"),
-                              m_strAppName.c_str(), MB_YESNO ) == IDYES)
-            {
+            // Prompt the user for saving the novo bus analyzer dump file
+            if (::MessageBox(nullptr, _("Unhandled exception in Novo Bus Analyer. Would you like to save a dump file?"),
+                              m_strAppName.c_str(), MB_YESNO) == IDYES) {
                 // Create the dump file as per path given
-                HANDLE hFile = ::CreateFile( strDumpPath.c_str (), GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS,
+                HANDLE hFile = ::CreateFile(strDumpPath.c_str (), GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS,
                                              FILE_ATTRIBUTE_NORMAL, nullptr );
 
-                if (hFile!=INVALID_HANDLE_VALUE)
-                {
+                if (hFile!=INVALID_HANDLE_VALUE) {
                     _MINIDUMP_EXCEPTION_INFORMATION ExInfo;
 
                     ExInfo.ThreadId = ::GetCurrentThreadId();
@@ -76,39 +67,29 @@ LONG CBusmasterDump::ExceptionFilter( struct _EXCEPTION_POINTERS* pExceptionInfo
                     ExInfo.ClientPointers = 0;
 
                     // Write the crash dump
-                    BOOL bRetValue = pDump( GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, nullptr, nullptr );
-                    if (bRetValue)
-                    {
+                    BOOL bRetValue = pDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, nullptr, nullptr);
+                    if (bRetValue) {
                         strDumpMsg = _("Saved dump file to ") + strDumpPath;
                         lRetval = EXCEPTION_EXECUTE_HANDLER;
-                    }
-                    else
-                    {
+                    } else {
                         strDumpMsg = _("Failed to save dump file to ") + strDumpPath;
                     }
 
                     strResult = strDumpMsg;
                     ::CloseHandle(hFile);
-                }
-                else
-                {
+                } else {
                     strDumpMsg = _("Failed to create dump file ") + strDumpPath;
                     strResult = strDumpMsg;
                 }
             }
-        }
-        else
-        {
+        } else {
             strResult = "DBGHELP.DLL too old";
         }
-    }
-    else
-    {
+    } else {
         strResult = "DBGHELP.DLL not found";
     }
 
-    if (strResult.length() > 0)
-    {
+    if (strResult.length() > 0) {
         ::MessageBox( nullptr, strResult.c_str(), m_strAppName.c_str(), MB_OK );
     }
 

@@ -62,7 +62,6 @@ protected:
 
     // Generated message map functions
 protected:
-    //{{AFX_MSG(CFnsTreeView)
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
     afx_msg void OnTreeItemSelectionChanged(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnItemLeftClick(NMHDR* pNMHDR, LRESULT* pResult);
@@ -78,7 +77,6 @@ protected:
     virtual bool bEnablePreconnectHandler();
     virtual bool bEnableBusSpecificHandler(CString omstrTreeItemName);
 
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 
     //  Add new message handler
@@ -103,12 +101,6 @@ private:
     // Add new key handler
     void vOnNewKeyHandler();
     // Add new POC handler
-    //void vOnNewPOCHandler();
-    // Add new Cycle handler
-    //void vOnNewStartCycleHandler();
-    // Add new PDU handler
-    //void vOnNewPDUHandler();
-    // Add new timer handler
     void vOnNewTimerHandler();
 
     //  Add new error handler
@@ -139,8 +131,6 @@ private:
     CImageList m_omImageList;
 
     INT nGetLinEventTypeFromName(CString strName, std::string& strEventName);
-
-
 public:
 
     // Populate tree with function prototypes

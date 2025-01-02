@@ -36,5 +36,3 @@ void CImportLogToolbar::SetSliderHandleWnd(const HWND& hWnd)
     m_hWndScroll = hWnd;
 }
 // CImportLogToolbar message handlers
-
-

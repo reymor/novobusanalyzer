@@ -276,7 +276,6 @@ bool CConvertCpp::convertCppFile(std::string omFilePath, CString omBusName, ETYP
             CString omTextLineTemp = omTextLine;
             CString omFuncPrototype = omStrExtractFunctionNameFromPrototype(omTextLine);
             CString omMsgName = omFuncPrototype;
-            //mapWrapperToFunction[std::string(omFuncPrototype)+"_Wrapper"] = omFuncPrototype;
             lstWrapperFunctions.push_back(std::string(omFuncPrototype));
             omMsgName.Replace((CGlobalObj::omGetBusSpecMsgHndlrName(eBus) + defMSG_NAME_HANDLER), "");
 

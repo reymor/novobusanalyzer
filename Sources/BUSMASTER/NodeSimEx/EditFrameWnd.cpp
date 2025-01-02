@@ -42,10 +42,6 @@ ETYPE_BUS CFnsTreeView::sm_eBus  = CAN;
 IMPLEMENT_DYNCREATE(CEditFrameWnd, CMDIChildWnd)
 
 BEGIN_MESSAGE_MAP(CEditFrameWnd, CMDIChildWnd)
-    //{{AFX_MSG_MAP(CEditFrameWnd)
-    // NOTE - the ClassWizard will add and remove mapping macros here.
-    //    DO NOT EDIT what you see in these blocks of generated code !
-    //}}AFX_MSG_MAP
     ON_WM_CREATE()
     ON_WM_SETFOCUS()
 END_MESSAGE_MAP()

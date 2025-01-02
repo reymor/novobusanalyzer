@@ -26,7 +26,6 @@
 #include "ExecuteFunc.h"
 #include "FunctionEditorStruct.h"
 #include "FunctionEditorBase.h"
-//#include "DIL_Interface_extern.h"
 #include "IBusMasterKernel.h"
 #define defCHILD_FRAME_PROP_H               0.75
 #define defOUTPUT_WND_PROP_X                0.5
@@ -72,7 +71,6 @@ CGlobalObj::CGlobalObj(ETYPE_BUS eBus)
     m_omErrorHandlerList.RemoveAll();
     m_omObjWrapperName = "wrapper.o";
     m_podNodeToDllMap = nullptr;
-    //CKeyPanelEntryList* CGlobalObj::g_podKeyPanelEntryList = nullptr;
     m_pfTransmitMsg         = nullptr;
     m_pfEnableDisableLog    = nullptr;
     m_pfDisconnectTool      = nullptr;
@@ -349,8 +347,6 @@ BOOL CGlobalObj::bGetDefaultValue(eCONFIGDETAILS eParam, WINDOWPLACEMENT& sPosit
             omRect.right -= static_cast<LONG> ( omRect.right *
                                                 defOUTPUT_WND_PROP_X );
             sPosition.rcNormalPosition = omRect;
-            /*sPosition.rcNormalPosition.top -= 2 * omToolBarRect.Height();
-            sPosition.rcNormalPosition.bottom -= 2 * omToolBarRect.Height();*/
         }
         break;
         case SIMSYS_WND_PLACEMENT:
@@ -547,7 +543,6 @@ HRESULT CGlobalObj::RegisterNodeToDIL(BOOL bRegister, PSNODEINFO pNodeInfo)
 
 void CGlobalObj::vCloseAllActiveFunctionEditors()
 {
-	//CFunctionEditorDoc* pDocRet = nullptr;
 	CFunctionEditorDoc* pDoc = nullptr;
 	if (m_pEditorDocTemplate != nullptr)
 	{

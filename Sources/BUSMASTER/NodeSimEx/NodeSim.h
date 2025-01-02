@@ -56,8 +56,6 @@ public:
     HRESULT NS_DLLBuildLoadAllEnabled();
     HRESULT NS_DLLUnloadAllEnabled();
 
-
-
     //Set the MSG structure name and File name containing the structure def
     virtual void NS_UpdateFuncStructsNodeSimEx(PVOID pvFuncStructs, E_UPDATE_TYPE eUpdateType);
     //Provide the helptext for all the handlers in the order mentoned above

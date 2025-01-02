@@ -38,35 +38,21 @@ public:
     CNodeDetailsDlg(ETYPE_BUS eBus, CGlobalObj* pGlobalObj = nullptr, CSimSysManager* pSimSysManager = nullptr, PSNODEINFO pNode = nullptr, CWnd* pParent = nullptr);
     BOOL m_bIsNodeModified;  //Track the change
 
-    // Dialog Data
-    //{{AFX_DATA(CNodeDetailsDlg)
     enum { IDD = IDD_NODE_DEATILS };
     CString m_omStrDllPath;
     CString m_omStrNodeName;
     CString m_omStrNodeFilePath;
     CString m_omStrCFile;
-    //}}AFX_DATA
-
-
-    // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CNodeDetailsDlg)
 public:
     virtual BOOL PreTranslateMessage(MSG* pMsg);
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
-
-    // Implementation
 protected:
 
-    // Generated message map functions
-    //{{AFX_MSG(CNodeDetailsDlg)
     virtual void OnCancel();
     virtual BOOL OnInitDialog();
     virtual void OnOK();
     afx_msg void OnBrowse();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     ETYPE_BUS m_eBus;

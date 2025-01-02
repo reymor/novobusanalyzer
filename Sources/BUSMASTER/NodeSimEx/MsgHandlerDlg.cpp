@@ -26,9 +26,8 @@
 #include "MsgHandlerDlg.h"
 #include "GlobalObj.h"
 #include "MsgHandlerDlg.h"
-#include "Utility\MultiLanguageSupport.h"
-#include "Utility\UtilFunctions.h"
-//#include "../Application/GettextBusmaster.h"
+#include "Utility/MultiLanguageSupport.h"
+#include "Utility/UtilFunctions.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -58,8 +57,6 @@ CMsgHandlerDlg::CMsgHandlerDlg(ETYPE_BUS eBus, CWnd* pParent /*=nullptr*/)
       m_omStrMsgIDFrom(""),
       m_omStrMsgIDTo("")
 {
-    //{{AFX_DATA_INIT(CMsgHandlerDlg)
-    //}}AFX_DATA_INIT
     m_eBus = eBus;
     m_nFrameType = 0;
 }
@@ -80,7 +77,6 @@ CMsgHandlerDlg::CMsgHandlerDlg(ETYPE_BUS eBus, CWnd* pParent /*=nullptr*/)
 void CMsgHandlerDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CMsgHandlerDlg)
     DDX_Control(pDX, IDC_LSTB_MSG_HANDLER_LIST, m_omListMsgName);
 
     DDX_Control(pDX, IDC_EDIT_MSG_HANDLER_ID_TO, m_odEditMsgIDTo);
@@ -92,29 +88,21 @@ void CMsgHandlerDlg::DoDataExchange(CDataExchange* pDX)
 
     DDX_Control(pDX, IDC_CBTN_MSG_HANDLDER_APPLY, m_omButtonApply);
     DDX_Control(pDX, IDC_CBTN__MSG_OK, m_omButtonOK);
-    //}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CMsgHandlerDlg, CDialog)
-    //{{AFX_MSG_MAP(CMsgHandlerDlg)
     ON_BN_CLICKED(IDC_CBTN__MSG_CANCEL, OnCbtnMsgCancel)
     ON_BN_CLICKED(IDC_CBTN__MSG_OK, OnCbtnMsgOk)
     ON_BN_CLICKED(IDC_CBTN_MSG_HANDLDER_APPLY, OnCbtnMsgHandlerApply)
     ON_BN_CLICKED(IDC_RBTN_MSG_ALL, OnRbtnMsgAll)
     ON_BN_CLICKED(IDC_RBTN_MSG_ID, OnRbtnMsgId)
     ON_BN_CLICKED(IDC_RBTN_MSG_NAME, OnRbtnMsgName)
-    //ON_BN_CLICKED(IDC_RBTN_TYPE_NULLFRAME, vUpdateMsg)
-    //ON_BN_CLICKED(IDC_RBTN_TYPE_FRAME, vUpdateMsg)
     ON_BN_CLICKED(IDC_RBTN_MSG_RANGE, OnRbtnMsgRange)
     ON_LBN_SELCHANGE(IDC_LSTB_MSG_HANDLER_LIST, OnSelchangeLstbMsgHandlerList)
-    //ON_CBN_EDITCHANGE(IDC_CMB_SLOTID,OnEditChangeSlotId)
-    //ON_CBN_SELCHANGE(IDC_CMB_SLOTID,OnSelChangeSlotId)
-    //ON_CBN_SELCHANGE(IDC_CMB_BASECYCLE,OnSelChangeBaseCyc)
     ON_EN_UPDATE(IDC_EDIT_MSG_HANDLER_ID, OnUpdateEditMsgHandlerId)
     ON_EN_UPDATE(IDC_EDIT_MSG_HANDLER_ID_FROM, OnUpdateEditMsgHandlerIdFrom)
     ON_EN_UPDATE(IDC_EDIT_MSG_HANDLER_ID_TO, OnUpdateEditMsgHandlerIdTo)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /******************************************************************************/
@@ -522,9 +510,6 @@ BOOL CMsgHandlerDlg::OnInitDialog()
     m_odEditMsgID.EnableWindow(TRUE);
     m_omButtonApply.EnableWindow(FALSE);
     m_omButtonOK.EnableWindow(FALSE);
-
-    //VENKATNARAYANA
-    //    m_odEditMsgID.vSetSigned(FALSE);
 
     m_odEditMsgIDTo.vSetSigned(FALSE);
     m_odEditMsgIDFrom.vSetSigned(FALSE);

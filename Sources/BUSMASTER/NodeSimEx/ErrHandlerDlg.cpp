@@ -47,8 +47,6 @@ static char THIS_FILE[] = __FILE__;
 CErrHandlerDlg::CErrHandlerDlg(CFunctionEditorDoc* pDoc, CWnd* pParent /*=nullptr*/,BOOL bIsDelete /*FALSE*/)
     : CDialog(CErrHandlerDlg::IDD, pParent)
 {
-    //{{AFX_DATA_INIT(CErrHandlerDlg)
-    //}}AFX_DATA_INIT
     m_bIsDelete = bIsDelete;
     m_pDoc      = pDoc;
 }
@@ -68,16 +66,12 @@ CErrHandlerDlg::CErrHandlerDlg(CFunctionEditorDoc* pDoc, CWnd* pParent /*=nullpt
 void CErrHandlerDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CErrHandlerDlg)
-    //}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CErrHandlerDlg, CDialog)
-    //{{AFX_MSG_MAP(CErrHandlerDlg)
     ON_BN_CLICKED(IDC_CBTN__ERROR_CANCEL, OnCbtnErrorCancel)
     ON_BN_CLICKED(IDC_CBTN__ERROR_OK, OnCbtnErrorOk)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /******************************************************************************/

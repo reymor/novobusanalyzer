@@ -44,7 +44,6 @@ enum eCANMONITORFLAG
     FILTERTXMSGS,
     RXMSG,
     SELECTDATABASEFILE,
-    //SIGNALWATCH,
     FUNCEDITOR,
     DBOPEN,
     DBOPEN_J1939,
@@ -126,8 +125,6 @@ private:
     BOOL m_bActivatedJ1939;     // Current active bus for configuration.
     BOOL m_bJAddressClaimed;
      
-    
-
     // Private constructors to make singleton class
     static CFlags sm_ouSingletonObj;
 };

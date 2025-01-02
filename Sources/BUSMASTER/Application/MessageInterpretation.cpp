@@ -31,7 +31,7 @@
 #include "Utility/fflistctrl.h"
 #include "MessageInterpretation.h"
 #include "../Utility/MultiLanguageSupport.h"
-#include "Application\HashDefines.h"
+#include "HashDefines.h"
 
 #define defSTR_SIGNAL_NAME      "Name"
 #define defSTR_PHYSICAL_COLUMN  "Physical Value"

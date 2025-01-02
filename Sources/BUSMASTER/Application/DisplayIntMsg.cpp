@@ -65,15 +65,11 @@ CDisplayIntMsg::CDisplayIntMsg(CONST CStringArray& omStrStringArray)
 void CDisplayIntMsg::DoDataExchange(CDataExchange* pDX)
 {
     CDialog::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CDisplayIntMsg)
     DDX_Control(pDX, IDC_EDIT_INTERPRETED_MSG, m_omEditControl);
-    //}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CDisplayIntMsg, CDialog)
-    //{{AFX_MSG_MAP(CDisplayIntMsg)
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 /******************************************************************************/
 /*  Function Name    :  OnInitDialog                                          */
@@ -106,7 +102,6 @@ BOOL CDisplayIntMsg::OnInitDialog()
     }
     // Set the edit box text.
     m_omEditControl.SetWindowText(omStrDisplay);
-
 
     return TRUE;  // return TRUE unless you set the focus to a control
     // EXCEPTION: OCX Property Pages should return FALSE

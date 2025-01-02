@@ -22,7 +22,7 @@
 
 #include "BusStatisticCAN.h"
 #include "Utility/TimeManager.h"
-#include "BUSMASTER.h"   // App class header
+#include "BUSMASTER.h"
 #include "IBusMasterKernel.h"
 extern CCANMonitorApp theApp;
 //Can interface to Bus Statistics
@@ -38,20 +38,14 @@ void* CBusStatisticCAN:: sm_pouBSCan;
 int ReadBSDataBuffer(CBusStatisticCAN* pBSCan)
 {
     ASSERT(pBSCan != nullptr);
-    while (pBSCan->m_ouCanBufFSE.GetMsgCount() > 0)
-    {
+    while (pBSCan->m_ouCanBufFSE.GetMsgCount() > 0) {
         static STCANDATA sCanData;
         int Result = pBSCan->m_ouCanBufFSE.ReadFromBuffer(&sCanData);
-        if (Result == ERR_READ_MEMORY_SHORT)
-        {
+        if (Result == ERR_READ_MEMORY_SHORT) {
             TRACE("ERR_READ_MEMORY_SHORT");
-        }
-        else if (Result == EMPTY_APP_BUFFER)
-        {
+        } else if (Result == EMPTY_APP_BUFFER) {
             TRACE("EMPTY_APP_BUFFER");
-        }
-        else
-        {
+        } else {
             pBSCan->vUpdateBusStatistics(sCanData);
         }
 
@@ -68,24 +62,20 @@ int ReadBSDataBuffer(CBusStatisticCAN* pBSCan)
 DWORD WINAPI BSDataReadThreadProc(LPVOID pVoid)
 {
     CPARAM_THREADPROC* pThreadParam = (CPARAM_THREADPROC*) pVoid;
-    if (pThreadParam == nullptr)
-    {
+    if (pThreadParam == nullptr) {
         return ((DWORD)-1);
     }
 
     CBusStatisticCAN* pBusStatistics = static_cast<CBusStatisticCAN*> (pThreadParam->m_pBuffer);
 
-    if (pBusStatistics == nullptr)
-    {
+    if (pBusStatistics == nullptr) {
         return ((DWORD)-1);
     }
     bool bLoopON = true;
     pThreadParam->m_unActionCode = INVOKE_FUNCTION;
-    while (bLoopON)
-    {
+    while (bLoopON) {
         WaitForSingleObject(pThreadParam->m_hActionEvent, INFINITE);
-        switch (pThreadParam->m_unActionCode)
-        {
+        switch (pThreadParam->m_unActionCode) {
             case INVOKE_FUNCTION:
             {
                 ReadBSDataBuffer(pBusStatistics); // Retrieve message from the driver
@@ -162,12 +152,10 @@ CBusStatisticCAN::CBusStatisticCAN(void)
  */
 CBusStatisticCAN::~CBusStatisticCAN(void)
 {
-
     m_ouReadThread.bTerminateThread();      // Terminate read thread
     m_ouCanBufFSE.vClearMessageBuffer();    // clear can buffer
     DeleteCriticalSection(&m_omCritSecBS);  // delete critical section
-    if( m_nTimerHandle != 0 )
-    {
+    if (m_nTimerHandle != 0) {
         KillTimer(nullptr, m_nTimerHandle);
     }
 }
@@ -180,8 +168,7 @@ CBusStatisticCAN::~CBusStatisticCAN(void)
  */
 HRESULT CBusStatisticCAN::BSC_DoInitialization(void)
 {
-    if (DIL_GetInterface(CAN, (void**)&m_pouDIL_CAN) == S_OK)
-    {
+    if (DIL_GetInterface(CAN, (void**)&m_pouDIL_CAN) == S_OK) {
         DWORD dwClientId = 0;
         m_pouDIL_CAN->DILC_RegisterClient(TRUE, dwClientId, CAN_MONITOR_NODE);
         m_pouDIL_CAN->DILC_ManageMsgBuf(MSGBUF_ADD, dwClientId, &m_ouCanBufFSE);
@@ -202,15 +189,11 @@ HRESULT CBusStatisticCAN::BSC_DoInitialization(void)
  */
 BOOL CBusStatisticCAN::BSC_bStartUpdation(BOOL bStart)
 {
-    if(bStart == TRUE)
-    {
-        if(m_nTimerHandle == 0)
-        {
+    if (bStart == TRUE) {
+        if (m_nTimerHandle == 0) {
             m_nTimerHandle = ::SetTimer(nullptr, 0, 1000, OnTimeWrapper);
         }
-    }
-    else
-    {
+    } else {
         KillTimer(nullptr, m_nTimerHandle);
         m_nTimerHandle = 0;
     }
@@ -284,62 +267,41 @@ HRESULT CBusStatisticCAN::BSC_GetTotalMsgCount(UINT unChannelIndex, eDirection e
     -----------------------------------------------------------------------------*/
     EnterCriticalSection(&m_omCritSecBS);
 
-    if( eDir == DIR_RX )
-    {
-        if( byIdType == TYPE_ID_CAN_STANDARD )
-        {
-            if( byMsgType == TYPE_MSG_CAN_RTR )
-            {
+    if (eDir == DIR_RX) {
+        if (byIdType == TYPE_ID_CAN_STANDARD) {
+            if (byMsgType == TYPE_MSG_CAN_RTR) {
                 //Case1:(eDir=DIR_RX; byIdType=TYPE_ID_CAN_STANDARD;byMsgType=TYPE_MSG_CAN_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxSTD_RTRMsgCount;
-            }
-            else if( byMsgType == TYPE_MSG_CAN_NON_RTR)
-            {
+            } else if ( byMsgType == TYPE_MSG_CAN_NON_RTR) {
                 //Case2:(eDir=DIR_RX; byIdType=TYPE_ID_CAN_STANDARD;byMsgType=TYPE_MSG_CAN_NON_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxSTDMsgCount;
-            }
-            else
-            {
+            } else {
                 //Case3:(eDir=DIR_RX; byIdType=TYPE_ID_CAN_STANDARD;byMsgType=TYPE_MSG_CAN_NON_ALL
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxSTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unRxSTDMsgCount;
             }
-        }
-        else if( byIdType == TYPE_ID_CAN_EXTENDED )
-        {
-            if( byMsgType == TYPE_MSG_CAN_RTR )
-            {
+        } else if (byIdType == TYPE_ID_CAN_EXTENDED) {
+            if (byMsgType == TYPE_MSG_CAN_RTR) {
                 //Case4:(eDir=DIR_RX; byIdType=TYPE_ID_CAN_EXTENDED;byMsgType=TYPE_MSG_CAN_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxEXTD_RTRMsgCount;
-            }
-            else if( byMsgType == TYPE_MSG_CAN_NON_RTR)
-            {
+            } else if( byMsgType == TYPE_MSG_CAN_NON_RTR) {
                 //Case5:(eDir=DIR_RX; byIdType=TYPE_ID_CAN_EXTENDED;byMsgType=TYPE_MSG_CAN_NON_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxEXTDMsgCount;
-            }
-            else
-            {
+            } else {
                 //Case6:(eDir=DIR_RX; byIdType=TYPE_ID_CAN_EXTENDED;byMsgType=TYPE_MSG_CAN_ALL
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxEXTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unRxEXTDMsgCount;
             }
-        }
-        else
-        {
-            if( byMsgType == TYPE_MSG_CAN_RTR )
-            {
+        } else {
+            if (byMsgType == TYPE_MSG_CAN_RTR) {
                 //Case7:(eDir=DIR_RX; byIdType=TYPE_ID_CAN_ALL;byMsgType=TYPE_MSG_CAN_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxSTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unRxEXTD_RTRMsgCount;
-            }
-            else if( byMsgType == TYPE_MSG_CAN_NON_RTR)
-            {
+            } else if (byMsgType == TYPE_MSG_CAN_NON_RTR) {
                 //Case8:(eDir=DIR_RX; byIdType=TYPE_ID_CAN_ALL;byMsgType=TYPE_MSG_CAN_NON_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxSTDMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unRxEXTDMsgCount;
-            }
-            else
-            {
+            } else {
                 //Case9:(eDir=DIR_RX; byIdType=TYPE_ID_CAN_ALL;byMsgType=TYPE_MSG_CAN_ALL
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxSTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unRxSTDMsgCount +
@@ -347,140 +309,93 @@ HRESULT CBusStatisticCAN::BSC_GetTotalMsgCount(UINT unChannelIndex, eDirection e
                             m_sBusStatistics[unChannelIndex].m_unRxEXTDMsgCount;
             }
         }
-    }
-
-    else if( eDir == DIR_TX )
-    {
-        if( byIdType == TYPE_ID_CAN_STANDARD )
-        {
-            if( byMsgType == TYPE_MSG_CAN_RTR )
-            {
+    } else if (eDir == DIR_TX) {
+        if (byIdType == TYPE_ID_CAN_STANDARD) {
+            if (byMsgType == TYPE_MSG_CAN_RTR) {
                 //Case10:eDir=DIR_TX; byIdType=TYPE_ID_CAN_STANDARD;byMsgType=TYPE_MSG_CAN_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unTxSTD_RTRMsgCount;
-            }
-            else if( byMsgType == TYPE_MSG_CAN_NON_RTR)
-            {
+            } else if (byMsgType == TYPE_MSG_CAN_NON_RTR) {
                 //Case11:eDir=DIR_TX; byIdType=TYPE_ID_CAN_STANDARD;byMsgType=TYPE_MSG_CAN_NON_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unTxSTDMsgCount;
-            }
-            else
-            {
+            } else {
                 //Case12:eDir=DIR_TX; byIdType=TYPE_ID_CAN_STANDARD;byMsgType=TYPE_MSG_CAN_ALL
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unTxSTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxSTDMsgCount;
             }
-        }
-        else if( byIdType == TYPE_ID_CAN_EXTENDED )
-        {
-            if( byMsgType == TYPE_MSG_CAN_RTR )
-            {
+        } else if (byIdType == TYPE_ID_CAN_EXTENDED) {
+            if (byMsgType == TYPE_MSG_CAN_RTR) {
                 //Case13:eDir=DIR_TX; byIdType=TYPE_ID_CAN_EXTEND;byMsgType=TYPE_MSG_CAN_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unTxEXTD_RTRMsgCount;
-            }
-            else if( byMsgType == TYPE_MSG_CAN_NON_RTR)
-            {
+            } else if (byMsgType == TYPE_MSG_CAN_NON_RTR) {
                 //Case14:eDir=DIR_TX; byIdType=TYPE_ID_CAN_EXTEND;byMsgType=TYPE_MSG_CAN_NON_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unTxEXTDMsgCount;
-            }
-            else
-            {
+            } else {
                 //Case15:eDir=DIR_TX; byIdType=TYPE_ID_CAN_EXTEND;byMsgType=TYPE_MSG_CAN_ALL
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unTxEXTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxEXTDMsgCount;
             }
-        }
-        else
-        {
-            if( byMsgType == TYPE_MSG_CAN_RTR )
-            {
+        } else {
+            if (byMsgType == TYPE_MSG_CAN_RTR) {
                 //Case16:eDir=DIR_TX; byIdType=TYPE_ID_CAN_ALL;byMsgType=TYPE_MSG_CAN_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unTxSTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxEXTD_RTRMsgCount;
-            }
-            else if( byMsgType == TYPE_MSG_CAN_NON_RTR)
-            {
+            } else if( byMsgType == TYPE_MSG_CAN_NON_RTR) {
                 //Case17:eDir=DIR_TX; byIdType=TYPE_ID_CAN_ALL;byMsgType=TYPE_MSG_CAN_NON_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unTxSTDMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxEXTDMsgCount;
-            }
-            else
-            {
+            } else {
                 //Case18:eDir=DIR_TX; byIdType=TYPE_ID_CAN_ALL;byMsgType=TYPE_MSG_CAN_ALL
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unTotalTxMsgCount;
             }
         }
-    }
-
-
-    else
-    {
-        if( byIdType == TYPE_ID_CAN_STANDARD )
-        {
-            if( byMsgType == TYPE_MSG_CAN_NON_RTR )
-            {
+    } else {
+        if (byIdType == TYPE_ID_CAN_STANDARD) {
+            if (byMsgType == TYPE_MSG_CAN_NON_RTR) {
                 //Case19:eDir=DIR_ALL; byIdType=TYPE_ID_CAN_STANDARD;byMsgType=TYPE_MSG_CAN_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxSTDMsgCount+
                             m_sBusStatistics[unChannelIndex].m_unTxSTDMsgCount;
 
-            }
-            else if( byMsgType == TYPE_MSG_CAN_RTR)
-            {
+            } else if (byMsgType == TYPE_MSG_CAN_RTR) {
                 //Case20:eDir=DIR_ALL; byIdType=TYPE_ID_CAN_STANDARD;byMsgType=TYPE_MSG_CAN_NON_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxSTD_RTRMsgCount+
                             m_sBusStatistics[unChannelIndex].m_unRxSTD_RTRMsgCount;
-            }
-            else
-            {
+            } else {
                 //Case21:eDir=DIR_ALL; byIdType=TYPE_ID_CAN_STANDARD;byMsgType=TYPE_MSG_CAN_ALL
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxSTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unRxSTDMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxSTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxSTDMsgCount;
             }
-        }
-        else if( byIdType == TYPE_ID_CAN_EXTENDED )
-        {
-            if( byMsgType == TYPE_MSG_CAN_RTR )
-            {
+        } else if (byIdType == TYPE_ID_CAN_EXTENDED) {
+            if (byMsgType == TYPE_MSG_CAN_RTR) {
                 //Case22:eDir=DIR_ALL; byIdType=TYPE_ID_CAN_EXTENDED;byMsgType=TYPE_MSG_CAN_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxEXTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxEXTD_RTRMsgCount;
-            }
-            else if( byMsgType == TYPE_MSG_CAN_NON_RTR)
-            {
+            } else if (byMsgType == TYPE_MSG_CAN_NON_RTR) {
                 //Case23:eDir=DIR_ALL; byIdType=TYPE_ID_CAN_EXTENDED;byMsgType=TYPE_MSG_CAN_NON_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxEXTDMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxEXTDMsgCount;
-            }
-            else
-            {
+            } else {
                 //Case24:eDir=DIR_ALL; byIdType=TYPE_ID_CAN_EXTENDED;byMsgType=TYPE_MSG_CAN_ALL
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxEXTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unRxEXTDMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxEXTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxEXTDMsgCount;
             }
-        }
-        else
-        {
-            if( byMsgType == TYPE_MSG_CAN_RTR )
-            {
+        } else {
+            if (byMsgType == TYPE_MSG_CAN_RTR) {
                 //Case25:eDir=DIR_ALL; byIdType=TYPE_ID_CAN_ALL;byMsgType=TYPE_MSG_CAN_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxSTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unRxEXTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxSTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxEXTD_RTRMsgCount;
-            }
-            else if( byMsgType == TYPE_MSG_CAN_NON_RTR)
-            {
+            } else if( byMsgType == TYPE_MSG_CAN_NON_RTR) {
                 //Case26:eDir=DIR_ALL; byIdType=TYPE_ID_CAN_ALL;byMsgType=TYPE_MSG_CAN_NON_RTR
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxSTDMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unRxEXTDMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxSTDMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unTxEXTDMsgCount;
-            }
-            else
-            {
+            } else {
                 //Case27:eDir=DIR_ALL; byIdType=TYPE_ID_CAN_ALL;byMsgType=TYPE_MSG_CAN_ALL
                 nMsgCount = m_sBusStatistics[unChannelIndex].m_unRxSTD_RTRMsgCount +
                             m_sBusStatistics[unChannelIndex].m_unRxSTDMsgCount +
@@ -513,16 +428,11 @@ HRESULT CBusStatisticCAN::BSC_GetTotalErrCount(UINT unChannelIndex, eDirection e
 {
     EnterCriticalSection(&m_omCritSecBS);
 
-    if( DIR_RX == eDir )
-    {
+    if (DIR_RX == eDir) {
         nErrCount = m_sBusStatistics[ unChannelIndex ].m_unErrorRxCount;
-    }
-    else if( DIR_TX == eDir )
-    {
+    } else if (DIR_TX == eDir) {
         nErrCount = m_sBusStatistics[ unChannelIndex ].m_unErrorTxCount;
-    }
-    else
-    {
+    } else {
         nErrCount = m_sBusStatistics[ unChannelIndex ].m_unErrorTotalCount;
     }
     LeaveCriticalSection(&m_omCritSecBS);
@@ -560,62 +470,42 @@ HRESULT CBusStatisticCAN::BSC_GetAvgMsgCountPerSec(UINT unChannelIndex,
 
     EnterCriticalSection(&m_omCritSecBS);
 
-    if( eDir == DIR_RX )
-    {
-        if( byIdType == TYPE_ID_CAN_STANDARD)
-        {
+    if (eDir == DIR_RX) {
+        if (byIdType == TYPE_ID_CAN_STANDARD) {
             //eDir == DIR_RX, byIdType = TYPE_ID_CAN_STANDARD
             dMsgRate = m_sBusStatistics[unChannelIndex].m_dRxSTDMsgRate;
-        }
-        else if( byIdType == TYPE_ID_CAN_EXTENDED )
-        {
+        } else if (byIdType == TYPE_ID_CAN_EXTENDED) {
             //eDir == DIR_RX, byIdType = TYPE_ID_CAN_EXTENDED
             dMsgRate = m_sBusStatistics[unChannelIndex].m_dRxEXTMsgRate;
-        }
-        else
-        {
+        } else {
             dMsgRate = m_sBusStatistics[unChannelIndex].m_dTotalRxMsgRate;
         }
-    }
-    else if( eDir == DIR_TX )
-    {
+    } else if (eDir == DIR_TX) {
         //eDir == DIR_TX, byIdType = TYPE_ID_CAN_STANDARD
-        if( byIdType == TYPE_ID_CAN_STANDARD )
-        {
+        if (byIdType == TYPE_ID_CAN_STANDARD) {
             dMsgRate = m_sBusStatistics[unChannelIndex].m_dTxSTDMsgRate;
-        }
-        //eDir == DIR_TX, byIdType = TYPE_ID_CAN_EXTENDED
-        else if( byIdType == TYPE_ID_CAN_EXTENDED )
-        {
+        } else if (byIdType == TYPE_ID_CAN_EXTENDED) {
+            //eDir == DIR_TX, byIdType = TYPE_ID_CAN_EXTENDED
             dMsgRate = m_sBusStatistics[unChannelIndex].m_dTxEXTMsgRate;
-        }
-        //eDir == DIR_TX, byIdType = TYPE_ID_CAN_ALL
-        else
+        } else
         {
+            //eDir == DIR_TX, byIdType = TYPE_ID_CAN_ALL
             dMsgRate = m_sBusStatistics[unChannelIndex].m_dTotalTxMsgRate;
         }
-    }
-    else
-    {
+    } else {
         //eDir == DIR_ALL, byIdType = TYPE_ID_CAN_STANDARD
-        if( byIdType == TYPE_ID_CAN_STANDARD )
-        {
+        if (byIdType == TYPE_ID_CAN_STANDARD) {
             dMsgRate = m_sBusStatistics[unChannelIndex].m_dTxSTDMsgRate +
                        m_sBusStatistics[unChannelIndex].m_dRxSTDMsgRate;
-        }
-        //eDir == DIR_ALL, byIdType = TYPE_ID_CAN_EXTENDED
-        else if( byIdType == TYPE_ID_CAN_EXTENDED )
-        {
+        } else if (byIdType == TYPE_ID_CAN_EXTENDED) {
+            //eDir == DIR_ALL, byIdType = TYPE_ID_CAN_EXTENDED
             dMsgRate = m_sBusStatistics[unChannelIndex].m_dTxEXTMsgRate +
                        m_sBusStatistics[unChannelIndex].m_dRxEXTMsgRate;
-        }
-        //eDir == DIR_ALL, byIdType = TYPE_ID_CAN_ALL
-        else
-        {
+        } else {
+            //eDir == DIR_ALL, byIdType = TYPE_ID_CAN_ALL
             dMsgRate = m_sBusStatistics[unChannelIndex].m_unMsgPerSecond;
         }
     }
-    // dMsgRate = (double)(dMsgRate / m_dDiffTime);
     LeaveCriticalSection(&m_omCritSecBS);
     return 0L;
 }
@@ -636,18 +526,13 @@ HRESULT CBusStatisticCAN::BSC_GetAvgErrCountPerSec(UINT unChannelIndex,
     EnterCriticalSection(&m_omCritSecBS);
 
     //eDir == DIR_RX
-    if( eDir == DIR_RX )
-    {
+    if (eDir == DIR_RX) {
         dErrCount = m_sBusStatistics[unChannelIndex].m_dErrorRxRate;
-    }
-    //eDir == DIR_TX
-    else if( eDir == DIR_TX )
-    {
+    } else if (eDir == DIR_TX) {
+        //eDir == DIR_TX
         dErrCount = m_sBusStatistics[unChannelIndex].m_dErrorTxRate;
-    }
-    //eDir == DIR_ALL
-    else
-    {
+    } else {
+        //eDir == DIR_ALL
         dErrCount = m_sBusStatistics[unChannelIndex].m_dErrorRate;
     }
     LeaveCriticalSection(&m_omCritSecBS);
@@ -670,18 +555,13 @@ HRESULT CBusStatisticCAN::BSC_GetBusLoad(UINT unChannelIndex, eLOAD eLoad, doubl
     EnterCriticalSection(&m_omCritSecBS);
 
     //eLoad = AVERAGE
-    if( eLoad == AVERAGE )
-    {
+    if (eLoad == AVERAGE) {
         dBusLoad = m_sBusStatistics[unChannelIndex].m_dAvarageBusLoad;
-    }
-    //eLoad = PEAK
-    else if( eLoad == PEAK )
-    {
+    } else if (eLoad == PEAK) {
+        //eLoad = PEAK
         dBusLoad = m_sBusStatistics[unChannelIndex].m_dPeakBusLoad;
-    }
-    //eLoad = CURRENT
-    else
-    {
+    } else {
+        //eLoad = CURRENT
         dBusLoad = m_sBusStatistics[unChannelIndex].m_dBusLoad;
     }
     LeaveCriticalSection(&m_omCritSecBS);
@@ -706,43 +586,29 @@ HRESULT CBusStatisticCAN::BSC_GetErrorCounter(UINT unChannelIndex, eDirection eD
 {
     EnterCriticalSection(&m_omCritSecBS);
 
-    if( eDir == DIR_RX )
-    {
+    if (eDir == DIR_RX) {
         //eDir == DIR_RX; eLoad == CURRENT
-        if( eLoad == CURRENT )
-        {
+        if (eLoad == CURRENT) {
             ucErrCounter = m_sBusStatistics[unChannelIndex].m_ucRxErrorCounter;
-        }
-        //eDir == DIR_RX; eLoad == PEAK
-        else if( eLoad == PEAK )
-        {
+        } else if (eLoad == PEAK) {
+            //eDir == DIR_RX; eLoad == PEAK
             ucErrCounter = m_sBusStatistics[unChannelIndex].m_ucRxPeakErrorCount;
         }
-    }
-    else if( eDir == DIR_TX )
-    {
-        //eDir == DIR_TX; eLoad == CURRENT
-        if( eLoad == CURRENT )
-        {
+    } else if (eDir == DIR_TX) {
+        if (eLoad == CURRENT) {
+            //eDir == DIR_TX; eLoad == CURRENT
             ucErrCounter = m_sBusStatistics[unChannelIndex].m_ucTxErrorCounter;
-        }
-        //eDir == DIR_TX; eLoad == PEAK
-        else if( eLoad == PEAK )
-        {
+        } else if (eLoad == PEAK) {
+            //eDir == DIR_TX; eLoad == PEAK
             ucErrCounter = m_sBusStatistics[unChannelIndex].m_ucTxPeakErrorCount;
         }
-    }
-    else
-    {
+    } else {
         //eDir == DIR_ALL; eLoad == CURRENT
-        if( eLoad == CURRENT )
-        {
+        if (eLoad == CURRENT) {
             ucErrCounter = m_sBusStatistics[unChannelIndex].m_ucRxErrorCounter +
                            m_sBusStatistics[unChannelIndex].m_ucTxErrorCounter;
-        }
-        //eDir == DIR_ALL; eLoad == PEAK
-        else if( eLoad == PEAK )
-        {
+        } else if (eLoad == PEAK) {
+            //eDir == DIR_ALL; eLoad == PEAK
             ucErrCounter = m_sBusStatistics[unChannelIndex].m_ucRxPeakErrorCount +
                            m_sBusStatistics[unChannelIndex].m_ucTxPeakErrorCount;
         }
@@ -824,8 +690,7 @@ void CBusStatisticCAN::vInitialiseBSData(void)
 {
     EnterCriticalSection(&m_omCritSecBS);
 
-    for( int nChannelIndex = 0; nChannelIndex < defNO_OF_CHANNELS; nChannelIndex++ )
-    {
+    for (int nChannelIndex = 0; nChannelIndex < defNO_OF_CHANNELS; nChannelIndex++) {
         // Reset whole statucture
         memset( &m_sBusStatistics[ nChannelIndex ] , 0, sizeof(SBUSSTATISTICS) );
         memset( &m_sPrevStatData[ nChannelIndex ] , 0, sizeof(SBUSSTATISTICS) );
@@ -835,14 +700,11 @@ void CBusStatisticCAN::vInitialiseBSData(void)
         memset( &m_sSubBusStatistics[nChannelIndex], 0, sizeof(SSUBBUSSTATISTICS) );
     }
 
-
     memset( &m_unPrevStandardCount, 0, sizeof( m_unPrevStandardCount ) );
     memset( &m_unPrevExtendedCount, 0, sizeof( m_unPrevExtendedCount ) );
     memset( &m_unPrevStandardRTRCount, 0, sizeof( m_unPrevStandardRTRCount ) );
     memset( &m_unPrevExtendedRTRCount, 0, sizeof( m_unPrevExtendedRTRCount ) );
     memset( &m_unPrevErrorTotalCount, 0, sizeof( m_unPrevErrorTotalCount ) );
-
-
 
     m_nFactorSTDFrame     = defBITS_STD_FRAME + defBITS_INTER_FRAME;
     m_nFactorEXTDFrame    = defBITS_EXTD_FRAME + defBITS_INTER_FRAME;
@@ -862,15 +724,12 @@ void CBusStatisticCAN::vCalculateDiffTime(void)
 
     // check if the previous time value is not stored. take 1.0s as initial
     // value for calculation.
-    if(m_unPreviousTime != -1 )
-    {
+    if (m_unPreviousTime != -1) {
         m_dDiffTime         = CTimeManager::nCalculateCurrTimeStamp(FALSE) -
                               m_unPreviousTime;
         m_unPreviousTime += static_cast<UINT>(m_dDiffTime);
         m_dDiffTime         = m_dDiffTime / defDIV_FACT_FOR_SECOND;
-    }
-    else
-    {
+    } else {
         m_unPreviousTime = CTimeManager::nCalculateCurrTimeStamp(FALSE);
     }
 }
@@ -893,73 +752,51 @@ void CBusStatisticCAN::vUpdateBusStatistics(STCANDATA& sCanData)
     int nCurrentChannelIndex = sCanData.m_uDataInfo.m_sCANMsg.m_ucChannel - 1;
     INT nDLC = sCanData.m_uDataInfo.m_sCANMsg.m_ucDataLen;
 
-    if ((nCurrentChannelIndex < 0) || (nCurrentChannelIndex > (defNO_OF_CHANNELS - 1)))
-    {
+    if ((nCurrentChannelIndex < 0) || (nCurrentChannelIndex > (defNO_OF_CHANNELS - 1))) {
         nCurrentChannelIndex = 0;   //take appropriate action
     }
-    if(m_sCurrEntry.m_ucRTR == 1)
+    if (m_sCurrEntry.m_ucRTR == 1)
         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unDLCCount+=
             sCanData.m_uDataInfo.m_sCANMsg.m_ucDataLen;
 
     //is it Tx Message
-    if(IS_TX_MESSAGE(sCanData.m_ucDataType))
-    {
-        if(IS_ERR_MESSAGE(sCanData.m_ucDataType))
-        {
+    if (IS_TX_MESSAGE(sCanData.m_ucDataType)) {
+        if(IS_ERR_MESSAGE(sCanData.m_ucDataType)) {
             m_sSubBusStatistics[nCurrentChannelIndex].m_unErrorTxCount++;
-        }
-        else
-        {
+        } else {
             m_sSubBusStatistics[nCurrentChannelIndex].m_unTotalTxMsgCount++;
-            if (m_sCurrEntry.m_ucRTR == 0) // Non RTR message
-            {
+            if (m_sCurrEntry.m_ucRTR == 0) { // Non RTR message
                 /* Check for CAN FD messages */
-                if ( !sCanData.m_uDataInfo.m_sCANMsg.m_bCANFD )
-                {
-                    if (m_sCurrEntry.m_ucEXTENDED == 0)
-                    {
+                if (!sCanData.m_uDataInfo.m_sCANMsg.m_bCANFD) {
+                    if (m_sCurrEntry.m_ucEXTENDED == 0) {
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTxSTDMsgCount++;
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsStdMsg[nDLC];
-                    }
-                    else
-                    {
+                    } else {
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTxEXTDMsgCount++;
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsExdMsg[nDLC];
                     }
-                }
-                /* Indicates a CAN FD message */
-                else
-                {
+                } else {
+                    /* Indicates a CAN FD message */
                     int nIndex = (m_sCurrEntry.m_ucEXTENDED == 0) ? 0:1;
-                    if ( m_sCurrEntry.m_ucEXTENDED == 0 )
-                    {
+                    if (m_sCurrEntry.m_ucEXTENDED == 0) {
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTxSTDMsgCount++;
-                    }
-                    else
-                    {
+                    } else {
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTxEXTDMsgCount++;
                     }
 
-                    if ( nDLC <=8 )
-                    {
+                    if (nDLC <=8) {
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsFDMsgCRC15[nIndex][nDLC];
-                    }
-                    else if ( nDLC > 8  && nDLC <= 16 )
-                    {
-                        switch ( nDLC )
-                        {
+                    } else if (nDLC > 8  && nDLC <= 16) {
+                        switch (nDLC) {
                             case 12:
-                                m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsFDMsgCRC17[nIndex][0];
+                                m_sSubBusStatistics[nCurrentChannelIndex].m_unTotalBitsperSec += m_unBitsFDMsgCRC17[nIndex][0];
                                 break;
                             case 16:
-                                m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsFDMsgCRC17[nIndex][1];
+                                m_sSubBusStatistics[nCurrentChannelIndex].m_unTotalBitsperSec += m_unBitsFDMsgCRC17[nIndex][1];
                                 break;
                         }
-                    }
-                    else if ( nDLC > 16 )
-                    {
-                        switch ( nDLC )
-                        {
+                    } else if (nDLC > 16) {
+                        switch (nDLC) {
                             case 20:
                                 m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsFDMsgCRC21[nIndex][0];
                                 break;
@@ -978,70 +815,43 @@ void CBusStatisticCAN::vUpdateBusStatistics(STCANDATA& sCanData)
                         }
                     }
                 }
-            }
-            else // RTR message
-            {
-                if (m_sCurrEntry.m_ucEXTENDED == 0)
-                {
+            } else {  // RTR message
+                if (m_sCurrEntry.m_ucEXTENDED == 0) {
                     m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTxSTD_RTRMsgCount++;
                     m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsStdMsg[0];
-                }
-                else
-                {
+                } else {
                     m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTxEXTD_RTRMsgCount++;
                     m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsExdMsg[0];
                 }
             }
         }
-    }
-    //is it Rx Message
-    else if(IS_RX_MESSAGE(sCanData.m_ucDataType))
-    {
-        if(IS_ERR_MESSAGE(sCanData.m_ucDataType))
-        {
+    } else if (IS_RX_MESSAGE(sCanData.m_ucDataType)) { //is it Rx Message
+        if(IS_ERR_MESSAGE(sCanData.m_ucDataType)) {
             m_sSubBusStatistics[nCurrentChannelIndex].m_unErrorTxCount++;
-        }
-        else
-        {
+        } else {
             m_sSubBusStatistics[nCurrentChannelIndex].m_unTotalRxMsgCount++;
-            if (m_sCurrEntry.m_ucRTR == 0) // Non RTR message
-            {
+            if (m_sCurrEntry.m_ucRTR == 0) { // Non RTR message 
                 /* Check for CAN FD messages */
-                if ( !sCanData.m_uDataInfo.m_sCANMsg.m_bCANFD )
-                {
-                    if (m_sCurrEntry.m_ucEXTENDED == 0)
-                    {
+                if (!sCanData.m_uDataInfo.m_sCANMsg.m_bCANFD) {
+                    if (m_sCurrEntry.m_ucEXTENDED == 0) {
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unRxSTDMsgCount++;
-                        //m_sSubBusStatistics[ nCurrentChannelIndex ].m_unSTDMsgBits = nDLC + floor((double)(nDLC / 5 + TYPE_STD_CONST1));
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsStdMsg[nDLC];
-                    }
-                    else
-                    {
+                    } else {
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unRxEXTDMsgCount++;
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsExdMsg[nDLC];
                     }
-                }
-                /* Indicates a CAN FD message */
-                else
-                {
+                } else { /* Indicates a CAN FD message */
                     int nIndex = (m_sCurrEntry.m_ucEXTENDED == 0) ? 0:1;
-                    if ( m_sCurrEntry.m_ucEXTENDED == 0 )
-                    {
+                    if (m_sCurrEntry.m_ucEXTENDED == 0) {
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unRxSTDMsgCount++;
-                    }
-                    else
-                    {
+                    } else {
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unRxEXTDMsgCount++;
                     }
 
-                    if ( nDLC <=8 )
-                    {
+                    if (nDLC <=8) {
                         m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsFDMsgCRC15[nIndex][nDLC];
-                    }
-                    else if ( nDLC > 8  && nDLC <= 16 )
-                    {
-                        switch ( nDLC )
-                        {
+                    } else if (nDLC > 8  && nDLC <= 16) {
+                        switch (nDLC) {
                             case 12:
                                 m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsFDMsgCRC17[nIndex][0];
                                 break;
@@ -1049,11 +859,8 @@ void CBusStatisticCAN::vUpdateBusStatistics(STCANDATA& sCanData)
                                 m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsFDMsgCRC17[nIndex][1];
                                 break;
                         }
-                    }
-                    else if ( nDLC > 16 )
-                    {
-                        switch ( nDLC )
-                        {
+                    } else if (nDLC > 16) {
+                        switch (nDLC) {
                             case 20:
                                 m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsFDMsgCRC21[nIndex][0];
                                 break;
@@ -1072,38 +879,27 @@ void CBusStatisticCAN::vUpdateBusStatistics(STCANDATA& sCanData)
                         }
                     }
                 }
-            }
-            else // RTR message
-            {
-                if (m_sCurrEntry.m_ucEXTENDED == 0)
-                {
+            } else { // RTR message
+                if (m_sCurrEntry.m_ucEXTENDED == 0) {
                     m_sSubBusStatistics[ nCurrentChannelIndex ].m_unRxSTD_RTRMsgCount++;
                     m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsStdMsg[0];
-                }
-                else
-                {
+                } else {
                     m_sSubBusStatistics[ nCurrentChannelIndex ].m_unRxEXTD_RTRMsgCount++;
                     m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += m_unBitsExdMsg[0];
                 }
             }
         }
-    }
-    else
-    {
+    } else {
         //Is it is Error
         m_sSubBusStatistics[nCurrentChannelIndex].m_unErrorTotalCount++;
-        if (sCanData.m_uDataInfo.m_sErrInfo.m_ucErrType == ERROR_BUS)
-        {
+        if (sCanData.m_uDataInfo.m_sErrInfo.m_ucErrType == ERROR_BUS) {
             // Update Statistics information
             m_sSubBusStatistics[ nCurrentChannelIndex ].m_unErrorTotalCount++;
             USHORT usErrorID = sCanData.m_uDataInfo.m_sErrInfo.m_ucReg_ErrCap /*& 0xE0*/;
             // Received message
-            if (usErrorID & 0x20)
-            {
+            if (usErrorID & 0x20) {
                 m_sSubBusStatistics[ nCurrentChannelIndex ].m_unErrorRxCount++;
-            }
-            else
-            {
+            } else {
                 m_sSubBusStatistics[ nCurrentChannelIndex ].m_unErrorTxCount++;
             }
             m_sSubBusStatistics[ nCurrentChannelIndex ].m_unTotalBitsperSec += defBITS_ERR_FRAME;
@@ -1136,33 +932,27 @@ void CBusStatisticCAN::vCalculateBusParametres(void)
     CFlags* pouFlags = nullptr;
     pouFlags = theApp.pouGetFlagsPtr();
     BOOL bIsConnected = FALSE;
-    if (nullptr != pouFlags)
-    {
+    if (nullptr != pouFlags) {
         bIsConnected = pouFlags->nGetFlagStatus(CONNECTED);
     }
 
-    for(int nChannelIndex =0; nChannelIndex <defNO_OF_CHANNELS; nChannelIndex++)
-    {
+    for(int nChannelIndex =0; nChannelIndex <defNO_OF_CHANNELS; nChannelIndex++) {
         m_sBusStatistics[nChannelIndex] = m_sSubBusStatistics[nChannelIndex];
         m_sBusStatistics[nChannelIndex].m_nSamples++;
         m_sBusStatistics[ nChannelIndex ].m_unTotalMsgCount =
             m_sBusStatistics[ nChannelIndex ].m_unTotalTxMsgCount +
             m_sBusStatistics[ nChannelIndex ].m_unTotalRxMsgCount;
         //***** Total Message Rate *****//
-        if(bIsConnected)
-        {
+        if(bIsConnected) {
             m_sBusStatistics[ nChannelIndex ].m_unMsgPerSecond =
                 m_sBusStatistics[ nChannelIndex ].m_unTotalMsgCount -
                 m_sPrevStatData[ nChannelIndex ].m_unTotalMsgCount;
 
             FLOAT msgPerSec= (m_sBusStatistics[ nChannelIndex ].m_unMsgPerSecond /(FLOAT) m_dDiffTime );
-            if( msgPerSec > 0.50 && msgPerSec < 1)
-            {
+            if (msgPerSec > 0.50 && msgPerSec < 1) {
                 m_sBusStatistics[ nChannelIndex ].m_unMsgPerSecond =1;
 
-            }
-            else
-            {
+            } else {
                 m_sBusStatistics[ nChannelIndex ].m_unMsgPerSecond =
                     static_cast<UINT>
                     (m_sBusStatistics[ nChannelIndex ].m_unMsgPerSecond / m_dDiffTime );
@@ -1174,8 +964,7 @@ void CBusStatisticCAN::vCalculateBusParametres(void)
         m_sBusStatistics[ nChannelIndex ].m_unErrorTotalCount =
             m_sBusStatistics[ nChannelIndex ].m_unErrorRxCount +
             m_sBusStatistics[ nChannelIndex ].m_unErrorTxCount;
-        if(bIsConnected)
-        {
+        if(bIsConnected) {
             m_sBusStatistics[ nChannelIndex ].m_dErrorRate =
                 m_sBusStatistics[ nChannelIndex ].m_unErrorTotalCount -
                 m_sPrevStatData[ nChannelIndex ].m_unErrorTotalCount;
@@ -1218,8 +1007,7 @@ void CBusStatisticCAN::vCalculateBusParametres(void)
         sErrorCounter.m_ucRxErrCount = 0;
         sErrorCounter.m_ucTxErrCount = 0;
 
-        if (m_pouDIL_CAN->DILC_GetErrorCount( sErrorCounter, nChannelIndex, ERR_CNT) == S_OK)
-        {
+        if (m_pouDIL_CAN->DILC_GetErrorCount( sErrorCounter, nChannelIndex, ERR_CNT) == S_OK) {
             m_sBusStatistics[ nChannelIndex ].m_ucTxErrorCounter =
                 sErrorCounter.m_ucTxErrCount;
             m_sBusStatistics[ nChannelIndex ].m_ucRxErrorCounter =
@@ -1229,8 +1017,7 @@ void CBusStatisticCAN::vCalculateBusParametres(void)
         sErrorCounter.m_ucRxErrCount = 0;
         sErrorCounter.m_ucTxErrCount = 0;
 
-        if (m_pouDIL_CAN->DILC_GetErrorCount( sErrorCounter, nChannelIndex, PEAK_ERR_CNT) == S_OK)
-        {
+        if (m_pouDIL_CAN->DILC_GetErrorCount( sErrorCounter, nChannelIndex, PEAK_ERR_CNT) == S_OK) {
             m_sBusStatistics[ nChannelIndex ].m_ucTxPeakErrorCount=
                 sErrorCounter.m_ucTxErrCount;
             m_sBusStatistics[ nChannelIndex ].m_ucRxPeakErrorCount =
@@ -1240,9 +1027,7 @@ void CBusStatisticCAN::vCalculateBusParametres(void)
         // Get the controller status
         LPARAM lParam = 0;
 
-        if (m_pouDIL_CAN->DILC_GetControllerParams( lParam, nChannelIndex,
-                HW_MODE) == S_OK)
-        {
+        if (m_pouDIL_CAN->DILC_GetControllerParams( lParam, nChannelIndex, HW_MODE) == S_OK) {
             m_sBusStatistics[ nChannelIndex ].m_ucStatus = (UCHAR)lParam;
         }
 
@@ -1259,11 +1044,9 @@ void CBusStatisticCAN::vCalculateBusParametres(void)
         dBusLoad = dBusLoad * defMAX_PERCENTAGE_BUS_LOAD;
 
         // check for peak load
-        if( dBusLoad > m_sBusStatistics[ nChannelIndex ].m_dPeakBusLoad )
-        {
+        if (dBusLoad > m_sBusStatistics[ nChannelIndex ].m_dPeakBusLoad) {
             // if peak load is greater than or equal to 100% assign it 99.99%
-            if( dBusLoad > defMAX_PERCENTAGE_BUS_LOAD )
-            {
+            if (dBusLoad > defMAX_PERCENTAGE_BUS_LOAD) {
                 dBusLoad = defMAX_PERCENTAGE_BUS_LOAD_ALLOWED;
             }
 
@@ -1275,8 +1058,7 @@ void CBusStatisticCAN::vCalculateBusParametres(void)
         m_sBusStatistics[ nChannelIndex ].m_dTotalBusLoad += dBusLoad;
         // Increament samples
         // Calculate Avarage bus load
-        if(bIsConnected)
-        {
+        if (bIsConnected) {
             m_sBusStatistics[ nChannelIndex ].m_dAvarageBusLoad =
                 m_sBusStatistics[ nChannelIndex ].m_dTotalBusLoad /
                 m_sBusStatistics[ nChannelIndex ].m_nSamples;

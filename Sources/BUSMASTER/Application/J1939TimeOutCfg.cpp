@@ -29,8 +29,7 @@
 #include "InterfaceGetter.h"
 #include "BaseDIL_J1939.h"
 #include "J1939TimeOutCfg.h"
-#include "Utility\MultiLanguageSupport.h"
-
+#include "Utility/MultiLanguageSupport.h"
 
 #define TEXT_BROADCAST_TO   "Tb: Time interval between two packets in broadcast transmission."
 #define TEXT_RESPONSE_TO    "Tr: Maximum wait period for a sender without receiving response from the receiver."
@@ -40,7 +39,6 @@
 #define TEXT_T3_TO          "T3: Maximum wait period for a sender to receive 'End of Message Acknowledgement' after sending last data packet."
 #define TEXT_T4_TO          "T4: Maximum wait period for a sender to receive another 'Clear to Send' message after receiving one to delay the data."
 #define TEXT_BOUNDS_ERROR   "Error: Timer values should be greater than 0."
-// CJ1939TimeOutCfg dialog
 
 IMPLEMENT_DYNAMIC(CJ1939TimeOutCfg, CDialog)
 CJ1939TimeOutCfg::CJ1939TimeOutCfg(CWnd* pParent /*=nullptr*/)

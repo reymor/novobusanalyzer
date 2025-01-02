@@ -37,8 +37,6 @@ class CMsgFilterConfigPage : public CPropertyPage
 {
     DECLARE_DYNCREATE(CMsgFilterConfigPage)
     std::string mCaption;
-    //std::map<std::string, bool> mFiltersSelected;
-    //std::list<std::string> mFiltersConfigured;
     filterDetails* mFilterDetails;
     // Construction
 public:
@@ -50,15 +48,8 @@ public:
     ~CMsgFilterConfigPage();
 
     // Dialog Data
-    //{{AFX_DATA(CMsgFilterConfigPage)
     enum { IDD = IDD_DLG_MSG_DISPLAY_FILTER };
     CListCtrl   m_omLstcFilterList;
-    //}}AFX_DATA
-
-
-    // Overrides
-    // ClassWizard generate virtual function overrides
-    //{{AFX_VIRTUAL(CMsgFilterConfigPage)
 public:
     virtual void OnOK();
 protected:
@@ -68,10 +59,8 @@ protected:
     // Implementation
 protected:
     // Generated message map functions
-    //{{AFX_MSG(CMsgFilterConfigPage)
     virtual BOOL OnInitDialog();
     afx_msg void OnBtnConfigure();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     // To create image list

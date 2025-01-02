@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_BUSMASTERPLUGINMANAGER_H_
+#define BUSMASTER_APPLICATION_BUSMASTERPLUGINMANAGER_H_
+
 #include "IBusmasterPlugInManager.h"
 #include <list>
 #include "resource.h"
@@ -7,8 +9,7 @@
 #include "UI/UICreator.h"
 #include <concurrent_vector.h>
 
-class BusmasterPluginManager : public IBusmasterPluginManager
-{
+class BusmasterPluginManager : public IBusmasterPluginManager {
     bool mUnloadPlugins = false;
     IBusmasterBusPluginInterface* mBusmasterInterface;
     Concurrency::concurrent_vector<BusmasterPluginConfiguration> mPluginList;
@@ -30,7 +31,7 @@ public:
     int loadPlugins( const char* dir );
 	int addPlugin(BusmasterPluginConfiguration& pluginInfo);
     int drawUI(UIElements uielements) ;
-    int notifyPlugins( eBusmaster_Event, void* );
+    int notifyPlugins(eBusmaster_Event, void* );
     int noifyMenuClick( int menuId );
 	int notifyAppClose();
     int noifyMenuUpdate(int menuId, IMenuItem* menuItem);
@@ -56,3 +57,4 @@ private:
     void parseIcons(xmlNodePtr, RibbonButton& button, bool isLarge, std::string& xmlFilePath);
 };
 
+#endif // BUSMASTER_APPLICATION_BUSMASTERPLUGINMANAGER_H_

@@ -28,7 +28,7 @@
 // Definition of CBusStatistics class
 
 // For time manager class
-#include "Utility\TimeManager.h"
+#include "Utility/TimeManager.h"
 // For DIL Interface Class
 #include "Include/BaseDefs.h"
 #include "DataTypes/Base_WrapperErrorLogger.h"
@@ -37,22 +37,15 @@
 #include "BaseDIL_LIN.h"
 
 #include "LINBusStatisticsDlg.h"
-#include ".\linbusstatisticsdlg.h"
 #include "NetworkStatistics.h"
 #define  BUS_STATICS_CONFIG_PATH     "//BUSMASTER_CONFIGURATION/Module_Configuration/Bus_Statistics/LIN_Statistics/COLUMN"
 /////////////////////////////////////////////////////////////////////////////
 // CBusStatisticsDlg dialog
 
-// For application object
-extern CCANMonitorApp theApp;
 // DIL CAN interface
 extern CBaseDIL_LIN* g_pouDIL_LIN_Interface;
 
 const BYTE BUS_STATS_DLG_VERSION = 0x1;
-
-//sLINBUSSTATTISTICSDATA CLINBusStatisticsDlg::sm_sBusSerializationData;
-
-//xmlNodePtr CLINBusStatisticsDlg::m_pxmlNodePtr = nullptr;
 
 CLINBusStatisticsDlg::CLINBusStatisticsDlg(CBaseBusStatisticLIN* pouBSLIN, CWnd* /* pParent */, int nChannelCount)
     : CCommonStatistics(CLINBusStatisticsDlg::IDD, LIN),
@@ -62,8 +55,6 @@ CLINBusStatisticsDlg::CLINBusStatisticsDlg(CBaseBusStatisticLIN* pouBSLIN, CWnd*
       m_omStrAvgBusLoad( "" )
 
 {
-    //{{AFX_DATA_INIT(CBusStatisticsDlg)
-    //}}AFX_DATA_INIT
     m_nChannelCount = nChannelCount;
     for( int nChannel = 0; nChannel < m_nChannelCount; nChannel++ )
     {
@@ -75,16 +66,12 @@ CLINBusStatisticsDlg::CLINBusStatisticsDlg(CBaseBusStatisticLIN* pouBSLIN, CWnd*
 void CLINBusStatisticsDlg::DoDataExchange(CDataExchange* pDX)
 {
     CCommonStatistics::DoDataExchange(pDX);
-    //{{AFX_DATA_MAP(CBusStatisticsDlg)
     DDX_Control(pDX, IDC_LIST_STAT, m_omStatList);
-    //}}AFX_DATA_MAP
 }
 
 IMPLEMENT_DYNAMIC(CLINBusStatisticsDlg, CCommonStatistics)
 BEGIN_MESSAGE_MAP(CLINBusStatisticsDlg, CCommonStatistics)
-    //{{AFX_MSG_MAP(CBusStatisticsDlg)
     ON_WM_ERASEBKGND()
-    //}}AFX_MSG_MAP
     ON_MESSAGE(WM_DISPLAY_MESSAGE, vUpdateFields)
     ON_WM_SIZE()
 END_MESSAGE_MAP()
@@ -93,8 +80,6 @@ LRESULT CLINBusStatisticsDlg::vUpdateFields(WPARAM /* wParam */, LPARAM lParam)
 {
     // Update the list control only if the dialog is visible
     BOOL bUpdateSpecific = (BOOL)lParam;
-    //  if( IsWindowVisible() == TRUE )
-    //   {
     for( int nChannel = 0; nChannel < m_nChannelCount; nChannel++ )
     {
         SBUSSTATISTICS_LIN sBusStatistics;

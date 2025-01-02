@@ -39,31 +39,24 @@ public:
               CWnd* pParent = nullptr,char* pcKeyVal = (char*)nullptr);
 
     // Dialog Data
-    //{{AFX_DATA(CKeyValue)
     enum { IDD = IDD_DLG_KEY_VALUE };
     // NOTE: the ClassWizard will add data members here
-    //}}AFX_DATA
 
 
     // Overrides
     // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CKeyValue)
 public:
     virtual BOOL PreTranslateMessage(MSG* pMsg);
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
-    // Implementation
 protected:
 
     // Generated message map functions
-    //{{AFX_MSG(CKeyValue)
     virtual void OnCancel();
     afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);
     virtual void OnOK();
     virtual BOOL OnInitDialog();
     afx_msg void OnCbtnKeyApply();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     char* m_pcKeyVal;

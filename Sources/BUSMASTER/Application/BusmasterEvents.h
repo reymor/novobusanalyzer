@@ -1,7 +1,9 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_BUSMASTEREVENTS_H_
+#define BUSMASTER_APPLICATION_BUSMASTEREVENTS_H_
+
 #include "ProtocolsDefinitions.h"
-enum eBusmaster_Event
-{
+
+enum eBusmaster_Event {
     Bus_Status,                         // struct Event_Bus_Staus{}
     network_config_changed,             // ETYPE_BUS bus;
     driver_selection_changed,           // ETYPE_BUS bus;
@@ -24,28 +26,26 @@ enum eBusmaster_Event
 };
 
 
-struct Event_Bus_Staus
-{
+struct Event_Bus_Staus {
     ETYPE_BUS mBus;
     eBUSEVENT mEventType;
 };
 
 
-struct Event_Channel_Added
-{
+struct Event_Channel_Added {
     ETYPE_BUS bus;
     int mChannel;
     int mTotalChannels;
 };
 
-struct Event_Channel_Updated
-{
+struct Event_Channel_Updated {
     ETYPE_BUS mBus;
     int mChannel;
 };
 
-enum eNumeric_mode
-{
+enum eNumeric_mode {
     DECICAL_MODE,
     HEXADECIMAL_MODE
 };
+
+#endif // BUSMASTER_APPLICATION_BUSMASTEREVENTS_H_

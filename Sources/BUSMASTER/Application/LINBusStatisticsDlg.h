@@ -48,21 +48,14 @@ public:
 
     CLINBusStatisticsDlg(CBaseBusStatisticLIN* pouBSLIN,CWnd* pParent = nullptr,int nChannelCount = defNO_OF_LIN_CHANNELS);
 
-    // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CBusStatisticsDlg)
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
 
     // Implementation
 protected:
 
-    // Generated message map functions
-    //{{AFX_MSG(CBusStatisticsDlg)
     virtual BOOL OnInitDialog();
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
     afx_msg LRESULT vUpdateFields(WPARAM wParam, LPARAM lParam);
 private:
@@ -72,7 +65,6 @@ private:
     CString m_omStrBusLoad;
     CString m_omStrPeakBusLoad;
     CString m_omStrAvgBusLoad;
-    /*int m_nChannelCount;*/
 public:
     afx_msg void OnSize(UINT nType, int cx, int cy);
 };

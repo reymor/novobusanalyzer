@@ -81,7 +81,6 @@ void CFunctionEditorDoc::Initialize()
     m_bFileSavedFromBM = false;
     m_dwSourceCodeLineNo = 0;
     m_omMessageHandlerArray.RemoveAll();
-    //m_omPDUHandlerArray.RemoveAll();
     m_omTimerHandlerArray.RemoveAll();
     m_omEventIndArray.RemoveAll();
     m_omKeyHandlerArray.RemoveAll();
@@ -2087,12 +2086,8 @@ BOOL CFunctionEditorDoc::bAddFunctionWrappers(CString omStrFunctionDec, CString 
 
 
     int nStartBraceIndex = omStrFunctionDec.Find("(");
-    if ( nStartBraceIndex >= 0 )
-    {
+    if (nStartBraceIndex >= 0) {
         omStrFunctionDec.Insert(nStartBraceIndex, "_Wrapper");
-
-
-
 
         nStartBraceIndex = omStrFunctionDec.Find("(");
         int nSpaceStart = omStrFunctionDec.Find(" ", nStartBraceIndex );
@@ -2110,8 +2105,7 @@ BOOL CFunctionEditorDoc::bAddFunctionWrappers(CString omStrFunctionDec, CString 
         omTemp.Replace(_("PLACE_HODLER_FOR_BUSNAME"), sBusSpecInfo.m_omBusName);
         POSITION pos = m_omSourceCodeTextList.Find( omTemp );
 
-        if ( pos != nullptr )
-        {
+        if (pos != nullptr) {
             m_omSourceCodeTextList.InsertBefore(pos,omStrReplace );
         }
 
@@ -2125,15 +2119,13 @@ BOOL CFunctionEditorDoc::bAddFunctionPrototype(CString omStrFuntion, BOOL bGCCEx
     omStrFuntion.TrimLeft(" ");
     omStrFuntion.TrimRight(" ");
 
-    if( bGCCExport == TRUE)
-    {
+    if (bGCCExport == TRUE) {
         bAddGCCExportPrototype(omStrFuntion);
     }
 
     CString omSelectedText = BUS_FN_HDR;
 
-    if ( !omSelectedText.IsEmpty() )
-    {
+    if (!omSelectedText.IsEmpty()) {
         //Add prototype to the prototype part of the doc
         SBUS_SPECIFIC_INFO sBusSpecInfo;
         bGetBusSpecificInfo(sBusSpecInfo);

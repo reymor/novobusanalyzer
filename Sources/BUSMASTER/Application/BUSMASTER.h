@@ -21,22 +21,21 @@
  * This header file for CCANMonitorApp class
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_BUSMASTER_H_
+#define BUSMASTER_APPLICATION_BUSMASTER_H_
 
-#include "resource.h"       // main symbols
-#include "MsgSignal.h"      // Added by ClassView
-#include "Flags.h"      // For CFlags
-#include "Struct.h" // Added by ClassView
+#include "resource.h"
+#include "MsgSignal.h"
+#include "Flags.h"
+#include "Struct.h"
 #include "Utility/MultiLanguageSupport.h"
 
-class CCANMonitorApp : public CWinAppEx
-{
+class CCANMonitorApp : public CWinAppEx {
     DECLARE_MESSAGE_MAP()
 
 public:
     CCANMonitorApp();
 
-    
     /** wrapper around CConfigDetails::vRelease(..) */
     void vRelease1(eCONFIGDETAILS eParam, LPVOID* lpDataPtr);
 
@@ -48,7 +47,6 @@ public:
 
     /** To get Default window size */
     BOOL bGetDefaultValue( eCONFIGDETAILS eParam, WINDOWPLACEMENT& sPosition );
-
     
     CEvent m_aomState[defEVENT_TOTAL];
 
@@ -98,3 +96,5 @@ private:
     CString m_omMRU_C_FileName;
     WINDOWPLACEMENT m_sNotificWndPlacement;
 };
+
+#endif // BUSMASTER_APPLICATION_BUSMASTER_H_

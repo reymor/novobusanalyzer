@@ -3,9 +3,9 @@
 #include "IBusmasterPluginInterface.h"
 #include "IBusmasterPluginConnection.h"
 #include "IMenuInterface.h"
-#include <libxml\parser.h>
+#include <libxml/parser.h>
 
-#include "UI\Menus.h"
+#include "UI/Menus.h"
 
 
 class IEvent

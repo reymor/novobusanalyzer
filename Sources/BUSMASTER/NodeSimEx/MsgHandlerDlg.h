@@ -48,13 +48,10 @@ private:
     void vInitDlgWithBusSpecNames(void);
     void vTokenize(CString strInput, CString strToken, CString& strOutput, int& nStart);
     // Dialog Data
-    //{{AFX_DATA(CMsgHandlerDlg)
     enum { IDD = IDD_DLG_MSG_HANDLERS };
     CListBox    m_omListMsgName;
     CRadixEdit  m_odEditMsgIDTo;
     CRadixEdit  m_odEditMsgIDFrom;
-    //VENKATNARAYANA
-    //CRadixEdit    m_odEditMsgID;
     CEdit m_odEditMsgID;
     CButton m_omButtonApply;
     CButton m_omButtonOK;
@@ -63,20 +60,12 @@ private:
     CString m_omStrMsgID;
     CString m_omStrMsgIDFrom;
     CString m_omStrMsgIDTo;
-    //}}AFX_DATA
-    //CFrameMgr m_ouNonDBFrameMgr,m_ouNonDBNullFrameMgr;
-    // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CMsgHandlerDlg)
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
 
-    // Implementation
 protected:
 
     // Generated message map functions
-    //{{AFX_MSG(CMsgHandlerDlg)
     afx_msg void OnCbtnMsgCancel();
     afx_msg void OnCbtnMsgOk();
     afx_msg void OnCbtnMsgHandlerApply();
@@ -90,7 +79,6 @@ protected:
     afx_msg void OnUpdateEditMsgHandlerIdFrom();
     afx_msg void OnUpdateEditMsgHandlerIdTo();
 
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     BOOL bAddMessageNameInListBox(const CStringArray* pomStrArray,

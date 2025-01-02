@@ -20,7 +20,8 @@
  *
  * This File contains the BusStatics Class Declaration.
  */
-#pragma once
+#ifndef BUSMASTER_APPLICATION_BUSSTATISTICCAN_H_
+#define BUSMASTER_APPLICATION_BUSSTATISTICCAN_H_
 
 #include "Utility/Utility_Thread.h"
 #include "CANDriverDefines.h"
@@ -31,7 +32,6 @@
 #include "Flags.h"
 
 class CBusStatisticCAN : public CBaseBusStatisticCAN {
-    //Attributes
 private:
     //used to Creating threads
     CPARAM_THREADPROC m_ouReadThread;
@@ -123,3 +123,5 @@ private:
     //Starts the BS Read Thread
     BOOL bStartBSReadThread(void);
 };
+
+#endif // BUSMASTER_APPLICATION_BUSSTATISTICCAN_H_

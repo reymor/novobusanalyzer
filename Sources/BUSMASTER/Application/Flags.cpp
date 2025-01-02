@@ -28,8 +28,6 @@
 // Definition of CFlags class
 #include "Flags.h"
 
-extern CCANMonitorApp theApp;
-
 CFlags CFlags::sm_ouSingletonObj(nullptr);     // Create singleton object here
 
 /******************************************************************************/

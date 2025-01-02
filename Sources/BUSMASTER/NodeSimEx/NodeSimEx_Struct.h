@@ -122,8 +122,6 @@ class CBaseAppServices;
 typedef struct
 {
     HWND                m_hWmdMDIParentFrame;
-    //CUIThread*          m_pouTraceWnd;
-    //CNetwork_McNet*     m_pNetWorkMcNet;
     CStringArray        m_omAPIList; // Function List
     CStringArray        m_omAPINames;//Function API Names
     CString             m_omObjWrapperName; // Wrapper_<BUS>.o
@@ -135,7 +133,6 @@ typedef struct
     CMsgNameMsgCodeListDataBase m_odMsgNameMsgCodeListDB;   //CAPL_DB_NAME_CHANGE
     CBaseAppServices*   m_pouITraceWndPtr;
     CMapStringToPtr*    m_podNodeToDllMap;
-    //CKeyPanelEntryList* m_podKeyPanelEntryList;
     TRANSMIT_MSG        Send_Msg;
     EN_DIS_ABLE_LOG     EnDisableLog;
     DISCONNECT_TOOL     DisConnectTool;
