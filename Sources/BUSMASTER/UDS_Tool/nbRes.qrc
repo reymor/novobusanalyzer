@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>resources/binocular.png</file>
+        <file>resources/cross.png</file>
+        <file>resources/history.png</file>
+        <file>resources/monitor.png</file>
+        <file>resources/network.png</file>
+    </qresource>
+</RCC>
