@@ -5,6 +5,9 @@
 #include "qmessagebox.h"
 #include "qvalidator.h"
 
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+
 SignalDlg::SignalDlg(ICluster* pouCluster, ISignal** pSignal, bool bNew,
                      QWidget* parent)
     : QDialog(parent) {
@@ -67,7 +70,7 @@ void SignalDlg::vFillElementList() {
 
 void SignalDlg::vPrepareValidations() {
   ui.editInitialValue->setValidator(
-      new QRegExpValidator(QRegExp(defHex_RegExp)));
+      new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
   ui.labelInitailValueHex->setVisible(true);
   if (LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn() == false) {
     ui.labelInitailValueHex->setVisible(false);
@@ -77,7 +80,7 @@ void SignalDlg::vPrepareValidations() {
   pSignalLengthValidator->setRange(0, 63);
   ui.editLength->setValidator(pSignalLengthValidator);
   ui.editName->setValidator(
-      new QRegExpValidator(QRegExp(defIdentifier_RegExp)));
+      new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp)));
   vFillElementList();
 }
 void SignalDlg::vPrepareUiForEditMode() {
@@ -184,7 +187,7 @@ void SignalDlg::onSelectionOk() {
   QString strTemp;
   int nErrors = 0;
   if (ui.editName->text() == "") {
-    strErrors += strTemp.sprintf("<br>%d. Signal Name Should Not Be Empty<\br>",
+    strErrors += strTemp.asprintf("<br>%d. Signal Name Should Not Be Empty<\br>",
                                  ++nErrors);
     ui.editName->setFocus();
   }
@@ -193,19 +196,19 @@ void SignalDlg::onSelectionOk() {
       m_ouElementMap[defSignalIndex].find(ui.editName->text().toStdString());
   if (itr != m_ouElementMap[defSignalIndex].end()) {
     strErrors +=
-        strTemp.sprintf("<br>%d. Duplicate Signal Name<\br>", ++nErrors);
+        strTemp.asprintf("<br>%d. Duplicate Signal Name<\br>", ++nErrors);
     ui.editName->setFocus();
   }
 
   unsigned int nLength = GetUnsignedInt(ui.editLength->text(), 10);
   if (nLength == 0) {
-    strErrors += strTemp.sprintf(
+    strErrors += strTemp.asprintf(
         "<br>%d. Signal Length Should be greater than 0<\br>", ++nErrors);
 
     ui.editLength->setFocus();
   }
   if (nLength >= 64) {
-    strErrors += strTemp.sprintf(
+    strErrors += strTemp.asprintf(
         "<br>%d. Signal Length Should be Less than 64<\br>", ++nErrors);
 
     ui.editLength->setFocus();
@@ -215,7 +218,7 @@ void SignalDlg::onSelectionOk() {
     unsigned int nInitilVal = GetUnsignedInt(ui.editInitialValue->text());
     unsigned __int64 nMaxVal = pow(2, nLength);
     if (nInitilVal >= nMaxVal) {
-      strErrors += strTemp.sprintf(
+      strErrors += strTemp.asprintf(
           "<br>%d. Initial Value Exceeds the Signal Value Range<\br>",
           ++nErrors);
       ui.editInitialValue->setFocus();
@@ -223,7 +226,7 @@ void SignalDlg::onSelectionOk() {
   }
 
   if (ui.comboPublisher->currentText() == "") {
-    strErrors += strTemp.sprintf("<br>%d. Invalid publisher.<\br>", ++nErrors);
+    strErrors += strTemp.asprintf("<br>%d. Invalid publisher.<\br>", ++nErrors);
     ui.comboPublisher->setFocus();
   }
   if (strErrors.length() > 0) {
@@ -246,7 +249,7 @@ void SignalDlg::onSelectionOk() {
   if (m_strCurrentPublisher != "" &&
       ui.comboPublisher->currentText() != m_strCurrentPublisher) {
     QString strTemp;
-    strTemp.sprintf(
+    strTemp.asprintf(
         "Changing the Publisher will unmap the signal from the <br>Frames "
         "Published by the Ecu <b>%s</b></br>.<br>Do You want to Continue?</br>",
         m_strCurrentPublisher.toStdString().c_str());

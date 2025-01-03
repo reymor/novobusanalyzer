@@ -4,6 +4,9 @@
 #include "LineEditWidget.h"
 #include "qmessagebox.h"
 
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+
 CodingDlg::CodingDlg(ICluster* pouCluster, ICoding** pouCoding, bool bNew,
                      QWidget* parent)
     : QDialog(parent) {
@@ -73,7 +76,7 @@ void CodingDlg::AddPhysicalRow() {
   LineEditWidget* pMin = new LineEditWidget(nRowCount, ui.tablePhysicalValues);
 
   if (true == LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn()) {
-    pMin->setValidator(new QRegExpValidator(QRegExp(defHex_RegExp)));
+    pMin->setValidator(new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
   } else {
     pMin->setValidator(new QIntValidator());
   }
@@ -82,14 +85,14 @@ void CodingDlg::AddPhysicalRow() {
   LineEditWidget* pMax = new LineEditWidget(nRowCount, ui.tablePhysicalValues);
 
   if (true == LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn()) {
-    pMax->setValidator(new QRegExpValidator(QRegExp(defHex_RegExp)));
+    pMax->setValidator(new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
   } else {
     pMax->setValidator(new QIntValidator());
   }
   pMax->setFrame(false);
 
   LineEditWidget* pUnit = new LineEditWidget(nRowCount, ui.tablePhysicalValues);
-  pUnit->setValidator(new QRegExpValidator(QRegExp(defUnit_RegExp)));
+  pUnit->setValidator(new QRegularExpressionValidator(QRegularExpression(defUnit_RegExp)));
   pUnit->setFrame(false);
 
   LineEditWidget* pTextInfo =
@@ -145,7 +148,7 @@ void CodingDlg::AddLogicalRow() {
       new LineEditWidget(nRowCount, ui.tableLogicalValues);
 
   if (LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn() == true) {
-    pRawEdit->setValidator(new QRegExpValidator(QRegExp(defHex_RegExp)));
+    pRawEdit->setValidator(new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
   } else {
     pRawEdit->setValidator(new QIntValidator());
   }
@@ -194,7 +197,7 @@ void CodingDlg::vPrepareUiForEdit() {
       LineEditWidget* pRawEdit =
           new LineEditWidget(nRow, ui.tableLogicalValues);
       if (LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn() == true) {
-        pRawEdit->setValidator(new QRegExpValidator(QRegExp(defHex_RegExp)));
+        pRawEdit->setValidator(new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
       } else {
         pRawEdit->setValidator(new QIntValidator());
       }
@@ -238,7 +241,7 @@ void CodingDlg::vPrepareUiForEdit() {
       LineEditWidget* pMin = new LineEditWidget(nRow, ui.tablePhysicalValues);
 
       if (true == LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn()) {
-        pMin->setValidator(new QRegExpValidator(QRegExp(defHex_RegExp)));
+        pMin->setValidator(new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
       } else {
         pMin->setValidator(new QIntValidator());
       }
@@ -248,7 +251,7 @@ void CodingDlg::vPrepareUiForEdit() {
       LineEditWidget* pMax = new LineEditWidget(nRow, ui.tablePhysicalValues);
 
       if (true == LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn()) {
-        pMax->setValidator(new QRegExpValidator(QRegExp(defHex_RegExp)));
+        pMax->setValidator(new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
       } else {
         pMax->setValidator(new QIntValidator());
       }
@@ -256,7 +259,7 @@ void CodingDlg::vPrepareUiForEdit() {
       pMax->setText(GetString(itr.m_unMax));
 
       LineEditWidget* pUnit = new LineEditWidget(nRow, ui.tablePhysicalValues);
-      pUnit->setValidator(new QRegExpValidator(QRegExp(defUnit_RegExp)));
+      pUnit->setValidator(new QRegularExpressionValidator(QRegularExpression(defUnit_RegExp)));
       pUnit->setFrame(false);
       pUnit->setText(itr.m_strTextInfo.c_str());
 
@@ -280,7 +283,7 @@ void CodingDlg::vPrepareUiForEdit() {
 
 void CodingDlg::vPrepareValidations() {
   ui.editName->setValidator(
-      new QRegExpValidator(QRegExp(defIdentifier_RegExp)));
+      new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp)));
 
   std::map<UID_ELEMENT, IElement*> ouCodingMap;
   m_pLdfCluster->GetElementList(eCodingElement, ouCodingMap);
@@ -364,7 +367,7 @@ int CodingDlg::FillPhysicalValues(LINCompuMethods& ouCompuMethods) {
     ouPhysicalValue.m_unMax = GetUnsignedInt(pMaxWidget->text());
     if (ouPhysicalValue.m_unMax < ouPhysicalValue.m_unMin) {
       QString strErr;
-      strErr.sprintf(
+      strErr.asprintf(
           "Maximum value should be greater than minimum value (in row %d)",
           nRowCount + 1);
       QMessageBox::critical(this, "Error", strErr, QMessageBox::Ok);

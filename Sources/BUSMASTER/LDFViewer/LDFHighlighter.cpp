@@ -1,3 +1,4 @@
+#include <QRegularExpression>
 #include "LDFHighlighter.h"
 
 LDFHighlighter::LDFHighlighter(QTextDocument* parent)
@@ -54,55 +55,56 @@ LDFHighlighter::LDFHighlighter(QTextDocument* parent)
                   << "\\bkbps\\b";
 
   IdentifierStart.setForeground(Qt::red);
-  rule.pattern = QRegExp("[0-9][0-9]*");
+  rule.pattern = QRegularExpression("[0-9][0-9]*");
   rule.format = IdentifierStart;
   highlightingRules.append(rule);
 
   IdentifierStart.setForeground(Qt::black);
-  rule.pattern = QRegExp("[a-zA-Z_][a-zA-Z0-9_]*");
+  rule.pattern = QRegularExpression("[a-zA-Z_][a-zA-Z0-9_]*");
   rule.format = IdentifierStart;
   highlightingRules.append(rule);
 
   IdentifierStart.setForeground(Qt::red);
-  rule.pattern = QRegExp("(0x|0X)[0-9a-fA-F]*");
+  rule.pattern = QRegularExpression("(0x|0X)[0-9a-fA-F]*");
   rule.format = IdentifierStart;
   highlightingRules.append(rule);
 
   foreach (const QString& pattern, keywordPatterns) {
-    rule.pattern = QRegExp(pattern);
+    rule.pattern = QRegularExpression(pattern);
     rule.format = keywordFormat;
     highlightingRules.append(rule);
 
     singleLineCommentFormat.setForeground(Qt::darkGreen);
-    rule.pattern = QRegExp("//[^\n]*");
+    rule.pattern = QRegularExpression("//[^\n]*");
     rule.format = singleLineCommentFormat;
     highlightingRules.append(rule);
 
     quotationFormat.setForeground(Qt::red);
-    rule.pattern = QRegExp("\".*\"");
+    rule.pattern = QRegularExpression("\".*\"");
     rule.format = quotationFormat;
     highlightingRules.append(rule);
 
     quotationFormat.setForeground(Qt::red);
-    rule.pattern = QRegExp("\".*\"");
+    rule.pattern = QRegularExpression("\".*\"");
     rule.format = quotationFormat;
     highlightingRules.append(rule);
 
     multiLineCommentFormat.setForeground(Qt::darkGreen);
 
-    commentStartExpression = QRegExp("/\\*");
-    commentEndExpression = QRegExp("\\*/");
+    commentStartExpression = QRegularExpression("/\\*");
+    commentEndExpression = QRegularExpression("\\*/");
   }
 }
 
 void LDFHighlighter::highlightBlock(const QString& text) {
   foreach (const HighlightingRule& rule, highlightingRules) {
-    QRegExp expression(rule.pattern);
-    int index = expression.indexIn(text);
-    while (index >= 0) {
-      int length = expression.matchedLength();
-      setFormat(index, length, rule.format);
-      index = expression.indexIn(text, index + length);
+    QRegularExpression expression(rule.pattern);
+    QRegularExpressionMatchIterator matchIt = expression.globalMatch(text);
+    while (matchIt.hasNext()) {
+        QRegularExpressionMatch match = matchIt.next();
+        int index = match.capturedStart();
+        int length = match.capturedLength();
+        setFormat(index, length, rule.format);
     }
   }
 
@@ -110,23 +112,24 @@ void LDFHighlighter::highlightBlock(const QString& text) {
 
   int startIndex = 0;
   if (previousBlockState() != 1) {
-    startIndex = commentStartExpression.indexIn(text);
+      QRegularExpressionMatch match = commentStartExpression.match(text);
+      startIndex = match.hasMatch() ? match.capturedStart() : -1;
   }
 
   while (startIndex >= 0) {
-    int endIndex = commentEndExpression.indexIn(text, startIndex);
-    int commentLength;
-    if (endIndex == -1) {
-      setCurrentBlockState(1);
-      commentLength = text.length() - startIndex;
-    } else {
-      commentLength =
-          endIndex - startIndex + commentEndExpression.matchedLength();
-    }
+      QRegularExpressionMatch endMatch = commentEndExpression.match(text, startIndex);
+      int endIndex = endMatch.hasMatch() ? endMatch.capturedStart() : -1;
+      int commentLength;
+      if (endIndex == -1) {
+          setCurrentBlockState(1);
+          commentLength = text.length() - startIndex;
+      } else {
+          commentLength = endIndex - startIndex + endMatch.capturedLength();
+      }
 
-    setFormat(startIndex, commentLength, multiLineCommentFormat);
+      setFormat(startIndex, commentLength, multiLineCommentFormat);
 
-    startIndex =
-        commentStartExpression.indexIn(text, startIndex + commentLength);
+      QRegularExpressionMatch startMatch = commentStartExpression.match(text, startIndex + commentLength);
+      startIndex = startMatch.hasMatch() ? startMatch.capturedStart() : -1;
   }
 }

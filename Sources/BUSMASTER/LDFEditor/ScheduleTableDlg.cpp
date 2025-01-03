@@ -12,6 +12,9 @@
 #include "qheaderview.h"
 #include "qmessagebox.h"
 
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+
 #define defSCHEDULE_DELAY 10.000000
 
 std::string m_omstrScheduleCmdString[eCommandTotal] = {"Unconditionl Frame",
@@ -94,7 +97,7 @@ void ScheduleTableDlg::onScheduleItemDragged(int nLogical, int nOld, int nNew) {
 
 void ScheduleTableDlg::vPrepareValidations() {
   ui.editScheduleName->setValidator(
-      new QRegExpValidator(QRegExp(defIdentifier_RegExp)));
+      new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp)));
 
   std::map<UID_ELEMENT, IElement*> mapElement;
   std::string strName;
@@ -108,7 +111,7 @@ void ScheduleTableDlg::vPrepareValidations() {
 
 void ScheduleTableDlg::vPrepareUI() {
   ui.editScheduleName->setValidator(
-      new QRegExpValidator(QRegExp(defIdentifier_RegExp)));
+      new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp)));
 
   ui.btnAdd->setEnabled(false);
   ui.btnDelete->setEnabled(false);
@@ -880,7 +883,7 @@ void ScheduleTableDlg::vPopulateReadByIdentifier(
     pLineEdit[nIndex] = new LineEditWidget(nIndex, ui.tableProperties);
     if (true == LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn()) {
       pLineEdit[nIndex]->setValidator(
-          new QRegExpValidator(QRegExp(defHex_RegExp)));
+          new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
     } else {
       pLineEdit[nIndex]->setValidator(new QIntValidator);
     }
@@ -970,7 +973,7 @@ void ScheduleTableDlg::vPopulateFreeFormat(
     pLineEdit[nIndex] = new LineEditWidget(nIndex, ui.tableProperties);
     if (true == LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn()) {
       pLineEdit[nIndex]->setValidator(
-          new QRegExpValidator(QRegExp(defHex_RegExp)));
+          new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
     } else {
       pLineEdit[nIndex]->setValidator(new QIntValidator);
     }
@@ -1162,7 +1165,7 @@ void ScheduleTableDlg::vPopulateCondChangeNAD(
     pLineEdit[nIndex] = new LineEditWidget(nIndex, ui.tableProperties);
     if (true == LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn()) {
       pLineEdit[nIndex]->setValidator(
-          new QRegExpValidator(QRegExp(defHex_RegExp)));
+          new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
     } else {
       pLineEdit[nIndex]->setValidator(new QIntValidator);
     }
@@ -1571,7 +1574,7 @@ void ScheduleTableDlg::vPopulateDataDump(
     pLineEdit[nIndex] = new LineEditWidget(nIndex, ui.tableProperties);
     if (true == LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn()) {
       pLineEdit[nIndex]->setValidator(
-          new QRegExpValidator(QRegExp(defHex_RegExp)));
+          new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
     } else {
       pLineEdit[nIndex]->setValidator(new QIntValidator);
     }
@@ -1813,7 +1816,7 @@ void ScheduleTableDlg::vPopulateAssignFrameIdRange(
 
     if (true == LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn()) {
       pLineEdit[nIndex]->setValidator(
-          new QRegExpValidator(QRegExp(defHex_RegExp)));
+          new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
     } else {
       pLineEdit[nIndex]->setValidator(new QIntValidator);
     }

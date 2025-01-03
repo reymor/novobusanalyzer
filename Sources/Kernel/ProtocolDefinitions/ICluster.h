@@ -39,10 +39,10 @@ class ICluster {
 
   virtual ERRORCODE GetNextUniqueId(UID_ELEMENT&) = 0;
   // Editor
-  virtual ERRORCODE LoadFromFile(std::string& strFileName,
+  virtual ERRORCODE LoadFromFile(const std::string& strFileName,
                                  std::list<ParsingResults>& ouErrors,
                                  std::list<ParsingResults>& ouWarnings) = 0;
-  virtual ERRORCODE SaveToFile(std::string& strFileName) = 0;
+  virtual ERRORCODE SaveToFile(const std::string& strFileName) = 0;
   virtual ERRORCODE ValidateCluster(std::list<std::string>&) = 0;
   virtual ERRORCODE GetDBFilePath(std::string& oustrDbFileList) = 0;
   virtual ERRORCODE GetDBFileChecksum(std::string& strDBFileChecksum) = 0;
@@ -76,7 +76,7 @@ class ICluster {
   virtual bool isNotoficationsEnabled() = 0;
   // Interpretation
 
-  virtual ERRORCODE GetEcu(std::string& strEcuName, IEcu** pEcu) = 0;
+  virtual ERRORCODE GetEcu(const std::string& strEcuName, IEcu** pEcu) = 0;
   virtual ERRORCODE GetName(std::string& strClusterName) = 0;
 
   virtual ERRORCODE GetFrame(unsigned int& unId, void* vProtocolFrameParams,
@@ -115,7 +115,7 @@ class IElement {
     return EC_SUCCESS;
   }
 
-  virtual ERRORCODE SetName(std::string& strName) {
+  virtual ERRORCODE SetName(const std::string& strName) {
     // if ( m_strName != strName )
     {
       eNameChangeActionData ouData;

@@ -5,6 +5,9 @@
 #include "LINDefines.h"
 #include "qmessagebox.h"
 
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+
 MasterEditDlg::MasterEditDlg(IEcu* pouMasterEcu, QWidget* parent)
     : QDialog(parent) {
   m_pouMasterEcu = pouMasterEcu;
@@ -15,7 +18,7 @@ MasterEditDlg::MasterEditDlg(IEcu* pouMasterEcu, QWidget* parent)
   connect(ui.buttonCanel, SIGNAL(clicked()), this, SLOT(OnCancel()));
 
   ui.editName->setValidator(
-      new QRegExpValidator(QRegExp(defIdentifier_RegExp)));
+      new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp)));
   ui.editJitter->setValidator(new QDoubleValidator);
   ui.editTimeBase->setValidator(new QDoubleValidator);
 

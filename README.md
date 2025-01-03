@@ -12,4 +12,9 @@
 
 # Dependencies
 
-`NBA` inherits from `Busmaster` the build system and all dependencies. However, right now for compilation is possible to use `cmake` instead of `*.sln` which is mainly based on `Visual Studio 2013` and `Qt5.5.1`. I have compile with `Visual Studio 2019` using `Qt5.15.2`
+`NBA` has migrated the build system and now it uses `cmake`. However, right now for compilation you shall use `Visual Studio 2019 or 2022`. Qt code has been migrated to `Qt6`.
+
+- cmake >= 3.27
+- Visual Studio 2019 or 2022
+- Qt6 tested on v6.8.1
+- You shall configure the compilation for `Win32`

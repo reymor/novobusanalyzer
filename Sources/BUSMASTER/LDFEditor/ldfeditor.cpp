@@ -376,7 +376,7 @@ int LDFEditor::OpenLDFFile(QString strLDFFilePath) {
       auto itr = ouErrors.begin();
       QString strErrorString;
       if (ouErrors.end() != itr) {
-        strErrorString.sprintf("Error While Parsing <br>(Error : %s)</br>",
+        strErrorString.asprintf("Error While Parsing <br>(Error : %s)</br>",
                                itr->m_strErrorDesc.c_str());
         QMessageBox::critical(this, "Error", strErrorString, QMessageBox::Ok);
       }
@@ -478,7 +478,7 @@ int LDFEditor::ValidateForSaving() {
     auto itr = ouErrors.begin();
     QString strErrorString;
     if (ouErrors.end() != itr) {
-      strErrorString.sprintf("Error While Saving. <br>(Error : %s)</br>",
+      strErrorString.asprintf("Error While Saving. <br>(Error : %s)</br>",
                              itr->m_strErrorDesc.c_str());
       QMessageBox::critical(this, "Error", strErrorString, QMessageBox::Ok);
     }

@@ -8,6 +8,9 @@
 #include "LineEditWidget.h"
 #include "qheaderview.h"
 
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+
 LDFAdditionalView::LDFAdditionalView(QWidget* parent)
     : LDFCommonTableWidget(parent) {
   m_pouLDFDatabaseManager = LDFDatabaseManager::GetDatabaseManager();
@@ -212,7 +215,7 @@ int LDFAdditionalView::DisplayDiagProps(CLINSheduleTableItem& ouTableItem) {
   QList<QVariant> ouRowValue;
   ouRowValue.push_back("Data Bytes");
   QString strVal;
-  strVal.sprintf("{0x%X, 0x%X, 0x%X, 0x%X, 0x%X, 0x%X, 0x%X, 0x%X}",
+  strVal.asprintf("{0x%X, 0x%X, 0x%X, 0x%X, 0x%X, 0x%X, 0x%X, 0x%X}",
                  ouTableItem.m_chDataBytes[0], ouTableItem.m_chDataBytes[1],
                  ouTableItem.m_chDataBytes[2], ouTableItem.m_chDataBytes[3],
                  ouTableItem.m_chDataBytes[4], ouTableItem.m_chDataBytes[5],
@@ -415,7 +418,7 @@ int LDFAdditionalView::DisplayConfigFrames(
             pLineWidget->setValidator(pValidator);
           } else {
             pLineWidget->setValidator(
-                new QRegExpValidator(QRegExp(defHex_RegExp)));
+                new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
           }
           pLineWidget->setText(GetString(itr.m_unConfigMsgId));
           connect(pLineWidget, SIGNAL(textChanged(const QString&)), this,

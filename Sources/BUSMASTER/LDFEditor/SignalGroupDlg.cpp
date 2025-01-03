@@ -4,6 +4,9 @@
 #include "qmath.h"
 #include "qmessagebox.h"
 
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+
 SignalGroupDlg::SignalGroupDlg(ICluster* pouCluster,
                                ISignalGroup** pSignalGroup, bool bNew,
                                QWidget* parent)
@@ -126,7 +129,7 @@ int SignalGroupDlg::nValidate() {
 
 void SignalGroupDlg::vPrepareValidations() {
   ui.editName->setValidator(
-      new QRegExpValidator(QRegExp(defIdentifier_RegExp)));
+      new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp)));
 
   QIntValidator* pSignalLengthValidator = new QIntValidator();
   pSignalLengthValidator->setRange(0, 63);

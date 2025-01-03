@@ -38,7 +38,6 @@ public:
     CGraphConfiguration(CWnd* pParent = nullptr);
 
     // Dialog Data
-    //{{AFX_DATA(CGraphConfiguration)
     enum { IDD = IDD_DLG_GRAPH_WINDOW_CONF };
     CColorSelector   m_omAxisColor;
     CColorSelector   m_omFrameColor;
@@ -49,25 +48,16 @@ public:
     int     m_nUpdateRate;
     int     m_nBufferSize;
     int     m_omFrameType;
-    //}}AFX_DATA
 
-
-    // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CGraphConfiguration)
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    //}}AFX_VIRTUAL
 
-    // Implementation
 protected:
 
     // Generated message map functions
-    //{{AFX_MSG(CGraphConfiguration)
     afx_msg void OnSetDefault();
     virtual void OnOK();
     virtual BOOL OnInitDialog();
-    //}}AFX_MSG
     DECLARE_MESSAGE_MAP()
 private:
     // To set the values of the object in to UI control

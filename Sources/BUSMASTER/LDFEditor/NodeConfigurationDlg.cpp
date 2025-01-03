@@ -11,6 +11,9 @@
 #include "LDFUtility.h"
 #include "LineEditWidget.h"
 
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+
 NodeConfigurationDlg::NodeConfigurationDlg(INodeConfiguration** pNodeConfig,
                                            eMode ouMode, QWidget* parent)
     : QDialog(parent) {
@@ -68,7 +71,7 @@ void NodeConfigurationDlg::vCollectNodeNames() {
 
 void NodeConfigurationDlg::vPrepareUI() {
   ui.lineEdit->setValidator(
-      new QRegExpValidator(QRegExp(defIdentifier_RegExp)));
+      new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp)));
   if (eNew == m_ouMode) {
     vPrepareUIForNew();
   } else if (eEdit == m_ouMode) {
@@ -266,7 +269,7 @@ void NodeConfigurationDlg::vPrepareUIForEdit() {
     pLineEdit->setText((strLogicNodes.c_str()));
     pLineEdit->setFrame(false);
     pLineEdit->setValidator(
-        new QRegExpValidator(QRegExp(defIdentifier_RegExp_MULTIPLE)));
+        new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp_MULTIPLE)));
     ui.tableWidget->setCellWidget(nRow, 1, pLineEdit);
 
     nRow++;
@@ -310,7 +313,7 @@ void NodeConfigurationDlg::onButtonClickAdd(bool) {
   pLineEdit->setText("");
   pLineEdit->setFrame(false);
   pLineEdit->setValidator(
-      new QRegExpValidator(QRegExp(defIdentifier_RegExp_MULTIPLE)));
+      new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp_MULTIPLE)));
   ui.tableWidget->setCellWidget(nRow, 1, pLineEdit);
 }
 

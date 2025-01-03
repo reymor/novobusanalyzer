@@ -7,6 +7,9 @@
 #include "qdialogbuttonbox.h"
 #include "qmessagebox.h"
 
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+
 SporadicFrameEditDlg::SporadicFrameEditDlg(IFrame** pouFrame, eMode ouMode,
                                            QWidget* parent) {
   m_pouFrame = pouFrame;
@@ -57,7 +60,7 @@ void SporadicFrameEditDlg::vPrepareUIForEditMode() {
 
 void SporadicFrameEditDlg::vPrepareValidations() {
   ui.editFrameName->setValidator(
-      new QRegExpValidator(QRegExp(defIdentifier_RegExp)));
+      new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp)));
   vFillElementList();
 }
 

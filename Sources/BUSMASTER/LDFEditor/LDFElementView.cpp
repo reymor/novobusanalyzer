@@ -323,10 +323,10 @@ void LDFElementView::SelectElement(TreeItemID uidTreeElement) {
     if (m_UidTreeWidgetMap.end() != itr) {
       auto selItems = selectedItems();
       for (auto selItem : selItems) {
-        setItemSelected(selItem, false);
+          selItem->setSelected(false);
       }
 
-      setItemSelected(itr->second, true);
+      itr->second->setSelected(true);
       setCurrentItem(itr->second);
       scrollToItem(itr->second);
     }
@@ -1245,8 +1245,8 @@ void LDFElementView::vOnDeleteSignal() {
 void LDFElementView::vOnEditLinCluster() {
   LDFCLusterPropsDlg dlg(m_pBaseCluster, this);
   if (QDialog::Accepted == dlg.exec()) {
-    setItemSelected(currentItem(), false);
-    setItemSelected(currentItem(), true);
+      currentItem()->setSelected(false);
+      currentItem()->setSelected(true);
     LDFDatabaseManager::GetDatabaseManager()->setDocumentModified(true);
   }
 }
@@ -1551,8 +1551,8 @@ void LDFElementView::vOnEditSlaveElement() {
       pouEcu->RegisterForChangeNotification(this);
       SlaveDlg ouDlg(m_pBaseCluster, &pouEcu, false, this);
       if (QDialog::Accepted == ouDlg.exec() && pouEcu != nullptr) {
-        setItemSelected(pItem, false);
-        setItemSelected(pItem, true);
+          pItem->setSelected(false);
+          pItem->setSelected(true);
         SelectElement(uid);
       }
     }
@@ -1664,11 +1664,11 @@ void LDFElementView::onCustomContextMenu(const QPoint& point) {
 
   if (nullptr != pTreeItem) {
     if (currentItem() != nullptr) {
-      setItemSelected(currentItem(), false);
+        currentItem()->setSelected(false);
     }
 
     setCurrentItem(pTreeItem);
-    setItemSelected(pTreeItem, true);
+    pTreeItem->setSelected(true);
     QVariant qVar = pTreeItem->data(0, Qt::UserRole);
 
     TreeItemID objTreeItemData = qVar.value<TreeItemID>();

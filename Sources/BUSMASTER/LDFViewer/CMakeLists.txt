@@ -4,7 +4,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt5 COMPONENTS Widgets Gui Core REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core)
 
 ################################################################################
 # Source groups
@@ -82,9 +82,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/GeneratedFiles;"
     "${CMAKE_CURRENT_SOURCE_DIR}/.;"
     "${CMAKE_CURRENT_SOURCE_DIR}/GeneratedFiles/$<CONFIG>;"
-    ${Qt5Core_INCLUDE_DIRS}
-    ${Qt5Gui_INCLUDE_DIRS}
-    ${Qt5Widgets_INCLUDE_DIRS}
+    ${Qt6Core_INCLUDE_DIRS}
+    ${Qt6Gui_INCLUDE_DIRS}
+    ${Qt6Widgets_INCLUDE_DIRS}
 )
 
 ################################################################################
@@ -127,13 +127,14 @@ if(MSVC)
             /DEBUG
         >
         /SUBSYSTEM:WINDOWS
+        /entry:mainCRTStartup
     )
 endif()
 
 ################################################################################
 # Dependencies
 ################################################################################
-target_link_libraries(${PROJECT_NAME} PRIVATE ${Qt5Widgets_LIBRARIES} ${Qt5Core_QTMAIN_LIBRARIES}) 
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Qt6Widgets_LIBRARIES}) 
 
 ################################################################################
 # Post build events

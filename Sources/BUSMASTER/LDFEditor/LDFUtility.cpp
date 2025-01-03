@@ -58,21 +58,21 @@ QString toString(QVariant& ouVariant) {
     case QVariant::Int:
     case QVariant::LongLong:
       if (false == bHex) {
-        return strTemp.sprintf("%d", ouVariant.value<unsigned int>());
+        return strTemp.asprintf("%d", ouVariant.value<unsigned int>());
       } else {
-        return strTemp.sprintf("0x%X", ouVariant.value<unsigned int>());
+        return strTemp.asprintf("0x%X", ouVariant.value<unsigned int>());
       }
       break;
     case QVariant::UInt:
     case QVariant::ULongLong:
       if (false == bHex) {
-        return strTemp.sprintf("%u", ouVariant.value<unsigned int>());
+        return strTemp.asprintf("%u", ouVariant.value<unsigned int>());
       } else {
-        return strTemp.sprintf("0x%X", ouVariant.value<unsigned int>());
+        return strTemp.asprintf("0x%X", ouVariant.value<unsigned int>());
       }
       break;
     case QVariant::Double:
-      return strTemp.sprintf("%lf", ouVariant.value<double>());
+      return strTemp.asprintf("%lf", ouVariant.value<double>());
     case QVariant::String:
       return ouVariant.value<QString>();
     default:
@@ -351,7 +351,7 @@ int GetString(int nVal, QString& strText) {
   return 0;
 }
 
-unsigned int GetUnsignedInt(QString& strText, int nBase) {
+unsigned int GetUnsignedInt(const QString& strText, int nBase) {
   return strtoul(strText.toStdString().c_str(), nullptr, nBase);
 }
 
@@ -370,12 +370,12 @@ QString GetString(unsigned __int64 nVal, bool bPrintSymbol) {
   QString strText = "";
   bool bHex = LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn();
   if (false == bHex) {
-    strText.sprintf("%llu", nVal);
+    strText.asprintf("%llu", nVal);
   } else {
     if (true == bPrintSymbol) {
-      strText.sprintf("0x%llX", nVal);
+      strText.asprintf("0x%llX", nVal);
     } else {
-      strText.sprintf("%llX", nVal);
+      strText.asprintf("%llX", nVal);
     }
   }
   return strText;
@@ -385,12 +385,12 @@ QString GetString(int nVal, bool bPrintHex) {
   QString strText = "";
   bool bHex = LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn();
   if (false == bHex) {
-    strText.sprintf("%d", nVal);
+    strText.asprintf("%d", nVal);
   } else {
     if (true == bPrintHex) {
-      strText.sprintf("0x%X", nVal);
+      strText.asprintf("0x%X", nVal);
     } else {
-      strText.sprintf("%X", nVal);
+      strText.asprintf("%X", nVal);
     }
   }
   return strText;
@@ -400,12 +400,12 @@ QString GetString(unsigned int nVal, bool bPrintHex) {
   QString strText = "";
   bool bHex = LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn();
   if (bHex == false) {
-    strText.sprintf("%d", nVal);
+    strText.asprintf("%d", nVal);
   } else {
     if (true == bPrintHex) {
-      strText.sprintf("0x%X", nVal);
+      strText.asprintf("0x%X", nVal);
     } else {
-      strText.sprintf("%X", nVal);
+      strText.asprintf("%X", nVal);
     }
   }
   return strText;
@@ -413,7 +413,7 @@ QString GetString(unsigned int nVal, bool bPrintHex) {
 
 QString GetString(double dVal) {
   QString strText = "";
-  strText.sprintf("%lf", dVal);
+  strText.asprintf("%lf", dVal);
   return strText;
 }
 
@@ -469,9 +469,9 @@ QString GetString(int nVal, int nBase) {
   QString strText = "";
   bool bHex = LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn();
   if (10 == nBase) {
-    strText.sprintf("%d", nVal);
+    strText.asprintf("%d", nVal);
   } else if (16 == nBase) {
-    strText.sprintf("0x%X", nVal);
+    strText.asprintf("0x%X", nVal);
   }
   return strText;
 }
@@ -480,9 +480,9 @@ QString GetString(unsigned int nVal, int nBase) {
   QString strText = "";
   bool bHex = LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn();
   if (10 == nBase) {
-    strText.sprintf("%d", nVal);
+    strText.asprintf("%d", nVal);
   } else if (16 == nBase) {
-    strText.sprintf("0x%X", nVal);
+    strText.asprintf("0x%X", nVal);
   }
   return strText;
 }
@@ -491,9 +491,9 @@ QString GetString(unsigned __int64 nVal, int nBase) {
   QString strText = "";
   bool bHex = LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn();
   if (10 == nBase) {
-    strText.sprintf("%llu", nVal);
+    strText.asprintf("%llu", nVal);
   } else if (16 == nBase) {
-    strText.sprintf("0x%llu", nVal);
+    strText.asprintf("0x%llu", nVal);
   }
   return strText;
 }

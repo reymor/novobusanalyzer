@@ -72,7 +72,7 @@ int GetString(eDiagType oueLinDiagType, std::string& strString);
 int GetString(double dVal, QString& strText);
 int GetString(int nVal, QString& strText);
 unsigned int GetUnsignedInt(const QString& strText);
-unsigned int GetUnsignedInt(QString& strText, int nBase);
+unsigned int GetUnsignedInt(const QString& strText, int nBase);
 
 QString GetString(int nVal, bool bPrintHex = true);
 QString GetString(unsigned int nVal, bool bPrintHexSymbol = true);

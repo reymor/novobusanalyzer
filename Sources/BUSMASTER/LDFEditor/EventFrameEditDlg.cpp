@@ -9,6 +9,9 @@
 #include "qdialogbuttonbox.h"
 #include "qmessagebox.h"
 
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+
 EventFrameEditDlg::EventFrameEditDlg(ICluster* pCluster, IFrame** pouFrame,
                                      bool bNew, QWidget* parent) {
   m_pouFrame = pouFrame;
@@ -79,7 +82,7 @@ void EventFrameEditDlg::vPrepareUiForNewMode() {
 
 void EventFrameEditDlg::vPrepareValidations() {
   ui.editName->setValidator(
-      new QRegExpValidator(QRegExp(defIdentifier_RegExp)));
+      new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp)));
   vFillElementList();
 }
 void EventFrameEditDlg::vFillElementList() {

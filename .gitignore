@@ -411,6 +411,8 @@ Sources/BUSMASTER/BIN/Win32
 Sources/BUSMASTER/BIN/CMakeFiles
 Sources/BUSMASTER/BIN/*.cmake
 Sources/BUSMASTER/BIN/*.txt
+Sources/BUSMASTER/BIN/.qt/
+Sources/BUSMASTER/BIN/x64/
 
 # packaging
 packaging/NovoBusAnalyzer_Cleanup_Registry.exe

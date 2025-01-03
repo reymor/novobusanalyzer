@@ -10,6 +10,9 @@
 #include "LINDefines.h"
 #include "MapSignalsDlg.h"
 
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+
 UnconditionalFrameEditDlg::UnconditionalFrameEditDlg(IFrame** pouFrame,
                                                      eMode eUIType,
                                                      QWidget* parent)
@@ -54,7 +57,7 @@ void UnconditionalFrameEditDlg::SetUpUi() {
   std::map<std::string, std::string> maSubscribers;
   std::list<IEcu*> lstTxECUs, lstRxECUs;
   ui.editFrameName->setValidator(
-      new QRegExpValidator(QRegExp(defIdentifier_RegExp)));
+      new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp)));
   PopulateFrameIdCombo();
   PopulateFrameLengthCombo();
   vPopulatePublishers();

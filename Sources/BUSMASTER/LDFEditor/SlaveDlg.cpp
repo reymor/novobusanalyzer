@@ -5,6 +5,9 @@
 #include "LDFUtility.h"
 #include "qmessagebox.h"
 
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+
 SlaveDlg::SlaveDlg(ICluster* pouCluster, IEcu** pouEcu, bool bNew,
                    QWidget* parent)
     : QDialog(parent) {
@@ -300,7 +303,7 @@ void SlaveDlg::vInitialiseProtocolComboBox(double dEcuVer) {
   m_pBaseCluster->GetProperties(eLINClusterProperties, &ouLIN_Settings);
   QString chText;
 
-  chText.sprintf("%.1f", dEcuVer);
+  chText.asprintf("%.1f", dEcuVer);
 
   double dProtocolVer = ouLIN_Settings.m_dProtocolVers;
   if (dEcuVer != defVersion_1_3 && dEcuVer != defVersion_2_0 &&
@@ -339,7 +342,7 @@ void SlaveDlg::vPrepareValidations() {
   ui.editFunctionId->setValidator(new QIntValidator);
   ui.editVariant->setValidator(new QIntValidator);
   ui.editName->setValidator(
-      new QRegExpValidator(QRegExp(defIdentifier_RegExp)));
+      new QRegularExpressionValidator(QRegularExpression(defIdentifier_RegExp)));
   ui.editP2MIN->setValidator(new QDoubleValidator);
   ui.editSTMIN->setValidator(new QDoubleValidator);
   ui.editNAS->setValidator(new QDoubleValidator);
@@ -347,14 +350,14 @@ void SlaveDlg::vPrepareValidations() {
 
   if (true == LDFDatabaseManager::GetDatabaseManager()->bIsDisplayHexOn()) {
     ui.editConfigNAD->setValidator(
-        new QRegExpValidator(QRegExp(defHex_RegExp)));
+        new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
     ui.editInitialNAD->setValidator(
-        new QRegExpValidator(QRegExp(defHex_RegExp)));
+        new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
     ui.editFunctionId->setValidator(
-        new QRegExpValidator(QRegExp(defHex_RegExp)));
+        new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
     ui.editSupplierID->setValidator(
-        new QRegExpValidator(QRegExp(defHex_RegExp)));
-    ui.editVariant->setValidator(new QRegExpValidator(QRegExp(defHex_RegExp)));
+        new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
+    ui.editVariant->setValidator(new QRegularExpressionValidator(QRegularExpression(defHex_RegExp)));
   } else {
     ui.editConfigNAD->setValidator(new QIntValidator);
     ui.editInitialNAD->setValidator(new QIntValidator);
