@@ -560,7 +560,7 @@ void SFILTERAPPLIED<SFRAMEINFO_BASIC_BUS>::pbGetConfigData(xmlNodePtr& pNodePtr)
 }
 
 template <typename SFRAMEINFO_BASIC_BUS>
-void SFILTERAPPLIED<SFRAMEINFO_BASIC_BUS>::pbSetConfigData( SFILTERAPPLIED& pFilterAppliedCAN, xmlNodeSetPtr pNodeSetPtr, xmlDocPtr pdocptr, bool& Result, ETYPE_BUS eBusType = CAN )
+void SFILTERAPPLIED<SFRAMEINFO_BASIC_BUS>::pbSetConfigData(SFILTERAPPLIED& pFilterAppliedCAN, xmlNodeSetPtr pNodeSetPtr, xmlDocPtr pdocptr, bool& Result, ETYPE_BUS eBusType)
 {
     vClear();
 

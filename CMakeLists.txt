@@ -7,6 +7,7 @@ project(NovoBusAnalyzer)
 set(BUSMASTER_VER 0.0.1)
 add_definitions(-DBUSMASTER_VER=\"${BUSMASTER_VER}\")
 set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_CXX_STANDARD 17)
 
 add_compile_definitions(NO_WARN_MBCS_MFC_DEPRECATION _CRT_SECURE_NO_WARNINGS)
 ################################################################################
