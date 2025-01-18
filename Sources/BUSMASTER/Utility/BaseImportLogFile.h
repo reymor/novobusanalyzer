@@ -1,16 +1,15 @@
 #ifndef BUSMASTER_UTILITY_BASEIMPORTLOGFILE_H_
 #define BUSMASTER_UTILITY_BASEIMPORTLOGFILE_H_
 
-#include<vector>
-#include"..\Include\BaseDefs.h"
-#include"IFileLineAnalysisFilter.h"
-#include"..\Application\HashDefines.h"
+#include <vector>
+#include "..\Include\BaseDefs.h"
+#include "IFileLineAnalysisFilter.h"
+#include "..\Application\HashDefines.h"
 #include "IImportLogFile.h"
-#include"ReadFile.h"
+#include "ReadFile.h"
 
 class CBaseImportLogFile : public IImportLogFile,private IFileLineAnalysisFilter
 {
-
 private:
     unsigned long m_nSystemTimeOffset;
     CRITICAL_SECTION m_ouCriticalSection;

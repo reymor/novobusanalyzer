@@ -17,7 +17,7 @@
 #include "ColumnTreeWnd.h"
 
 #include <shlwapi.h>
-#include ".\columntreewnd.h"
+#include "columntreewnd.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -51,8 +51,7 @@ CColumnTreeWnd::~CColumnTreeWnd()
 
 int CColumnTreeWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-    if (CWnd::OnCreate(lpCreateStruct) == -1)
-    {
+    if (CWnd::OnCreate(lpCreateStruct) == -1) {
         return -1;
     }
 
@@ -69,22 +68,19 @@ int CColumnTreeWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     HMODULE hComCtlDll = LoadLibrary("comctl32.dll");
 
-    if (hComCtlDll)
-    {
+    if (hComCtlDll) {
         typedef HRESULT (CALLBACK *PFNDLLGETVERSION)(DLLVERSIONINFO*);
 
         PFNDLLGETVERSION pfnDllGetVersion = (PFNDLLGETVERSION)GetProcAddress(hComCtlDll, "DllGetVersion");
 
-        if (pfnDllGetVersion)
-        {
+        if (pfnDllGetVersion) {
             DLLVERSIONINFO dvi;
             ZeroMemory(&dvi, sizeof(dvi));
             dvi.cbSize = sizeof(dvi);
 
             HRESULT hRes = (*pfnDllGetVersion)(&dvi);
 
-            if (SUCCEEDED(hRes) && dvi.dwMajorVersion >= 6)
-            {
+            if (SUCCEEDED(hRes) && dvi.dwMajorVersion >= 6) {
                 bIsComCtl6 = TRUE;
             }
         }
@@ -135,8 +131,7 @@ void CColumnTreeWnd::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* /* pScrollBa
 
     int xLast = m_xPos;
 
-    switch (nSBCode)
-    {
+    switch (nSBCode) {
         case SB_LINELEFT:
             m_xPos -= 15;
             break;
@@ -160,24 +155,19 @@ void CColumnTreeWnd::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* /* pScrollBa
             break;
     }
 
-    if (m_xPos < 0)
-    {
+    if (m_xPos < 0) {
         m_xPos = 0;
-    }
-    else if (m_xPos > m_cxTotal - cx)
-    {
+    } else if (m_xPos > m_cxTotal - cx) {
         m_xPos = m_cxTotal - cx;
     }
 
-    if (xLast == m_xPos)
-    {
+    if (xLast == m_xPos) {
         return;
     }
 
     SetScrollPos(SB_HORZ, m_xPos);
     RepositionControls();
 }
-
 
 void CColumnTreeWnd::OnHeaderItemChanged(NMHDR* /* pNMHDR */, LRESULT* /* pResult */)
 {
@@ -198,8 +188,7 @@ void CColumnTreeWnd::OnTreeCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
     NMCUSTOMDRAW* pNMCustomDraw = (NMCUSTOMDRAW*)pNMHDR;
     NMTVCUSTOMDRAW* pNMTVCustomDraw = (NMTVCUSTOMDRAW*)pNMHDR;
 
-    switch (pNMCustomDraw->dwDrawStage)
-    {
+    switch (pNMCustomDraw->dwDrawStage) {
         case CDDS_PREPAINT:
             *pResult = CDRF_NOTIFYITEMDRAW;
             break;
@@ -213,8 +202,7 @@ void CColumnTreeWnd::OnTreeCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
             HTREEITEM hItem = (HTREEITEM)pNMCustomDraw->dwItemSpec;
             CRect rcItem = pNMCustomDraw->rc;
 
-            if (rcItem.IsRectEmpty())
-            {
+            if (rcItem.IsRectEmpty()) {
                 // nothing to paint
                 *pResult = CDRF_DODEFAULT;
                 break;
@@ -232,8 +220,7 @@ void CColumnTreeWnd::OnTreeCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 
             // clear the original label rectangle
             CRect rcClear = rcLabel;
-            if (rcClear.left > m_arrColWidths[0] - 1)
-            {
+            if (rcClear.left > m_arrColWidths[0] - 1) {
                 rcClear.left = m_arrColWidths[0] - 1;
             }
             dc.FillSolidRect(&rcClear, crWnd);
@@ -242,8 +229,7 @@ void CColumnTreeWnd::OnTreeCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 
             // draw horizontal lines...
             int xOffset = 0;
-            for (int i=0; i<nColsCnt; i++)
-            {
+            for (int i=0; i < nColsCnt; i++) {
                 xOffset += m_arrColWidths[i];
                 rcItem.right = xOffset-1;
                 dc.DrawEdge(&rcItem, BDR_SUNKENINNER, BF_RIGHT);
@@ -261,32 +247,27 @@ void CColumnTreeWnd::OnTreeCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
             rcLabel.right = min(rcLabel.left + rcText.right + 4, m_arrColWidths[0] - 4);
 
             CRect rcBack = rcLabel;
-            if (GetWindowLong(m_Tree.m_hWnd, GWL_STYLE) & TVS_FULLROWSELECT)
-            {
+            if (GetWindowLong(m_Tree.m_hWnd, GWL_STYLE) & TVS_FULLROWSELECT) {
                 int nWidth = 0;
-                for (int i=0; i<nColsCnt; i++)
-                {
+                for (int i=0; i < nColsCnt; i++) {
                     nWidth += m_arrColWidths[i];
                 }
                 rcBack.right = nWidth - 1;
-                if (rcBack.left > m_arrColWidths[0] - 1)
-                {
+                if (rcBack.left > m_arrColWidths[0] - 1) {
                     rcBack.left = m_arrColWidths[0] - 1;
                 }
             }
 
-            if (rcBack.Width() < 0)
-            {
+            if (rcBack.Width() < 0) {
                 crTextBk = crWnd;
             }
-            if (crTextBk != crWnd)  // draw label's background
-            {
+            // draw label's background
+            if (crTextBk != crWnd) {
                 dc.FillSolidRect(&rcBack, crTextBk);
             }
 
             // draw focus rectangle if necessary
-            if (pNMCustomDraw->uItemState & CDIS_FOCUS)
-            {
+            if (pNMCustomDraw->uItemState & CDIS_FOCUS) {
                 dc.DrawFocusRect(&rcBack);
             }
 
@@ -299,16 +280,13 @@ void CColumnTreeWnd::OnTreeCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
             xOffset = m_arrColWidths[0];
             dc.SetBkMode(TRANSPARENT);
 
-            if (!(GetWindowLong(m_Tree.m_hWnd, GWL_STYLE) & TVS_FULLROWSELECT))
-            {
+            if (!(GetWindowLong(m_Tree.m_hWnd, GWL_STYLE) & TVS_FULLROWSELECT)) {
                 dc.SetTextColor(GetSysColor(COLOR_WINDOWTEXT));
             }
 
             // draw other columns text
-            for (int i=1; i<nColsCnt; i++)
-            {
-                if (AfxExtractSubString(strSub, strText, i, '\t'))
-                {
+            for (int i = 1; i < nColsCnt; i++) {
+                if (AfxExtractSubString(strSub, strText, i, '\t')) {
                     rcText = rcLabel;
                     rcText.left = xOffset;
                     rcText.right = xOffset + m_arrColWidths[i];
@@ -336,19 +314,15 @@ void CColumnTreeWnd::UpdateColumns()
     HDITEM hditem;
     hditem.mask = HDI_WIDTH;
     int nCnt = m_Header.GetItemCount();
-    if (nCnt > 16)
-    {
+    if (nCnt > 16) {
         nCnt = 16;
     }
 
     // get column widths from the header control
-    for (int i=0; i<nCnt; i++)
-    {
-        if (m_Header.GetItem(i, &hditem))
-        {
+    for (int i=0; i < nCnt; i++) {
+        if (m_Header.GetItem(i, &hditem)) {
             m_cxTotal += m_arrColWidths[i] = hditem.cxy;
-            if (i==0)
-            {
+            if (i == 0) {
                 m_Tree.m_cxFirstCol = hditem.cxy;
             }
         }
@@ -367,12 +341,10 @@ void CColumnTreeWnd::UpdateScroller()
 
     int lx = m_xPos;
 
-    if (m_xPos > m_cxTotal - cx)
-    {
+    if (m_xPos > m_cxTotal - cx) {
         m_xPos = m_cxTotal - cx;
     }
-    if (m_xPos < 0)
-    {
+    if (m_xPos < 0) {
         m_xPos = 0;
     }
 
@@ -389,8 +361,7 @@ void CColumnTreeWnd::UpdateScroller()
 void CColumnTreeWnd::RepositionControls()
 {
     // reposition child controls
-    if (m_Tree.m_hWnd)
-    {
+    if (m_Tree.m_hWnd) {
         CRect rcClient;
         GetClientRect(&rcClient);
         int cx = rcClient.Width();
@@ -398,8 +369,7 @@ void CColumnTreeWnd::RepositionControls()
 
         // move to a negative offset if scrolled horizontally
         int x = 0;
-        if (cx < m_cxTotal)
-        {
+        if (cx < m_cxTotal) {
             x = GetScrollPos(SB_HORZ);
             cx += x;
         }
@@ -410,14 +380,12 @@ void CColumnTreeWnd::RepositionControls()
 
 BOOL CColumnTreeWnd::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
-    if (CWnd::OnNotify(wParam, lParam, pResult))
-    {
+    if (CWnd::OnNotify(wParam, lParam, pResult)) {
         return TRUE;
     }
 
     // route notifications from CTreeCtrl to the parent window
-    if (wParam == TreeID)
-    {
+    if (wParam == TreeID) {
         NMHDR* pNMHDR = (NMHDR*)lParam;
         pNMHDR->idFrom = GetDlgCtrlID();
         pNMHDR->hwndFrom = m_hWnd;
@@ -443,8 +411,7 @@ int CColumnTreeWnd::GetMaxColumnWidth(HTREEITEM hItem, int nColumn, int nDepth, 
 
     CString strText = m_Tree.GetItemText(hItem);
     CString strSub;
-    if (AfxExtractSubString(strSub, strText, nColumn, '\t'))
-    {
+    if (AfxExtractSubString(strSub, strText, nColumn, '\t')) {
         CDC dc;
         dc.CreateCompatibleDC(NULL);
         CFont* pOldFont = dc.SelectObject(m_Tree.GetFont());
@@ -456,34 +423,28 @@ int CColumnTreeWnd::GetMaxColumnWidth(HTREEITEM hItem, int nColumn, int nDepth, 
     }
 
     // add indent and image space if first column
-    if (nColumn == 0)
-    {
+    if (nColumn == 0) {
         int nIndent = nDepth;
 
-        if (GetWindowLong(m_Tree.m_hWnd, GWL_STYLE) & TVS_LINESATROOT)
-        {
+        if (GetWindowLong(m_Tree.m_hWnd, GWL_STYLE) & TVS_LINESATROOT) {
             nIndent++;
         }
 
         int nImage, nSelImage;
         m_Tree.GetItemImage(hItem, nImage, nSelImage);
-        if (nImage >= 0)
-        {
+        if (nImage >= 0) {
             nIndent++;
         }
 
         nMaxWidth += nIndent * m_Tree.GetIndent();
     }
 
-    if (!bIgnoreCollapsed || (m_Tree.GetItemState(hItem, TVIS_EXPANDED) & TVIS_EXPANDED))
-    {
+    if (!bIgnoreCollapsed || (m_Tree.GetItemState(hItem, TVIS_EXPANDED) & TVIS_EXPANDED)) {
         // process child items recursively
         HTREEITEM hSubItem = m_Tree.GetChildItem(hItem);
-        while (hSubItem)
-        {
+        while (hSubItem) {
             int nSubWidth = GetMaxColumnWidth(hSubItem, nColumn, nDepth + 1, bIgnoreCollapsed);
-            if (nSubWidth > nMaxWidth)
-            {
+            if (nSubWidth > nMaxWidth) {
                 nMaxWidth = nSubWidth;
             }
 

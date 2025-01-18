@@ -24,11 +24,9 @@
 
 #include "Utils_stdafx.h"
 #include "AlphaChar.h"
-#include "RadixEdit.h" //for backspace definintion
-
+#include "RadixEdit.h"
 
 // CAlphaCharEdit
-
 IMPLEMENT_DYNAMIC(CAlphaCharEdit, CEdit)
 CAlphaCharEdit::CAlphaCharEdit(int nItem, int nSubItem, CString& strContent)
 {
@@ -42,14 +40,11 @@ CAlphaCharEdit::~CAlphaCharEdit()
 {
 }
 
-
 BEGIN_MESSAGE_MAP(CAlphaCharEdit, CEdit)
     ON_WM_CHAR()
     ON_WM_KILLFOCUS()
     ON_WM_CREATE()
 END_MESSAGE_MAP()
-
-
 
 // CAlphaCharEdit message handlers
 /******************************************************************************/
@@ -103,9 +98,8 @@ void CAlphaCharEdit::OnKillFocus(CWnd* pNewWnd)
 
     CEdit::OnKillFocus(pNewWnd);
 
-
-    if( m_nRow != -1 || m_nColumn != -1 )//For Dialog Close using X Button
-    {
+    //For Dialog Close using X Button
+    if (m_nRow != -1 || m_nColumn != -1) {
         CString omStr;
         // As it is non editable Get the window text to get the selected
         // item text
@@ -136,8 +130,7 @@ void CAlphaCharEdit::OnKillFocus(CWnd* pNewWnd)
 
 int CAlphaCharEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-    if (CEdit::OnCreate(lpCreateStruct) == -1)
-    {
+    if (CEdit::OnCreate(lpCreateStruct) == -1) {
         return -1;
     }
 
@@ -153,17 +146,14 @@ int CAlphaCharEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
 BOOL CAlphaCharEdit::PreTranslateMessage(MSG* pMsg)
 {
     // TODO: Add your specialized code here and/or call the base class
-    if( pMsg->message == WM_KEYDOWN )
-    {
-        if( pMsg->wParam == VK_RETURN ||
-                pMsg->wParam == VK_ESCAPE )
-        {
+    if (pMsg->message == WM_KEYDOWN) {
+        if (pMsg->wParam == VK_RETURN ||
+            pMsg->wParam == VK_ESCAPE) {
             ::TranslateMessage(pMsg);
             ::DispatchMessage(pMsg);
             return 1;
         }
-        if(pMsg->wParam == VK_TAB)
-        {
+        if (pMsg->wParam == VK_TAB) {
             MessageBeep(0);
         }
     }

@@ -6,9 +6,6 @@
 
 // CColorSelector
 
-//IMPLEMENT_DYNAMIC(CColorSelector, CButton)
-
-
 CColorSelector::CColorSelector()
 {
     m_MapMsgIdToClr.RemoveAll();
@@ -19,16 +16,11 @@ CColorSelector::~CColorSelector()
     m_MapMsgIdToClr.RemoveAll();
 }
 
-
 BEGIN_MESSAGE_MAP(CColorSelector, CButton)
     ON_CONTROL_REFLECT(BN_CLICKED, OnBnClicked)
 END_MESSAGE_MAP()
 
-
-
 // CColorSelector message handlers
-
-
 
 void CColorSelector::PreSubclassWindow()
 {
@@ -48,14 +40,11 @@ void CColorSelector::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
     CRect omItemRect    = lpDrawItemStruct->rcItem;
 
-
-
     CRect omArrowRect;
     omArrowRect.left = max(0, omItemRect.Width()- GetSystemMetrics(SM_CXHTHUMB) - 3 );
     omArrowRect.right = max(0, omItemRect.Width()-3);
     omArrowRect.top = 3;
     omArrowRect.bottom = max(omItemRect.Height()-3, GetSystemMetrics(SM_CYVTHUMB)-3);
-
 
     omDc.DrawFrameControl(&omArrowRect, DFC_SCROLL, DFCS_SCROLLDOWN  | nPushState);
 
@@ -67,10 +56,9 @@ void CColorSelector::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
     omButtonRect.left = lpDrawItemStruct->rcItem.left+5;
     omButtonRect.top = lpDrawItemStruct->rcItem.top+5;
-    omButtonRect.right = lpDrawItemStruct->rcItem.right - omArrowRect.Width()-5;// - omArrowRect.Width() ;
+    omButtonRect.right = lpDrawItemStruct->rcItem.right - omArrowRect.Width() - 5;
     omButtonRect.bottom = lpDrawItemStruct->rcItem.bottom - 5;
 
-    //omButtonRect.DeflateRect(3, 3);
     omDc.FillRect(omButtonRect, &brush);
     // Select Old Brush
     omDc.SelectObject(brush);
@@ -79,8 +67,7 @@ void CColorSelector::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
     omDc.Rectangle(omButtonRect);
 
-    if (unButtonState & ODS_FOCUS)
-    {
+    if (unButtonState & ODS_FOCUS) {
         omButtonRect.DeflateRect(1,1);
         omDc.DrawFocusRect(omButtonRect);
     }
@@ -93,24 +80,21 @@ void CColorSelector::OnBnClicked()
     // TODO: Add your control notification handler code here
     CColorDialog omColorDialog(m_omColorBkg);
     omColorDialog.m_cc.Flags |= CC_SOLIDCOLOR| CC_RGBINIT;
-    if (IDOK == omColorDialog.DoModal())
-    {
+    if (IDOK == omColorDialog.DoModal()) {
         m_omColorBkg = omColorDialog.GetColor();
-        //m_MapMsgIdToClr.SetAt(m_nSelIndex, m_omColorBkg);
 
         SetColour(m_omColorBkg);
         RedrawWindow();
     }
 
 }
+
 void CColorSelector::SetColour(COLORREF omColor)
 {
     m_omColorBkg = omColor;
-    if (TRUE == IsWindow(m_hWnd))
-    {
+    if (TRUE == IsWindow(m_hWnd)) {
         CWnd* pParent = GetParent();
-        if( nullptr != pParent )
-        {
+        if (nullptr != pParent) {
             pParent->SendMessage(WM_CPN_COLORSELECTED, (WPARAM)m_omColorBkg, GetDlgCtrlID());
         }
         RedrawWindow();
@@ -119,12 +103,9 @@ void CColorSelector::SetColour(COLORREF omColor)
 
 void CColorSelector::SetSelectedIndex(INT nSelIndex)
 {
-    if(nSelIndex != -1)
-    {
+    if (nSelIndex != -1) {
         m_nSelIndex = nSelIndex;
-    }
-    else
-    {
+    } else {
         m_nSelIndex = -1;
     }
 }

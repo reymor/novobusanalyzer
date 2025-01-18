@@ -29,6 +29,7 @@ CBrowseEditItem::CBrowseEditItem(int nItem, int nSubItem, CString& sContent, CBu
     m_bIsButtonValid = TRUE;
     m_bKillFocus = TRUE;
 }
+
 CBrowseEditItem::~CBrowseEditItem()
 {
 }
@@ -41,10 +42,11 @@ void CBrowseEditItem::OnKillFocus(CWnd* pNewWnd)
     CEdit::OnKillFocus(pNewWnd);
 
     // TODO: Add your message handler code here
-    if( pNewWnd // nullptr condition
-            && pNewWnd != GetParent()->GetParent() //For Dialog Close using X Button
-            && pNewWnd->GetDlgCtrlID() != IDCANCEL ) // For Cancel condition
-    {
+    //For Dialog Close using X Button
+    // For Cancel condition
+    if (pNewWnd // nullptr condition
+        && pNewWnd != GetParent()->GetParent()
+        && pNewWnd->GetDlgCtrlID() != IDCANCEL) {
         AfxTrace("In if Condition\n");
         CString str;
         GetWindowText(str);
@@ -57,34 +59,24 @@ void CBrowseEditItem::OnKillFocus(CWnd* pNewWnd)
         lvDispInfo.item.iItem = m_nItem;
         lvDispInfo.item.iSubItem = m_nSubItem;
         // Restore the old text on press of ESCAPE key
-        lvDispInfo.item.pszText =
-            m_bVK_ESCAPE ? LPTSTR((LPCTSTR)m_sContent) : LPTSTR((LPCTSTR)str);
+        lvDispInfo.item.pszText = m_bVK_ESCAPE ? LPTSTR((LPCTSTR)m_sContent) : LPTSTR((LPCTSTR)str);
         lvDispInfo.item.cchTextMax = str.GetLength();
         // Send the notification message to the parent
-        GetParent()->GetParent()->SendMessage( WM_NOTIFY,
-                                               GetParent()->GetDlgCtrlID(),
-                                               (LPARAM)&lvDispInfo);
+        GetParent()->GetParent()->SendMessage(WM_NOTIFY, GetParent()->GetDlgCtrlID(), (LPARAM)&lvDispInfo);
     }
-    //HWND hNewWnd = 0;
-    if(pNewWnd != nullptr)
-    {
-        if(m_pomButton->GetSafeHwnd() == pNewWnd->GetSafeHwnd())
-        {
+    if (pNewWnd != nullptr) {
+        if(m_pomButton->GetSafeHwnd() == pNewWnd->GetSafeHwnd()) {
             return;
         }
     }
-    if((((CButtonItem*)m_pomButton)->m_bButtonclicked == FALSE) && (m_bKillFocus ==  TRUE))
-    {
+    if ((((CButtonItem*)m_pomButton)->m_bButtonclicked == FALSE) && (m_bKillFocus ==  TRUE)) {
         ((CButtonItem*)m_pomButton)->m_bIsEditValid = FALSE;
-        if(m_bIsButtonValid == TRUE)
-        {
+        if (m_bIsButtonValid == TRUE) {
             ((CButtonItem*)m_pomButton)->m_bKillFocus = TRUE;
             m_pomButton->SendMessage(WM_KILLFOCUS, 0, 0);
         }
-        //DestroyWindow();
         ShowWindow(SW_HIDE);
     }
-    //m_FocusKilled.SetEvent();
 }
 
 CButtonItem::CButtonItem(CString omStrDefExt, CString omStrFilter)
@@ -99,10 +91,12 @@ CButtonItem::CButtonItem(CString omStrDefExt, CString omStrFilter)
 CButtonItem::~CButtonItem(void)
 {
 }
+
 void CButtonItem::vSetEditItem(CBrowseEditItem* pomEditItem)
 {
     m_pomEditItem = pomEditItem;
 }
+
 BEGIN_MESSAGE_MAP(CButtonItem, CButton)
     ON_WM_KILLFOCUS()
     ON_CONTROL_REFLECT(BN_CLICKED, OnBnClicked)
@@ -111,25 +105,19 @@ END_MESSAGE_MAP()
 void CButtonItem::OnKillFocus(CWnd* pNewWnd)
 {
     CButton::OnKillFocus(pNewWnd);
-    //HWND hNewWnd = 0;
-    if(pNewWnd != nullptr)
-    {
-        if(m_pomEditItem->GetSafeHwnd() == pNewWnd->GetSafeHwnd())
-        {
+    if (pNewWnd != nullptr) {
+        if (m_pomEditItem->GetSafeHwnd() == pNewWnd->GetSafeHwnd()) {
             return;
         }
     }
-    if((m_bButtonclicked == FALSE)&&(m_bKillFocus == TRUE))
-    {
+    if ((m_bButtonclicked == FALSE)&&(m_bKillFocus == TRUE)) {
         ((CBrowseEditItem*)m_pomEditItem)->m_bIsButtonValid = FALSE;
 
-        if((m_bIsEditValid == TRUE))
-        {
+        if ((m_bIsEditValid == TRUE)) {
             ((CBrowseEditItem*)m_pomEditItem)->m_bKillFocus = TRUE;
             m_pomEditItem->SendMessage(WM_KILLFOCUS, 0, 0);
 
         }
-        //DestroyWindow();
         ShowWindow(SW_HIDE);
     }
 }
@@ -139,9 +127,8 @@ void CButtonItem::OnBnClicked()
     // TODO: Add your control notification handler code here
     m_bKillFocus = FALSE;
     m_bButtonclicked = TRUE;
-    CFileDialog omFileDlg(TRUE, m_omStrDefExt, 0, OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT, m_omStrFilter);
-    if( IDOK == omFileDlg.DoModal())
-    {
+    CFileDialog omFileDlg(TRUE, m_omStrDefExt, 0, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, m_omStrFilter);
+    if (IDOK == omFileDlg.DoModal()) {
         CString omStrFilePath = omFileDlg.GetPathName();
         m_pomEditItem->SetWindowText(omStrFilePath);
     }
@@ -149,6 +136,4 @@ void CButtonItem::OnBnClicked()
     m_bKillFocus = TRUE;
     ((CBrowseEditItem*)m_pomEditItem)->m_bKillFocus = TRUE;
     m_bButtonclicked = FALSE;
-
-
 }

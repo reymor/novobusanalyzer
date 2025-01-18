@@ -74,13 +74,11 @@ CComboItem::~CComboItem()
 
 
 BEGIN_MESSAGE_MAP(CComboItem, CComboBox)
-    //{{AFX_MSG_MAP(CComboItem)
     ON_WM_NCDESTROY()
     ON_WM_CHAR()
     ON_WM_KILLFOCUS()
     ON_CONTROL_REFLECT(CBN_CLOSEUP, OnCloseup)
     ON_WM_CREATE()
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -102,10 +100,8 @@ END_MESSAGE_MAP()
 BOOL CComboItem::PreTranslateMessage(MSG* pMsg)
 {
     // TODO: Add your specialized code here and/or call the base class
-    if( pMsg->message == WM_KEYDOWN )
-    {
-        if(pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE)
-        {
+    if (pMsg->message == WM_KEYDOWN) {
+        if (pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE) {
             if( pMsg->wParam == VK_ESCAPE)
             {
                 m_bVK_ESCAPE = TRUE;
@@ -154,10 +150,8 @@ void CComboItem::OnNcDestroy()
 void CComboItem::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
     // TODO: Add your message handler code here and/or call default
-    if(nChar == VK_ESCAPE || nChar == VK_RETURN)
-    {
-        if( nChar == VK_ESCAPE)
-        {
+    if (nChar == VK_ESCAPE || nChar == VK_RETURN) {
+        if (nChar == VK_ESCAPE) {
             m_bVK_ESCAPE = 1;
         }
 
@@ -188,9 +182,9 @@ void CComboItem::OnKillFocus(CWnd* pNewWnd)
     CComboBox::OnKillFocus(pNewWnd);
 
     int nIndex = GetCurSel();
-    if( m_bIsEditable == FALSE && pNewWnd // nullptr condition
-            && pNewWnd != GetParent()->GetParent() )//For Dialog Close using X Button
-    {
+    // nullptr condition
+    //For Dialog Close using X Button
+    if( m_bIsEditable == FALSE && pNewWnd && pNewWnd != GetParent()->GetParent()) {
 
         CString omStr;
         // As it is non editable Get the window text to get the selected
@@ -204,18 +198,14 @@ void CComboItem::OnKillFocus(CWnd* pNewWnd)
         lvDispinfo.item.mask = LVIF_TEXT | LVIF_PARAM;
         lvDispinfo.item.iItem = m_nItem;
         lvDispinfo.item.iSubItem = m_nSubItem;
-        lvDispinfo.item.pszText =
-            m_bVK_ESCAPE ? LPTSTR((LPCTSTR)omStrText) : LPTSTR((LPCTSTR)omStr);
+        lvDispinfo.item.pszText = m_bVK_ESCAPE ? LPTSTR((LPCTSTR)omStrText) : LPTSTR((LPCTSTR)omStr);
         lvDispinfo.item.cchTextMax = omStr.GetLength();
         lvDispinfo.item.lParam = GetItemData(GetCurSel());
         // For non editable the selection should not be -1
         PostMessage(WM_CLOSE);
-        if( nIndex != CB_ERR )
-        {
+        if (nIndex != CB_ERR) {
             // Send the End Label Edit Message
-            GetParent()->GetParent()->SendMessage( WM_NOTIFY,
-                                                   GetParent()->GetDlgCtrlID(),
-                                                   (LPARAM)&lvDispinfo);
+            GetParent()->GetParent()->SendMessage(WM_NOTIFY, GetParent()->GetDlgCtrlID(), (LPARAM)&lvDispinfo);
         }
     }
 
@@ -242,19 +232,15 @@ void CComboItem::OnCloseup()
     // For editable list box kill focus is not getting called at the end
     // So process the message here iteself and destroy the window
     // To update the typed text or selected text
-    if( m_bIsEditable == TRUE)
-    {
+    if (m_bIsEditable == TRUE) {
         // Get the current selection
         int nIndex = GetCurSel();
         CString omStr;
         // If the selection is invalid, the the user has typed some text in the
         // text box so use GetWindowText.
-        if( nIndex != -1 )
-        {
+        if (nIndex != -1) {
             GetLBText( nIndex, omStr);
-        }
-        else
-        {
+        } else {
             GetWindowText(omStr);
         }
 
@@ -266,8 +252,7 @@ void CComboItem::OnCloseup()
         lvDispinfo.item.mask = LVIF_TEXT | LVIF_PARAM;
         lvDispinfo.item.iItem = m_nItem;
         lvDispinfo.item.iSubItem = m_nSubItem;
-        lvDispinfo.item.pszText =
-            m_bVK_ESCAPE ? LPTSTR((LPCTSTR)omStrText) : LPTSTR((LPCTSTR)omStr);
+        lvDispinfo.item.pszText = m_bVK_ESCAPE ? LPTSTR((LPCTSTR)omStrText) : LPTSTR((LPCTSTR)omStr);
         lvDispinfo.item.cchTextMax = omStr.GetLength();
         lvDispinfo.item.lParam = GetItemData(GetCurSel());
         // Post close before posting send message
@@ -278,9 +263,7 @@ void CComboItem::OnCloseup()
         GetParent()->GetParent()->SendMessage( WM_NOTIFY,
                                                GetParent()->GetDlgCtrlID(),
                                                (LPARAM)&lvDispinfo);
-    }
-    else
-    {
+    } else {
         // Set the focus to the list control
         PostMessage(WM_CLOSE);
         // Set the focus to the list item
@@ -302,8 +285,7 @@ void CComboItem::OnCloseup()
 *******************************************************************************/
 int CComboItem::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-    if (CComboBox::OnCreate(lpCreateStruct) == -1)
-    {
+    if (CComboBox::OnCreate(lpCreateStruct) == -1) {
         return -1;
     }
 
@@ -312,8 +294,7 @@ int CComboItem::OnCreate(LPCREATESTRUCT lpCreateStruct)
     //add the items from CStringlist
     INT nItems = (INT)m_sList.GetSize();
 
-    for( int index = 0; index < nItems; index++)
-    {
+    for (int index = 0; index < nItems; index++) {
         AddString(m_sList.GetAt( index ));
     }
     SetFocus();

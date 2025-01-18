@@ -24,8 +24,7 @@
 
 #include "Utils_stdafx.h"
 #include "AlphanumiricEdit.h"
-#include "RadixEdit.h" //for backspace definintion
-
+#include "RadixEdit.h"
 
 // CAlphanumiricEdit
 
@@ -41,13 +40,10 @@ CAlphanumiricEdit::~CAlphanumiricEdit()
 {
 }
 
-
 BEGIN_MESSAGE_MAP(CAlphanumiricEdit, CEdit)
     ON_WM_CHAR()
     ON_WM_KILLFOCUS()
 END_MESSAGE_MAP()
-
-
 
 // CAlphanumiricEdit message handlers
 /******************************************************************************/
@@ -67,10 +63,8 @@ void CAlphanumiricEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
     // TODO: Add your message handler code here and/or call default
 
-    if(nChar=='_' || isalnum(nChar)!= 0 || nChar == BACK_SPACE || (nChar>=0 && nChar <=32) )
-    {
-        if( nChar == VK_ESCAPE)
-        {
+    if (nChar=='_' || isalnum(nChar)!= 0 || nChar == BACK_SPACE || (nChar>=0 && nChar <=32)) {
+        if (nChar == VK_ESCAPE) {
             m_bVK_ESCAPE = TRUE;
         }
         CEdit::OnChar(nChar, nRepCnt, nFlags);
@@ -79,12 +73,9 @@ void CAlphanumiricEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CAlphanumiricEdit::OnKillFocus(CWnd* pNewWnd)
 {
-
     CEdit::OnKillFocus(pNewWnd);
-
-
-    if( m_nRow != -1 || m_nColumn != -1 )//For Dialog Close using X Button
-    {
+    //For Dialog Close using X Button
+    if (m_nRow != -1 || m_nColumn != -1) {
         CString omStr;
         // As it is non editable Get the window text to get the selected
         // item text
@@ -97,17 +88,12 @@ void CAlphanumiricEdit::OnKillFocus(CWnd* pNewWnd)
         lvDispinfo.item.mask = LVIF_TEXT | LVIF_PARAM;
         lvDispinfo.item.iItem = m_nRow;
         lvDispinfo.item.iSubItem = m_nColumn;
-        lvDispinfo.item.pszText =
-            m_bVK_ESCAPE ? LPTSTR((LPCTSTR)omStr) : LPTSTR((LPCTSTR)omStr);
+        lvDispinfo.item.pszText = m_bVK_ESCAPE ? LPTSTR((LPCTSTR)omStr) : LPTSTR((LPCTSTR)omStr);
         lvDispinfo.item.cchTextMax = omStr.GetLength();
 
         // For non editable the selection should not be -1
         PostMessage(WM_CLOSE);
-        GetParent()->GetParent()->SendMessage( WM_NOTIFY,
-                                               GetParent()->GetDlgCtrlID(),
-                                               (LPARAM)&lvDispinfo);
-        GetParent()->SendMessage( WM_NOTIFY,
-                                  GetParent()->GetDlgCtrlID(),
-                                  (LPARAM)&lvDispinfo);
+        GetParent()->GetParent()->SendMessage(WM_NOTIFY, GetParent()->GetDlgCtrlID(), (LPARAM)&lvDispinfo);
+        GetParent()->SendMessage(WM_NOTIFY, GetParent()->GetDlgCtrlID(), (LPARAM)&lvDispinfo);
     }
 }

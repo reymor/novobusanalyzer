@@ -69,12 +69,10 @@ CEditItem::~CEditItem()
 
 
 BEGIN_MESSAGE_MAP(CEditItem, CEdit)
-    //{{AFX_MSG_MAP(CEditItem)
     ON_WM_CHAR()
     ON_WM_NCDESTROY()
     ON_WM_KILLFOCUS()
     ON_WM_CREATE()
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

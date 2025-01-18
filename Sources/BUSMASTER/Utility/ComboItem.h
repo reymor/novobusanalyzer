@@ -27,7 +27,7 @@
 class CComboItem : public CComboBox
 {
 public:
-    CComboItem( int nItem,              // Row
+    CComboItem(int nItem,              // Row
                 int nSubItem,           // Sub Item
                 const CStringArray& psList,   // List of strings to populate list box
                 const CString& omStrText,      // Selected text

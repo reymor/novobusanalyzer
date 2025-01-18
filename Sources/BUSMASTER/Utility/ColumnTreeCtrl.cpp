@@ -16,7 +16,6 @@
 #include "Utils_stdafx.h"
 #include "ColumnTreeCtrl.h"
 
-
 IMPLEMENT_DYNAMIC(CColumnTreeCtrl, CTreeCtrl)
 
 CColumnTreeCtrl::CColumnTreeCtrl()
@@ -27,14 +26,12 @@ CColumnTreeCtrl::~CColumnTreeCtrl()
 {
 }
 
-
 BEGIN_MESSAGE_MAP(CColumnTreeCtrl, CTreeCtrl)
     ON_WM_LBUTTONDOWN()
     ON_WM_LBUTTONDBLCLK()
     ON_WM_PAINT()
     ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
-
 
 void CColumnTreeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 {
@@ -60,8 +57,7 @@ void CColumnTreeCtrl::OnPaint()
 
     // use temporary bitmap to avoid flickering
     dcMem.CreateCompatibleDC(&dc);
-    if (bmpMem.CreateCompatibleBitmap(&dc, rcClient.Width(), rcClient.Height()))
-    {
+    if (bmpMem.CreateCompatibleBitmap(&dc, rcClient.Width(), rcClient.Height())) {
         CBitmap* pOldBmp = dcMem.SelectObject(&bmpMem);
 
         // paint the window onto the memory bitmap
@@ -79,9 +75,8 @@ void CColumnTreeCtrl::OnPaint()
 
 BOOL CColumnTreeCtrl::OnEraseBkgnd(CDC* /* pDC */)
 {
-    return TRUE;    // do nothing
+    return TRUE;
 }
-
 
 void CColumnTreeCtrl::HandleMouse(UINT message, UINT nFlags, CPoint point)
 {
@@ -89,33 +84,25 @@ void CColumnTreeCtrl::HandleMouse(UINT message, UINT nFlags, CPoint point)
     HTREEITEM hItem = HitTest(point, &fFlags);
 
     // verify the hit result
-    if (fFlags & (TVHT_ONITEMLABEL | TVHT_ONITEMRIGHT))
-    {
+    if (fFlags & (TVHT_ONITEMLABEL | TVHT_ONITEMRIGHT)) {
         CRect rcItem;
         GetItemRect(hItem, &rcItem, TRUE);
 
-        if (GetWindowLong(m_hWnd, GWL_STYLE) & TVS_FULLROWSELECT)
-        {
-            if (message == WM_LBUTTONDOWN)
-            {
+        if (GetWindowLong(m_hWnd, GWL_STYLE) & TVS_FULLROWSELECT) {
+            if (message == WM_LBUTTONDOWN) {
                 SetFocus();
             }
 
             // ignore if outside all columns
             rcItem.right = m_cxTotal;
-            if (!rcItem.PtInRect(point))
-            {
+            if (!rcItem.PtInRect(point)) {
                 return;
             }
 
             // select or expand item
-            if (message == WM_LBUTTONDOWN)
-            {
+            if (message == WM_LBUTTONDOWN) {
                 Select(hItem, TVGN_CARET);
-            }
-            else if (message == WM_LBUTTONDBLCLK)
-            {
-                // send the NM_DBLCLK notification
+            } else if (message == WM_LBUTTONDBLCLK) {
                 NMHDR nmhdr;
                 nmhdr.hwndFrom = m_hWnd;
                 nmhdr.idFrom = GetDlgCtrlID();
@@ -126,15 +113,11 @@ void CColumnTreeCtrl::HandleMouse(UINT message, UINT nFlags, CPoint point)
             }
 
             return;
-        }
-        else
-        {
+        } else {
             // ignore if outside the first column
             rcItem.right = m_cxFirstCol;
-            if (!rcItem.PtInRect(point))
-            {
-                if (message == WM_LBUTTONDOWN)
-                {
+            if (!rcItem.PtInRect(point)) {
+                if (message == WM_LBUTTONDOWN) {
                     SetFocus();
                 }
                 return;
@@ -149,39 +132,29 @@ void CColumnTreeCtrl::HandleMouse(UINT message, UINT nFlags, CPoint point)
             ReleaseDC(pDC);
 
             // ignore if outside the label's rectangle
-            if (!rcItem.PtInRect(point))
-            {
-                if (message == WM_LBUTTONDOWN)
-                {
+            if (!rcItem.PtInRect(point)) {
+                if (message == WM_LBUTTONDOWN) {
                     SetFocus();
                 }
                 return;
             }
         }
-    }
-    else
-    {
+    } else {
         // check if the button or icon is hidden
-        if (point.x >= m_cxFirstCol)
-        {
-            if (message == WM_LBUTTONDOWN)
-            {
+        if (point.x >= m_cxFirstCol) {
+            if (message == WM_LBUTTONDOWN) {
                 SetFocus();
             }
 
             // ignore if outside all columns
-            if (point.x > m_cxTotal)
-            {
+            if (point.x > m_cxTotal) {
                 return;
             }
 
             // select or expand item
-            if (message == WM_LBUTTONDOWN)
-            {
+            if (message == WM_LBUTTONDOWN) {
                 Select(hItem, TVGN_CARET);
-            }
-            else if (message == WM_LBUTTONDBLCLK)
-            {
+            } else if (message == WM_LBUTTONDBLCLK) {
                 // send the NM_DBLCLK notification
                 NMHDR nmhdr;
                 nmhdr.hwndFrom = m_hWnd;
