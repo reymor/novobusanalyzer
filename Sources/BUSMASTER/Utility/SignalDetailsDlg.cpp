@@ -21,7 +21,6 @@
  *
  * This file contain definition of all function of
  */
-#pragma once
 #include "SignalDetailsDlg.h"
 
 /*******************************************************************************
@@ -73,6 +72,3 @@ BOOL CSignalDetailsDlg::OnInitDialog()
     UpdateData(FALSE);
     return TRUE;
 }
-
-
-

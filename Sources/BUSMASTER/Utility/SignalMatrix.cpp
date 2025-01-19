@@ -56,9 +56,8 @@ CSignalMatrix::CSignalMatrix(int nMessageLength)
     vResetHighlight();
 
     // Initialise memory
-    for( UINT unIndex = 0; unIndex < MAX_SIGNALS; unIndex++ )
-    {
-        m_abSignalData[ unIndex ] = 0;
+    for (UINT unIndex = 0; unIndex < MAX_SIGNALS; unIndex++) {
+        m_abSignalData[unIndex] = 0;
     }
 }
 
@@ -83,9 +82,8 @@ CSignalMatrix::CSignalMatrix()
     vResetHighlight();
 
     // Initialise memory
-    for( UINT unIndex = 0; unIndex < MAX_SIGNALS; unIndex++ )
-    {
-        m_abSignalData[ unIndex ] = 0;
+    for (UINT unIndex = 0; unIndex < MAX_SIGNALS; unIndex++) {
+        m_abSignalData[unIndex] = 0;
     }
 }
 
@@ -102,24 +100,21 @@ CSignalMatrix::~CSignalMatrix()
 {
     // Clear GDI Objects and Memory associated with that
     // Highlight brush
-    if( m_pHighlightBrush != nullptr )
-    {
+    if (m_pHighlightBrush != nullptr) {
         m_pHighlightBrush->DeleteObject();
         delete m_pHighlightBrush;
         m_pHighlightBrush = nullptr;
     }
 
     // Normal brush
-    if( m_pNoHighlightBrush != nullptr )
-    {
+    if(m_pNoHighlightBrush != nullptr) {
         m_pNoHighlightBrush->DeleteObject();
         delete m_pNoHighlightBrush;
         m_pNoHighlightBrush = nullptr;
     }
 
     // Disabled brush
-    if( m_pDisabledBrush != nullptr )
-    {
+    if (m_pDisabledBrush != nullptr) {
         m_pDisabledBrush->DeleteObject();
         delete m_pDisabledBrush;
         m_pDisabledBrush = nullptr;
@@ -128,10 +123,8 @@ CSignalMatrix::~CSignalMatrix()
 
 
 BEGIN_MESSAGE_MAP(CSignalMatrix, CStatic)
-    //{{AFX_MSG_MAP(CSignalMatrix)
     ON_WM_PAINT()
     ON_WM_ERASEBKGND()
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /*******************************************************************************
@@ -169,10 +162,8 @@ void CSignalMatrix::OnPaint()
     // Iterate through matrix
     // Note Bits starts from right to left
     // Bytes starts from top to bottom
-    for( int nBits = defMAX_BYTE - 1; nBits >= 0; nBits-- )
-    {
-        for( int nBytes = 0; nBytes < defMAX_BYTE; nBytes++ )
-        {
+    for (int nBits = defMAX_BYTE - 1; nBits >= 0; nBits--) {
+        for (int nBytes = 0; nBytes < defMAX_BYTE; nBytes++) {
             // Create current bit rectangle
             CRect omCurrentBox( (int)(omClientRect.left + xOffset * nBits + nGap),
                                 (int)(omClientRect.top + yOffset * nBytes + nGap),
@@ -188,8 +179,7 @@ void CSignalMatrix::OnPaint()
                               m_abSignalData[ nBitIndex ] );
 
             // Check type of bit it is
-            switch( m_aunHighlight[ nBitIndex ] )
-            {
+            switch(m_aunHighlight[nBitIndex]) {
                     // Not with in message length
                 case GRAYED:
                 {
@@ -251,16 +241,12 @@ void CSignalMatrix::vResetHighlight()
     // Clear Highlight
     UINT nCount; //nCount declared outside
 
-    for (nCount = 0; nCount < m_unMessageLength * defBITS_IN_BYTE; nCount++)
-    {
+    for (nCount = 0; nCount < m_unMessageLength * defBITS_IN_BYTE; nCount++) {
         m_aunHighlight[nCount] = NO_HIGHLIGHT;
     }
 
     // Clear bits that are not part of message
-    for ( nCount = m_unMessageLength * defBITS_IN_BYTE;
-            nCount < MAX_SIGNALS;
-            nCount++ )
-    {
+    for (nCount = m_unMessageLength * defBITS_IN_BYTE; nCount < MAX_SIGNALS; nCount++) {
         m_aunHighlight[nCount] = GRAYED;
     }
 }
@@ -283,10 +269,8 @@ void CSignalMatrix::vSetHighlight(const BYTE* pbySigMask, UINT unArrayLen)
     //Set the highlight bits
     UINT BitIndex = 0;
 
-    for (UINT i = 0; i < unArrayLen; i++)
-    {
-        for (UINT nShift = 0; nShift < defBITS_IN_BYTE; nShift++)
-        {
+    for (UINT i = 0; i < unArrayLen; i++) {
+        for (UINT nShift = 0; nShift < defBITS_IN_BYTE; nShift++) {
             m_aunHighlight[BitIndex] = ((pbySigMask[i] >> nShift) & 0x1)? HIGHLIGHT : NO_HIGHLIGHT;
             BitIndex++;
         }
@@ -308,9 +292,8 @@ void CSignalMatrix::vSetHighlight(const BYTE* pbySigMask, UINT unArrayLen)
 *******************************************************************************/
 void CSignalMatrix::vResetValues()
 {
-    for( UINT nIndex = 0; nIndex < m_unMessageLength * defBITS_IN_BYTE; nIndex++)
-    {
-        m_abSignalData[ nIndex] = 0;
+    for( UINT nIndex = 0; nIndex < m_unMessageLength * defBITS_IN_BYTE; nIndex++) {
+        m_abSignalData[nIndex] = 0;
     }
 }
 
@@ -327,12 +310,8 @@ void CSignalMatrix::vResetValues()
 void CSignalMatrix::vSetValue(UINT* punValues)
 {
     // If it is valid pointer
-    if ( punValues != nullptr )
-    {
-        for ( UINT unIndex = 0;
-                unIndex < m_unMessageLength * defBITS_IN_BYTE;
-                unIndex++ )
-        {
+    if (punValues != nullptr) {
+        for (UINT unIndex = 0; unIndex < m_unMessageLength * defBITS_IN_BYTE; unIndex++) {
             //Get value at unIndex
             m_abSignalData[ unIndex ] = punValues[ unIndex ];
         }
@@ -375,29 +354,22 @@ void CSignalMatrix::vSetMessageLength(UINT unMsgLength)
 void CSignalMatrix::vSetByteValue(UCHAR* punValues)
 {
     // If the pointer is valid
-    if ( punValues != nullptr )
-    {
+    if (punValues != nullptr) {
         int nByte, nBit;
         UINT unValue;
 
         // Iterate through the array
-        for ( UINT unIndex = 0;
-                unIndex < m_unMessageLength * defBITS_IN_BYTE;
-                unIndex++ )
-        {
+        for (UINT unIndex = 0; unIndex < m_unMessageLength * defBITS_IN_BYTE; unIndex++) {
             //Get value at unIndex
             nByte = unIndex / defBITS_IN_BYTE;
             nBit = unIndex % defBITS_IN_BYTE;
             unValue = punValues[ nByte ] &
                       ( 1 << nBit ) ? 1 : 0;
 
-            if ( unValue == 1 )
-            {
-                m_abSignalData[ unIndex ] = 1;
-            }
-            else
-            {
-                m_abSignalData[ unIndex ] = 0;
+            if (unValue == 1) {
+                m_abSignalData[unIndex] = 1;
+            } else {
+                m_abSignalData[unIndex] = 0;
             }
         }
 

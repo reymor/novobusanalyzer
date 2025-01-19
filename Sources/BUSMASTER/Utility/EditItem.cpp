@@ -165,21 +165,15 @@ void CEditItem::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
     GetParent()->ScreenToClient(&rect);
     // Check whether control needs to be resized
     // and whether there is space to grow
-    if(size.cx > rect.Width())
-    {
-        if( size.cx + rect.left < parentrect.right )
-        {
+    if (size.cx > rect.Width()) {
+        if (size.cx + rect.left < parentrect.right) {
             rect.right = rect.left + size.cx;
-        }
-        else
-        {
+        } else {
             rect.right = parentrect.right;
         }
 
         MoveWindow(&rect);
     }
-
-    //  CEdit::OnChar(nChar, nRepCnt, nFlags);
 }
 
 /*******************************************************************************
@@ -222,10 +216,7 @@ void CEditItem::OnKillFocus(CWnd* pNewWnd)
     CEdit::OnKillFocus(pNewWnd);
 
     // TODO: Add your message handler code here
-    if( pNewWnd // nullptr condition
-            && pNewWnd != GetParent()->GetParent() //For Dialog Close using X Button
-            && pNewWnd->GetDlgCtrlID() != IDCANCEL ) // For Cancel condition
-    {
+    if (pNewWnd && pNewWnd != GetParent()->GetParent() && pNewWnd->GetDlgCtrlID() != IDCANCEL ) {
         CString str;
         GetWindowText(str);
         // Send Notification to parent of ListView ctrl
@@ -241,9 +232,7 @@ void CEditItem::OnKillFocus(CWnd* pNewWnd)
             m_bVK_ESCAPE ? LPTSTR((LPCTSTR)m_sContent) : LPTSTR((LPCTSTR)str);
         lvDispInfo.item.cchTextMax = str.GetLength();
         // Send the notification message to the parent
-        GetParent()->GetParent()->SendMessage( WM_NOTIFY,
-                                               GetParent()->GetDlgCtrlID(),
-                                               (LPARAM)&lvDispInfo);
+        GetParent()->GetParent()->SendMessage(WM_NOTIFY, GetParent()->GetDlgCtrlID(), (LPARAM)&lvDispInfo);
     }
     // Destroy the window
     DestroyWindow();
@@ -262,8 +251,7 @@ void CEditItem::OnKillFocus(CWnd* pNewWnd)
 *******************************************************************************/
 int CEditItem::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-    if (CEdit::OnCreate(lpCreateStruct) == -1)
-    {
+    if (CEdit::OnCreate(lpCreateStruct) == -1) {
         return -1;
     }
 

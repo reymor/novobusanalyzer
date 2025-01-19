@@ -29,16 +29,12 @@
 #include "Utils_stdafx.h"
 // For Time calculation related functions
 #include "TimeManager.h"
-//#include "SigGrphWnd_Defines.h"
 
 // For DIL Interface Class
 #include "Include/BaseDefs.h"
 #include "DataTypes/Base_WrapperErrorLogger.h"
-//#include "DataTypes/MsgBufAll_Datatypes.h"
-//#include "DIL_Datatypes.h"
 #include "BaseDIL_CAN.h"
-#include "Application\HashDefines.h"
-// Initialise the static members
+#include "Application/HashDefines.h"
 
 // Initialise absolute Time
 int CTimeManager::m_nAbsoluteTime = 0;
@@ -54,7 +50,6 @@ const __int64 CTimeManager::m_n64Frequency = s_Temp.QuadPart;
 // **** Start of USB related Code **** //
 int CTimeManager::m_nOffsetTimeValue =
     CTimeManager::nCalculateOffsetTime();
-
 // **** End of USB Related Code **** //
 
 /*******************************************************************************
@@ -236,19 +231,14 @@ int CTimeManager::nGetAbsoluteTime()
 int CTimeManager::nCalculateCurrTimeStamp(BOOL bFromDIL)
 {
     SYSTEMTIME CurrSysTime;
-    //UINT64 TimeStamp;
 
     int nResult = 0;
-    if (bFromDIL == FALSE)
-    {
+    if (bFromDIL == FALSE) {
         GetLocalTime(&CurrSysTime);
         nResult = (CurrSysTime.wHour * 3600 + CurrSysTime.wMinute * 60
                    + CurrSysTime.wSecond) * 10000 + CurrSysTime.wMilliseconds * 10;
     }
-    else
-    {
-        //g_pouDIL_CAN_Interface->DILC_GetTimeModeMapping(CurrSysTime, TimeStamp);
-    }
+
     return nResult;
 }
 

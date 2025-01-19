@@ -34,15 +34,13 @@
 
 #define BM_MAX_PATH 2000
 
-enum eNodeSimFolderType
-{
+enum eNodeSimFolderType {
     NS_INCLUDE_FOLDER,
     NS_LIB_FOLDER,
     NS_MAKEFILE_FOLDER
 };
 
-struct _AUTORESIZE
-{
+struct _AUTORESIZE {
     CRect       wndRect;
     double      fSizeX;
     double      fSizeY;
@@ -51,13 +49,12 @@ struct _AUTORESIZE
     double      fToYPos;
 };
 
-typedef enum eFORMAT_DATA
-{
+typedef enum eFORMAT_DATA {
     DATA_FORMAT_MOTOROLA = 0,
     DATA_FORMAT_INTEL
 } EFORMAT_DATA;
 
-typedef std::vector<_AUTORESIZE>   VecAutoSize;
+typedef std::vector<_AUTORESIZE> VecAutoSize;
 
 #define INITIALISE_DATA(Data)   memset(&Data, 0, sizeof(Data))
 #define INITIALISE_ARRAY(Array) memset(Array, 0, sizeof(Array))
@@ -83,7 +80,7 @@ __int64 nConvertStringToInt(LPCTSTR omStrHexNo);
 // Top mask unwanted bit of the data
 void s_vRemoveUnwantedBits(__int64& n64rData, int nLength);
 void s_vRemoveUnwantedBits(UINT64& n64rData, int nLength);
-void s_vExtendSignBit( __int64& n64Val, int nSize);
+void s_vExtendSignBit(__int64& n64Val, int nSize);
 
 // To conver string to __int64. The string value could be in Hex or dec
 BOOL bConvertStringToInt64( CString omStrHexNo,    // String

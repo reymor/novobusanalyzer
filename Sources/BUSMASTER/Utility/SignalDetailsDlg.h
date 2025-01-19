@@ -31,15 +31,15 @@
 
 struct SIGNAL_DETAILS
 {
-    std::string m_strSignalName="";
-    std::string m_strType="";
-    std::string m_strByteIndex="";
-    std::string m_strStartBit="";
-    std::string m_strLength="";
-    std::string m_strMaxValue="";
-    std::string m_strMinValue="";
+    std::string m_strSignalName = "";
+    std::string m_strType = "";
+    std::string m_strByteIndex = "";
+    std::string m_strStartBit = "";
+    std::string m_strLength = "";
+    std::string m_strMaxValue = "";
+    std::string m_strMinValue = "";
     std::string m_strUnit = "";
-    std::string m_strByteOrder="";
+    std::string m_strByteOrder = "";
 };
 class CSignalDetailsDlg : public CDialog
 {

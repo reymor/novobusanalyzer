@@ -9,16 +9,14 @@
 
 #define READ_DIR_CHANGE_BUFFER_SIZE 4096
 
-struct DIR_INFO
-{
+struct DIR_INFO {
     std::string strDirName;
     HANDLE hDirectory;
     CHAR* pBuffer;
     DIR_INFO();
 };
 
-class CDirectoryWatcher : public IDirectoryWatcher
-{
+class CDirectoryWatcher : public IDirectoryWatcher {
 private:
 
     static CDirectoryWatcher* m_psDirWatcher;

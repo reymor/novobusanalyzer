@@ -53,8 +53,7 @@
 
 typedef void (*PFCTRLHANDLER)(CListCtrl* pList, int nItem, int nSubItem, void* UParam);
 
-struct sUserProgInfo
-{
+struct sUserProgInfo {
     PFCTRLHANDLER   m_pfHandler;
     void*           m_pUserParam;
     bool            m_bIcon;
@@ -63,8 +62,7 @@ struct sUserProgInfo
 typedef sUserProgInfo   SUSERPROGINFO;
 typedef CMap<int, int, SUSERPROGINFO, SUSERPROGINFO>   CUserProgList;
 
-enum eListTypes
-{
+enum eListTypes {
     eText,
     eNumber,
     eKeyBuddy,

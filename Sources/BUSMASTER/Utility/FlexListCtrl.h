@@ -26,7 +26,7 @@
 #define BUSMASTER_UTILITY_FLEXLISTCTRL_H_
 
 // FlexListCtrl.h : header file
-#include "Utility/Utility_Structs.h"                 // For data struct definition
+#include "Utility/Utility_Structs.h"
 #include "Utility/ComboItem.h"
 #include "Utility/KeyNumEdit.h"
 #include "Utility/NumEdit.h"
@@ -41,17 +41,7 @@ class CFlexListCtrl : public CFFListCtrl
 public:
     CFlexListCtrl();
     // Attributes
-public:
 
-    // Operations
-public:
-
-    // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CFlexListCtrl)
-    //}}AFX_VIRTUAL
-
-    // Implementation
 public:
 
     int             m_nSelectedColumn;
@@ -99,16 +89,13 @@ public:
     // Destructor
     virtual ~CFlexListCtrl();
 
-    // Generated message map functions
 protected:
-    //{{AFX_MSG(CFlexListCtrl)
     afx_msg void OnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
     afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
     afx_msg void OnDoubleClick(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnClick(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnKeyDown (UINT nChar, UINT nRepCnt, UINT nFlags);
-    //}}AFX_MSG
 private:
     // Signle Click edit or double click edit
     BOOL            m_bSingleClickActivate;

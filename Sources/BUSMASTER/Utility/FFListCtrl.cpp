@@ -42,11 +42,9 @@ CFFListCtrl::~CFFListCtrl()
 
 
 BEGIN_MESSAGE_MAP(CFFListCtrl, CListCtrl)
-    //{{AFX_MSG_MAP(CFFListCtrl)
     ON_WM_SIZE()
     ON_WM_ERASEBKGND()
     ON_WM_PAINT()
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -133,13 +131,11 @@ void CFFListCtrl::vInitMemDCRect()
     CHeaderCtrl* pHC;
     // Get the Header Control
     pHC = GetHeaderCtrl();
-    if (pHC != nullptr)
-    {
+    if (pHC != nullptr) {
         CRect rectHeader;
         // Get the size of Header
         BOOL bSuccess = pHC->GetItemRect( 0, &rectHeader );
-        if(bSuccess == TRUE )
-        {
+        if (bSuccess == TRUE) {
             // Shift the screen rectangle down
             m_rectClient.top += rectHeader.bottom;
             m_rectClient.bottom += rectHeader.bottom;

@@ -63,8 +63,6 @@ BEGIN_MESSAGE_MAP(CFlickerFreeListCtrl, CListCtrl)
     ON_WM_ERASEBKGND()
     ON_WM_PAINT()
     ON_WM_SIZE()
-    //ON_NOTIFY_REFLECT(LVN_GETDISPINFO, OnGetdispinfo)
-    //ON_WM_LBUTTONDBLCLK()
     ON_WM_GETDLGCODE()
 END_MESSAGE_MAP()
 
@@ -94,7 +92,6 @@ BOOL CFlickerFreeListCtrl::OnEraseBkgnd(CDC* /*pDC*/)
 {
     // TODO: Add your message handler code here and/or call default
 
-    //return CListCtrl::OnEraseBkgnd(pDC);
     return TRUE;
 }
 
@@ -154,42 +151,15 @@ void CFlickerFreeListCtrl::OnSize(UINT nType, int cx, int cy)
     CHeaderCtrl* pHC;
     // Get the Header Control
     pHC = GetHeaderCtrl();
-    if (pHC != nullptr)
-    {
+    if (pHC != nullptr) {
         CRect rectHeader;
 
         // Get the size of Header
         BOOL bSuccess = pHC->GetItemRect( 0, &rectHeader );
-        if(bSuccess == TRUE )
-        {
+        if (bSuccess == TRUE) {
             // Shift the screen rectangle down
             m_rectClient.top += rectHeader.bottom;
             m_rectClient.bottom += rectHeader.bottom;
         }
     }
 }
-#if 0
-void CFlickerFreeListCtrl::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
-{
-    CWnd* pParent = GetParent();
-    if( pParent != nullptr && pParent->m_hWnd != 0 )
-    {
-        ::SendMessage( pParent->m_hWnd,
-                       WM_OWNER_DATA_NOTIFICATION,
-                       (WPARAM)pNMHDR,
-                       (LPARAM)pResult );
-    }
-}
-
-void CFlickerFreeListCtrl::OnLButtonDblClk(UINT nFlags, CPoint point)
-{
-    // Send corresponding message to parent window with current selection
-    INT nItem = GetNextItem(-1, LVNI_SELECTED);
-    if (nItem != -1)
-    {
-        GetParent()->SendMessage(WM_LSTC_DBLCLK, nItem);
-    }
-
-    CListCtrl::OnLButtonDblClk(nFlags, point);
-}
-#endif

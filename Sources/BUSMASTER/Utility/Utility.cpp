@@ -35,7 +35,6 @@
 #include "Utility.h"
 #include "CommonDefines.h"
 
-
 #define defBASE_DEC                 10
 #define defBASE_HEX                 16
 #define defMAX_BITS                 64
@@ -46,11 +45,9 @@ bool BSTR_2_PCHAR(BSTR bstrSrcStr, char acTargetStr[], int nTargetStrLen)
     bool bResult = false;
 
     int Length = SysStringLen(bstrSrcStr);
-    if ((Length + 1) <= nTargetStrLen)
-    {
+    if ((Length + 1) <= nTargetStrLen) {
         bResult = true;
-        for (int i = 0; i < Length; i++)
-        {
+        for (int i = 0; i < Length; i++) {
             acTargetStr[i] = (CHAR) bstrSrcStr[i];
         }
         acTargetStr[Length] = '\0';
@@ -63,11 +60,9 @@ BOOL WORD_2_CHAR(char acCharDat[], int nCharDatLen,
                  WORD awWordDat[], int nWordDatLen)
 {
     BOOL bResult = FALSE;
-    if (nCharDatLen >= 2*nWordDatLen)
-    {
+    if (nCharDatLen >= 2*nWordDatLen) {
         WORD dTempWord = 0;
-        for (int i = 0; i < nWordDatLen; i++)
-        {
+        for (int i = 0; i < nWordDatLen; i++) {
             dTempWord = awWordDat[i];
             acCharDat[2*i] = LOBYTE(dTempWord);
             acCharDat[2*i+1] =  HIBYTE(dTempWord);
@@ -94,12 +89,10 @@ void FilterOut_NonHexChar(char acSource[])
     char CurrChar = '\0';
 
     // First copy only the permitted characters into the temporary string
-    for (int i = 0, j = 0; i < Length; i++)
-    {
+    for (int i = 0, j = 0; i < Length; i++) {
         CurrChar = (char)(toupper(acSource[i]));
-        if ( ((CurrChar >= '0') && (CurrChar <= '9')) ||
-                ((CurrChar >= 'A') && (CurrChar <= 'F')) )
-        {
+        if (((CurrChar >= '0') && (CurrChar <= '9')) ||
+            ((CurrChar >= 'A') && (CurrChar <= 'F'))) {
             acTmp[j++] = CurrChar;
         }
     }
@@ -115,22 +108,17 @@ BYTE HexStr_2_BYTE(char acHexStr[])
     BYTE bResult = 0;
 
     char CurrChar = (char)(toupper(acHexStr[1]));
-    if ((CurrChar >= '0') && (CurrChar <= '9'))
-    {
+    if ((CurrChar >= '0') && (CurrChar <= '9')) {
         bResult = CurrChar - '0';
     }
-    else if ((CurrChar >= 'A') && (CurrChar <= 'F'))
-    {
+    else if ((CurrChar >= 'A') && (CurrChar <= 'F')) {
         bResult = CurrChar - 'A' + 10;
     }
 
     CurrChar = (char)(toupper(acHexStr[0]));
-    if ((CurrChar >= '0') && (CurrChar <= '9'))
-    {
+    if ((CurrChar >= '0') && (CurrChar <= '9')) {
         bResult += (CurrChar - '0') * 16;
-    }
-    else if ((CurrChar >= 'A') && (CurrChar <= 'F'))
-    {
+    } else if ((CurrChar >= 'A') && (CurrChar <= 'F')) {
         bResult += (CurrChar - 'A' + 10) * 16;
     }
 
@@ -153,8 +141,7 @@ BOOL CHAR_2_WORD(WORD awWordDat[], int nWordDatLen,
     // The WORD array must be able to accommodate the result
     ASSERT((nWordDatLen * Gran) >= nCharDatLen);
 
-    for (int i = 0, j = 0; i < nCharDatLen; i += Gran)
-    {
+    for (int i = 0, j = 0; i < nCharDatLen; i += Gran) {
         WORD CurrWVal = HexStr_2_BYTE(&acCharDat[i]);
         CurrWVal <<= 8;
         CurrWVal = CurrWVal + (WORD)(HexStr_2_BYTE(&acCharDat[i + 2]));
@@ -169,8 +156,7 @@ BOOL CHAR_2_WORD(WORD awWordDat[], int nWordDatLen,
 
 int GCD(int a, int b)
 {
-    if ( a < 0 || b < 0)
-    {
+    if ( a < 0 || b < 0) {
         return -1;
     }
     //This is Euclid's method of finding GCD
@@ -180,19 +166,14 @@ int GCD(int a, int b)
 int CalculateGCF(int anNumbers[], int Length)
 {
     int nGCF = -1;
-    if (Length > 0)
-    {
-        if (Length > 1)
-        {
+    if (Length > 0) {
+        if (Length > 1) {
             //Find GCD of first 2 nos. then GCD of the obtained GCD and next no.
             nGCF = GCD(anNumbers[0], anNumbers[1]);
-            for (int i = 2; i < Length; i++)
-            {
+            for (int i = 2; i < Length; i++) {
                 nGCF = GCD(nGCF, anNumbers[i]);
             }
-        }
-        else
-        {
+        } else {
             nGCF = anNumbers[0];
         }
     }
@@ -219,8 +200,7 @@ void vRemoveUnwantedBits(__int64& n64rData, int nLength)
 void vExtendSignBit( __int64& n64Val, int nSize)
 {
     // Avoid processing 64 bit signals
-    if( nSize < defMAX_BITS )
-    {
+    if (nSize < defMAX_BITS) {
         __int64 n64Mask = 1;
         BOOL bSignBit;
         // Shift the mask by Length  - 1 times to get sign bit value
@@ -228,8 +208,7 @@ void vExtendSignBit( __int64& n64Val, int nSize)
         // Get the sign bit value
         bSignBit = n64Val & n64Mask ? TRUE : FALSE;
         // Set the value only for negative numbers
-        if( bSignBit )
-        {
+        if (bSignBit) {
             // Set the Sign bit to 1
             __int64 nVal = defSIGN_MASK;
             // Shift the value to extend the value
@@ -239,36 +218,6 @@ void vExtendSignBit( __int64& n64Val, int nSize)
         }
     }
 }
-
-#if 0
-bool bGetSystemErrorString(HRESULT hResult, CHAR acErrStr[256])
-{
-    bool bResult = true;
-
-    memset(acErrStr, 0, sizeof(acErrStr));
-    LPVOID lpMsgBuf;
-    DWORD dwResult = 0;
-
-    dwResult = FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-                             FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-                             nullptr, hResult,
-                             MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),// Default language
-                             (LPTSTR) &lpMsgBuf, 0, nullptr );
-    if (dwResult <= 0)
-    {
-        strcpy(acErrStr, "system error message retrieval operation failed");
-        bResult = false;
-    }
-    else
-    {
-        LPSTR pBuf = T2A((LPTSTR) lpMsgBuf);
-        strcpy(acErrStr, pBuf);
-        LocalFree(lpMsgBuf); // Free the buffer.
-    }
-
-    return bResult;
-}
-#endif
 
 bool bGetSystemErrorString(HRESULT hResult, char acErrStr[256])
 {
@@ -283,26 +232,16 @@ bool bGetSystemErrorString(HRESULT hResult, char acErrStr[256])
                              nullptr, hResult,
                              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),// Default language
                              (LPTSTR) &lpMsgBuf, 0, nullptr );
-    if (dwResult <= 0)
-    {
+    if (dwResult <= 0) {
         strcpy_s(acErrStr, 256, "system error message retrieval operation failed");
         bResult = false;
-    }
-    else
-    {
+    } else {
         strcpy_s(acErrStr, 256, (LPTSTR) lpMsgBuf);
         LocalFree(lpMsgBuf); // Free the buffer.
     }
 
     return bResult;
 }
-
-#if 0
-bool bGetSystemErrorString(char acErrStr[256])
-{
-    return bGetSystemErrorString((HRESULT) GetLastError(), acErrStr);
-}
-#endif
 
 // To copy the text into the clipboard
 BOOL CopyTextToClipboard(LPSTR lpstrText, HWND hWnd )
@@ -319,15 +258,13 @@ BOOL CopyTextToClipboard(LPSTR lpstrText, HWND hWnd )
     // Allocate Global Memory which is required to store the text
     hGlobal = GlobalAlloc(GMEM_ZEROINIT, (nSize + 1));
 
-    if (hGlobal == nullptr)
-    {
+    if (hGlobal == nullptr) {
         return FALSE;
     }
 
     // Lock the memory and store the text into it
     lpszData = (LPSTR) GlobalLock(hGlobal);
     strcpy(lpszData, lpstrText);
-    //_tcsncpy(lpszData, lpctstrText, nSize + 1);
 
     GlobalUnlock(hGlobal);  // Unlock the memory
     /* Copy the contents from the globally allocated memory to Clipboard
@@ -339,44 +276,6 @@ BOOL CopyTextToClipboard(LPSTR lpstrText, HWND hWnd )
     return TRUE;
 }
 
-#if 0
-BOOL CopyTextToClipboard(LPCTSTR lpctstrText, HWND hWnd = nullptr)
-{
-    HGLOBAL hGlobal;        // Global memory handle
-    LPSTR lpszData;         // Pointer to clipboard data
-    unsigned long nSize;    // Size of clipboard data
-    // Open clipboard
-    OpenClipboard(hWnd);
-    // Delete Other clipboard values
-    EmptyClipboard();
-
-    nSize = lstrlen(lpctstrText);
-    // Allocate Global Memory which is required to store the text
-    hGlobal = GlobalAlloc(GMEM_ZEROINIT, nSize+1);
-
-    if (hGlobal == nullptr)
-    {
-        return FALSE;
-    }
-
-    // Lock the memory and store the text into it
-    lpszData = (LPSTR)GlobalLock(hGlobal);
-
-    for (UINT i = 0; i < nSize + 1; ++i)
-    {
-        *(lpszData + i) = *(lpctstrText + i);
-    }
-    // Unlock the memory
-    GlobalUnlock(hGlobal);
-    /* Copy the contents from the globally allocated memory to Clipboard
-    GlobalFree function will be called by SetClipBoard Function */
-    SetClipboardData(CF_TEXT, hGlobal);
-    /* Close the clipboard so that other application can access it */
-    CloseClipboard();
-
-    return TRUE;
-}
-#endif
 /******************************************************************************
 FUNCTION:       nConvertStringToInt
 PARAMETERS:     CString omStrHexNo -- Hex number
@@ -393,81 +292,46 @@ __int64 nConvertStringToInt(LPCTSTR omStrHexNo)
 
     BOOL b_IsNegative = FALSE;
     int nLength = (int) _tcslen(omStrHexNo);
-    for (int nCount = 0; nCount < nLength; nCount++)
-    {
+    for (int nCount = 0; nCount < nLength; nCount++) {
         char cChar = omStrHexNo[nCount];
 
-        if ( cChar == '0' )
-        {
+        if (cChar == '0') {
             n64RetVal = n64RetVal * 16 + 0;
-        }
-        else if ( cChar == '1' )
-        {
+        } else if (cChar == '1') {
             n64RetVal = n64RetVal * 16 + 1;
-        }
-        else if ( cChar == '2' )
-        {
+        } else if (cChar == '2') {
             n64RetVal = n64RetVal * 16 + 2;
-        }
-        else if ( cChar == '3' )
-        {
+        } else if (cChar == '3') {
             n64RetVal = n64RetVal * 16 + 3;
-        }
-        else if ( cChar == '4' )
-        {
+        } else if (cChar == '4') {
             n64RetVal = n64RetVal * 16 + 4;
-        }
-        else if ( cChar == '5' )
-        {
+        } else if (cChar == '5') {
             n64RetVal = n64RetVal * 16 + 5;
-        }
-        else if ( cChar == '6' )
-        {
+        } else if (cChar == '6') {
             n64RetVal = n64RetVal * 16 + 6;
-        }
-        else if ( cChar == '7' )
-        {
+        } else if (cChar == '7') {
             n64RetVal = n64RetVal * 16 + 7;
-        }
-        else if ( cChar == '8' )
-        {
+        } else if (cChar == '8') {
             n64RetVal = n64RetVal * 16 + 8;
-        }
-        else if ( cChar == '9' )
-        {
+        } else if (cChar == '9') {
             n64RetVal = n64RetVal * 16 + 9;
-        }
-        else if ( cChar == 'A' || cChar == 'a')
-        {
+        } else if (cChar == 'A' || cChar == 'a') {
             n64RetVal = n64RetVal * 16 + 10;
-        }
-        else if ( cChar == 'B' || cChar == 'b')
-        {
+        } else if (cChar == 'B' || cChar == 'b') {
             n64RetVal = n64RetVal * 16 + 11;
-        }
-        else if ( cChar == 'C' || cChar == 'c')
-        {
+        } else if (cChar == 'C' || cChar == 'c') {
             n64RetVal = n64RetVal * 16 + 12;
-        }
-        else if ( cChar == 'D' || cChar == 'd')
-        {
+        } else if (cChar == 'D' || cChar == 'd') {
             n64RetVal = n64RetVal * 16 + 13;
-        }
-        else if ( cChar == 'E' || cChar == 'e')
-        {
+        } else if (cChar == 'E' || cChar == 'e') {
             n64RetVal = n64RetVal * 16 + 14;
-        }
-        else if ( cChar == 'F' || cChar == 'f')
-        {
+        } else if (cChar == 'F' || cChar == 'f') {
             n64RetVal = n64RetVal * 16 + 15;
-        }
-        else if ( cChar == '-' )
-        {
+        } else if (cChar == '-') {
             b_IsNegative = TRUE;
         }
     }
-    if ( b_IsNegative )
-    {
+    if (b_IsNegative) {
         n64RetVal = -n64RetVal;
     }
     return n64RetVal;
@@ -490,8 +354,7 @@ __int64 nConvertStringToInt(LPCTSTR omStrHexNo)
 void s_vExtendSignBit( __int64& n64Val, int nSize)
 {
     // Avoid processing 64 bit signals
-    if( nSize < defMAX_BITS )
-    {
+    if (nSize < defMAX_BITS) {
         __int64 n64Mask = 1;
         BOOL bSignBit;
         // Shift the mask by Length  - 1 times to get sign bit value
@@ -499,8 +362,7 @@ void s_vExtendSignBit( __int64& n64Val, int nSize)
         // Get the sign bit value
         bSignBit = n64Val & n64Mask ? TRUE : FALSE;
         // Set the value only for negative numbers
-        if( bSignBit )
-        {
+        if (bSignBit) {
             // Set the Sign bit to 1
             __int64 nVal = defSIGN_MASK;
             // Shift the value to extend the value
@@ -550,6 +412,7 @@ void s_vRemoveUnwantedBits(UINT64& n64rData, int nLength)
     // Mask unwanted portion of signal details
     n64rData = n64rData & un64Mask;
 }
+
 /*******************************************************************************
  Function Name    : bConvertStringToInt64
  Input(s)         : omStrHexNo - String Value
@@ -588,41 +451,32 @@ BOOL bConvertStringToInt64( CString omStrHexNo,
     // Get the String length now after removing spaces.
     nStrLength = omStrHexNo.GetLength();
     // Iterate through elements to calculate values
-    for (int nCount = 0; nCount < nStrLength; nCount++)
-    {
+    for (int nCount = 0; nCount < nStrLength; nCount++) {
         // Get the charector
-        char cChar = omStrHexNo.GetAt( nCount);
+        char cChar = omStrHexNo.GetAt(nCount);
 
         // Check for 0 - 9 range
-        if( cChar >= '0' && cChar <= '9')
-        {
+        if (cChar >= '0' && cChar <= '9') {
             // Subtract char '0' to get the int value
             // say char '5' - char '0' - int 5
             nCharVal = cChar - '0';
             // If the value is greater then base then
             // the string is invalid. say with base 8, 9 is invalid
-            if( nCharVal - nBase >= 0 )
-            {
+            if (nCharVal - nBase >= 0) {
                 // Show Error
                 ASSERT (FALSE );
                 // Stop the loop by setting the max value
                 nCount = nStrLength;
                 // Indicate Failure
                 bSuccess = FALSE;
-            }
-            else
-            {
+            } else {
                 // Add current digit with the value
                 n64RetVal = n64RetVal * nBase + nCharVal;
             }
-        }
-        // If the value is Hex
-        else if( cChar >= 'A' && cChar <= 'F' )
-        {
+        } else if (cChar >= 'A' && cChar <= 'F') {
             // If the base is not hex then show error
             // and stop processing
-            if( nBase != defBASE_HEX )
-            {
+            if (nBase != defBASE_HEX) {
                 // Show Error
                 ASSERT( FALSE );
                 // Stop the loop by setting the max value
@@ -630,10 +484,7 @@ BOOL bConvertStringToInt64( CString omStrHexNo,
                 // Indicate Failure
                 bSuccess = FALSE;
 
-            }
-            // else Valid value
-            else
-            {
+            } else {
                 // Get the int value and add 10 with that
                 // Say 'A' - 'A' + 10 = 10
                 //     'C' - 'A' + 10 = 12
@@ -641,12 +492,9 @@ BOOL bConvertStringToInt64( CString omStrHexNo,
                 // Add current digit with the value
                 n64RetVal = n64RetVal * nBase + nCharVal;
             }
-        }
-        else if( cChar == '-' )
-        {
+        } else if (cChar == '-') {
             // In Hex mode negative values are not correct
-            if ( nBase != defBASE_DEC || nCount != 0 )
-            {
+            if (nBase != defBASE_DEC || nCount != 0) {
                 ASSERT( FALSE );
                 // Stop the loop by setting the max value
                 nCount = nStrLength;
@@ -654,12 +502,10 @@ BOOL bConvertStringToInt64( CString omStrHexNo,
                 bSuccess = FALSE;
 
             }
-            else
-            {
+            else {
                 b_IsNegative = TRUE;
             }
-        }
-        else
+        } else
         {
             // Invalid input char
             ASSERT( FALSE );
@@ -671,8 +517,7 @@ BOOL bConvertStringToInt64( CString omStrHexNo,
         }
     }
     // If negative flag is set then take the negative value
-    if ( b_IsNegative == TRUE)
-    {
+    if (b_IsNegative == TRUE) {
         n64RetVal = -n64RetVal;
     }
     return bSuccess;
@@ -690,8 +535,7 @@ __int64 gnGetCpuClocks()
 {
 
     // Counter
-    struct
-    {
+    struct {
         int low, high;
     } counter;
 
@@ -717,22 +561,21 @@ UINT static nGetNoOfBytesToRead(UINT nBitNum, UINT nSigLen)
 
     INT nRemainingLength = nSigLen - (8 - nBitNum);
 
-    if (nRemainingLength > 0)
-    {
+    if (nRemainingLength > 0) {
         // Add te number of bytes totally it consumes.
         nBytesToRead += (INT)(nRemainingLength / 8);
 
         // Check for extra bits which traverse to the next byte.
         INT nTotalBitsConsidered = ((nBytesToRead - 1) * 8) +
                                    (8 - nBitNum);
-        if ((UINT)nTotalBitsConsidered < nSigLen)
-        {
+        if ((UINT)nTotalBitsConsidered < nSigLen) {
             nBytesToRead++;
         }
     }
 
     return nBytesToRead;
 }
+
 /* checks whether signal cross array boundary or not */
 BOOL bValidateSignal(UINT nDLC, UINT nByteNum, UINT nBitNum,
                      UINT nLength, eEndianess bDataFormat)
@@ -744,6 +587,7 @@ BOOL bValidateSignal(UINT nDLC, UINT nByteNum, UINT nBitNum,
              (INT)(nByteNum - nBytesToRead) >= 0;
     return bValid;
 }
+
 /* Helper function to calculate the bit mask of a signal */
 BOOL bCalcBitMaskForSig(BYTE* pbyMaskByte, UINT unArrayLen,
                         UINT nByteNum, UINT nBitNum, UINT nLength,
@@ -762,15 +606,12 @@ BOOL bCalcBitMaskForSig(BYTE* pbyMaskByte, UINT unArrayLen,
     INT nByteOrder = (bDataFormat == eEndianess::eIntel) ? 1 : -1;
     bValid = bValidateSignal(unArrayLen, nByteNum, nBitNum, nLength, bDataFormat);
 
-    if (bValid == TRUE)
-    {
+    if (bValid == TRUE) {
         UINT nBitsRead = 0;
 
-        for (UINT i = 0; i < nBytesToRead; i++)
-        {
+        for (UINT i = 0; i < nBytesToRead; i++) {
             BYTE byMsgByteVal = 0xFF; //Mask
-            if (CurrBitNum != 0)
-            {
+            if (CurrBitNum != 0) {
                 byMsgByteVal <<= CurrBitNum; //Set the bits high after the bit number
             }
             // Check for the extra bits at the end and set them low.
@@ -805,8 +646,7 @@ UINT64 un64GetBitMask(int byte, int startBitIndexInByte, int length, bool bIntel
 		: 64 - ((short)byte * 8 - startBitIndexInByte);
 	Result <<= Shift;
 
-	if (false == bIntel)
-	{
+	if (false == bIntel) {
 		BYTE* pbStr = (BYTE*)&Result;
 
 		BYTE bTmp = 0x0;
@@ -825,6 +665,7 @@ UINT64 un64GetBitMask(int byte, int startBitIndexInByte, int length, bool bIntel
 	}
 	return Result;
 }
+
 void vSetSignalValue(int byte, int startBitIndexInByte, int length, bool bIntel, unsigned long long u64SignVal, unsigned char* aucData, int dataLength)
 {
 	/* Signal valuedata type happens to be of the same size of the entire CAN
@@ -841,13 +682,11 @@ void vSetSignalValue(int byte, int startBitIndexInByte, int length, bool bIntel,
 	UINT64 unMaxVal = pow((double)2, (double)length);
 	unMaxVal -= 1;
 	u64SignVal = u64SignVal&unMaxVal;
-	if (bIntel == true)// If Intel format
-	{
+	if (bIntel == true) {
 		int Offset = (byte - 1) * 8 + startBitIndexInByte;
 		u64SignVal <<= Offset;// Exactly map the data bits on the databytes.
 	}
-	else// If Motorola format
-	{
+	else {
 		int Offset = byte * 8 - startBitIndexInByte;
 		u64SignVal <<= (64 - Offset);
 		BYTE byTmp = 0x0;
@@ -869,6 +708,7 @@ void vSetSignalValue(int byte, int startBitIndexInByte, int length, bool bIntel,
 	// be made0.
 	*pu64Target |= u64SignVal;
 }
+
 void vGetDataBytesFromSignal(unsigned long long u64SignVal, int startBit, eEndianess endian, int signalLength, unsigned char* pucData, int nDLC)
 {
 	unsigned char ucData[MAX_PATH] = { 0 };
@@ -889,33 +729,31 @@ HRESULT GetBusmasterInstalledFolder(std::string& strPath)
     strPath = acPath;
     return S_OK;
 }
+
 HRESULT GetBusMasterUserDataPath(std::string& path)
 {
     path = "";
     char documentsPath[MAX_PATH];
     char bmDocPath[MAX_PATH];
     HRESULT result = SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, documentsPath);
-    if (result == S_OK)
-    {
+    if (result == S_OK) {
         PathCombine(bmDocPath, documentsPath, "BUSMASTER");
-        if (CreateDirectory(bmDocPath, NULL) || ERROR_ALREADY_EXISTS == GetLastError())
-        {
+        if (CreateDirectory(bmDocPath, NULL) || ERROR_ALREADY_EXISTS == GetLastError()) {
             path = bmDocPath;
             return S_OK;
         }
     }
     return S_FALSE;
 }
+
 HRESULT GetCurrentVerBusMasterUserDataPath(std::string& path)
 {
     char bmDocPath[MAX_PATH];
     path = "";
-    if (S_OK == GetBusMasterUserDataPath(path))
-    {
+    if (S_OK == GetBusMasterUserDataPath(path)) {
         std::string verSeperator = BUSMASTER_VER;
         PathCombine(bmDocPath, path.c_str(), verSeperator.c_str());
-        if (CreateDirectory(bmDocPath, NULL) || ERROR_ALREADY_EXISTS == GetLastError())
-        {
+        if (CreateDirectory(bmDocPath, NULL) || ERROR_ALREADY_EXISTS == GetLastError()) {
             path = bmDocPath;
             return S_OK;
         }
@@ -926,40 +764,31 @@ HRESULT GetCurrentVerBusMasterUserDataPath(std::string& path)
 HRESULT GetBusMasterAppPath(std::string& strPath)
 {
     char szPath[MAX_PATH];
-    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA, NULL, 0, szPath)))
-    {
+    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA, NULL, 0, szPath))) {
         strPath = szPath;
         strPath += "\\BUSMASTER";
-        if (CreateDirectory(strPath.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
-        {
+        if (CreateDirectory(strPath.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError()) {
             return S_OK;
-        }
-        else
-        {
+        } else {
             return S_FALSE;
         }
-    }
-    else
-    {
+    } else {
         strPath = "";
         return S_FALSE;
     }
 }
+
 HRESULT GetBusMasterGeneralPath(std::string& strPath)
 {
-    if ( GetBusMasterAppPath(strPath) == S_FALSE )
-    {
+    if (GetBusMasterAppPath(strPath) == S_FALSE) {
         return S_FALSE;
     }
 
     strPath += "\\General";
 
-    if (CreateDirectory(strPath.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
-    {
+    if (CreateDirectory(strPath.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError()) {
         return S_OK;
-    }
-    else
-    {
+    } else {
         return S_FALSE;
     }
 }
@@ -967,19 +796,15 @@ HRESULT GetBusMasterGeneralPath(std::string& strPath)
 
 HRESULT GetBusMasterDBCachePath(std::string& strPath)
 {
-    if ( GetBusMasterGeneralPath(strPath) == S_FALSE )
-    {
+    if (GetBusMasterGeneralPath(strPath) == S_FALSE) {
         return S_FALSE;
     }
 
     strPath += "\\DBCache";
 
-    if (CreateDirectory(strPath.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError())
-    {
+    if (CreateDirectory(strPath.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError()) {
         return S_OK;
-    }
-    else
-    {
+    } else {
         return S_FALSE;
     }
 }
@@ -1009,14 +834,10 @@ HRESULT GetBusmasterNodeSimualtionFolder(eNodeSimFolderType oueNodeSimFolderType
     return S_OK;
 }
 
-
-
-
 HRESULT GetCurrentGccVersion(std::string& strPath)
 {
     static std::string m_strGccVersion = "";
-    if ( m_strGccVersion == "")
-    {
+    if (m_strGccVersion == "") {
         PROCESS_INFORMATION sProcessInfo;
         STARTUPINFO         sStartInfo;
 
@@ -1054,27 +875,22 @@ HRESULT GetCurrentGccVersion(std::string& strPath)
 
         WaitForSingleObject(sProcessInfo.hProcess, INFINITE);
 
-
         // Attempt a synchronous read operation.
         CloseHandle(sStartInfo.hStdOutput);
 
         CStdioFile InFile;
         InFile.Open(chTempPath, CFile::modeRead);
-        if( 0 != InFile.m_hFile && InFile.m_pStream != nullptr)
-        {
+        if (0 != InFile.m_hFile && InFile.m_pStream != nullptr) {
             CString omSteVer;
             InFile.ReadString(omSteVer);
             strPath = omSteVer;
             m_strGccVersion = strPath;
         }
-        if ( strPath == "" )
-        {
+        if (strPath == "" ) {
             return S_FALSE;
         }
         DeleteFile(chTempPath);
-    }
-    else
-    {
+    } else {
         strPath = m_strGccVersion;
     }
     return S_OK;
@@ -1083,8 +899,7 @@ HRESULT GetCurrentGccVersion(std::string& strPath)
 std::string getBusInString(ETYPE_BUS eBus)
 {
     std::string busName = "";
-    switch (eBus)
-    {
+    switch (eBus) {
         case CAN:
             busName = "CAN";
             break;
@@ -1115,15 +930,13 @@ std::string getBusInString(ETYPE_BUS eBus)
 
 void tokenize(const std::string& input, char delim, std::vector<std::string>& tokens)
 {
-	if (input == "")
-	{
+	if (input == "") {
 		return;
 	}
 	std::stringstream stream;
 	stream.str(input);
 	std::string item;
-	while (std::getline(stream, item, delim))
-	{
+	while (std::getline(stream, item, delim)) {
 		tokens.push_back(item);
 	}
 }

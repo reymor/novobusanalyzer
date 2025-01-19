@@ -28,8 +28,7 @@
 #include <cctype>
 #include "CANChannelConfigDefines.h"
 
-class CUtilFunctions
-{
+class CUtilFunctions {
 public:
     /**
      * @brief Top mask unwanted bit of the data

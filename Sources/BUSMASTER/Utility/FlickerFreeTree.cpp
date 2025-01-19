@@ -34,7 +34,6 @@ BOOL CFlickerFreeTree::OnEraseBkgnd(CDC* pDC)
     // TODO: Add your message handler code here and/or call default
     UNUSED_ALWAYS(pDC);
 
-    //return CTreeCtrl::OnEraseBkgnd(pDC);
     return TRUE;
 }
 

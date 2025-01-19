@@ -26,8 +26,7 @@
 
 #if !defined _ETHREAD_ACTION_
 #define _ETHREAD_ACTION_
-enum eTHREAD_ACTION
-{
+enum eTHREAD_ACTION {
     EXIT_THREAD = 0,
     INVOKE_FUNCTION,
     CREATE_TIME_MAP,

@@ -25,7 +25,6 @@
 #include "Utils_stdafx.h"         // For standard include
 #include "WaitIndicator.h"
 
-
 // CWaitIndicator
 
 IMPLEMENT_DYNAMIC(CWaitIndicator, CWnd)
@@ -109,18 +108,7 @@ void CWaitIndicator::OnPaint(void)
 {
     // Device context for painting
     CPaintDC dc(this);
-    /*CRect ClientRect;
 
-    // Client Rect Painting
-    GetClientRect(&ClientRect);
-    CBrush omBrush((COLORREF) GetSysColor(COLOR_ACTIVECAPTION));
-    dc.FrameRect(&ClientRect, &omBrush);
-
-    // Load Font Deatils
-    dc.SetBkMode(TRANSPARENT);
-
-    // Finally Set The text;
-    dc.DrawText(m_strTitle, &ClientRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);*/
     PaintWindow(dc);
 }
 
@@ -138,8 +126,7 @@ Modifications   :
 ******************************************************************************/
 int CWaitIndicator::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-    if (CWnd::OnCreate(lpCreateStruct) == -1)
-    {
+    if (CWnd::OnCreate(lpCreateStruct) == -1) {
         return -1;
     }
     //To resize the window and to move the window to the center of parent
@@ -168,15 +155,14 @@ void CWaitIndicator::MoveToCenter(void)
 
     MainWindow = GetParent();
 
-    if (MainWindow != nullptr)
-    {
+    if (MainWindow != nullptr) {
         MainWindow->GetWindowRect(ParentRect);
     }
     CClientDC dc(this);
     CSize TxtSize = dc.GetTextExtent(m_strTitle);
 
     // 1.1 Times the Text Length;
-    nWidth =  (int) (1.1 * TxtSize.cx);
+    nWidth = (int) (1.1 * TxtSize.cx);
     // Fixed.Height is always Fixed;
     nHeight = 45;
 
@@ -188,7 +174,6 @@ void CWaitIndicator::MoveToCenter(void)
     Point.y -= nHeight;
 
     MoveWindow(Point.x, Point.y, nWidth, nHeight, TRUE);
-
 }
 
 /******************************************************************************
@@ -207,8 +192,7 @@ BOOL CWaitIndicator::RegisterWindowClass(void)
     WNDCLASS wndcls;
     HINSTANCE hInst = AfxGetInstanceHandle();
 
-    if (!(::GetClassInfo(hInst, INDICATOR_CLASSNAME, &wndcls)))
-    {
+    if (!(::GetClassInfo(hInst, INDICATOR_CLASSNAME, &wndcls))) {
         // otherwise we need to register a new class
         wndcls.style            = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW ;
         wndcls.lpfnWndProc      = ::DefWindowProc;
@@ -220,8 +204,7 @@ BOOL CWaitIndicator::RegisterWindowClass(void)
         wndcls.lpszMenuName     = nullptr;
         wndcls.lpszClassName    = INDICATOR_CLASSNAME;
 
-        if (!AfxRegisterClass(&wndcls))
-        {
+        if (!AfxRegisterClass(&wndcls)) {
             AfxThrowResourceException();
             return FALSE;
         }
@@ -263,14 +246,15 @@ void CWaitIndicator::Redraw(void)
     PaintWindow(dc);
     PaintWindow(dc);
 }
+
 void CWaitIndicator::SetWindowText(char* acText)
 {
     m_strTitle = acText;
     Redraw();
 }
+
 void CWaitIndicator::PaintWindow(CDC& dc)
 {
-
     CRect ClientRect;
 
     // Client Rect Painting

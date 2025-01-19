@@ -3,13 +3,12 @@
 
 #include "IBMNetWorkService.h"
 #include "CANDriverDefines.h"
-#include "..\Application\Hashdefines.h"
+#include "../Application/Hashdefines.h"
 #include <algorithm>
 
 using namespace std;
 
-enum EColumnType
-{
+enum EColumnType {
     eNoColType = 0,
     eTimeStampCol,
     eTxRxCol,
@@ -30,8 +29,7 @@ private:
 
     static void SetColumnField ( int nField )
     {
-        switch ( nField )
-        {
+        switch (nField) {
             case 1:
                 m_nSortField = EColumnType::eTimeStampCol;
                 break;
@@ -99,13 +97,8 @@ int CCANMsgWndDataHandler<SBUFFERTYPE>::CompareBufferData ( const void* pEntry1,
     STCANDATA* pCANDataEntry1 = (STCANDATA*) pEntry1;
     STCANDATA* pCANDataEntry2 = (STCANDATA*) pEntry2;
     
-    switch ( m_nSortField )
-    {
-        //case EColumnType::eMsgDLCCol: // Sort by DLC
-        //{
-        //    nRetValue = (int) (pCANDataEntry1->m_uDataInfo.m_sCANMsg.m_ucDataLen - pCANDataEntry2->m_uDataInfo.m_sCANMsg.m_ucDataLen);
-        //    break;
-        //}
+    switch (m_nSortField) {
+
         case EColumnType::eMsgNameCol: // Sort by message name
         {
             CString msgName1, msgName2;
@@ -135,23 +128,13 @@ int CCANMsgWndDataHandler<SBUFFERTYPE>::CompareBufferData ( const void* pEntry1,
             nRetValue = (int) (pCANDataEntry1->m_uDataInfo.m_sCANMsg.m_unMsgID - pCANDataEntry2->m_uDataInfo.m_sCANMsg.m_unMsgID);
             break;
         }
-        //case EColumnType::eMsgTypeCol: // Sort by Message Type
-        //{
-        //    nRetValue = (int) (pCANDataEntry1->m_uDataInfo.m_sCANMsg.m_ucEXTENDED - pCANDataEntry2->m_uDataInfo.m_sCANMsg.m_ucEXTENDED);
 
-
-        //    break;
-        //}
         case EColumnType::eChannelCol: // Sort by channel
         {
             nRetValue = (int) (pCANDataEntry1->m_uDataInfo.m_sCANMsg.m_ucChannel - pCANDataEntry2->m_uDataInfo.m_sCANMsg.m_ucChannel);
             break;
         }
-        //case EColumnType::eTxRxCol: // Sort by Tx/Rx column
-        //{
-        //    nRetValue = (int) (IS_TX_MESSAGE ( pCANDataEntry1->m_ucDataType ) - IS_TX_MESSAGE ( pCANDataEntry2->m_ucDataType ));
-        //    break;
-        //}
+
         case EColumnType::eTimeStampCol: // Sort by time stamp
         {
             nRetValue = (int) (pCANDataEntry1->m_lTickCount.QuadPart - pCANDataEntry2->m_lTickCount.QuadPart);

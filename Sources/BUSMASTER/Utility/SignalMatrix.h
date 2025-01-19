@@ -29,7 +29,11 @@
 
 #define MAX_SIGNALS 64
 
-typedef enum { GRAYED, HIGHLIGHT, NO_HIGHLIGHT } USER_BGTYPE;
+typedef enum {
+    GRAYED, 
+    HIGHLIGHT, 
+    NO_HIGHLIGHT
+} USER_BGTYPE;
 
 class CSignalMatrix : public CStatic
 {

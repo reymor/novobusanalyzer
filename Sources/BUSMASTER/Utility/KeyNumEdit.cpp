@@ -76,15 +76,12 @@ CKeyNumEdit::~CKeyNumEdit()
 
 
 BEGIN_MESSAGE_MAP(CKeyNumEdit, CRadixEdit)
-    //{{AFX_MSG_MAP(CKeyNumEdit)
-    // ON_WM_CHAR()
     ON_WM_NCDESTROY()
     ON_WM_KILLFOCUS()
     ON_WM_CREATE()
     ON_WM_KEYDOWN()
     ON_WM_CHAR()
     ON_WM_GETDLGCODE()
-    //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -111,11 +108,8 @@ UINT CKeyNumEdit::OnGetDlgCode ()
 void CKeyNumEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
     // On Press of Enter or Escape hide the control
-    if( nChar == VK_ESCAPE ||
-            nChar == VK_RETURN)
-    {
-        if( nChar == VK_ESCAPE)
-        {
+    if (nChar == VK_ESCAPE || nChar == VK_RETURN) {
+        if (nChar == VK_ESCAPE) {
             // Set the Escape flag so that the initial text will be
             // restored
             m_bVK_ESCAPE = TRUE;
@@ -125,15 +119,13 @@ void CKeyNumEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
         return;
     }
 
-
     CRadixEdit::OnChar(nChar, nRepCnt, nFlags);
 }
 
 void CKeyNumEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
     // On Press of Enter or Escape hide the control
-    switch(nChar)
-    {
+    switch(nChar) {
         case VK_HOME:
         case VK_END:
         case VK_TAB:
@@ -174,8 +166,7 @@ void CKeyNumEdit::OnNcDestroy()
 {
     CRadixEdit::OnNcDestroy();
     // Delete Spin button Memory
-    if( IS_BUDDY_ENABLED( m_sInfo.m_byFlag) && m_pomSpin != nullptr )
-    {
+    if(IS_BUDDY_ENABLED( m_sInfo.m_byFlag) && m_pomSpin != nullptr) {
         delete m_pomSpin;
         m_pomSpin = nullptr;
     }
@@ -203,13 +194,11 @@ int CKeyNumEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
     // OnCreate is not returning 0 to indicate success. It sometimes returns 1
     // or any positive non-zero values. So check for failure condition instead
     // of success condition
-    if( nRetVal != defCREATE_FAILED )
-    {
+    if(nRetVal != defCREATE_FAILED) {
         // Set the base value
         vSetBase(m_sInfo.m_byBase);
         // Set All CAPs in case of Hex Number
-        if( m_sInfo.m_byBase == defBASE_HEX )
-        {
+        if(m_sInfo.m_byBase == defBASE_HEX) {
             // Add Upper case style to the control
             ModifyStyle( 0, ES_UPPERCASE );
         }
@@ -219,14 +208,12 @@ int CKeyNumEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
         // Floating or Integer
         vAcceptFloatingNum(IS_FLOAT_ENABLED( m_sInfo.m_byFlag));
         // Text Limit
-        if( m_sInfo.m_nTextLimit != 0 )
-        {
+        if (m_sInfo.m_nTextLimit != 0) {
             SetLimitText(m_sInfo.m_nTextLimit);
         }
 
         // Create Spin Control only if it is required
-        if( IS_BUDDY_ENABLED( m_sInfo.m_byFlag))
-        {
+        if (IS_BUDDY_ENABLED( m_sInfo.m_byFlag)) {
             CRect omRect(0,0,0,0);
             // Make the style word
             DWORD dwStyle = lpCreateStruct->style | UDS_ARROWKEYS |
@@ -235,9 +222,8 @@ int CKeyNumEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
             dwStyle ^= UDS_WRAP;
             // Create the spin Control
             m_pomSpin = new CNumSpinCtrl;
-            if( m_pomSpin != nullptr )
-            {
-                m_pomSpin->Create( dwStyle, omRect, GetParent(),
+            if (m_pomSpin != nullptr) {
+                m_pomSpin->Create(dwStyle, omRect, GetParent(),
                                    IDC_NUM_CONTROL );
                 // Init spin control
                 // Set the base value
@@ -249,48 +235,31 @@ int CKeyNumEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
                 // Set the float number property
                 m_pomSpin->vSetFloatNumber( IS_FLOAT_ENABLED(m_sInfo.m_byFlag));
                 // Set the formatting string
-                if( m_sInfo.m_byBase == defBASE_HEX)
-                {
+                if (m_sInfo.m_byBase == defBASE_HEX) {
                     m_pomSpin->vSetFormatString( defFORMAT_INT64_HEX );
-                }
-                else
-                {
+                } else {
                     // Show decimal pointes only if it is of Float type
-                    if(IS_FLOAT_ENABLED( m_sInfo.m_byFlag))
-                    {
+                    if (IS_FLOAT_ENABLED( m_sInfo.m_byFlag)) {
                         m_pomSpin->vSetFormatString( defSTR_FORMAT_PHY_VALUE );
-                    }
-                    else
-                    {
+                    } else {
                         m_pomSpin->vSetFormatString( defFORMAT_INT64_DECIMAL );
                     }
                 }
                 // Set the Min, Max and Step Value
                 // If floating point is enabled then use doublew member
-                if( IS_FLOAT_ENABLED( m_sInfo.m_byFlag) )
-                {
+                if (IS_FLOAT_ENABLED( m_sInfo.m_byFlag)) {
                     m_pomSpin->vSetRangeAndDelta( m_sInfo.m_uMinVal.m_dValue,
                                                   m_sInfo.m_uMaxVal.m_dValue, m_sInfo.m_uDelta.m_dValue);
-                }
-                // If floating point is not enabled then use __int64 member to
-                // get 64 bit resolution
-                else
-                {
-                    if(IS_SIGNED_NUMBER(m_sInfo.m_byFlag))
-                    {
+                } else {
+                    if(IS_SIGNED_NUMBER(m_sInfo.m_byFlag)) {
                         m_pomSpin->vSetRangeAndDelta( m_sInfo.m_uMinVal.m_n64Value,
                                                       m_sInfo.m_uMaxVal.m_n64Value, m_sInfo.m_uDelta.m_n64Value);
-                    }
-                    else
-                    {
+                    } else {
                         m_pomSpin->vSetRangeAndDelta( m_sInfo.m_uMinVal.m_un64Value,
                                                       m_sInfo.m_uMaxVal.m_un64Value, m_sInfo.m_uDelta.m_n64Value);
                     }
                 }
-            }
-            //Spin Control Creaate failed. Avoid proceeding further
-            else
-            {
+            } else {
                 nRetVal = defCREATE_FAILED;
             }
         }
@@ -299,8 +268,7 @@ int CKeyNumEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
     CWnd* pomWnd = nullptr;
     // Get parent window. That is list control
     pomWnd = GetParent();
-    if( pomWnd != nullptr )
-    {
+    if (pomWnd != nullptr) {
         // Get parent's font
         CFont* pomFont = pomWnd->GetFont();
         // Set the same font
@@ -332,11 +300,8 @@ int CKeyNumEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
 *******************************************************************************/
 void CKeyNumEdit::OnKillFocus(CWnd* pNewWnd)
 {
-    // CRadixEdit::OnKillFocus(pNewWnd);
     CWnd* m_pMainWnd = AfxGetMainWnd();
-    if( pNewWnd != nullptr                   // nullptr condition - Minimize condition
-            && pNewWnd != m_pMainWnd ) // For Dialog Close
-    {
+    if (pNewWnd != nullptr && pNewWnd != m_pMainWnd ) {
         CString omStr;
         // Get the textbox content
         GetWindowText(omStr);
@@ -354,15 +319,11 @@ void CKeyNumEdit::OnKillFocus(CWnd* pNewWnd)
         lvDisplayInfo.item.cchTextMax = omStr.GetLength();
         lvDisplayInfo.item.pszText = m_bVK_ESCAPE ? nullptr : LPTSTR((LPCTSTR)omStr);
 
-
-
-
         GetParent()->GetParent()->SendMessage( WM_NOTIFY,
                                                GetParent()->GetDlgCtrlID(),
                                                (LPARAM)&lvDisplayInfo);
         // Destroy Spin Control
-        if( IS_BUDDY_ENABLED( m_sInfo.m_byFlag) && m_pomSpin != nullptr )
-        {
+        if (IS_BUDDY_ENABLED( m_sInfo.m_byFlag) && m_pomSpin != nullptr) {
             m_pomSpin->DestroyWindow();
         }
 
@@ -387,21 +348,15 @@ void CKeyNumEdit::OnKillFocus(CWnd* pNewWnd)
 BOOL CKeyNumEdit::PreTranslateMessage(MSG* pMsg)
 {
     // TODO: Add your specialized code here and/or call the base class
-    if( pMsg->message == WM_KEYDOWN )
-    {
-        if( pMsg->wParam == VK_RETURN ||
-                pMsg->wParam == VK_ESCAPE )
-        {
+    if (pMsg->message == WM_KEYDOWN) {
+        if (pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE) {
             ::TranslateMessage(pMsg);
             ::DispatchMessage(pMsg);
             return 1;
-        }
-        if(pMsg->wParam == VK_TAB)
-        {
+        } if(pMsg->wParam == VK_TAB) {
             MessageBeep(0);
         }
     }
 
     return CRadixEdit::PreTranslateMessage(pMsg);
 }
-
