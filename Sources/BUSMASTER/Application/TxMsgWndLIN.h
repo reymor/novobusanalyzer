@@ -33,7 +33,8 @@
   Modified By   :
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
-#pragma once
+#ifndef BUSMASTER_APPLICATION_TXMSGWNDLIN_H_
+#define BUSMASTER_APPLICATION_TXMSGWNDLIN_H_
 
 #include "Utility/RadixEdit.h"
 #include "Datatypes/MsgSignal_Datatypes.h"
@@ -147,3 +148,5 @@ public:
     afx_msg void OnCbnSelchangeComboPgn();
     afx_msg void OnCbnEditChangeComboPgn();
 };
+
+#endif // BUSMASTER_APPLICATION_TXMSGWNDLIN_H_

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_CLIENTMANAGER_H_
+#define BUSMASTER_APPLICATION_CLIENTMANAGER_H_
+
 #include <vector>
 #include <string>
 #include "IBMNetWorkGetService.h"
@@ -10,10 +12,10 @@
 #include "BusmasterEvents.h"
 #include <concurrent_vector.h>
 #include <concurrent_unordered_map.h>
+
 using namespace VariableManager;
 
-class VariableChangeListnerInfo
-{
+class VariableChangeListnerInfo {
 public:
 	IVariableChangeListner* mListner = nullptr;
 	std::string mRegVariablePath = "";
@@ -21,8 +23,7 @@ public:
 
 bool operator==(const VariableChangeListnerInfo& lhs, const VariableChangeListnerInfo& rhs);
 
-class FrameClient
-{
+class FrameClient {
 public:
 	unsigned int mCanId;
 	unsigned int mChannel;
@@ -40,8 +41,7 @@ private:
 	std::map<std::string, SignalValue> m_mapPreviousSignalData;
 };
 
-class ClientManager
-{
+class ClientManager {
 	//Frame - SignalClients
 	Concurrency::concurrent_vector<FrameClient> mClientList;
 public:
@@ -52,3 +52,5 @@ public:
 	int NotifyVariableChange(const STLIN_MSG& canMsg);
 	void HandleImportInstruments();
 };
+
+#endif // BUSMASTER_APPLICATION_CLIENTMANAGER_H_

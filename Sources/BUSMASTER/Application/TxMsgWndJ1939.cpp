@@ -55,8 +55,10 @@
 #include "TxMsgWndJ1939.h"
 #include "Utility/MultiLanguageSupport.h"
 #include "CANDefines.h"
+
 HANDLE sg_hMsgSent = nullptr;
 HANDLE sg_hMsgStopped = nullptr;
+
 typedef struct {
     EJ1939_MSG_TYPE m_eType;
     CString         m_omTypeName;
@@ -91,8 +93,7 @@ static UINT unGetMsgIDFromName(CString omMsgName)
     UINT unMsgID = (UINT)-1;
     CHAR* pcStopStr = nullptr;
     int nIndex = omMsgName.ReverseFind(defMSGID_EXTENDED);
-    if(nIndex != -1)
-    {
+    if (nIndex != -1) {
         int nLength = omMsgName.GetLength();
         omStrMsgID = omMsgName.Mid(nIndex+1,nLength-1);
         unMsgID = strtol((LPCTSTR )omStrMsgID,&pcStopStr,16);
@@ -104,14 +105,13 @@ void vPopulateMsgTypeComboBox(SCONFIGDATA_COMB asConfigData[], int nSize,
                               CComboBox& omComboBox)
 {
     omComboBox.ResetContent();
-    for (int i = 0, nIncr = 0; i < nSize; i++)
-    {
-        if (asConfigData[i].m_bShow)
-        {
+    for (int i = 0, nIncr = 0; i < nSize; i++) {
+        if (asConfigData[i].m_bShow) {
             omComboBox.InsertString(nIncr++, asConfigData[i].m_omTypeName);
         }
     }
 }
+
 void CTxMsgWndJ1939::vPopulatePGNComboBox(void)
 {
     m_CS_ConfigData.Lock();
@@ -121,23 +121,19 @@ void CTxMsgWndJ1939::vPopulatePGNComboBox(void)
     std::list<IFrame*> frameList;
     mBmNetwork->GetFrameList( J1939, 0, frameList );
 
-    if (frameList.size() > 0)
-    {
+    if (frameList.size() > 0) {
         unsigned int id;
         std::string name;
-for (auto frame : frameList)
-        {
+        for (auto frame : frameList) {
             CString omMsgIdWithName;
             frame->GetFrameId(id);
             frame->GetName(name);
-
 
             omMsgIdWithName.Format(defSTR_MSG_ID_IN_HEX, id);
             omMsgIdWithName += name.c_str();
             int nIndex = m_omComboPGN.AddString(omMsgIdWithName);
             CSize omTextSize = m_omComboPGN.GetDC()->GetTextExtent(omMsgIdWithName);
-            if (omTextSize.cx > omSize.cx)
-            {
+            if (omTextSize.cx > omSize.cx) {
                 omSize = omTextSize;
             }
             m_omComboPGN.SetItemData(nIndex, id);
@@ -147,9 +143,7 @@ for (auto frame : frameList)
 
         m_CS_ConfigData.Unlock();
         vAdjustWidthMessageComboBox();
-    }
-    else
-    {
+    } else {
         m_omComboPGN.SetWindowText("0");
         vVerifyPDUFormatInPGN(0);
     }
@@ -174,16 +168,14 @@ void CTxMsgWndJ1939::vAdjustWidthMessageComboBox()
     // Get the text metrics for avg char width
     pDC->GetTextMetrics(&tm);
 
-    for (int i = 0; i < m_omComboPGN.GetCount(); i++)
-    {
+    for (int i = 0; i < m_omComboPGN.GetCount(); i++) {
         m_omComboPGN.GetLBText(i, str);
         sz = pDC->GetTextExtent(str);
         sz = pDC->GetTextExtent(str);
         // Add the avg width to prevent clipping
         sz.cx += tm.tmAveCharWidth;
 
-        if (sz.cx > dx)
-        {
+        if (sz.cx > dx) {
             dx = sz.cx;
         }
     }
@@ -207,8 +199,8 @@ UINT CString_2_ByteArray(CString omByteStr, BYTE abByteArr[], UINT ByteArrLen)
 
     UINT LengthStr = omByteStr.GetLength();
 
-    if ((2 * ByteArrLen) < LengthStr) // If storage capacity of of the target
-    {
+    // If storage capacity of of the target
+    if ((2 * ByteArrLen) < LengthStr) {
         // byte buffer is lesser than the string,
         omByteStr = omByteStr.Left(2 * ByteArrLen); // then chop off the extra
     }                                   // characters from right side of string
@@ -217,8 +209,7 @@ UINT CString_2_ByteArray(CString omByteStr, BYTE abByteArr[], UINT ByteArrLen)
     // If number of characters is an odd number, then number of bytes needed
     UINT Result = LengthStr / 2 + LengthStr % 2; // is set accordingly
     int i = (int) Result - 1;
-    while (omByteStr.GetLength())
-    {
+    while (omByteStr.GetLength()) {
         omTempByte = omByteStr.Right(NO_OF_CHAR_IN_BYTE);
         abByteArr[i--] = (BYTE)_tcstol(omTempByte, L'\0', 16);
         omByteStr = omByteStr.Left(omByteStr.GetLength() - NO_OF_CHAR_IN_BYTE);
@@ -238,21 +229,18 @@ static void CallBackMsgSent(UINT32 /*unPGN*/, BYTE /*bySrc*/,
 DWORD WINAPI Cyclic_Transmission_Thread(LPVOID pVoid)
 {
     CPARAM_THREADPROC* pThreadParam = (CPARAM_THREADPROC*) pVoid;
-    if (pThreadParam == nullptr)
-    {
+    if (pThreadParam == nullptr) {
         return (DWORD)-1;
     }
 
     CTxMsgWndJ1939* pTxMsgWndJ1939 = static_cast<CTxMsgWndJ1939*> (pThreadParam->m_pBuffer);
 
-    if (pTxMsgWndJ1939 == nullptr)
-    {
+    if (pTxMsgWndJ1939 == nullptr) {
         return (DWORD)-1;
     }
     bool bLoopON = true;
     DWORD dwMiliSecs = INFINITE;
-    while (bLoopON) // Continue so long as the loop is ON.
-    {
+    while (bLoopON) { // Continue so long as the loop is ON.
 
         WaitForSingleObject(pThreadParam->m_hActionEvent,
                             dwMiliSecs);
@@ -261,23 +249,17 @@ DWORD WINAPI Cyclic_Transmission_Thread(LPVOID pVoid)
         if ((eTransState == TRANS_TO_BE_STOPPED)
                 || (eTransState == TRANS_STOPPED))
         {
-            if (nullptr != pTxMsgWndJ1939 && IsWindow(pTxMsgWndJ1939->m_hWnd))
-            {
+            if (nullptr != pTxMsgWndJ1939 && IsWindow(pTxMsgWndJ1939->m_hWnd)) {
                 pTxMsgWndJ1939->vProcessTransmission(FALSE);
                 dwMiliSecs = INFINITE;
                 ResetEvent(pThreadParam->m_hActionEvent);
             }
-        }
-        else if (eTransState == TRANS_STARTED)
-        {
-            switch (pThreadParam->m_unActionCode)
-            {
+        } else if (eTransState == TRANS_STARTED) {
+            switch (pThreadParam->m_unActionCode) {
                 case INVOKE_FUNCTION:
                 {
-                    if (pTxMsgWndJ1939->SendSavedMessage() == S_OK)
-                    {
-                        if (pTxMsgWndJ1939->m_sMsgToBeSent.m_unDLC > 8)
-                        {
+                    if (pTxMsgWndJ1939->SendSavedMessage() == S_OK) {
+                        if (pTxMsgWndJ1939->m_sMsgToBeSent.m_unDLC > 8) {
                             WaitForSingleObject(sg_hMsgSent, INFINITE);
                         }
                     }
@@ -326,18 +308,15 @@ CTxMsgWndJ1939::~CTxMsgWndJ1939()
 {
     m_sCyclicThread.bTerminateThread();
 
-    if (m_sCyclicThread.m_hActionEvent != nullptr)
-    {
+    if (m_sCyclicThread.m_hActionEvent != nullptr) {
         CloseHandle(m_sCyclicThread.m_hActionEvent);
         m_sCyclicThread.m_hActionEvent = nullptr;
     }
-    if (sg_hMsgSent != nullptr)
-    {
+    if (sg_hMsgSent != nullptr) {
         CloseHandle(sg_hMsgSent);
         sg_hMsgSent = nullptr;
     }
-    if (sg_hMsgStopped != nullptr)
-    {
+    if (sg_hMsgStopped != nullptr) {
         CloseHandle(sg_hMsgStopped);
         sg_hMsgStopped = nullptr;
     }
@@ -387,13 +366,10 @@ END_MESSAGE_MAP()
 
 
 // CTxMsgWndJ1939 message handlers
-
 BOOL CTxMsgWndJ1939::OnInitDialog()
 {
     CDialog::OnInitDialog();
     // TODO:  Add extra initialization here
-
-
     m_omCheckCyclic.SetCheck(BST_UNCHECKED);
     m_omMiliSecs.vSetBase(BASE_DECIMAL);
     m_omMiliSecs.vSetSigned(false);
@@ -401,7 +377,6 @@ BOOL CTxMsgWndJ1939::OnInitDialog()
     m_omMiliSecs.EnableWindow(FALSE);
 
     vInitializeTpfFields();
-
 
     vInitializeNmFields();
 
@@ -421,55 +396,43 @@ void CTxMsgWndJ1939::OnBnClickedSend()
     LPARAM lParam = 0;
     GetICANDIL()->DILC_GetControllerParams(lParam, 0, NUMBER_HW);
     UINT unChannel = (UINT) lParam;
-    if (m_bNM == TRUE)
-    {
+    if (m_bNM == TRUE) {
         BYTE byAddress = (BYTE)m_omCurAddress.lGetValue();
         BYTE byEcuName = (BYTE)m_omEcuName.lGetValue();
         CButton* pButton = (CButton*)GetDlgItem(IDC_CLAIM_ADDRESS);
-        if (pButton->GetCheck() == BST_CHECKED)
-        {
-            for (UINT i = 0; i < unChannel; i++)
-            {
+        if (pButton->GetCheck() == BST_CHECKED) {
+            for (UINT i = 0; i < unChannel; i++) {
                 GetIJ1939DIL()->DILIJ_NM_ClaimAddress(m_sClientParams.m_dwClientId,
                                                       i + 1, byAddress);
             }
         }
         pButton = (CButton*)GetDlgItem(IDC_RQST_ADDRESS);
-        if (pButton->GetCheck() == BST_CHECKED)
-        {
-            for (UINT i = 0; i < unChannel; i++)
-            {
+        if (pButton->GetCheck() == BST_CHECKED) {
+            for (UINT i = 0; i < unChannel; i++) {
                 GetIJ1939DIL()->DILIJ_NM_RequestAddress(m_sClientParams.m_dwClientId, i + 1, DEFAULT_PRIORITY, byAddress, byEcuName);
             }
         }
         pButton = (CButton*)GetDlgItem(IDC_CMD_ADDRESS);
-        if (pButton->GetCheck() == BST_CHECKED)
-        {
+        if (pButton->GetCheck() == BST_CHECKED) {
             UINT64 unECUNAME = m_omEcuName.lGetValue();
-            for (UINT i = 0; i < unChannel; i++)
-            {
+            for (UINT i = 0; i < unChannel; i++) {
                 GetIJ1939DIL()->DILIJ_NM_CommandAddress(m_sClientParams.m_dwClientId,
                                                         i + 1, unECUNAME, byAddress,
                                                         DEFAULT_PRIORITY, byAddress,
                                                         ADDRESS_ALL);
             }
         }
-    }
-    else
-    {
-        if ((eGetTransState() == TRANS_STOPPED) && GetIJ1939DIL()->DILIJ_bIsOnline())
-        {
+    } else {
+        if ((eGetTransState() == TRANS_STOPPED) && GetIJ1939DIL()->DILIJ_bIsOnline()) {
             m_sMsgToBeSent.m_unChannel = 1;
             CString omChannel;
             int nIndex = m_omComboChannel.GetCurSel();
-            if (nIndex != -1)
-            {
+            if (nIndex != -1) {
                 m_omComboChannel.GetLBText(m_omComboChannel.GetCurSel(), omChannel);
                 m_sMsgToBeSent.m_unChannel = _ttoi(omChannel);
             }
             //Check for DLC length
-            if (m_unDataLength > MAX_DATA_LEN_J1939)
-            {
+            if (m_unDataLength > MAX_DATA_LEN_J1939) {
                 CString omInvDLCMsg;
                 omInvDLCMsg.Format(_("Invalid DLC value: %d, Please enter a value between 0 and %d"),
                                    m_unDataLength,  MAX_DATA_LEN_J1939);
@@ -477,8 +440,7 @@ void CTxMsgWndJ1939::OnBnClickedSend()
                 return;
             }
             //Data bytes
-            if (m_omMsgDataEditVal.GetLength() > (INT)(2 * m_unDataLength))
-            {
+            if (m_omMsgDataEditVal.GetLength() > (INT)(2 * m_unDataLength)) {
                 m_omMsgDataEditVal = m_omMsgDataEditVal.Left(2 * m_unDataLength);
             }
             //DLC
@@ -494,18 +456,14 @@ void CTxMsgWndJ1939::OnBnClickedSend()
             //PGN value
             CString omPGN;
             nIndex = m_omComboPGN.GetCurSel();
-            if (nIndex != -1)
-            {
+            if (nIndex != -1) {
                 m_omComboPGN.GetLBText(m_omComboPGN.GetCurSel(), omPGN);
-            }
-            else
-            {
+            } else {
                 m_omComboPGN.GetWindowText(omPGN);
                 omPGN = "0x" + omPGN;
             }
             m_sMsgToBeSent.m_unPGN = unGetMsgIDFromName(omPGN);
-            if (m_sMsgToBeSent.m_unPGN > MAX_LMT_FOR_PGN)
-            {
+            if (m_sMsgToBeSent.m_unPGN > MAX_LMT_FOR_PGN) {
                 CString omPGN;
                 omPGN.Format(_("Invalid PGN value: %x, Please enter a value between 0 and 0x%x"),
                              m_sMsgToBeSent.m_unPGN,  MAX_LMT_FOR_PGN);
@@ -515,37 +473,28 @@ void CTxMsgWndJ1939::OnBnClickedSend()
 
             //Now send the message
             //Check for cyclic transmission
-            if (m_omCheckCyclic.GetCheck() == BST_CHECKED)
-            {
-                if((UINT)m_omMiliSecs.lGetValue() > defMAX_TIME_DELAY)
-                {
+            if (m_omCheckCyclic.GetCheck() == BST_CHECKED) {
+                if((UINT)m_omMiliSecs.lGetValue() > defMAX_TIME_DELAY) {
                     AfxMessageBox("Cyclic delay cannot be more than 60000 milliseconds");
                     return;
                 }
                 m_sMsgToBeSent.m_unTimerVal = (UINT)m_omMiliSecs.lGetValue();
                 vProcessTransmission(TRUE);
-                if (m_bThreadStarted == FALSE)
-                {
+                if (m_bThreadStarted == FALSE) {
                     m_sCyclicThread.m_pBuffer = this;
                     m_sCyclicThread.m_unActionCode = INVOKE_FUNCTION;
                     m_bThreadStarted = m_sCyclicThread.bStartThread(Cyclic_Transmission_Thread);
                     SetEvent(m_sCyclicThread.m_hActionEvent);
-                }
-                else
-                {
+                } else {
                     m_sCyclicThread.m_pBuffer = this;
                     m_sCyclicThread.m_unActionCode = INVOKE_FUNCTION;
                     SetEvent(m_sCyclicThread.m_hActionEvent);
                 }
-            }
-            else
-            {
+            } else {
                 vSetStatusBarText(""); //Clear status bar.
                 SendSavedMessage();
             }
-        }
-        else if (eGetTransState() == TRANS_STARTED)
-        {
+        } else if (eGetTransState() == TRANS_STARTED) {
             vSetTransState(TRANS_TO_BE_STOPPED);
             SetEvent(sg_hMsgSent);
             SetEvent(m_sCyclicThread.m_hActionEvent);
@@ -568,9 +517,7 @@ HRESULT CTxMsgWndJ1939::SendSavedMessage(void)
                   m_sMsgToBeSent.m_byPriority,
                   m_sMsgToBeSent.m_bySrc,
                   m_sMsgToBeSent.m_byDest);
-    }
-    if (m_sMsgToBeSent.m_eMsgType == MSG_TYPE_REQUEST)
-    {
+    } if (m_sMsgToBeSent.m_eMsgType == MSG_TYPE_REQUEST) {
         hResult = GetIJ1939DIL()->DILIJ_RequestPGN(m_sClientParams.m_dwClientId,
                   m_sMsgToBeSent.m_unChannel,
                   m_sMsgToBeSent.m_unPGN,
@@ -633,6 +580,7 @@ void CTxMsgWndJ1939::OnBnClickedRadioTpf()
     //Update according to the Msg type.
     OnCbnSelchangeComboMsgtype();
 }
+
 void CTxMsgWndJ1939::vEnableNmFields(BOOL bEnable)
 {
     /* Enable all the radio buttons */
@@ -644,6 +592,7 @@ void CTxMsgWndJ1939::vEnableNmFields(BOOL bEnable)
     GetDlgItem(IDC_EDIT_ECU_NAME)->EnableWindow(bEnable);
     GetDlgItem(IDC_EDIT_CA)->EnableWindow(bEnable);
 }
+
 void CTxMsgWndJ1939::vEnableTpfFields(BOOL bEnable)
 {
     m_omComboPGN.EnableWindow(bEnable);
@@ -654,6 +603,7 @@ void CTxMsgWndJ1939::vEnableTpfFields(BOOL bEnable)
     GetDlgItem(IDC_EDIT_DATA)->EnableWindow(bEnable);
     m_omComboChannel.EnableWindow(bEnable);
 }
+
 void CTxMsgWndJ1939::vInitializeTpfFields(void)
 {
     //Set the properties first
@@ -678,26 +628,13 @@ void CTxMsgWndJ1939::vInitializeTpfFields(void)
     //Initialize with default values
     LPARAM lParam;
     GetICANDIL()->DILC_GetControllerParams(lParam, 0, NUMBER_HW);
-    for (INT_PTR i = 0; i < lParam; i++)
-    {
+    for (INT_PTR i = 0; i < lParam; i++) {
         CString omChannel;
         omChannel.Format("%d", i + 1);
         m_omComboChannel.InsertString(i, omChannel);
     }
     m_omComboChannel.SetCurSel(0);
-    //Populate PGN combo box
-    //if ((m_psMsgRoot != nullptr) && (m_psMsgRoot->m_psMsg != nullptr))
-    //{
-    //    // If atleast one database message is present
-    //    m_CS_ConfigData.Lock();
-    //vPopulatePGNComboBox();
-    //m_omMsgTypeCombo.SetCurSel(0);
-    //}
-    //else
-    //{
-    //    m_omComboPGN.SetWindowText("0");
-    //    vVerifyPDUFormatInPGN(0);
-    //}
+
     //Calling this to update the message type combobox
     OnCbnSelchangeComboPgn();
     m_omMsgTypeCombo.SetCurSel(0);
@@ -705,16 +642,14 @@ void CTxMsgWndJ1939::vInitializeTpfFields(void)
     // Refreshing Msg type Combo for the selected PGN
     INT nCurrCursel = m_omComboPGN.GetCurSel();
 
-    if(nCurrCursel != -1)
-    {
+    if (nCurrCursel != -1) {
         CString omPGN;
         m_omComboPGN.GetLBText(nCurrCursel, omPGN);
         UINT unPGN = unGetMsgIDFromName(omPGN);
 
         vVerifyPDUFormatInPGN(unPGN);
 
-        if(m_omMsgTypeCombo.GetCount() > 0)
-        {
+        if (m_omMsgTypeCombo.GetCount() > 0) {
             m_omMsgTypeCombo.SetCurSel(0);
         }
     }
@@ -726,7 +661,6 @@ void CTxMsgWndJ1939::vInitializeTpfFields(void)
     m_omMsgDataEdit.vSetValue(0);
 
     UpdateData(TRUE);
-
 }
 
 /**
@@ -744,8 +678,7 @@ void CTxMsgWndJ1939::vUpdateChannelIDInfo()
     /* Update with latest channel info */
     LPARAM lParam;
     GetICANDIL()->DILC_GetControllerParams(lParam, 0, NUMBER_HW);
-    for (INT_PTR i = 0; i < lParam; i++)
-    {
+    for (INT_PTR i = 0; i < lParam; i++) {
         CString omChannel;
         omChannel.Format("%d", i + 1);
         m_omComboChannel.InsertString(i, omChannel);
@@ -788,6 +721,7 @@ void CTxMsgWndJ1939::vInitializeNmFields(void)
 
     UpdateData(TRUE);
 }
+
 void CTxMsgWndJ1939::OnClose()
 {
     ShowWindow(SW_HIDE);
@@ -830,10 +764,8 @@ void CTxMsgWndJ1939::OnBnClickedCmdAddress()
 void CTxMsgWndJ1939::OnCbnSelchangeComboMsgtype()
 {
     //Set From address field readonly
-    //m_omFromEdit.SetReadOnly(TRUE);
     m_nMsgTypeIndex = m_omMsgTypeCombo.GetCurSel();
-    switch (sg_asSupportedMsgType[m_nMsgTypeIndex].m_eType)
-    {
+    switch (sg_asSupportedMsgType[m_nMsgTypeIndex].m_eType) {
         case MSG_TYPE_REQUEST:
         {
             m_omDLCEdit.vSetValue(0x3);
@@ -860,10 +792,8 @@ void CTxMsgWndJ1939::OnCbnSelchangeComboMsgtype()
 
 void CTxMsgWndJ1939::OnEnChangeEditMilliSec()
 {
-    if (m_omCheckCyclic.GetCheck() == BST_CHECKED)
-    {
-        if((UINT)m_omMiliSecs.lGetValue() > defMAX_TIME_DELAY)
-        {
+    if (m_omCheckCyclic.GetCheck() == BST_CHECKED) {
+        if ((UINT)m_omMiliSecs.lGetValue() > defMAX_TIME_DELAY) {
             AfxMessageBox("Cyclic delay cannot be more than 60000 milliseconds");
             CString     omstrData;
             omstrData.Format("%d", (UINT)m_omMiliSecs.lGetValue()/10);
@@ -882,31 +812,28 @@ void CTxMsgWndJ1939::vSetJ1939ClientParam(SJ1939CLIENTPARAM& sClientParam)
 
 void CTxMsgWndJ1939::OnBnClickedCheckCyclic()
 {
-    if (m_omCheckCyclic.GetCheck() == BST_CHECKED)
-    {
+    if (m_omCheckCyclic.GetCheck() == BST_CHECKED) {
         m_omMiliSecs.EnableWindow(TRUE);
-    }
-    else
-    {
+    } else {
         m_omMiliSecs.EnableWindow(FALSE);
     }
-
 }
 
 ESTATE_TRANS CTxMsgWndJ1939::eGetTransState(void)
 {
     return m_eTransState;
 }
+
 void CTxMsgWndJ1939::vSetStatusBarText(const char* pacText)
 {
     CWnd* pWnd = GetDlgItem(IDC_STATUSBAR);
     pWnd->SetWindowText(pacText);
 }
+
 void CTxMsgWndJ1939::vSetTransState(ESTATE_TRANS eTransState)
 {
     m_eTransState = eTransState;
-    switch (m_eTransState)
-    {
+    switch (m_eTransState) {
         case TRANS_STARTED:
         {
             vSetStatusBarText(_("Transmission started..."));
@@ -938,12 +865,10 @@ void CTxMsgWndJ1939::vProcessTransmission(BOOL bStart)
 {
     m_CS_CyclicTrans.Lock();
 
-
     CString omWndText = bStart ? _("Stop") : _("Transmit");
     CButton* pButton = (CButton*)GetDlgItem(IDC_SEND);
     pButton->SetWindowText(omWndText);
-    if (bStart == TRUE)
-    {
+    if (bStart == TRUE) {
         GetDlgItem(IDC_RADIO_TPF)->EnableWindow(FALSE);
         GetDlgItem(IDC_RADIO_NM)->EnableWindow(FALSE);
         vEnableTpfFields(FALSE);
@@ -951,26 +876,20 @@ void CTxMsgWndJ1939::vProcessTransmission(BOOL bStart)
         m_omCheckCyclic.EnableWindow(FALSE);
         m_omMiliSecs.EnableWindow(FALSE);
         vSetTransState(TRANS_STARTED);
-    }
-    else
-    {
+    } else {
         //First set the event sg_hMsgStopped if it is waiting
         SetEvent(sg_hMsgStopped);
         GetDlgItem(IDC_RADIO_TPF)->EnableWindow(TRUE);
         GetDlgItem(IDC_RADIO_NM)->EnableWindow(TRUE);
         pButton = (CButton*)GetDlgItem(IDC_RADIO_TPF);
-        if (pButton->GetCheck() == BST_CHECKED)
-        {
+        if (pButton->GetCheck() == BST_CHECKED) {
             vEnableTpfFields(TRUE);
             vEnableNmFields(FALSE);
             m_omCheckCyclic.EnableWindow(TRUE);
-            if (m_omCheckCyclic.GetCheck() == BST_CHECKED)
-            {
+            if (m_omCheckCyclic.GetCheck() == BST_CHECKED) {
                 m_omMiliSecs.EnableWindow(TRUE);
             }
-        }
-        else
-        {
+        } else {
             vEnableTpfFields(FALSE);
             vEnableNmFields(TRUE);
             m_omCheckCyclic.EnableWindow(FALSE);
@@ -980,7 +899,6 @@ void CTxMsgWndJ1939::vProcessTransmission(BOOL bStart)
     }
 
     m_CS_CyclicTrans.Unlock();
-
 }
 
 LRESULT CTxMsgWndJ1939::OnMessageConnect(WPARAM wParam, LPARAM lParam)
@@ -988,23 +906,20 @@ LRESULT CTxMsgWndJ1939::OnMessageConnect(WPARAM wParam, LPARAM lParam)
     BOOL bConnect = (BOOL)wParam;
     BOOL bOnline = (BOOL)lParam;
     ResetEvent(sg_hMsgStopped); //For safety
-    if (bOnline == TRUE)
-    {
+    if (bOnline == TRUE) {
         GetIJ1939DIL()->DILIJ_SetCallBckFuncPtr(m_sClientParams.m_dwClientId, CLBCK_FN_LDATA_CONF, (void*)CallBackMsgSent);
         GetIJ1939DIL()->DILIJ_SetCallBckFuncPtr(m_sClientParams.m_dwClientId, CLBCK_FN_BC_LDATA_CONF, (void*)CallBackMsgSent);
     }
-    if (eGetTransState() == TRANS_STARTED)
-    {
+    if (eGetTransState() == TRANS_STARTED) {
         vSetTransState(TRANS_TO_BE_STOPPED);
         SetEvent(sg_hMsgSent);
-    }
-    if (eGetTransState() == TRANS_TO_BE_STOPPED)
-    {
+    } if (eGetTransState() == TRANS_TO_BE_STOPPED) {
         WaitForSingleObject(sg_hMsgStopped, m_sMsgToBeSent.m_unTimerVal * 2);
     }
     GetDlgItem(IDC_SEND)->EnableWindow(bConnect);
     return 0;
 }
+
 void CTxMsgWndJ1939::vSetDatabaseInfo( IBMNetWorkGetService* bmNetwork )
 {
     m_CS_ConfigData.Lock();
@@ -1016,68 +931,61 @@ void CTxMsgWndJ1939::vSetDatabaseInfo( IBMNetWorkGetService* bmNetwork )
 
     INT nCurrCursel = m_omComboPGN.GetCurSel();
 
-    if(nCurrCursel != -1)
-    {
+    if (nCurrCursel != -1) {
         CString omPGN;
         m_omComboPGN.GetLBText(nCurrCursel, omPGN);
         UINT unPGN = unGetMsgIDFromName(omPGN);
 
         vVerifyPDUFormatInPGN(unPGN);
 
-        if(m_omMsgTypeCombo.GetCount() > 0)
-        {
+        if (m_omMsgTypeCombo.GetCount() > 0) {
             m_omMsgTypeCombo.SetCurSel(0);
         }
     }
     m_CS_ConfigData.Unlock();
 }
+
 void CTxMsgWndJ1939::vUpdateDataStore(const SMSGENTRY* psMsgEntry)
 {
     // Clearing the message entries
     vClearDataStore();
     const SMSGENTRY* psTemp = psMsgEntry;
-    while (psTemp != nullptr)
-    {
+    while (psTemp != nullptr) {
         SMSGENTRY::bUpdateMsgList(m_psMsgRoot, psTemp->m_psMsg);
         psTemp = psTemp->m_psNext;
     }
 }
+
 void CTxMsgWndJ1939::vClearDataStore(void)
 {
     SMSGENTRY::vClearMsgList(m_psMsgRoot);
 }
+
 void CTxMsgWndJ1939::OnCbnSelchangeComboPgn()
 {
     //PGN value
     CString omPGN;
     INT nIndex = m_omComboPGN.GetCurSel();
-    if (nIndex != -1)
-    {
+    if (nIndex != -1) {
         m_omComboPGN.GetLBText(nIndex, omPGN);
         UINT unPGN = unGetMsgIDFromName(omPGN);
 
         vVerifyPDUFormatInPGN(unPGN);
 
-        /*sMESSAGE* psMsg = nullptr;
-        if (SMSGENTRY::bGetMsgPtrFromMsgId(m_psMsgRoot, unPGN, psMsg) == TRUE)*/
         IFrame* pFrame = nullptr;
         mBmNetwork->GetFrame(J1939, 0, unPGN, nullptr, &pFrame);
         {
-            if (pFrame != nullptr)
-            {
+            if (pFrame != nullptr) {
                 CANFrameProps ouFrameProps;
                 pFrame->GetProperties(ouFrameProps);
-                // m_omDLCEdit.vSetValue(psMsg->m_unMessageLength);
                 m_omDLCEdit.vSetValue(ouFrameProps.m_unMsgSize);
                 m_omTOEdit.vSetValue((BYTE)unPGN);
-                for (UINT i = 0; i < ouFrameProps.m_unMsgSize; i++)
-                {
+                for (UINT i = 0; i < ouFrameProps.m_unMsgSize; i++) {
                     m_omMsgDataEditVal += _("00");
                 }
                 CString omText;
                 m_omMsgDataEdit.GetWindowText(omText);
-                if (omText.IsEmpty() == TRUE)
-                {
+                if (omText.IsEmpty() == TRUE) {
                     m_omMsgDataEdit.vSetValue(0);
                     m_omMsgDataEdit.SetWindowText(m_omMsgDataEditVal);
 
@@ -1103,12 +1011,9 @@ void CTxMsgWndJ1939::OnCbnEditChangeComboPgn()
     sscanf((LPCTSTR)omPGN, "%04X", &unPGN);
 
     /* If its a valid PGN */
-    if ( omPGN.GetLength() > 2 )
-    {
+    if (omPGN.GetLength() > 2) {
         m_omTOEdit.vSetValue((BYTE)unPGN);
-    }
-    else
-    {
+    } else {
         m_omTOEdit.vSetValue(0);
     }
     /* Verify PGN and update message type accordingly */
@@ -1129,14 +1034,11 @@ void CTxMsgWndJ1939::vVerifyPDUFormatInPGN(UINT unPGN)
     int nPrevSel = m_omMsgTypeCombo.GetCurSel();
 
     //If 'PDU1 - Destination' is selected, message type can only be 'Request PGN' or 'Data'
-    if ( uPGN.m_sPGN.m_byPDU_Format < 240 )
-    {
+    if (uPGN.m_sPGN.m_byPDU_Format < 240) {
         sg_asSupportedMsgType[1].m_eType      = sg_asMsgType[1].m_eType;
         sg_asSupportedMsgType[1].m_omTypeName = _(sg_asMsgType[1].m_omTypeName.GetBuffer(0));
-    }
     //If 'PDU2 - Broadcast'  is selected, message type can only be 'Request PGN' or 'Broadcast'
-    else if ( uPGN.m_sPGN.m_byPDU_Format >= 240 && uPGN.m_sPGN.m_byPDU_Format <=255)
-    {
+    } else if (uPGN.m_sPGN.m_byPDU_Format >= 240 && uPGN.m_sPGN.m_byPDU_Format <=255) {
         sg_asSupportedMsgType[1].m_eType      = sg_asMsgType[2].m_eType;
         sg_asSupportedMsgType[1].m_omTypeName = _(sg_asMsgType[2].m_omTypeName.GetBuffer(0));
     }

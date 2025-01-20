@@ -225,15 +225,13 @@ void CChannelConfigurationDlg::OnBnClickedButtonFibexpath()
 {
     CFileDialog* pomFibexDlg = nullptr;
     std::string strWaitText;
-    if (m_eBusType == LIN)
-    {
+    if (m_eBusType == LIN) {
         pomFibexDlg = new CFileDialog(TRUE, ".xml", 0, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, "LDF Files (*.ldf)|*.ldf||", this);
         pomFibexDlg->m_ofn.lpstrTitle = "Select A LDF File";
         strWaitText = "Parsing LDF File. Please Wait...";
     }
 
-    if ((pomFibexDlg != nullptr) && (pomFibexDlg->DoModal() == IDOK))
-    {
+    if ((pomFibexDlg != nullptr) && (pomFibexDlg->DoModal() == IDOK)) {
         CString strPath = pomFibexDlg->GetPathName();
         std::list<ICluster*> ouClusterList;
         std::list<LinChannelParam> ouLinChannelParams;
@@ -243,35 +241,18 @@ void CChannelConfigurationDlg::OnBnClickedButtonFibexpath()
         int nCount = 0;
         ERRORCODE ecCode = m_pBmNetWork->GetChannelCount(m_eBusType, nCount);
 
-		/*ERRORCODE ecDBLoad = m_pBmNetWork->LoadDb(LIN, 0, (LPCSTR)strPath);
-
-		if (ecDBLoad == EC_SUCCESS)
-		{
-			m_pBmNetWork->GetDBServiceList(LIN, 0, ouClusterList);
-		}*/
-
         ecCode = m_pBmNetWork->ParseDbFile((LPCSTR)strPath, m_eBusType, ouClusterList);
-
-		////Load First Cluster Only
-		//if (ouClusterList.size() > 0)
-		//{
-		//	m_pBmNetWork->AddDBService(LIN, 0, *(ouClusterList.begin()));
-		//}
 
         ouWaitIndicator.CloseWindow();
         m_nCurrentChannel = m_ComboChannelSelect.GetCurSel();
 
-        if ((ecCode != EC_FAILURE) && (!ouClusterList.empty()))
-        {
+        if ((ecCode != EC_FAILURE) && (!ouClusterList.empty())) {
             m_omComboCluster.ResetContent();
-            //advance(itrChannelConfig, m_nCurrentChannel );
 
             {
                 m_ouCurrentChannelCluster = ouClusterList;
-                //m_ouLinChannelParams = ouLinChannelParams;
                 std::string strName;
-for (auto itrCluster : ouClusterList)
-                {
+                for (auto itrCluster : ouClusterList) {
                     itrCluster->GetName(strName);
                     std::string strFile;
                     itrCluster->GetDBFilePath(strFile);
@@ -279,27 +260,24 @@ for (auto itrCluster : ouClusterList)
                 }
                 m_omComboCluster.SetCurSel(0);
 
-                if (m_omComboCluster.GetCount() <= 1)
-                {
+                if (m_omComboCluster.GetCount() <= 1) {
                     m_omComboCluster.EnableWindow(FALSE);
                 }
                 nUpdateEcuList(0, 0);
                 nUpdateLinParams(0, 0);
                 m_strFibexFilePath = strPath;
             }
-        }
-        else
-        {
+        } else {
             MessageBox("Invalid Input File or Unsupported Version", "Error", MB_OK | MB_ICONERROR);
         }
         UpdateData(FALSE);
     }
 
 }
+
 void CChannelConfigurationDlg::OnBnClickedButtonLDFEditor()
 {
-    try
-    {
+    try {
         // Get the working directory
         char acPath[MAX_PATH] = "";
         GetModuleFileName(nullptr, acPath, MAX_PATH);
@@ -307,8 +285,7 @@ void CChannelConfigurationDlg::OnBnClickedButtonLDFEditor()
         CString strPath = acPath;
         strPath += "\\LDFEditor.exe";
 
-        if (PathFileExists(strPath) == TRUE)
-        {
+        if (PathFileExists(strPath) == TRUE) {
             // Launch the converter utility
             PROCESS_INFORMATION sProcessInfo;
             STARTUPINFO sStartInfo;
@@ -320,8 +297,7 @@ void CChannelConfigurationDlg::OnBnClickedButtonLDFEditor()
             int nSuccess = CreateProcess(strPath.GetBuffer(MAX_PATH), (LPSTR)strCmdline.c_str(),
                                          nullptr, nullptr, true, CREATE_NO_WINDOW, nullptr, nullptr,
                                          &sStartInfo, &sProcessInfo);
-            if (!nSuccess)
-            {
+            if (!nSuccess) {
                 AfxMessageBox("Unable to launch LDF Editor.", MB_ICONSTOP | MB_OK);
             }
         }
@@ -330,6 +306,7 @@ void CChannelConfigurationDlg::OnBnClickedButtonLDFEditor()
     {
     }
 }
+
 void CChannelConfigurationDlg::OnCbnSelchangeComboCluster()
 {
 }
@@ -338,8 +315,7 @@ void CChannelConfigurationDlg::OnCbnSelchangeComboProtocol()
 {
     int nSel = m_omComboLinProtocol.GetCurSel();
 
-    if (nSel >= 0)
-    {
+    if (nSel >= 0) {
         m_nLinBaudRate = sg_LINPROTOCOL_BAUD[nSel].m_nBaudRate;
         UpdateData(FALSE);
     }
@@ -350,15 +326,12 @@ void CChannelConfigurationDlg::OnCbnSelchangeComboKeySlotMode()
 {
     int nSel = m_ComboColdStartMode1.GetCurSel();
 
-    if (nSel == 1) // Key Slot Off
-    {
+    if (nSel == 1) {
         m_ComboKeySlot1.EnableWindow(FALSE);
         m_ComboKeySlotUsage1.EnableWindow(FALSE);
         m_ComboChannelMask1.EnableWindow(FALSE);
         m_LeadingColdStart.EnableWindow(FALSE);
-    }
-    else
-    {
+    } else {
         m_ComboKeySlot1.EnableWindow(TRUE);
         m_ComboKeySlotUsage1.EnableWindow(TRUE);
         m_ComboChannelMask1.EnableWindow(TRUE);
@@ -371,15 +344,12 @@ void CChannelConfigurationDlg::OnCbnSelchangeComboKeySlotMode1()
     // second key slot
     int nSel = m_ComboColdStartMode2.GetCurSel();
 
-    if (nSel == 1) // Key Slot Off
-    {
+    if (nSel == 1) {
         m_ComboKeySlot2.EnableWindow(FALSE);
         m_ComboKeySlotUsage2.EnableWindow(FALSE);
         m_ComboChannelMask2.EnableWindow(FALSE);
         m_LeadingColdStart1.EnableWindow(FALSE);
-    }
-    else
-    {
+    } else {
         m_ComboKeySlot2.EnableWindow(TRUE);
         m_ComboKeySlotUsage2.EnableWindow(TRUE);
         m_ComboChannelMask2.EnableWindow(TRUE);
@@ -392,20 +362,17 @@ void CChannelConfigurationDlg::OnCbnSelchangeComboChannel()
     //Update the selected channel Information
 
     INT nSelcetedIndex = m_ComboChannelSelect.GetCurSel();
-    if (m_nCurrentChannel == nSelcetedIndex)
-    {
+    if (m_nCurrentChannel == nSelcetedIndex) {
         return;
     }
     m_nCurrentChannel = nSelcetedIndex;
     m_ouCurrentChannelCluster.clear();
     m_omEcuList.DeleteAllItems();
-    if (nSelcetedIndex < m_nChannelConfigured)
-    {
+    if (nSelcetedIndex < m_nChannelConfigured) {
         ICluster* pCluster;
         std::string strFile;
         m_pBmNetWork->GetDBService(m_eBusType, nSelcetedIndex, 0, &pCluster);
-        if (nullptr != pCluster)
-        {
+        if (nullptr != pCluster) {
             std::string strName;
             pCluster->GetDBFilePath(strFile);
             pCluster->GetName(strName);
@@ -424,13 +391,11 @@ void CChannelConfigurationDlg::OnCbnSelchangeComboChannel()
 
             m_pBmNetWork->GetSimulatedEcuList(m_eBusType, nSelcetedIndex, ouSelectedEcus);
             INT nIndex = 0;
-for (auto itrEcu : ouEcuList)
-            {
+            for (auto itrEcu : ouEcuList) {
                 itrEcu->GetName(strName);
                 m_omEcuList.InsertItem(nIndex, strName.c_str());
                 m_omEcuList.SetItemData(nIndex, itrEcu->GetUniqueId());
-                if (bIsEcuSlected(ouSelectedEcus, itrEcu))
-                {
+                if (bIsEcuSlected(ouSelectedEcus, itrEcu)) {
                     m_omEcuList.SetCheck(nIndex);
                 }
             }
@@ -443,8 +408,7 @@ for (auto itrEcu : ouEcuList)
 
 int CChannelConfigurationDlg::nDisplayProtocolSettings(int nChannelIndex)
 {
-    if (m_eBusType == LIN)
-    {
+    if (m_eBusType == LIN) {
         ChannelSettings ouChannelSettings;
 
         m_pBmNetWork->GetChannelSettings(LIN, nChannelIndex, &ouChannelSettings);
@@ -460,17 +424,12 @@ int CChannelConfigurationDlg::nDisplayProtocolSettings(int nChannelIndex)
 
         m_nLinBaudRate = 19200;
         pomCombo->SetCurSel(0);
-        for (int i = 0; i < (sizeof(sg_LINPROTOCOL_BAUD) / sizeof(sg_LINPROTOCOL_BAUD[0])); i++)
-        {
-            if (ouLinParams.m_strProtocolVersion == sg_LINPROTOCOL_BAUD[i].m_strProtocol)
-            {
+        for (int i = 0; i < (sizeof(sg_LINPROTOCOL_BAUD) / sizeof(sg_LINPROTOCOL_BAUD[0])); i++) {
+            if (ouLinParams.m_strProtocolVersion == sg_LINPROTOCOL_BAUD[i].m_strProtocol) {
                 pomCombo->SetCurSel(i);
-                if (bOverrite == false)
-                {
+                if (bOverrite == false) {
                     m_nLinBaudRate = sg_LINPROTOCOL_BAUD[i].m_nBaudRate;
-                }
-                else
-                {
+                } else {
                     m_nLinBaudRate = ouLinParams.m_nBaudRate;
                 }
 
@@ -487,10 +446,8 @@ int CChannelConfigurationDlg::nDisplayProtocolSettings(int nChannelIndex)
 bool CChannelConfigurationDlg::bIsEcuSlected(std::list<IEcu*>& ouEcuList, IEcu* EcuName)
 {
     bool bFound = false;
-for (auto itrEcu : ouEcuList)
-    {
-        if (itrEcu->GetUniqueId() == EcuName->GetUniqueId())
-        {
+    for (auto itrEcu : ouEcuList) {
+        if (itrEcu->GetUniqueId() == EcuName->GetUniqueId()) {
             bFound = true;
         }
     }
@@ -507,8 +464,7 @@ INT CChannelConfigurationDlg::nUpdateEcuList(INT /* nChannelIndex */, INT nClust
     std::list<ICluster*>::iterator itrCluster = m_ouCurrentChannelCluster.begin();
     advance(itrCluster, nClusterIndex);
     std::string strName;
-    if (itrCluster != m_ouCurrentChannelCluster.end())
-    {
+    if (itrCluster != m_ouCurrentChannelCluster.end()) {
         m_omEcuList.DeleteAllItems();
         int i = 0;
         std::map<UID_ELEMENT, IElement*> ouEcuList;
@@ -516,8 +472,7 @@ INT CChannelConfigurationDlg::nUpdateEcuList(INT /* nChannelIndex */, INT nClust
 
         std::map<int, int> mapSlots;
 
-for (auto itrECU : ouEcuList)
-        {
+        for (auto itrECU : ouEcuList) {
             (itrECU).second->GetName(strName);
 
             m_omEcuList.InsertItem(i, strName.c_str());
@@ -527,15 +482,14 @@ for (auto itrECU : ouEcuList)
 
     return 0;
 }
+
 int CChannelConfigurationDlg::nSaveProtocolSettings(int /* nIndex */)
 {
     UpdateData(TRUE);
-    if (m_eBusType == LIN)
-    {
+    if (m_eBusType == LIN) {
         ChannelSettings ouChannelSettings;
         int nSel = ((CComboBox*)GetDlgItem(IDC_COMBO_LIN_PROTOCOL))->GetCurSel();
-        if (nSel >= 0)
-        {
+        if (nSel >= 0) {
 
             ouChannelSettings.m_ouLINSettings.m_strProtocolVersion = sg_LINPROTOCOL_BAUD[nSel].m_strProtocol;
             ouChannelSettings.m_ouLINSettings.m_nBaudRate = m_nLinBaudRate;
@@ -556,23 +510,20 @@ void vUpdateScheduleTableList(ChannelSettings& ouChannelSettings, unsigned int u
     ICluster* pCluster;
     pBMNetwork->GetDBService(LIN, unChannel, 0, &pCluster);
 
-    if (nullptr != pCluster)
-    {
+    if (nullptr != pCluster) {
         std::map<UID_ELEMENT, IElement*> mapScheduleTables;
         std::list<IScheduleTable*> lstScheduleTables;
 
         pCluster->GetElementList(eScheduleTableElement, mapScheduleTables);
 
-for (auto itrScheduleTable : mapScheduleTables)
-        {
+        for (auto itrScheduleTable : mapScheduleTables) {
             CSheduleTable ouScheduleTable;
             itrScheduleTable.second->GetName(ouScheduleTable.m_strTableName);
 
             ScheduleTableProps ouScheduleTableProps;
             ((IScheduleTable*)itrScheduleTable.second)->GetProperties(ouScheduleTableProps);
 
-for (auto itrSchedCmd : ouScheduleTableProps.m_ouCLINSheduleTableItem)
-            {
+            for (auto itrSchedCmd : ouScheduleTableProps.m_ouCLINSheduleTableItem) {
                 CScheduleCommands ouScheduleCmd;
                 ouScheduleCmd.m_eCommandType = vGetScheduleCommandType(itrSchedCmd.m_eDiagType);
 
@@ -581,8 +532,7 @@ for (auto itrSchedCmd : ouScheduleTableProps.m_ouCLINSheduleTableItem)
                 pCluster->GetElement(eFrameElement, itrSchedCmd.m_nFrameId, (IElement**)&pFrame);
                 pCluster->GetElement(eEcuElement, itrSchedCmd.m_nNode, (IElement**)&pECU);
 
-                if (nullptr != pFrame)
-                {
+                if (nullptr != pFrame) {
                     pFrame->GetName(ouScheduleCmd.m_strCommandName);
                     unsigned int unFrameId;
                     pFrame->GetFrameId(unFrameId);
@@ -590,8 +540,7 @@ for (auto itrSchedCmd : ouScheduleTableProps.m_ouCLINSheduleTableItem)
                     ouScheduleCmd.m_nId = unFrameId;
                 }
 
-                if (nullptr != pECU)
-                {
+                if (nullptr != pECU) {
                     pECU->GetName(ouScheduleCmd.m_strNodeName);
                 }
 
@@ -601,15 +550,13 @@ for (auto itrSchedCmd : ouScheduleTableProps.m_ouCLINSheduleTableItem)
                 ouScheduleTable.m_listCommands.push_back(ouScheduleCmd);
             }
             ouChannelSettings.m_ouLINSettings.ouLinParams.push_back(ouScheduleTable);
-            //lstScheduleTables.push_back((IScheduleTable*)itrScheduleTable.second);
         }
     }
 }
 
 eCommandType vGetScheduleCommandType(eDiagType oueDiagType)
 {
-    switch (oueDiagType)
-    {
+    switch (oueDiagType) {
         case eLIN_NORMAL_FRAME_ID:
             return COMMAND_UNCONDITIONAL;
             break;
@@ -661,27 +608,21 @@ eCommandType vGetScheduleCommandType(eDiagType oueDiagType)
 void CChannelConfigurationDlg::onBtnOk()
 {
     //Save Current Values to the old Channel
-    if (-1 != m_nCurrentChannel)
-    {		
+    if (-1 != m_nCurrentChannel) {		
 
         std::list<ICluster*>::iterator itFlexConfig = m_ouCurrentChannelCluster.begin();
-        if (itFlexConfig != m_ouCurrentChannelCluster.end())
-        {
+        if (itFlexConfig != m_ouCurrentChannelCluster.end()) {
             advance(itFlexConfig, m_omComboCluster.GetCurSel());
         }
-        if (itFlexConfig != m_ouCurrentChannelCluster.end())
-        {
+        if (itFlexConfig != m_ouCurrentChannelCluster.end()) {
 			std::string strCurrentDb = "";
 			(*itFlexConfig)->GetDBFilePath(strCurrentDb);
-			if (m_omStrPreviousDb != "" && strCurrentDb != m_omStrPreviousDb)
-			{
+			if (m_omStrPreviousDb != "" && strCurrentDb != m_omStrPreviousDb) {
 				m_pBmNetWork->DeleteDBService(LIN, m_nCurrentChannel, m_omStrPreviousDb);
 			}
 
-            if (m_nCurrentChannel < m_nChannelConfigured)
-            {
-				if (strCurrentDb != m_omStrPreviousDb)
-				{
+            if (m_nCurrentChannel < m_nChannelConfigured) {
+				if (strCurrentDb != m_omStrPreviousDb) {
 					//Load First Cluster Only
 					m_pBmNetWork->AddDBService(LIN, 0, (*itFlexConfig));
 				}
@@ -694,15 +635,12 @@ void CChannelConfigurationDlg::onBtnOk()
                 std::list<IEcu*> ouEcuList;
                 int nEcuCount = m_omEcuList.GetItemCount();
                 IElement* ouEcu;
-                for (int i = 0; i < nEcuCount; i++)
-                {
+                for (int i = 0; i < nEcuCount; i++) {
                     //For LIN ECU selection is not considered.
-                    if (m_omEcuList.GetCheck(i) == TRUE || LIN == m_eBusType)
-                    {
+                    if (m_omEcuList.GetCheck(i) == TRUE || LIN == m_eBusType) {
                         UID_ELEMENT uidElement = static_cast<UID_ELEMENT>(m_omEcuList.GetItemData(i));
                         (*itFlexConfig)->GetElement(eEcuElement, uidElement, &ouEcu);
-                        if (nullptr != ouEcu)
-                        {
+                        if (nullptr != ouEcu) {
                             ouEcuList.push_back((IEcu*)ouEcu);
                         }
                     }
@@ -710,7 +648,6 @@ void CChannelConfigurationDlg::onBtnOk()
 
                 m_pBmNetWork->SetSimulatedEcuList(m_eBusType, m_nCurrentChannel, ouEcuList);
 
-				
             }
         }
 
@@ -719,7 +656,6 @@ void CChannelConfigurationDlg::onBtnOk()
     }
     OnOK();
 }
-
 
 INT CChannelConfigurationDlg::GetCurrentChannel()
 {

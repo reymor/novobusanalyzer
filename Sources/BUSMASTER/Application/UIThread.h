@@ -22,7 +22,8 @@
  * This is the interface file for CNotificWnd class
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_UITHREAD_H_
+#define BUSMASTER_APPLICATION_UITHREAD_H_
 
 #include "NotificWnd.h"
 
@@ -33,10 +34,6 @@ protected:
     CUIThread();           // protected constructor used by dynamic creation
     CNotificWnd* m_podTraceWinObj;
 
-    // Attributes
-private:
-
-    // Operations
 public:
     BOOL bCreateTraceWindow(CMDIFrameWndEx*);
     void vUpdateWndCo_Ords(WINDOWPLACEMENT& wndPlacement, BOOL bLoadIntoTrace);
@@ -47,9 +44,6 @@ public:
     BOOL bIsTraceWindowVisible(void);
     HWND hGetHandleTraceWnd();
 
-    // Overrides
-    // ClassWizard generated virtual function overrides
-public:
     virtual BOOL InitInstance();
     virtual int ExitInstance();
 
@@ -65,3 +59,5 @@ protected:
 
     DECLARE_MESSAGE_MAP()
 };
+
+#endif // BUSMASTER_APPLICATION_UITHREAD_H_

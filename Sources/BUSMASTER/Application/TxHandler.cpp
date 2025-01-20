@@ -19,8 +19,10 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 #include "stdafx.h"
-#include ".\txhandler.h"
+#include "txhandler.h"
+
 #include <libxml\parser.h>
+
 //Function Pointer Declarations
 typedef HRESULT (*SETMSGPTRINDETAILSVIEW)(void* pMsgDB);
 typedef HRESULT (*SHOWCONFIGUREMSGWINDOW)(void* pParentWnd);
@@ -120,7 +122,6 @@ void CTxHandler::vInitializeFuncPtrs()
     pfStopTransmission              = nullptr;
     pfGetTxWndConfigData            = nullptr;
     pfSetTxWndConfigData            = nullptr;
-    //pfIsTxWndConfigChanged            = nullptr;
     pfSetTxStopFlag                 = nullptr;
     pfGetTxStopFlag                 = nullptr;
 }
@@ -152,7 +153,6 @@ void CTxHandler::vloadFuncPtrAddress()
     pfGetTxWndConfigData                = (GETTXWNDCONFIGDATAXML)GetProcAddress(m_hTxHandle, "TX_vGetTxWndConfigData");
     pfSetTxWndConfigData                = (SETTXWNDCONFIGDATA)GetProcAddress(m_hTxHandle, "TX_vSetTxWndConfigData");
     pfSetTxWndConfigDataXML             = (SETTXWNDCONFIGDATAXML)GetProcAddress(m_hTxHandle, "TX_vSetTxWndConfigDataXML");
-    //pfIsTxWndConfigChanged                = (ISTXWNDCONFIGCHANGED)GetProcAddress(m_hTxHandle, "TX_bIsTxWndConfigChanged");
     pfSetTxStopFlag                     = (SETTXSTOPFLAG)GetProcAddress(m_hTxHandle, "TX_vSetTxStopFlag");
     pfGetTxStopFlag                     = (GETTXSTOPFLAG)GetProcAddress(m_hTxHandle, "TX_bGetTxStopFlag");
     pfGetTxBlockCount                   = (GETTXBLOCKCOUNT)GetProcAddress(m_hTxHandle, "TX_unGetTxBlockCount");
@@ -426,8 +426,6 @@ void CTxHandler::vSetTxWndConfigData(xmlDocPtr pDoc)
 HRESULT CTxHandler::hIsTxWndConfigChanged()
 {
     HRESULT hResult = S_OK;
-    //if(pfIsTxWndConfigChanged != nullptr)
-    //  hResult = pfIsTxWndConfigChanged();
     return hResult;
 }
 

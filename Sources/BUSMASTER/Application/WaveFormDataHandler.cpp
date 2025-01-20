@@ -27,6 +27,7 @@
 #include "HashDefines.h"
 #include "include/Utils_macro.h"
 #include "Utility/XMLUtils.h"
+
 const BYTE WAVEFORM_DATA_HANDLER_VERSION = 0x1;
 
 CWaveFormDataHandler::CWaveFormDataHandler(void)

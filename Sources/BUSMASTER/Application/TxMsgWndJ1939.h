@@ -33,11 +33,13 @@
   Modified By   :
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
-#pragma once
+#ifndef BUSMASTER_APPLICATION_TXMSGWNDJ1939_H_
+#define BUSMASTER_APPLICATION_TXMSGWNDJ1939_H_
 
 #include "Utility/RadixEdit.h"
 #include "Datatypes/MsgSignal_Datatypes.h"
 #include "IBMNetWorkGetService.h"
+
 enum ESTATE_TRANS {
     TRANS_STOPPED = 0x0,
     TRANS_TO_BE_STOPPED,
@@ -147,3 +149,5 @@ public:
     afx_msg void OnCbnSelchangeComboPgn();
     afx_msg void OnCbnEditChangeComboPgn();
 };
+
+#endif // BUSMASTER_APPLICATION_TXMSGWNDJ1939_H_

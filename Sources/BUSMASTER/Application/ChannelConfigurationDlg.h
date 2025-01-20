@@ -13,7 +13,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_CHANNELCONFIGURATIONDLG_H_
+#define BUSMASTER_APPLICATION_CHANNELCONFIGURATIONDLG_H_
+
 #include "resource.h"
 #include "IBMNetWorkService.h"
 #include "BusMasterNetWork.h"
@@ -35,7 +37,7 @@ public:
     IBMNetWorkService* m_pBmNetWork;
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);
     virtual BOOL OnInitDialog();
     DECLARE_MESSAGE_MAP()
 
@@ -88,3 +90,5 @@ private:
     int nSaveProtocolSettings(int nIndex);
     int nUpdateEcuList(INT /* nChannelIndex */, INT nClusterIndex);
 };
+
+#endif // BUSMASTER_APPLICATION_CHANNELCONFIGURATIONDLG_H_

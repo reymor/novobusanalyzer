@@ -4,6 +4,7 @@
 #include "CANSignalExtractor.h"
 #include "CANDefines.h"
 #include "ClientManager.h"
+
 #define DEF_MINIMUM_TOKENS		6
 #define	DEF_SIGNAL_VARIABLE		"SIGNAL"
 #define	DEF_CHANNEL_VARIABLE	"CHANNEL"
@@ -16,8 +17,7 @@ bool operator==(const VariableChangeListnerInfo& lhs, const VariableChangeListne
 int ClientManager::AddListner(unsigned int canId, unsigned int channel, std::string variableName, VariableChangeListnerInfo listner, IFrame* frame)
 {
 	bool clientFound = false;
-	for (auto &client : mClientList)
-	{
+	for (auto &client : mClientList) {
 		if (client.mCanId == canId && client.mChannel == channel)
 		{
 			client.mFrame = frame;
@@ -25,8 +25,7 @@ int ClientManager::AddListner(unsigned int canId, unsigned int channel, std::str
 			clientFound = true;
 		}
 	}
-	if (clientFound == false)
-	{
+	if (clientFound == false) {
 		FrameClient newClient;
 		newClient.mCanId = canId;
 		newClient.mChannel = channel;
@@ -37,13 +36,11 @@ int ClientManager::AddListner(unsigned int canId, unsigned int channel, std::str
 	}
     return clientFound;
 }
+
 int ClientManager::RemoveListner(unsigned int canId, unsigned int channel, std::string variableName, VariableChangeListnerInfo listner)
 {
-	//Client* reqClient = nullptr;
-	for (auto &client : mClientList)
-	{
-		if (client.mCanId == canId && client.mChannel == channel)
-		{
+	for (auto &client : mClientList) {
+		if (client.mCanId == canId && client.mChannel == channel) {
             client.RemoveLister(variableName, listner);
 			return S_OK;
 		}
@@ -58,8 +55,7 @@ void ClientManager::Clear()
 
 void ClientManager::HandleImportInstruments()
 {
-	for (auto &client : mClientList)
-	{
+	for (auto &client : mClientList) {
 		client.HandleImportInstruments();
 		break;
 	}
@@ -67,10 +63,8 @@ void ClientManager::HandleImportInstruments()
 
 int ClientManager::NotifyVariableChange(const STCAN_MSG& canMsg)
 {
-	for (auto& client : mClientList)
-	{
-		if (client.mCanId == canMsg.m_unMsgID && client.mChannel == canMsg.m_ucChannel-1)
-		{
+	for (auto& client : mClientList) {
+		if (client.mCanId == canMsg.m_unMsgID && client.mChannel == canMsg.m_ucChannel - 1) {
 			client.NotifyVariableChange(canMsg);
 			return S_OK;
 		}
@@ -80,11 +74,8 @@ int ClientManager::NotifyVariableChange(const STCAN_MSG& canMsg)
 
 int ClientManager::NotifyVariableChange(const STLIN_MSG& canMsg)
 {
-	for (auto& client : mClientList)
-	{
-		if (client.mCanId == canMsg.m_ucMsgID && client.mChannel == canMsg.m_ucChannel - 1
-			&& canMsg.m_ucMsgTyp == 1)
-		{
+	for (auto& client : mClientList) {
+		if (client.mCanId == canMsg.m_ucMsgID && client.mChannel == canMsg.m_ucChannel - 1 && canMsg.m_ucMsgTyp == 1) {
 			client.NotifyVariableChange(canMsg);
 			return S_OK;
 		}
@@ -95,24 +86,21 @@ int ClientManager::NotifyVariableChange(const STLIN_MSG& canMsg)
 int FrameClient::AddLister(std::string variableName, VariableChangeListnerInfo listner)
 {
 	auto existingListner = mSignalNameListnerList.find(variableName);
-	if (existingListner == mSignalNameListnerList.end())
-	{
+	if (existingListner == mSignalNameListnerList.end()) {
 		std::list<VariableChangeListnerInfo > listnerList;
 		listnerList.push_back(listner);
 		mSignalNameListnerList[variableName] = listnerList;
-	}
-	else
-	{
+	} else {
 		existingListner->second.push_back(listner);
 	}
 	m_mapPreviousSignalData.clear(); // Clear the map so that the other instruments gets the value updated
 	return S_OK;
 }
+
 int FrameClient::RemoveLister(std::string variableName, VariableChangeListnerInfo listner)
 {
 	auto existingListner = mSignalNameListnerList.find(variableName);
-	if (existingListner != mSignalNameListnerList.end())
-	{
+	if (existingListner != mSignalNameListnerList.end()) {
 		existingListner->second.remove(listner);
 		m_mapPreviousSignalData.clear(); // Clear the map so that the other instruments gets the value updated
 		return S_OK;
@@ -128,55 +116,39 @@ void FrameClient::HandleImportInstruments()
 int FrameClient::NotifyVariableChange(const STCAN_MSG& canMsg)
 {
 	VariableData data;
-	
-	if (nullptr != mFrame)
-	{
+	if (nullptr != mFrame) {
 		std::vector<SignalValue> signalList;
 		mFrame->InterpretSignals(canMsg.m_ucData, canMsg.m_ucDataLen, signalList);
-		for (auto& interPretedSignal : signalList)
-		{
+		for (auto& interPretedSignal : signalList) {
 			auto &clientList = mSignalNameListnerList.find(interPretedSignal.mName);
-			if (clientList != mSignalNameListnerList.end())
-			{
-				if (interPretedSignal.mIsSigned == true)
-				{
+			if (clientList != mSignalNameListnerList.end()) {
+				if (interPretedSignal.mIsSigned == true) {
 					data.mValue.mRawValueType = Long;
 					data.mValue.LongValue = interPretedSignal.mValue;
-				}
-				else
-				{
+				} else {
 					data.mValue.mRawValueType = Ulong;
 					data.mValue.ULongValue = interPretedSignal.mUnValue;
 				}
 				data.mPhysicalValue = interPretedSignal.mPhyicalValue;
 				
-				for (auto &client : clientList->second)
-				{
+				for (auto &client : clientList->second) {
 					data.mVariablePath = client.mRegVariablePath;
-					if (nullptr != client.mListner)
-					{						
+					if (nullptr != client.mListner) {
 						bool bValueChanged = true;
 						std::map<std::string, SignalValue>::iterator itr = m_mapPreviousSignalData.find(data.mVariablePath);
-						if (itr != m_mapPreviousSignalData.end())
-						{
-							if (itr->second.mIsSigned == true)
-							{
-								if (itr->second.mValue == interPretedSignal.mValue)
-								{
+						if (itr != m_mapPreviousSignalData.end()) {
+							if (itr->second.mIsSigned == true) {
+								if (itr->second.mValue == interPretedSignal.mValue) {
 									bValueChanged = false;
 								}
-							}
-							else
-							{
-								if (itr->second.mUnValue == interPretedSignal.mUnValue)
-								{
+							} else {
+								if (itr->second.mUnValue == interPretedSignal.mUnValue) {
 									bValueChanged = false;
 								}
 							}
 						}
 
-						if (true == bValueChanged)
-						{
+						if (true == bValueChanged) {
 							client.mListner->OnVariableChange(&data);
 							m_mapPreviousSignalData[data.mVariablePath] = interPretedSignal;
 						}
@@ -193,54 +165,39 @@ int FrameClient::NotifyVariableChange(const STLIN_MSG& canMsg)
 {
 	VariableData data;
 
-	if (nullptr != mFrame)
-	{
+	if (nullptr != mFrame) {
 		std::vector<SignalValue> signalList;
 		mFrame->InterpretSignals(canMsg.m_ucData, canMsg.m_ucDataLen, signalList);
-		for (auto& interPretedSignal : signalList)
-		{
+		for (auto& interPretedSignal : signalList) {
 			auto &clientList = mSignalNameListnerList.find(interPretedSignal.mName);
-			if (clientList != mSignalNameListnerList.end())
-			{
-				if (interPretedSignal.mIsSigned == true)
-				{
+			if (clientList != mSignalNameListnerList.end()) {
+				if (interPretedSignal.mIsSigned == true) {
 					data.mValue.mRawValueType = Long;
 					data.mValue.LongValue = interPretedSignal.mValue;
-				}
-				else
-				{
+				} else {
 					data.mValue.mRawValueType = Ulong;
 					data.mValue.ULongValue = interPretedSignal.mUnValue;
 				}
 				data.mPhysicalValue = interPretedSignal.mPhyicalValue;
 
-				for (auto &client : clientList->second)
-				{
+				for (auto &client : clientList->second) {
 					data.mVariablePath = client.mRegVariablePath;
-					if (nullptr != client.mListner)
-					{
+					if (nullptr != client.mListner) {
 						bool bValueChanged = true;
 						std::map<std::string, SignalValue>::iterator itr = m_mapPreviousSignalData.find(data.mVariablePath);
-						if (itr != m_mapPreviousSignalData.end())
-						{
-							if (itr->second.mIsSigned == true)
-							{
-								if (itr->second.mValue == interPretedSignal.mValue)
-								{
+						if (itr != m_mapPreviousSignalData.end()) {
+							if (itr->second.mIsSigned == true) {
+								if (itr->second.mValue == interPretedSignal.mValue) {
 									bValueChanged = false;
 								}
-							}
-							else
-							{
-								if (itr->second.mUnValue == interPretedSignal.mUnValue)
-								{
+							} else {
+								if (itr->second.mUnValue == interPretedSignal.mUnValue) {
 									bValueChanged = false;
 								}
 							}
 						}
 
-						if (true == bValueChanged)
-						{
+						if (true == bValueChanged) {
 							client.mListner->OnVariableChange(&data);
 							m_mapPreviousSignalData[data.mVariablePath] = interPretedSignal;
 						}

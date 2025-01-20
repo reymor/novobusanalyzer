@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_CFILESDEFS_CAN_H_
+#define BUSMASTER_APPLICATION_CFILESDEFS_CAN_H_
 
 #define STRUCT_FILE                    "CANIncludes.h"
 #define MSG_STRUCT_NAME                "STCAN_MSG";
@@ -34,8 +35,7 @@
 #define TOTAL_API_COUNT_LIN            8
 #define TOTAL_ERROR_COUNT              5
 
-static const CString sg_omAPIFuncList[TOTAL_API_COUNT] =
-{
+static const CString sg_omAPIFuncList[TOTAL_API_COUNT] = {
     "UINT EnableLogging()",
     "UINT DisableLogging()",
     "UINT WriteToLogFile(char*)",
@@ -52,8 +52,7 @@ static const CString sg_omAPIFuncList[TOTAL_API_COUNT] =
     "UINT Trace(char*, ...)"
 };
 
-static const CString sg_omAPIFuncNames[TOTAL_API_COUNT] =
-{
+static const CString sg_omAPIFuncNames[TOTAL_API_COUNT] = {
     "EnableLogging",
     "DisableLogging",
     "WriteToLogFile",
@@ -70,8 +69,7 @@ static const CString sg_omAPIFuncNames[TOTAL_API_COUNT] =
     "Trace"
 };
 
-static const CString sg_omAPIFuncListLIN[TOTAL_API_COUNT_LIN] =
-{
+static const CString sg_omAPIFuncListLIN[TOTAL_API_COUNT_LIN] = {
     "UINT Connect(DWORD)",
     "UINT Disconnect(DWORD)",
     "UINT StartTimer(char*, UINT)",
@@ -82,8 +80,7 @@ static const CString sg_omAPIFuncListLIN[TOTAL_API_COUNT_LIN] =
     "UINT Trace(char*, ...)"
 };
 
-static const CString sg_omAPIFuncNamesLIN[TOTAL_API_COUNT_LIN] =
-{
+static const CString sg_omAPIFuncNamesLIN[TOTAL_API_COUNT_LIN] = {
     "Connect",
     "Disconnect",
     "StartTimer",
@@ -95,8 +92,7 @@ static const CString sg_omAPIFuncNamesLIN[TOTAL_API_COUNT_LIN] =
 };
 
 #define TOTAL_API_COUNT_J1939 18
-static const CString sg_omAPIFuncListJ1939[TOTAL_API_COUNT_J1939] =
-{
+static const CString sg_omAPIFuncListJ1939[TOTAL_API_COUNT_J1939] = {
     "UINT EnableLogging()",
     "UINT DisableLogging()",
     "UINT WriteToLogFile(char*)",
@@ -117,8 +113,7 @@ static const CString sg_omAPIFuncListJ1939[TOTAL_API_COUNT_J1939] =
     "UINT Trace(char*, ...)"
 };
 
-static const CString sg_omAPIFuncNamesJ1939[TOTAL_API_COUNT_J1939] =
-{
+static const CString sg_omAPIFuncNamesJ1939[TOTAL_API_COUNT_J1939] = {
     "EnableLogging",
     "DisableLogging",
     "WriteToLogFile",
@@ -139,5 +134,12 @@ static const CString sg_omAPIFuncNamesJ1939[TOTAL_API_COUNT_J1939] =
     "Trace"
 };
 
+static const CString sg_omMcNetErrorHandlerList[TOTAL_ERROR_COUNT] = {
+    "Error Active",
+    "Error Passive",
+    "Warning Limit",
+    "Bus Off",
+    "Error Frame"
+};
 
-static const CString sg_omMcNetErrorHandlerList[TOTAL_ERROR_COUNT] = {"Error Active", "Error Passive", "Warning Limit", "Bus Off", "Error Frame"};
+#endif // BUSMASTER_APPLICATION_CFILESDEFS_CAN_H_

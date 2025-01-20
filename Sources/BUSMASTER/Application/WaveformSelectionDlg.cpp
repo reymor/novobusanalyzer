@@ -31,11 +31,10 @@
 #include "CSignalGeneration.h"
 #include "Utility/WaitIndicator.h"
 #include "SignalDefiner/SignalDefiner_Extern.h"
-#include "Utility\MultiLanguageSupport.h"
+#include "Utility/MultiLanguageSupport.h"
+
 /////////////////////////////////////////////////////////////////////////////
 // CWaveformSelectionDlg dialog
-
-
 CWaveformSelectionDlg::CWaveformSelectionDlg(CWnd* pParent, CWaveFormDataHandler* pWaveDataHandler, UINT nHardware)
     : CDialog(CWaveformSelectionDlg::IDD, pParent)
     , m_fDefAmplitude(0)
@@ -121,10 +120,7 @@ BOOL CWaveformSelectionDlg::OnInitDialog()
     // Set the same image list to this control
     m_omListCtrlSignalWatch.SetImageList(&m_omImageList,LVSIL_SMALL);
     // Create Column for Signal Watch Lsit
-    m_omListCtrlSignalWatch.InsertColumn( 0,
-                                          "",
-                                          LVCFMT_LEFT,
-                                          0);//Width is zero as this will
+    m_omListCtrlSignalWatch.InsertColumn(0, "", LVCFMT_LEFT, 0);//Width is zero as this will
     //be updated in vPopulateSelSubEntryList
     vPopulateSelSubEntryList();
     vEnableDisableButtons();
@@ -281,7 +277,7 @@ void CWaveformSelectionDlg::OnBtnAddSubEntries()
     sWaveformInfo objWaveInfo;
     m_pWaveDataHandler->vGetDefaultSignalWaveValues(objWaveInfo);
     DefineUpdateWave(&m_omListCtrlSignal, unGetSelectedMainEntryID(),
-                     m_omListCtrlSignal.GetItemText(m_omListCtrlSignal.GetSelectionMark() , 0),
+                     m_omListCtrlSignal.GetItemText(m_omListCtrlSignal.GetSelectionMark(), 0),
                      objWaveInfo);
     vPopulateUnSelSubEntryList(unGetSelectedMainEntryID());
     vPopulateSelSubEntryList();
@@ -318,7 +314,7 @@ void CWaveformSelectionDlg::DefineUpdateWave(CListCtrl* pListCtrl, UINT nMsgID,
         SignalDefiner_SetSamplingTimePeriod(m_pWaveDataHandler->shGetSamplingTimePeriod());
         SignalDefiner_SetAutoCorrect(m_pWaveDataHandler->m_bSignalDefinerAutoCorrect);
 
-        if ( SignalDefiner_ShowDlg() == IDOK ) {
+        if (SignalDefiner_ShowDlg() == IDOK) {
             SIGNAL_TYPE enSelSignalType;
             SignalDefiner_GetType(&enSelSignalType);
             objWaveInfo.m_eSignalWaveType = (eWAVEFORMTYPE)enSelSignalType;
