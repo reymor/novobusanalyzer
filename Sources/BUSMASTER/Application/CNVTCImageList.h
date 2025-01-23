@@ -22,13 +22,12 @@
  * CNVTCImageList class interface.
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_CNVTCIMAGELIST_H_
+#define BUSMASTER_APPLICATION_CNVTCIMAGELIST_H_
 
 #include <afxcmn.h>
 
-class CNVTCImageList
-    : public CImageList
-{
+class CNVTCImageList : public CImageList {
 public:
     BOOL bCreateCNVTC(UINT nTBID, int nCX, int nCY, COLORREF clrMask);
     BOOL bCreateCNVTC(UINT nTBID, int nCX, int nCY);
@@ -37,10 +36,11 @@ public:
     BOOL bCreateCNVTC(UINT nTBID, COLORREF clrMask);
     BOOL bCreateCNVTC(UINT nTBID);
 
-public:
     CNVTCImageList();
     virtual ~CNVTCImageList();
 private:
     HMODULE m_hModAdvancedUILib;
     bool    m_bUseAdvancedUILib;
 };
+
+#endif // BUSMASTER_APPLICATION_CNVTCIMAGELIST_H_

@@ -18,8 +18,7 @@ int ClientManager::AddListner(unsigned int canId, unsigned int channel, std::str
 {
 	bool clientFound = false;
 	for (auto &client : mClientList) {
-		if (client.mCanId == canId && client.mChannel == channel)
-		{
+		if (client.mCanId == canId && client.mChannel == channel) {
 			client.mFrame = frame;
 			client.AddLister(variableName, listner);			
 			clientFound = true;

@@ -26,18 +26,17 @@ bool CANSignalExtractor::bIsVariableExists(std::string variablePath)
 {
 	std::vector<std::string> variableList;
 	tokenize(variablePath, DEF_VARIABLE_PATH_SEPERATOR, variableList);
-	if (isValidVaraiables(variableList) == false)
-	{
+	if (isValidVaraiables(variableList) == false) {
 		return false;
 	}
 
 	unsigned int msgId;
 	unsigned int channelIndex;
 	IFrame* frame;
-	if (getMessageInfo(variableList, msgId, channelIndex, &frame) == true)
-	{
+	if (getMessageInfo(variableList, msgId, channelIndex, &frame) == true) {
 		return true;
 	}
+
 	return false;
 }
 
@@ -47,8 +46,7 @@ int CANSignalExtractor::isSignalValueValid(std::string &variablePath, double& ph
 	tokenize(variablePath, DEF_VARIABLE_PATH_SEPERATOR, variableList);
 
 
-	if (isValidVaraiables(variableList) == false)
-	{
+	if (isValidVaraiables(variableList) == false) {
 		return false;
 	}
 
@@ -56,11 +54,9 @@ int CANSignalExtractor::isSignalValueValid(std::string &variablePath, double& ph
 	unsigned int channelIndex;
 	unsigned __int64 unI64RawValue;
 	IFrame* frame;
-	if (getMessageInfo(variableList, msgId, channelIndex, &frame) == true)
-	{
+	if (getMessageInfo(variableList, msgId, channelIndex, &frame) == true) {
 		auto signalInfo = GetSignal(frame, variableList[5]);
-		if (nullptr != signalInfo.first)
-		{
+		if (nullptr != signalInfo.first) {
 			signalInfo.first->GetRawValueFromEng(physical, unI64RawValue);			
 			signalInfo.first->GetEnggValueFromRaw(unI64RawValue, physical);		
 
@@ -72,30 +68,30 @@ int CANSignalExtractor::isSignalValueValid(std::string &variablePath, double& ph
 
 	return 0;
 }
+
 int CANSignalExtractor::getVariableType(std::string &variablePath, unsigned int& unType)
 {
 	std::vector<std::string> variableList;
 	tokenize(variablePath, DEF_VARIABLE_PATH_SEPERATOR, variableList);
 
 
-	if (isValidVaraiables(variableList) == false)
-	{
+	if (isValidVaraiables(variableList) == false) {
 		return false;
 	}
 
 	unsigned int msgId;
 	unsigned int channelIndex;
 	IFrame* frame;
-	if (getMessageInfo(variableList, msgId, channelIndex, &frame) == true)
-	{
+
+	if (getMessageInfo(variableList, msgId, channelIndex, &frame) == true) {
 		auto signalInfo = GetSignal(frame, variableList[5]);
-		if (nullptr != signalInfo.first)
-		{
+		if (nullptr != signalInfo.first) {
 			eSignalDataType eDataType;
 			signalInfo.first->GetDataType(eDataType);
 			unType = (unsigned int)eDataType;
 		}
 	}
+
 	return false;
 }
 
@@ -105,8 +101,7 @@ int CANSignalExtractor::registerVariable(std::string& variablePath, VariableMana
 	tokenize(variablePath, DEF_VARIABLE_PATH_SEPERATOR, variableList);
 	
 
-	if (isValidVaraiables(variableList) == false)
-	{
+	if (isValidVaraiables(variableList) == false) {
 		return false;
 	}
 
@@ -116,17 +111,16 @@ int CANSignalExtractor::registerVariable(std::string& variablePath, VariableMana
 
 	mRegisterVariables.push_back(listnerInfo);
 
-
 	unsigned int msgId;
 	unsigned int channelIndex;
 	IFrame* frame;
-	if (getMessageInfo(variableList, msgId, channelIndex, &frame) == true)
-	{
+	if (getMessageInfo(variableList, msgId, channelIndex, &frame) == true) {
 		VariableChangeListnerInfo listnerInfo;
 		listnerInfo.mListner = listner;
 		listnerInfo.mRegVariablePath = variablePath;
 		return mClientManager.AddListner(msgId, channelIndex, variableList[5], listnerInfo, frame);
 	}
+
 	return false;
 }
 int CANSignalExtractor::unRegisterVariable(std::string& variablePath, VariableManager::IVariableChangeListner* listner)
@@ -141,18 +135,19 @@ int CANSignalExtractor::unRegisterVariable(std::string& variablePath, VariableMa
 	mRegisterVariables.remove(listnerInfo);
 
 
-	if (isValidVaraiables(variableList) == false)
-	{
+	if (isValidVaraiables(variableList) == false) {
 		return S_FALSE;
 	}
+
 	unsigned int msgId;
 	unsigned int channelIndex;
 	IFrame* frame;
-	if (getMessageInfo(variableList, msgId, channelIndex, &frame) == true)
-	{
+
+	if (getMessageInfo(variableList, msgId, channelIndex, &frame) == true) {
 		
 		return mClientManager.RemoveListner(msgId, channelIndex, variableList[5], listnerInfo);
 	}
+
 	return S_FALSE;
 }
 
@@ -161,9 +156,7 @@ int CANSignalExtractor::setVariableValue(VariableData* value, bool isPhysicalVal
 	std::vector<std::string> variableList;
 	tokenize(value->mVariablePath, DEF_VARIABLE_PATH_SEPERATOR, variableList);
 
-
-	if (isValidVaraiables(variableList) == false)
-	{
+	if (isValidVaraiables(variableList) == false) {
 		return S_FALSE;
 	}
 
@@ -173,78 +166,63 @@ int CANSignalExtractor::setVariableValue(VariableData* value, bool isPhysicalVal
 	unsigned char *data;
 	//memset(data, 0, sizeof(data));
 	IFrame* frame;
-	if (getMessageInfo(variableList, msgId, channelIndex, &frame) == true)
-	{
+	if (getMessageInfo(variableList, msgId, channelIndex, &frame) == true) {
 		auto existingData = mPreviousData[channelIndex].find(msgId);
-		if (existingData != mPreviousData[channelIndex].end())
-		{
+		if (existingData != mPreviousData[channelIndex].end()) {
 			data = existingData->second;
-		}
-		else
-		{
+		} else {
 			data = new unsigned char[64];
 			memset(data, 0, 64);
 			mPreviousData[channelIndex][msgId] = data;
 		}
 		auto signalInfo = GetSignal(frame, variableList[5]);
-		if (nullptr != signalInfo.first)
-		{
+		if (nullptr != signalInfo.first) {
 			signalInfo.first->GetLength(length);
-			if (false == isPhysicalValue)
-			{
-				if (value->mValue.mRawValueType == VariableRawValueType::Long)
-				{
+			if (false == isPhysicalValue) {
+				if (value->mValue.mRawValueType == VariableRawValueType::Long) {
 					vGetDataBytesFromSignal(value->mValue.LongValue, signalInfo.second.m_nStartBit, signalInfo.second.m_ouSignalEndianess, length, data, 64);
-				}
-				else
-				{
+				} else {
 					vGetDataBytesFromSignal(value->mValue.ULongValue, signalInfo.second.m_nStartBit, signalInfo.second.m_ouSignalEndianess, length, data, 64);
 				}
-			}
-			else
-			{
+			} else {
 				unsigned long long rawValue;
 				signalInfo.first->GetRawValueFromEng(value->mPhysicalValue, rawValue);
 				vGetDataBytesFromSignal(rawValue, signalInfo.second.m_nStartBit, signalInfo.second.m_ouSignalEndianess, length, data, 64);
 			}
-			if (nullptr != mCanService)
-			{
+			if (nullptr != mCanService) {
 				sendMessage(frame, channelIndex, data, 64);
 			}
 		}
 	}
 	return S_OK;
 }
+
 int CANSignalExtractor::onMessageRecieved(STCANDATA& canData)
 {
-	if (canData.m_ucDataType != ERR_FLAG)
-	{
+	if (canData.m_ucDataType != ERR_FLAG) {
 		mClientManager.NotifyVariableChange(canData.m_uDataInfo.m_sCANMsg);
 	}
+
 	return S_OK;
 }
+
 void CANSignalExtractor::setCANService(CBaseDIL_CAN* canService, int clientid)
 {
 	mCanService = canService;
 	mClientId = clientid;
 }
+
 bool CANSignalExtractor::onDatabaseChanged(ETYPE_BUS bus, const std::string& filePath, const std::string& channel, bool bAdded)
 {
-    if (bus == ETYPE_BUS::CAN && bAdded == false)
-    {
-        //mClientManager.Clear();
-    }
     return true;
 }
 
 void CANSignalExtractor::handleBusEvent(Event_Bus_Staus busEvent)
 {
-	if (busEvent.mBus != ETYPE_BUS::CAN)
-	{
+	if (busEvent.mBus != ETYPE_BUS::CAN) {
 		return;
 	}
-	switch (busEvent.mEventType)
-	{
+	switch (busEvent.mEventType) {
 	case ON_CONNECT:
 		break;
 	case ON_PRE_CONNECT:
@@ -256,30 +234,29 @@ void CANSignalExtractor::handleBusEvent(Event_Bus_Staus busEvent)
 		break;
 	}
 }
+
 void CANSignalExtractor::handleBusDisconnect()
 {
-	for (int i = 0; i < defCHANNEL_CAN_MAX; i++)
-	{
-		for (auto &itr : mPreviousData[i])
-		{
-			if (nullptr != itr.second)
-			{
+	for (int i = 0; i < defCHANNEL_CAN_MAX; i++) {
+		for (auto &itr : mPreviousData[i]) {
+			if (nullptr != itr.second) {
 				delete itr.second;
 			}
 		}
 		mPreviousData[i].clear();
 	}
 }
+
 bool CANSignalExtractor::isValidVaraiables(std::vector<std::string>& variableList)
 {
-	if (variableList.size() < DEF_MINIMUM_TOKENS)
-	{
+	if (variableList.size() < DEF_MINIMUM_TOKENS) {
 		return false;
 	}
-	if (!(variableList[0] == DEF_SIGNAL_VARIABLE && variableList[1] == "CAN"))
-	{
+
+	if (!(variableList[0] == DEF_SIGNAL_VARIABLE && variableList[1] == "CAN")) {
 		return false;
 	}
+
 	return true;
 }
 
@@ -293,41 +270,39 @@ bool CANSignalExtractor::getMessageInfo(std::vector<std::string>& variableList, 
 	std::list<ICluster*> dbList;
 	std::string dbName;
 	mBmDbService->GetDBServiceList(ETYPE_BUS::CAN, channelIndex, dbList);
-	for (auto db : dbList)
-	{
+	for (auto db : dbList) {
 		db->GetName(dbName);
-		if (variableList[3] == dbName)
-		{
+		if (variableList[3] == dbName) {
 			reqCluster = db;
 			break;
 		}
 	}
-	if (nullptr != reqCluster)
-	{
+
+	if (nullptr != reqCluster) {
 		IFrame* pMsgElement;
 		msgId = (unsigned int)-1;
 		reqCluster->GetElementByName(eClusterElementType::eFrameElement, variableList[4], (IElement**)&pMsgElement);
-		if (nullptr != pMsgElement)
-		{
+		if (nullptr != pMsgElement) {
 			pMsgElement->GetFrameId(msgId);
 			*frame = pMsgElement;
 			return true;
 		}
 	}
+
 	return false;
 }
+
 void CANSignalExtractor::sendMessage(IFrame* frame, unsigned int channel, unsigned char *data, unsigned int dlc)
 {
-	if (mCanService != nullptr&& nullptr != frame)
-	{
+	if (mCanService != nullptr&& nullptr != frame) {
 		CANFrameProps props;
 		frame->GetProperties(props);
 
 		STCAN_MSG msg;
-		msg.m_bCANFD = false;	//TODO::
+		msg.m_bCANFD = false;
 		msg.m_ucChannel = 1;
 		msg.m_ucDataLen = props.m_unMsgSize;
-		memcpy(msg.m_ucData, data, props.m_unMsgSize);	//TODO::
+		memcpy(msg.m_ucData, data, props.m_unMsgSize);
 		msg.m_ucRTR = 0;
 		msg.m_ucEXTENDED = (props.m_canMsgType == eCANMsgType::eCan_Extended);
 		frame->GetFrameId(msg.m_unMsgID);
@@ -345,20 +320,19 @@ std::pair<ISignal*, SignalInstanse> CANSignalExtractor::GetSignal(IFrame* frame,
 {
 	std::pair<ISignal*, SignalInstanse> signalDetails;
 	signalDetails.first = nullptr;
-	if (nullptr != frame)
-	{
+
+	if (nullptr != frame) {
 		std::string name;
 		std::map<ISignal*, SignalInstanse> signalList;
 		frame->GetSignalList(signalList);
-		for (auto signal : signalList)
-		{
+		for (auto signal : signalList) {
 			signal.first->GetName(name);
-			if (name == refSigName)
-			{
+			if (name == refSigName) {
 				signalDetails.first = signal.first;
 				signalDetails.second = signal.second;
 			}
 		}
 	}
+
 	return signalDetails;
 }

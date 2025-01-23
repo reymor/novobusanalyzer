@@ -23,6 +23,7 @@
 #include "Utility/TimeManager.h"
 #include "HashDefines.h"
 #include "IBusMasterKernel.h"
+
 void* CBusStatisticLIN:: sm_pouBSLin;
 
 /**

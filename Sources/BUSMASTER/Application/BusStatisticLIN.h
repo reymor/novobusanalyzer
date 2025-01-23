@@ -62,7 +62,6 @@ private:
 public:
     CMsgBufFSE<STLINDATA> m_ouLinBufFSE;
 
-public:
     //Constructor
     CBusStatisticLIN(void);
     // This function should be called for the very first time.

@@ -46,7 +46,6 @@ CAppServices_Impl::~CAppServices_Impl()
     m_podUIThread = nullptr;
 }
 
-
 /**
  * \brief Write the string on trace window
  * \param pcTraceStr Character buffer to be written on trace

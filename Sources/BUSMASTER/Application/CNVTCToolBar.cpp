@@ -37,27 +37,19 @@ CNVTCToolBar::~CNVTCToolBar()
 
 BOOL CNVTCToolBar::bLoadCNVTCToolBar(int nWidth, UINT unNormal, UINT unHot, UINT unDisabled, COLORREF clrMask)
 {
-    if (bSetCNVTCToolBar(TB_SETIMAGELIST, unNormal, nWidth, clrMask))
-    {
-        if (bSetCNVTCToolBar(TB_SETHOTIMAGELIST, unHot, nWidth, clrMask))
-        {
-            if (unDisabled)
-            {
-                if (bSetCNVTCToolBar(TB_SETDISABLEDIMAGELIST, unDisabled, nWidth, clrMask))
-                {
+    if (bSetCNVTCToolBar(TB_SETIMAGELIST, unNormal, nWidth, clrMask)) {
+        if (bSetCNVTCToolBar(TB_SETHOTIMAGELIST, unHot, nWidth, clrMask)) {
+            if (unDisabled) {
+                if (bSetCNVTCToolBar(TB_SETDISABLEDIMAGELIST, unDisabled, nWidth, clrMask)) {
                     return TRUE;
-                }
-                else
-                {
+                } else {
                     return FALSE;
                 }
             }
         }
 
         return FALSE;
-    }
-    else
-    {
+    } else {
         return FALSE;
     }
 }

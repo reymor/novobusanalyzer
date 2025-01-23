@@ -36,9 +36,6 @@ class CCANMonitorApp : public CWinAppEx {
 public:
     CCANMonitorApp();
 
-    /** wrapper around CConfigDetails::vRelease(..) */
-    void vRelease1(eCONFIGDETAILS eParam, LPVOID* lpDataPtr);
-
     /** wrapper around CConfigDetails::bGetData(..) */
     BOOL bGetData1(eCONFIGDETAILS  eParam, LPVOID* lpData);
 

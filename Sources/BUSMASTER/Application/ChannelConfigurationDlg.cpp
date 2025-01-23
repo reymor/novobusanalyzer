@@ -18,14 +18,13 @@
 
 #include "Utility/WaitIndicator.h"
 #include "LinChannelParam.h"
-struct LinProcolBaudRate
-{
+
+struct LinProcolBaudRate {
     std::string m_strProtocol;
     int m_nBaudRate;
 };
 
-static LinProcolBaudRate sg_LINPROTOCOL_BAUD[] =
-{
+static LinProcolBaudRate sg_LINPROTOCOL_BAUD[] = {
     { "LIN 2.2", 19200 },
     { "LIN 2.1", 19200 },
     { "LIN 2.0", 19200 },
@@ -33,7 +32,6 @@ static LinProcolBaudRate sg_LINPROTOCOL_BAUD[] =
     { "LIN 1.2", 9600 },
     { "LIN 1.1", 9600 },
 };
-
 
 IMPLEMENT_DYNAMIC(CChannelConfigurationDlg, CDialog)
 CChannelConfigurationDlg::CChannelConfigurationDlg(IBMNetWorkService* pBmService, ETYPE_BUS eBusType, CWnd* pParent /*=nullptr*/)
@@ -46,8 +44,7 @@ CChannelConfigurationDlg::CChannelConfigurationDlg(IBMNetWorkService* pBmService
 
     pBmService->GetChannelCount(eBusType, m_nChannelConfigured);
     //Atleast one channel should configued
-    if (m_nChannelConfigured == 0)
-    {
+    if (m_nChannelConfigured == 0) {
         m_nChannelConfigured = 1;
     }
 
@@ -87,20 +84,17 @@ void CChannelConfigurationDlg::OnOverwriteCheckBoxClick()
 {
     CButton* pTempBtn = (CButton*)GetDlgItem(IDC_CHECK_OVERWRITE_SETTINGS);
     bool bCheck = false;
-    if (nullptr != pTempBtn)
-    {
+    if (nullptr != pTempBtn) {
         bCheck = (pTempBtn->GetCheck() != 0);
     }
 
     CWnd* pTempChild = GetDlgItem(IDC_COMBO_LIN_PROTOCOL);
-    if (nullptr != pTempChild)
-    {
+    if (nullptr != pTempChild) {
         pTempChild->EnableWindow(bCheck);
     }
 
     pTempChild = GetDlgItem(IDC_EDIT_LIN_BAUDRATE);
-    if (nullptr != pTempChild)
-    {
+    if (nullptr != pTempChild) {
         pTempChild->EnableWindow(bCheck);
     }
 }
@@ -110,13 +104,11 @@ BOOL CChannelConfigurationDlg::OnInitDialog()
     CDialog::OnInitDialog();
 
     //Validate The Bus Type - LIN
-    if (m_eBusType != LIN)
-    {
+    if (m_eBusType != LIN) {
         return S_FALSE;
     }
 
     //Controls Initialisation
-
     m_omEcuList.SetExtendedStyle(LVS_REPORT);
 
     m_omEcuList.InsertColumn(0, "ECU List");
@@ -131,8 +123,7 @@ BOOL CChannelConfigurationDlg::OnInitDialog()
     char chTemp[MAX_PATH];
 
     m_ComboChannelSelect.Clear();
-    for (int i = 0; i < m_nChannelConfigured; i++)
-    {
+    for (int i = 0; i < m_nChannelConfigured; i++) {
         sprintf_s(chTemp, "Channel %d", i + 1);
         m_ComboChannelSelect.AddString(chTemp);
     }
@@ -146,13 +137,13 @@ BOOL CChannelConfigurationDlg::OnInitDialog()
 	
     nDisplayProtocolSettings(0);
     nEnableControls(m_eBusType);
-    if (m_eBusType == LIN)
-    {
+    if (m_eBusType == LIN) {
         GetDlgItem(IDC_BUTTON_LDF_EDIT)->ShowWindow(TRUE);
         GetDlgItem(IDC_BUTTON_LDF_EDIT)->EnableWindow(TRUE);
 
 		m_omStrPreviousDb = m_strFibexFilePath;
     }
+
     return TRUE;
 }
 
@@ -160,10 +151,8 @@ int CChannelConfigurationDlg::nUpdateLinSettings()
 {
     CComboBox* pomCombo = (CComboBox*)GetDlgItem(IDC_COMBO_LIN_PROTOCOL);
 
-    if (pomCombo != nullptr)
-    {
-        for (int i = 0; i < (sizeof(sg_LINPROTOCOL_BAUD) / sizeof(sg_LINPROTOCOL_BAUD[0])); i++)
-        {
+    if (pomCombo != nullptr) {
+        for (int i = 0; i < (sizeof(sg_LINPROTOCOL_BAUD) / sizeof(sg_LINPROTOCOL_BAUD[0])); i++){
             pomCombo->InsertString(i, sg_LINPROTOCOL_BAUD[i].m_strProtocol.c_str());
         }
         pomCombo->SetCurSel(0);
@@ -176,39 +165,32 @@ int CChannelConfigurationDlg::nUpdateLinSettings()
     return 0;
 }
 
-
 int CChannelConfigurationDlg::nEnableControls(ETYPE_BUS eBusType)
 {
     CWnd* pWnd = nullptr;
-    if (eBusType == LIN)
-    {
+    if (eBusType == LIN) {
         pWnd = GetDlgItem(IDC_STATIC_DATABASE_INFO);
-        if (pWnd != nullptr)
-        {
+        if (pWnd != nullptr) {
             pWnd->SetWindowText("Import LIN Database (LDF)");
         }
 
         pWnd = GetDlgItem(IDC_STATIC_CLUSTER_INFO);
-        if (pWnd != nullptr)
-        {
+        if (pWnd != nullptr) {
             pWnd->SetWindowText("Select LIN Cluster:");
         }
 
         pWnd = GetDlgItem(IDC_STATIC_EXTRA_CONFIG);
-        if (pWnd != nullptr)
-        {
+        if (pWnd != nullptr) {
             pWnd->SetWindowText("LIN Network Settings");
         }
 
         pWnd = GetDlgItem(IDC_STATIC_DBNAME);
-        if (pWnd != nullptr)
-        {
+        if (pWnd != nullptr) {
             pWnd->SetWindowText("LDF:");
         }
 
         pWnd = GetDlgItem(IDC_COMBO_CLUSTER);
-        if (pWnd != nullptr)
-        {
+        if (pWnd != nullptr) {
             pWnd->EnableWindow(FALSE);
         }
     }

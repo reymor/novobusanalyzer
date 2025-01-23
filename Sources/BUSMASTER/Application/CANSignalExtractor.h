@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_CANSIGNALEXTRACTOR_H_
+#define BUSMASTER_APPLICATION_CANSIGNALEXTRACTOR_H_
+
 #include <vector>
 #include <string>
 #include "IBMNetWorkGetService.h"
@@ -47,3 +49,4 @@ private:
 	void handleBusDisconnect();	
 };
 
+#endif // BUSMASTER_APPLICATION_CANSIGNALEXTRACTOR_H_

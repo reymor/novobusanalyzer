@@ -483,22 +483,6 @@ BOOL CCANMonitorApp::bGetData1(eCONFIGDETAILS /*eParam*/, LPVOID* /*lpData*/)
     return FALSE;//m_oConfigDetails.bGetData(eParam, lpData);
 }
 
-/**
- * \brief wrapper around CConfigDetails::bRelease(...)
- * \param eParam enumeration denoting the section for which
- *   the memory should be released
- * \param lpDataPtr pointer that should be released
- *
- * This is a wrapper around the method
- * CConfigDetails::bRelease(...). It is planned to use
- * only one global object, theApp as provided by the
- * Wizard.
- */
-void CCANMonitorApp::vRelease1(eCONFIGDETAILS /*eParam*/, LPVOID* /*lpDataPtr*/)
-{
-    //m_oConfigDetails.vRelease(eParam, lpDataPtr);
-}
-
 void CCANMonitorApp::vSetFileStorageInfo(CString oCfgFilename)
 {
     USES_CONVERSION;

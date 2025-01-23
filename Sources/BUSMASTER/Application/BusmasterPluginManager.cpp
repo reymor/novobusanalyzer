@@ -29,8 +29,6 @@
 #define defXmlNode_Accelerator		"Accelerator"
 #define defXmlNode_CommandList		"CommandList"
 
-
-
 typedef int(*GetBusPlugInInterface)(IBusmasterBusPlugin**);
 typedef void(*FreeBusPlugInInterface)(IBusmasterBusPlugin*);
 
@@ -71,9 +69,6 @@ int BusmasterPluginManager::init(IBusmasterBusPluginInterface* busmasterInterfac
 
     return S_OK;
 }
-
-
-
 
 int BusmasterPluginManager::addPlugin(BusmasterPluginConfiguration& plugin)
 {

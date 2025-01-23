@@ -74,7 +74,6 @@ private:
 public:
     CMsgBufFSE<STCANDATA> m_ouCanBufFSE;
 
-public:
     //Constructor
     CBusStatisticCAN(void);
     // This function should be called for the very first time.

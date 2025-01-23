@@ -32,8 +32,7 @@ CNVTCImageList::CNVTCImageList()
     m_hModAdvancedUILib = ::LoadLibrary("AdvancedUIPlugIn.dll");
 
     /* If the AdvancedUIPlugIn DLL exists, use it */
-    if ( m_hModAdvancedUILib )
-    {
+    if ( m_hModAdvancedUILib ) {
         m_bUseAdvancedUILib = true;
     }
 }
@@ -41,8 +40,7 @@ CNVTCImageList::CNVTCImageList()
 //Destructor
 CNVTCImageList::~CNVTCImageList()
 {
-    if ( m_bUseAdvancedUILib && m_hModAdvancedUILib )
-    {
+    if (m_bUseAdvancedUILib && m_hModAdvancedUILib) {
         ::FreeLibrary(m_hModAdvancedUILib);
         m_hModAdvancedUILib = nullptr;
     }
@@ -60,35 +58,26 @@ BOOL CNVTCImageList::bCreateCNVTC(UINT nTBID, int nCX, COLORREF clrMask)
 
 BOOL CNVTCImageList::bCreateCNVTC(UINT nTBID, int nCX, int nCY, COLORREF clrMask)
 {
-    if(CImageList::Create(nCX, nCY,ILC_MASK | ILC_COLOR32,0,0))
-    {
+    if (CImageList::Create(nCX, nCY,ILC_MASK | ILC_COLOR32,0,0)) {
         CBitmap bmpRes;
         BOOL bSuccess = FALSE;
 
-        if ( m_bUseAdvancedUILib )
-        {
+        if (m_bUseAdvancedUILib) {
             /* Load the bitmap from AdvancedUIPlugIn DLL */
             HBITMAP hBMP = ::LoadBitmap(m_hModAdvancedUILib, MAKEINTRESOURCE(nTBID));
             bSuccess = bmpRes.Attach(hBMP);
-        }
-        else
-        {
+        } else {
             /* Load from local resource */
             bSuccess = bmpRes.LoadBitmap(nTBID);
         }
 
-        if( bSuccess )
-        {
+        if (bSuccess) {
             Add(&bmpRes, clrMask);
             return TRUE;
-        }
-        else
-        {
+        } else {
             return FALSE;
         }
-    }
-    else
-    {
+    } else {
         return FALSE;
     }
 }
@@ -97,14 +86,11 @@ BOOL CNVTCImageList::bCreateCNVTC(UINT nTBID, COLORREF clrMask)
 {
     CBitmap objRes;
 
-    if(objRes.LoadBitmap(nTBID))
-    {
+    if (objRes.LoadBitmap(nTBID)) {
         BITMAP bmpRes;
         objRes.GetBitmap(&bmpRes);
         return bCreateCNVTC(nTBID, bmpRes.bmHeight, bmpRes.bmHeight, clrMask);
-    }
-    else
-    {
+    } else {
         return FALSE;
     }
 }
@@ -118,15 +104,11 @@ BOOL CNVTCImageList::bCreateCNVTC(UINT nTBID)
 {
     CBitmap objRes;
 
-    if(objRes.LoadBitmap(nTBID))
-    {
+    if (objRes.LoadBitmap(nTBID)) {
         BITMAP bmpRes;
         objRes.GetBitmap(&bmpRes);
         return bCreateCNVTC(nTBID, bmpRes.bmHeight, bmpRes.bmHeight, RGB(255,255,255));
-    }
-    else
-    {
+    } else {
         return FALSE;
     }
 }
-
