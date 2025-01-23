@@ -47,13 +47,11 @@ void CDatabaseDissociateDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_LSTB_DISSOCIATE_DBNAMES, m_omDissociateDbLst);
 }
 
-
 BEGIN_MESSAGE_MAP(CDatabaseDissociateDlg, CDialog)
     ON_BN_CLICKED(IDC_CBTN_DISSOCIATE, OnBnClickedCbtnDissociate)
     ON_LBN_SELCHANGE(IDC_LSTB_DISSOCIATE_DBNAMES, OnlbnSelChangeDbList)
     ON_WM_CLOSE()
 END_MESSAGE_MAP()
-
 
 /******************************************************************************
   Function Name    :  OnInitDialog
@@ -74,20 +72,17 @@ BOOL CDatabaseDissociateDlg::OnInitDialog()
     //do initialization below
     m_omDissociateDbLst.ResetContent();
     mDbPathsDissociated.clear();
-    CSize   sz;
-    CDC*  pDC = m_omDissociateDbLst.GetDC();
+    CSize sz;
+    CDC *pDC = m_omDissociateDbLst.GetDC();
     int nDx = 0;
-for ( auto path : mDbPaths )
-    {
+    for (auto path : mDbPaths) {
         m_omDissociateDbLst.AddString( path.c_str() );
         sz = pDC->GetTextExtent( path.c_str() );
 
-        if ( sz.cx > nDx )
-        {
+        if (sz.cx > nDx) {
             nDx = sz.cx;
         }
     }
-
 
     m_omDissociateDbLst.ReleaseDC(pDC);
     // Set the horizontal extent so every character of all strings
@@ -112,18 +107,15 @@ for ( auto path : mDbPaths )
 void CDatabaseDissociateDlg::OnBnClickedCbtnDissociate()
 {
     int nCount = m_omDissociateDbLst.GetSelCount();
-    if (nCount > 0)
-    {
-        if (IDOK == AfxMessageBox(_(defDISSOCIATE_WARNING), MB_OKCANCEL | MB_ICONWARNING))
-        {
+    if (nCount > 0) {
+        if (IDOK == AfxMessageBox(_(defDISSOCIATE_WARNING), MB_OKCANCEL | MB_ICONWARNING)) {
             // Array of selected item's position
             CArray<int, int> aomListBoxSel;
             aomListBoxSel.SetSize(nCount);
             //Pass the array pointer to get the selected item's positions
             m_omDissociateDbLst.GetSelItems(nCount, aomListBoxSel.GetData());
             int nSelectedPos = 0;
-            for (int nTempCnt = 0; nTempCnt < nCount; nTempCnt++)
-            {
+            for (int nTempCnt = 0; nTempCnt < nCount; nTempCnt++) {
                 CString omstrDBPath;
                 //Selected file's index
                 nSelectedPos = aomListBoxSel.GetAt(nTempCnt);
@@ -132,54 +124,47 @@ void CDatabaseDissociateDlg::OnBnClickedCbtnDissociate()
                 m_omDissociateDbLst.GetText(nSelectedPos, omstrDBPath.GetBuffer(nBufferSize));
                 mDbPathsDissociated.push_back(omstrDBPath.GetBuffer(0));
             }
-            for (int nTempCnt = 0; nTempCnt < nCount; nTempCnt++)
-            {
+            for (int nTempCnt = 0; nTempCnt < nCount; nTempCnt++) {
                 nSelectedPos = aomListBoxSel.GetAt(nTempCnt) - nTempCnt;
                 m_omDissociateDbLst.DeleteString(nSelectedPos);
             }
 
             CButton* pButton = (CButton*)GetDlgItem(IDC_CBTN_DISSOCIATE);
-            if (nullptr != pButton)
-            {
+            if (nullptr != pButton) {
                 pButton->EnableWindow(FALSE);
             }
         }
     }
 
-
 }
+
 void CDatabaseDissociateDlg::OnOK()
 {
-    if (mDbPathsDissociated.size() > 0)
-    {
+    if (mDbPathsDissociated.size() > 0) {
         CDialog::OnOK();
-    }
-    else
-    {
+    } else {
         CDialog::OnCancel();
     }
 }
+
 void CDatabaseDissociateDlg::OnClose()
 {
     OnOK();
 }
+
 std::list<std::string> CDatabaseDissociateDlg::GetDissociatedFiles()
 {
     return mDbPathsDissociated;
 }
+
 void CDatabaseDissociateDlg::OnlbnSelChangeDbList()
 {
     CButton* pButton = (CButton*)GetDlgItem(IDC_CBTN_DISSOCIATE);
-    if (nullptr != pButton)
-    {
-        if (m_omDissociateDbLst.GetSelCount() > 0)
-        {
+    if (nullptr != pButton) {
+        if (m_omDissociateDbLst.GetSelCount() > 0) {
             pButton->EnableWindow(TRUE);
-        }
-        else
-        {
+        } else {
             pButton->EnableWindow(FALSE);
         }
     }
-
 }

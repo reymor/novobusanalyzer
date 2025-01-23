@@ -69,8 +69,7 @@ UINT CGraphList::unGetConfigSize(BYTE byVersion)
     /* GRAPH PARAMETERS*/
     unSize = m_odGraphParameters.unGetConfigSize(byVersion);
 
-    unSize += sizeof(int);//To store the count of Graph elements
-    /* GRAPH ELEMENTS*/
+    unSize += sizeof(int);
     unSize += CGraphElement::unGetConfigSize(byVersion) * m_omElementList.GetSize();
 
     return unSize;
@@ -87,16 +86,13 @@ BYTE* CGraphList::pbyGetConfigData(BYTE* pbyTrgtData, BYTE byVersion)
     COPY_DATA(pbyTemp, &nElementCount, sizeof (int));
 
     // Save list of elements
-    if( nElementCount > 0 )
-    {
+    if( nElementCount > 0 ) {
         CGraphElement odTemp;
-        for( int nIndex = 0; nIndex < nElementCount;
-                nIndex++ )
-        {
+        for (int nIndex = 0; nIndex < nElementCount; nIndex++) {
             // Get the object from the list
-            odTemp = m_omElementList.GetAt( nIndex );
+            odTemp = m_omElementList.GetAt(nIndex);
             // Save the element
-            pbyTemp = odTemp.pbyGetConfigData( pbyTemp, byVersion);
+            pbyTemp = odTemp.pbyGetConfigData(pbyTemp, byVersion);
         }
     }
     return pbyTemp;
@@ -104,106 +100,58 @@ BYTE* CGraphList::pbyGetConfigData(BYTE* pbyTrgtData, BYTE byVersion)
 
 void CGraphList::pbyGetConfigData(xmlNodePtr pNodePtr, BYTE byVersion)
 {
-    //BYTE* pbyTemp = pbyTrgtData;
     m_odGraphParameters.pbyGetConfigData(pNodePtr, byVersion);
 
     // Save the list element count
     // Get list size
     int nElementCount = m_omElementList.GetSize();
-    // Save the size
-    //COPY_DATA(pbyTemp, &nElementCount, sizeof (int));
 
     // Save list of elements
-    if( nElementCount > 0 )
-    {
+    if (nElementCount > 0) {
         CGraphElement odTemp;
-        for( int nIndex = 0; nIndex < nElementCount;
-                nIndex++ )
-        {
+        for (int nIndex = 0; nIndex < nElementCount; nIndex++) {
             // Get the object from the list
-            odTemp = m_omElementList.GetAt( nIndex );
+            odTemp = m_omElementList.GetAt(nIndex);
             // Save the element
-            odTemp.pbyGetConfigData( pNodePtr, byVersion);
+            odTemp.pbyGetConfigData(pNodePtr, byVersion);
         }
     }
 }
 
 void CGraphList::pbySetConfigData(xmlNodePtr pNodePtr, xmlDocPtr pDocPtr)
 {
-    //BYTE* pbyTemp = pbyTrgtData;
     m_odGraphParameters.pbySetConfigData(pNodePtr, pDocPtr);
 
     // Get element count
     int nElementCount = 0;
-    //COPY_DATA_2(&nElementCount, pbyTemp, sizeof (int));
 
     // Load list if element count is more then 0
     //if ( nElementCount > 0 )
     {
         // Temp object
         CGraphElement odTemp;
-        //m_omElementList.RemoveAll();
-        //int nExistingElements = m_omElementList.GetSize();
-
-        //// Reuse existing items in the list
-
-        //// Add / remove extra items
-        //if( nElementCount > nExistingElements )
-        //{
-        //    // Add Extra Elements
-        //    for( int nIndex = nExistingElements;
-        //            nIndex < nElementCount; nIndex++)
-        //    {
-        //        // Add Dummy Element
-        //        m_omElementList.Add( odTemp );
-        //    }
-        //}
-        //// Delete extra elements
-        //else if (nElementCount <  nExistingElements )
-        //{
-        //    // Get the extra elements count
-        //    int nDifference = nExistingElements - nElementCount;
-        //    // Remove extra elements. Removing it from the list.
-        //    // Remove the head element instead of any other index.
-        //    // Because list index might become invalid if the
-        //    // size of the list after deletion comes below the
-        //    // index value
-        //    for( int nIndex = 0; nIndex < nDifference; nIndex++ )
-        //    {
-        //        // Remove the first element
-        //        m_omElementList.RemoveAt( 0 );
-        //    }
-        //}
 
         xmlXPathObjectPtr pOjectPath = nullptr;
         xmlChar* pXmlPath = (xmlChar*)"//BUSMASTER_CONFIGURATION/Module_Configuration/CAN_Signal_Graph/GRAPH_ELEMENT";
         pOjectPath = xmlUtils::pGetNodes(pDocPtr, pXmlPath);
-        if(pOjectPath != nullptr)
-        {
+        if (pOjectPath != nullptr) {
             xmlNodeSetPtr pNodeSet = pOjectPath->nodesetval;
-            if(pNodeSet != nullptr)
-            {
+            if (pNodeSet != nullptr) {
                 nElementCount = pNodeSet->nodeNr;
-                if ( nElementCount > 0 )
-                {
+                if (nElementCount > 0) {
                     int nExistingElements = m_omElementList.GetSize();
 
                     // Reuse existing items in the list
 
                     // Add / remove extra items
-                    if( nElementCount > nExistingElements )
-                    {
+                    if (nElementCount > nExistingElements) {
                         // Add Extra Elements
-                        for( int nIndex = nExistingElements;
-                                nIndex < nElementCount; nIndex++)
-                        {
+                        for (int nIndex = nExistingElements;
+                                nIndex < nElementCount; nIndex++) {
                             // Add Dummy Element
                             m_omElementList.Add( odTemp );
                         }
-                    }
-                    // Delete extra elements
-                    else if (nElementCount <  nExistingElements )
-                    {
+                    } else if (nElementCount <  nExistingElements) {
                         // Get the extra elements count
                         int nDifference = nExistingElements - nElementCount;
                         // Remove extra elements. Removing it from the list.
@@ -211,32 +159,21 @@ void CGraphList::pbySetConfigData(xmlNodePtr pNodePtr, xmlDocPtr pDocPtr)
                         // Because list index might become invalid if the
                         // size of the list after deletion comes below the
                         // index value
-                        for( int nIndex = 0; nIndex < nDifference; nIndex++ )
-                        {
+                        for (int nIndex = 0; nIndex < nDifference; nIndex++) {
                             // Remove the first element
                             m_omElementList.RemoveAt( 0 );
                         }
                     }
-                }
-                else
-                {
+                } else {
                     m_omElementList.RemoveAll();
                 }
 
-                for(int nIndex = 0; nIndex < nElementCount; nIndex++)
-                {
+                for (int nIndex = 0; nIndex < nElementCount; nIndex++) {
                     m_omElementList[ nIndex ].pbySetConfigData( pNodeSet->nodeTab[nIndex], pDocPtr );
                 }
             }
         }
 
-        //// Now populate list
-        //for( int nIndex = 0; nIndex < nElementCount;
-        //        nIndex++ )
-        //{
-        //    // Read element from the archive
-        //   m_omElementList[ nIndex ].pbySetConfigData( pbyTemp, byVersion );
-        //}
     }
 }
 

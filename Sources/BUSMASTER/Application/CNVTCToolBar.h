@@ -22,7 +22,8 @@
  * CNVTCToolBar class interface.
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_CNVTCTOOLBAR_H_
+#define BUSMASTER_APPLICATION_CNVTCTOOLBAR_H_
 
 #include <afxext.h>
 
@@ -38,3 +39,5 @@ public:
     CNVTCToolBar();
     virtual ~CNVTCToolBar();
 };
+
+#endif // BUSMASTER_APPLICATION_CNVTCTOOLBAR_H_

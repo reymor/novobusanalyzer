@@ -21,7 +21,8 @@
  * This header file contains definitions of necessary user
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_DATATYPE_H_
+#define BUSMASTER_APPLICATION_DATATYPE_H_
 
 const int DATA_LENGTH_MAX = 1785;
 
@@ -37,3 +38,5 @@ typedef struct tagCanIDList {
     }
 
 } SCanIDList;
+
+#endif // BUSMASTER_APPLICATION_DATATYPE_H_

@@ -22,14 +22,14 @@
  * Contains CFlags class definition
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_FLAGS_H_
+#define BUSMASTER_APPLICATION_FLAGS_H_
 
 // Definition of PSTOOLBARINFO structure is here
 #include "struct.h"
 
 /** enumeration for all flags */
-enum eCANMONITORFLAG
-{
+enum eCANMONITORFLAG {
     LOGTODISPLAY = 0,
     LOGTOFILE,
     LOGTOFILE_LIN,
@@ -70,8 +70,7 @@ enum eCANMONITORFLAG
     ADRESSCLAIM_J1939,
 };
 
-class CFlags
-{
+class CFlags {
 public:
     CFlags();
     CFlags(PSTOOLBARINFO psToolBarInfo);
@@ -128,3 +127,5 @@ private:
     // Private constructors to make singleton class
     static CFlags sm_ouSingletonObj;
 };
+
+#endif // BUSMASTER_APPLICATION_FLAGS_H_

@@ -22,14 +22,13 @@
  * This file contain the definition of CDriverInfoDlg class
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_DRIVERINFODLG_H_
+#define BUSMASTER_APPLICATION_DRIVERINFODLG_H_
 
 /////////////////////////////////////////////////////////////////////////////
 // CDriverInfoDlg dialog
 
-class CDriverInfoDlg : public CDialog
-{
-    // Construction
+class CDriverInfoDlg : public CDialog {
 public:
     CDriverInfoDlg(CWnd* pParent = nullptr);   // standard constructor
 
@@ -39,10 +38,9 @@ public:
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-    // Implementation
-protected:
-
     // Generated message map functions
     virtual BOOL OnInitDialog();
     DECLARE_MESSAGE_MAP()
 };
+
+#endif // BUSMASTER_APPLICATION_DRIVERINFODLG_H_

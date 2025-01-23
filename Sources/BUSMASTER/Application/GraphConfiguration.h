@@ -22,14 +22,13 @@
  * Interface file for CGraphConfiguration class
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_GRAPHCONFIGURATION_H_
+#define BUSMASTER_APPLICATION_GRAPHCONFIGURATION_H_
 
 // For Graph Parameter Class definition
 #include "GraphParameters.h"
 
-class CGraphConfiguration : public CDialog
-{
-    // Construction
+class CGraphConfiguration : public CDialog {
 public:
     // Local instance of View Style parameter
     CGraphParameters m_omGraphParams;
@@ -52,8 +51,6 @@ public:
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-protected:
-
     // Generated message map functions
     afx_msg void OnSetDefault();
     virtual void OnOK();
@@ -65,3 +62,5 @@ private:
 public:
     int m_nLineDisplay;
 };
+
+#endif // BUSMASTER_APPLICATION_GRAPHCONFIGURATION_H_

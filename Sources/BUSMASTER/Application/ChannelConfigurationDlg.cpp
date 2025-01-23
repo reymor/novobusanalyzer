@@ -73,7 +73,6 @@ BEGIN_MESSAGE_MAP(CChannelConfigurationDlg, CDialog)
     ON_WM_QUERYDRAGICON()
     ON_BN_CLICKED(IDC_BUTTON_FIBEXPATH, OnBnClickedButtonFibexpath)
     ON_BN_CLICKED(IDC_BUTTON_LDF_EDIT, OnBnClickedButtonLDFEditor)
-    ON_CBN_SELCHANGE(IDC_COMBO_CLUSTER, OnCbnSelchangeComboCluster)
     ON_CBN_SELCHANGE(IDC_COMBO_CHANNEL, OnCbnSelchangeComboChannel)
     ON_CBN_SELCHANGE(IDC_COMBO_LIN_PROTOCOL, OnCbnSelchangeComboProtocol)
     ON_BN_CLICKED(IDOK, onBtnOk)
@@ -287,10 +286,6 @@ void CChannelConfigurationDlg::OnBnClickedButtonLDFEditor()
     catch (...)
     {
     }
-}
-
-void CChannelConfigurationDlg::OnCbnSelchangeComboCluster()
-{
 }
 
 void CChannelConfigurationDlg::OnCbnSelchangeComboProtocol()

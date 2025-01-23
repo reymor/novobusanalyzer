@@ -618,12 +618,11 @@ UINT CGraphElement::unGetConfigSize(BYTE byVersion)
     // Enabled or not
     unSize += sizeof(BOOL);//    m_bEnabled;
 
-    if(byVersion == 2)
-    {
+    if (byVersion == 2) {
         // Line Display
-        unSize += sizeof(int);//    m_eDisplayType;
+        unSize += sizeof(int);
         //Message Name String
-        unSize += (sizeof(char) * MAX_PATH);//m_strMsgName
+        unSize += (sizeof(char) * MAX_PATH);
     }
 
     return unSize;

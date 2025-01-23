@@ -22,10 +22,10 @@
  * Interface file for CGraphList class
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_GRAPHLIST_H_
+#define BUSMASTER_APPLICATION_GRAPHLIST_H_
 
-class CGraphList
-{
+class CGraphList {
 public:
     int nSerialize(CArchive& omArch);
     BYTE* pbyGetConfigData(BYTE* pbyTrgtData, BYTE byVersion);
@@ -43,3 +43,5 @@ public:
     // Graph element array
     CArray<CGraphElement, CGraphElement&> m_omElementList;
 };
+
+#endif // BUSMASTER_APPLICATION_GRAPHLIST_H_

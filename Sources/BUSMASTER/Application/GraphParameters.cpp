@@ -221,12 +221,9 @@ void CGraphParameters::pbyGetConfigData(xmlNodePtr pNodePtr, BYTE byVersion)
     // Writing Show Grid in to xml
     CString strShowGrid = "";
 
-    if(m_bShowGrid == TRUE)
-    {
+    if (m_bShowGrid == TRUE) {
         strShowGrid = "TRUE";
-    }
-    else
-    {
+    } else {
         strShowGrid = "FALSE";
     }
 
@@ -234,20 +231,14 @@ void CGraphParameters::pbyGetConfigData(xmlNodePtr pNodePtr, BYTE byVersion)
     xmlNodePtr pShwGridPtr = xmlNewChild(pGrphParams, nullptr, BAD_CAST DEF_Show_Grid, BAD_CAST strShowGrid.GetBuffer(strShowGrid.GetLength()));
     xmlAddChild(pGrphParams, pShwGridPtr);
 
-    if(byVersion == 2)
-    {
+    if (byVersion == 2) {
         CString strDisplayType = "";
 
-        if(m_eDisplayType == eDISPLAY_NORMAL)
-        {
+        if (m_eDisplayType == eDISPLAY_NORMAL) {
             strDisplayType = "NORMAL";
-        }
-        else if(m_eDisplayType == eDISPLAY_STEPMODE_XY)
-        {
+        } else if (m_eDisplayType == eDISPLAY_STEPMODE_XY) {
             strDisplayType = "STEPMODE_XY";
-        }
-        else if(m_eDisplayType == eDISPLAY_STEPMODE_YX)
-        {
+        } else if (m_eDisplayType == eDISPLAY_STEPMODE_YX) {
             strDisplayType = "STEPMODE_YX";
         }
 
@@ -256,41 +247,6 @@ void CGraphParameters::pbyGetConfigData(xmlNodePtr pNodePtr, BYTE byVersion)
         xmlAddChild(pGrphParams, pDisplayTypePtr);
     }
 
-    //BYTE* pbyTemp = pbyTrgtData;
-    //if (pbyTemp != nullptr)
-    //{
-    //    // Set the def
-    //    COPY_DATA(pbyTemp, &m_nBufferSize, sizeof(int));
-    //    // Display ref
-    //    COPY_DATA(pbyTemp, &m_nRefreshRate, sizeof(int));
-    //    // View Style
-    //    // Frame Color
-    //    COPY_DATA(pbyTemp, &m_nFrameColor, sizeof(int));
-    //    // Frame Style
-    //    COPY_DATA(pbyTemp, &m_nFrameStyle, sizeof(int));
-    //    // Plot Area C
-    //    COPY_DATA(pbyTemp, &m_nPlotAreaColor, sizeof(int));
-    //    // Grid Color
-    //    COPY_DATA(pbyTemp, &m_nGridColor, sizeof(int));
-    //    // Axis Color
-    //    COPY_DATA(pbyTemp, &m_nAxisColor, sizeof(int));
-    //    // X Grid Line
-    //    COPY_DATA(pbyTemp, &m_nXGridLines, sizeof(int));
-    //    // Y Grid Line
-    //    COPY_DATA(pbyTemp, &m_nYGridLines, sizeof(int));
-    //    // User Select
-    //    COPY_DATA(pbyTemp, &m_nActiveAxis, sizeof(int));
-    //    // User Select
-    //    COPY_DATA(pbyTemp, &m_nAction, sizeof(int));
-    //    // Grid Settin
-    //    COPY_DATA(pbyTemp, &m_bShowGrid, sizeof(BOOL));
-    //    if(byVersion == 2)
-    //    {
-    //        //Line Display type
-    //        COPY_DATA(pbyTemp, &m_eDisplayType, sizeof(eDISPLAY_TYPE));
-    //    }
-    //}
-    // return pbyTemp;
 }
 
 void CGraphParameters::pbySetConfigData(xmlNodePtr& pNodePtr, xmlDocPtr xmlConfigFiledoc)
@@ -457,51 +413,13 @@ void CGraphParameters::pbySetConfigData(xmlNodePtr& pNodePtr, xmlDocPtr xmlConfi
             pNodePtr = pNodePtr->next;
         }
     }
-    //BYTE* pbyTemp = pbyTrgtData;
-    //   if (pbyTemp != nullptr)
-    //   {
-    //       // Set the def
-    //       COPY_DATA_2(&m_nBufferSize, pbyTemp, sizeof(int));
-    //       // Display ref
-    //       COPY_DATA_2(&m_nRefreshRate, pbyTemp, sizeof(int));
-    //       // View Style
-    //       // Frame Color
-    //       COPY_DATA_2(&m_nFrameColor, pbyTemp, sizeof(int));
-    //       // Frame Style
-    //       COPY_DATA_2(&m_nFrameStyle, pbyTemp, sizeof(int));
-    //       // Plot Area C
-    //       COPY_DATA_2(&m_nPlotAreaColor, pbyTemp, sizeof(int));
-    //       // Grid Color
-    //       COPY_DATA_2(&m_nGridColor, pbyTemp, sizeof(int));
-    //       // Axis Color
-    //       COPY_DATA_2(&m_nAxisColor, pbyTemp, sizeof(int));
-    //       // X Grid Line
-    //       COPY_DATA_2(&m_nXGridLines, pbyTemp, sizeof(int));
-    //       // Y Grid Line
-    //       COPY_DATA_2(&m_nYGridLines, pbyTemp, sizeof(int));
-    //       // User Select
-    //       COPY_DATA_2(&m_nActiveAxis, pbyTemp, sizeof(int));
-    //       // User Select
-    //       COPY_DATA_2(&m_nAction, pbyTemp, sizeof(int));
-    //       // Grid Settin
-    //       COPY_DATA_2(&m_bShowGrid, pbyTemp, sizeof(BOOL));
-    //       if(byVersion == 2)
-    //       {
-    //           //Line Display type
-    //           COPY_DATA_2(&m_eDisplayType, pbyTemp, sizeof(eDISPLAY_TYPE));
-    //       }
-    //       else if(byVersion == 1)
-    //       {
-    //           m_eDisplayType = eDISPLAY_NORMAL;
-    //       }
-    //   }
 }
 
 BYTE* CGraphParameters::pbySetConfigData(BYTE* pbyTrgtData, BYTE byVersion)
 {
     BYTE* pbyTemp = pbyTrgtData;
-    if (pbyTemp != nullptr)
-    {
+
+    if (pbyTemp != nullptr) {
         // Set the def
         COPY_DATA_2(&m_nBufferSize, pbyTemp, sizeof(int));
         // Display ref
@@ -527,16 +445,14 @@ BYTE* CGraphParameters::pbySetConfigData(BYTE* pbyTrgtData, BYTE byVersion)
         COPY_DATA_2(&m_nAction, pbyTemp, sizeof(int));
         // Grid Settin
         COPY_DATA_2(&m_bShowGrid, pbyTemp, sizeof(BOOL));
-        if(byVersion == 2)
-        {
+        if(byVersion == 2) {
             //Line Display type
             COPY_DATA_2(&m_eDisplayType, pbyTemp, sizeof(eDISPLAY_TYPE));
-        }
-        else if(byVersion == 1)
-        {
+        } else if(byVersion == 1) {
             m_eDisplayType = eDISPLAY_NORMAL;
         }
     }
+
     return pbyTemp;
 }
 /*******************************************************************************

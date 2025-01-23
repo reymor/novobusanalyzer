@@ -22,7 +22,8 @@
  * Interface file for CElementSelection class
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_ELEMENTSELECTION_H_
+#define BUSMASTER_APPLICATION_ELEMENTSELECTION_H_
 
 // For Main Frame Definition
 #include "MainFrm.h"
@@ -47,7 +48,6 @@ public:
 protected:
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-protected:
     virtual void OnOK();
     virtual BOOL OnInitDialog();
     afx_msg void OnDblclkTreeSignal(NMHDR* pNMHDR, LRESULT* pResult);
@@ -110,3 +110,5 @@ private:
 public:
     afx_msg void OnBnClickedOk();
 };
+
+#endif // BUSMASTER_APPLICATION_ELEMENTSELECTION_H_

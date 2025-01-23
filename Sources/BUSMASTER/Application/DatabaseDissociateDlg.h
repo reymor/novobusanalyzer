@@ -21,7 +21,9 @@
  *
  * This header file contains the defintion of class
  */
-#pragma once
+#ifndef BUSMASTER_APPLICATION_DATABASEDISSOCIATEDLG_H_
+#define BUSMASTER_APPLICATION_DATABASEDISSOCIATEDLG_H_
+
 #include "Datatypes/MsgSignal_Datatypes.h"
 
 // CDatabaseDissociateDlg dialog
@@ -52,3 +54,5 @@ public:
     afx_msg void OnClose();
     void OnlbnSelChangeDbList();
 };
+
+#endif // BUSMASTER_APPLICATION_DATABASEDISSOCIATEDLG_H_

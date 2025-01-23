@@ -9,13 +9,10 @@
     Date Modified   :
     Modifications   :
 **********************************************************************************/
+#ifndef BUSMASTER_APPLICATION_CONFIGMSGDISPPROPPG_H_
+#define BUSMASTER_APPLICATION_CONFIGMSGDISPPROPPG_H_
 
-#pragma once
-
-// CConfigMsgDispPropPg dialog
-
-class CConfigMsgDispPropPg : public CPropertyPage
-{
+class CConfigMsgDispPropPg : public CPropertyPage {
     DECLARE_DYNAMIC(CConfigMsgDispPropPg)
 
 public:
@@ -42,3 +39,5 @@ public:
     afx_msg void OnStnClickedStaticframeColor();
     afx_msg void OnStnClickedDynamicframeColor();
 };
+
+#endif // BUSMASTER_APPLICATION_CONFIGMSGDISPPROPPG_H_

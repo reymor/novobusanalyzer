@@ -2,7 +2,8 @@
 
 // CSignalGeneration wrapper class
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_CSIGNALGENERATION_H_
+#define BUSMASTER_APPLICATION_CSIGNALGENERATION_H_
 
 class CSignalGeneration : public COleDispatchDriver
 {
@@ -11,15 +12,6 @@ public:
     CSignalGeneration(LPDISPATCH pDispatch) : COleDispatchDriver(pDispatch) {}
     CSignalGeneration(const CSignalGeneration& dispatchSrc) : COleDispatchDriver(dispatchSrc) {}
 
-    // Attributes
-public:
-
-    // Operations
-public:
-
-
-    // _SignalGeneration methods
-public:
     long ShowSignalGenDialog()
     {
         long result;
@@ -115,3 +107,5 @@ public:
 public:
 
 };
+
+#endif // BUSMASTER_APPLICATION_CSIGNALGENERATION_H_

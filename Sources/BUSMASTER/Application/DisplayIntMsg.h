@@ -22,7 +22,8 @@
  * This file contain the definition of CDisplayIntMsg class
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_DISPLAYINTMSG_H_
+#define BUSMASTER_APPLICATION_DISPLAYINTMSG_H_
 
 class CDisplayIntMsg : public CDialog {
     // Construction
@@ -30,20 +31,15 @@ public:
     CDisplayIntMsg(CONST CStringArray& omStrStringArray);
 
     enum { IDD = IDD_DLG_INTERPRETED_MSG };
-    CEdit   m_omEditControl;
+    CEdit m_omEditControl;
 
-
-    // Overrides
-    // ClassWizard generated virtual function overrides
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
-    // Implementation
-protected:
-
+    virtual void DoDataExchange(CDataExchange* pDX);
     // Generated message map functions
     virtual BOOL OnInitDialog();
     DECLARE_MESSAGE_MAP()
 private:
     CStringArray m_omInterpretedMsg;
 };
+
+#endif // BUSMASTER_APPLICATION_DISPLAYINTMSG_H_

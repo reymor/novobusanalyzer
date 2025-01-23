@@ -59,8 +59,7 @@ CFlexTxHandler::CFlexTxHandler(void)
 
 CFlexTxHandler::~CFlexTxHandler(void)
 {
-    if ( m_hTxHandle != nullptr )
-    {
+    if (m_hTxHandle != nullptr) {
         FreeLibrary(m_hTxHandle);
     }
 }
@@ -77,8 +76,7 @@ CFlexTxHandler::~CFlexTxHandler(void)
 *******************************************************************************/
 void CFlexTxHandler::vLoadTx_DLL()
 {
-    if ( m_hTxHandle != nullptr )
-    {
+    if (m_hTxHandle != nullptr) {
         FreeLibrary(m_hTxHandle);
         m_hTxHandle = nullptr;
     }
@@ -144,26 +142,22 @@ void CFlexTxHandler::vloadFuncPtrAddress()
 
 void CFlexTxHandler::vBusStatusChanged(ETYPE_BUS eBusType, ESTATUS_BUS eBusStatus)
 {
-    if ( pfBusStatusChanged != nullptr )
-    {
+    if (pfBusStatusChanged != nullptr) {
         pfBusStatusChanged(eBusType, eBusStatus);
     }
 }
 
 void CFlexTxHandler::vShowLINScheduleConfigDlg(bool bShow)
 {
-    if ( pfLINShowScheduleConfigDlg != nullptr )
-    {
+    if (pfLINShowScheduleConfigDlg != nullptr) {
         pfLINShowScheduleConfigDlg(bShow);
     }
-
 }
 
 
 void CFlexTxHandler::vCreateLINScheduleConfigDlg(void* pParentWnd, IBMNetWorkGetService* pClusterConfig)
 {
-    if(pfCreateLINScheduleConfigDlg != nullptr)
-    {
+    if (pfCreateLINScheduleConfigDlg != nullptr) {
         pfCreateLINScheduleConfigDlg(pParentWnd, pClusterConfig);
     }
 }
@@ -180,8 +174,7 @@ void CFlexTxHandler::vCreateLINScheduleConfigDlg(void* pParentWnd, IBMNetWorkGet
 *******************************************************************************/
 void CFlexTxHandler::vShowConfigureMsgWindow(void* pParentWnd, ETYPE_BUS eBUS)
 {
-    if(pfFlexShowConfigureMsgWindow != nullptr)
-    {
+    if (pfFlexShowConfigureMsgWindow != nullptr) {
         pfFlexShowConfigureMsgWindow(pParentWnd, eBUS);
     }
 }
@@ -198,8 +191,7 @@ void CFlexTxHandler::vShowConfigureMsgWindow(void* pParentWnd, ETYPE_BUS eBUS)
 *******************************************************************************/
 void CFlexTxHandler::vSetClientID(ETYPE_BUS eBusType,  DWORD dwClientID)
 {
-    if(pfFlexSetClientId != nullptr)
-    {
+    if (pfFlexSetClientId != nullptr) {
         pfFlexSetClientId(eBusType, dwClientID);
     }
 }
@@ -216,8 +208,7 @@ void CFlexTxHandler::vSetClientID(ETYPE_BUS eBusType,  DWORD dwClientID)
 *******************************************************************************/
 void CFlexTxHandler::vSetDILInterfacePtr(ETYPE_BUS eBusType, void* pDilInterface)
 {
-    if(pfFlexSetDILInterfacePtr != nullptr)
-    {
+    if (pfFlexSetDILInterfacePtr != nullptr) {
         pfFlexSetDILInterfacePtr(eBusType, pDilInterface );
     }
 }
@@ -234,8 +225,7 @@ void CFlexTxHandler::vSetDILInterfacePtr(ETYPE_BUS eBusType, void* pDilInterface
 *******************************************************************************/
 void CFlexTxHandler::vPostMessageToTxWnd(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    if(pfFlexPostMessageToTxWnd != nullptr)
-    {
+    if (pfFlexPostMessageToTxWnd != nullptr) {
         pfFlexPostMessageToTxWnd(msg, wParam, lParam);
     }
 }
@@ -254,8 +244,7 @@ HRESULT CFlexTxHandler::hConfigWindowShown(ETYPE_BUS eBusType)
 {
     HRESULT hResult = S_FALSE;
 
-    if(pfFlexConfigWindowShown != nullptr)
-    {
+    if (pfFlexConfigWindowShown != nullptr) {
         hResult = pfFlexConfigWindowShown(eBusType);
     }
 
@@ -274,8 +263,7 @@ HRESULT CFlexTxHandler::hConfigWindowShown(ETYPE_BUS eBusType)
 *******************************************************************************/
 void CFlexTxHandler::vGetTxWndConfigData(ETYPE_BUS eBusType, xmlNodePtr pxmlNodePtr)
 {
-    if(pfFlexGetTxWndConfigData != nullptr)
-    {
+    if (pfFlexGetTxWndConfigData != nullptr) {
         pfFlexGetTxWndConfigData(eBusType, pxmlNodePtr);
     }
 }
@@ -290,8 +278,7 @@ void CFlexTxHandler::vGetTxWndConfigData(ETYPE_BUS eBusType, xmlNodePtr pxmlNode
 *******************************************************************************/
 void CFlexTxHandler::vSetScheduleConfig(xmlDocPtr pxmlDocPtr)
 {
-    if(pfLINSetScheduleConfig != nullptr)
-    {
+    if (pfLINSetScheduleConfig != nullptr) {
         pfLINSetScheduleConfig(pxmlDocPtr);
     }
 }
@@ -306,8 +293,7 @@ void CFlexTxHandler::vSetScheduleConfig(xmlDocPtr pxmlDocPtr)
 *******************************************************************************/
 void CFlexTxHandler::vGetScheduleConfig(xmlNodePtr pxmlNodePtr)
 {
-    if(pfLINGetScheduleConfig != nullptr)
-    {
+    if (pfLINGetScheduleConfig != nullptr) {
         pfLINGetScheduleConfig(pxmlNodePtr);
     }
 }
@@ -323,20 +309,15 @@ void CFlexTxHandler::vGetScheduleConfig(xmlNodePtr pxmlNodePtr)
 *******************************************************************************/
 void CFlexTxHandler::vSetTxWndConfigData( ETYPE_BUS eBusType, xmlDocPtr pDoc)
 {
-    if(pfFlexSetTxWndConfigDataXML != nullptr)
-    {
+    if (pfFlexSetTxWndConfigDataXML != nullptr) {
         pfFlexSetTxWndConfigDataXML(eBusType, pDoc);
     }
 }
 
 HRESULT CFlexTxHandler::SetNetworkConfig(ETYPE_BUS eBusType, IBMNetWorkGetService* ouNetWorkConfig)
 {
-    if (nullptr != pfUpdateNetworkConfig)
-    {
+    if (nullptr != pfUpdateNetworkConfig) {
         return pfUpdateNetworkConfig(eBusType, ouNetWorkConfig);
     }
     return S_FALSE;
 }
-
-
-

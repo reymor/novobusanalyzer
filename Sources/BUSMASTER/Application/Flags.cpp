@@ -76,43 +76,6 @@ CFlags::CFlags(PSTOOLBARINFO psToolBarInfo)
     // This is applicable only to the first 6
     // toolbar buttons initialised below
 
-    /*m_bDisplayFilterOn      = FALSE;
-    m_bLogFilterOn          = FALSE;
-    m_bLogEnable            = FALSE;
-    m_bTranslationMode      = FALSE;
-    m_bDisplayHexON         = FALSE;
-    m_bOverwriteEnable      = TRUE;
-    m_wDisplayTimeMode      = eSYSTEM_MODE;
-    m_bLogToWindow          = TRUE;
-    m_bMsgFilterButton      = FALSE;
-    m_bTranslationMode      = FALSE;
-    m_bFilterUndefinedMsgs  = FALSE;
-    m_bRxMsg                = FALSE;
-    m_bSelectDatabaseFile   = FALSE;
-    m_bDllLoaded            = FALSE;
-    m_bTimerButtonOn        = FALSE;
-    m_bFunctionEditorOn     = FALSE;
-    m_bFilterTxMsg          = FALSE;
-    m_bDbOpen               = FALSE;
-    m_wReplayMode           = FALSE;
-    m_bReplayFileSelected   = FALSE;
-    m_bMsgHandlerOn         = FALSE;
-    m_bScrolling            = TRUE;
-    m_bMessageSelected      = FALSE;
-    m_bTimeDelayReplayFile  = TRUE;
-    m_bStopFilter           = TRUE;
-    m_bConnected            = FALSE;
-    m_bKeyHandlerOn         = FALSE;
-    m_wControllerMode       = 1;  // Active mode
-    m_bErrorHandlerOn       = FALSE;
-    m_bDLLHandlerOn         = FALSE;
-    m_bALLHandler           = FALSE;
-    m_bParallelPortEPP      = TRUE;
-    m_bLogHexON             = TRUE;
-    m_wLogTimeMode          = eSYSTEM_MODE; // System mode
-    m_nReplayMsgType        = eALL_MESSAGE; // default is all messages
-    m_bLogOverWriteON       = TRUE;
-    m_bSendSignalMSg        = FALSE;*/
     vInitializeFlags();
     // If Configuration file has this info
     // use the same
@@ -278,8 +241,7 @@ void CFlags::vSetFlagStatus(eCANMONITORFLAG eWhichFlag, INT nValue)
 {
     m_omCriticalSec.Lock();
 
-    switch( eWhichFlag )
-    {
+    switch (eWhichFlag) {
         case LOGTODISPLAY:
             m_bLogToWindow = nValue;
             break;
@@ -468,8 +430,7 @@ int CFlags::nGetFlagStatus(eCANMONITORFLAG eWhichFlag)
 
     m_omCriticalSec.Lock();
 
-    switch( eWhichFlag )
-    {
+    switch (eWhichFlag) {
         case LOGTODISPLAY:
             nRetValue = m_bLogToWindow;
             break;
@@ -611,8 +572,7 @@ int CFlags::nGetFlagStatus(eCANMONITORFLAG eWhichFlag)
 /******************************************************************************/
 void CFlags::vGetToolbarButtonStatus(PSTOOLBARINFO psToolBarInfo)
 {
-    if ( psToolBarInfo != nullptr )
-    {
+    if (psToolBarInfo != nullptr) {
         psToolBarInfo->m_byMsgFilter        = static_cast<BYTE>(m_bDisplayFilterOn);
         psToolBarInfo->m_byMsgFilterLin        = static_cast<BYTE>(m_bDisplayFilterOnLin);
         psToolBarInfo->m_byLogFilter        = static_cast<BYTE>(m_bLogFilterOn);
@@ -654,8 +614,7 @@ void CFlags::vGetToolbarButtonStatus(PSTOOLBARINFO psToolBarInfo)
 /******************************************************************************/
 void CFlags::vSetToolbarButtonStatus(PSTOOLBARINFO psToolBarInfo)
 {
-    if ( psToolBarInfo != nullptr )
-    {
+    if (psToolBarInfo != nullptr) {
         m_bDisplayFilterOn      = psToolBarInfo->m_byMsgFilter;
         m_bDisplayFilterOnLin      = psToolBarInfo->m_byMsgFilterLin;
         m_bLogFilterOn          = psToolBarInfo->m_byLogFilter;

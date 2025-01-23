@@ -16,7 +16,6 @@ Modifications   :
 #include "HashDefines.h"
 #include "ConfigMsgDispPropPg.h"
 
-
 IMPLEMENT_DYNAMIC(CConfigMsgDispPropPg, CPropertyPage)
 CConfigMsgDispPropPg::CConfigMsgDispPropPg()
     : CPropertyPage(CConfigMsgDispPropPg::IDD)
@@ -58,7 +57,6 @@ void CConfigMsgDispPropPg::DoDataExchange(CDataExchange* pDX)
     CPropertyPage::DoDataExchange(pDX);
 }
 
-
 BEGIN_MESSAGE_MAP(CConfigMsgDispPropPg, CPropertyPage)
     ON_WM_CTLCOLOR()
     ON_STN_CLICKED(IDC_STAT_NULLFRAME_COLOR, OnStnClickedNullframeColor)
@@ -66,7 +64,6 @@ BEGIN_MESSAGE_MAP(CConfigMsgDispPropPg, CPropertyPage)
     ON_STN_CLICKED(IDC_STAT_STATICFRAME_COLOR, OnStnClickedStaticframeColor)
     ON_STN_CLICKED(IDC_STAT_DYNAMICFRAME_COLOR, OnStnClickedDynamicframeColor)
 END_MESSAGE_MAP()
-
 
 // CConfigMsgDispPropPg message handlers
 /**********************************************************************************
@@ -87,23 +84,19 @@ HBRUSH CConfigMsgDispPropPg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     HBRUSH hbr = CPropertyPage::OnCtlColor(pDC, pWnd, nCtlColor);
 
     // TODO:  Change any attributes of the DC here
-    if (pWnd->GetDlgCtrlID() == IDC_NULLFRAME_COLOR_STAT)
-    {
+    if (pWnd->GetDlgCtrlID() == IDC_NULLFRAME_COLOR_STAT) {
         hbr = CreateSolidBrush(m_clrNullFrame);
     }
 
-    if (pWnd->GetDlgCtrlID() == IDC_SYNCFRAME_COLOR_STAT)
-    {
+    if (pWnd->GetDlgCtrlID() == IDC_SYNCFRAME_COLOR_STAT) {
         hbr = CreateSolidBrush(m_clrSyncFrame);
     }
 
-    if (pWnd->GetDlgCtrlID() == IDC_STATICFRAME_COLOR_STAT)
-    {
+    if (pWnd->GetDlgCtrlID() == IDC_STATICFRAME_COLOR_STAT) {
         hbr = CreateSolidBrush(m_clrStaticFrame);
     }
 
-    if (pWnd->GetDlgCtrlID() == IDC_DYNAMICFRAME_COLOR_STAT)
-    {
+    if (pWnd->GetDlgCtrlID() == IDC_DYNAMICFRAME_COLOR_STAT) {
         hbr = CreateSolidBrush(m_clrDynamicFrame);
     }
 
@@ -131,8 +124,7 @@ void CConfigMsgDispPropPg::OnStnClickedNullframeColor()
 {
     // TODO: Add your control notification handler code here
     CColorDialog dlg(m_clrNullFrame, CC_FULLOPEN | CC_ANYCOLOR, this);
-    if (dlg.DoModal() == IDOK)
-    {
+    if (dlg.DoModal() == IDOK) {
         m_clrNullFrame = dlg.GetColor();
         GetDlgItem(IDC_STAT_NULLFRAME_COLOR)->InvalidateRect(nullptr);
     }
@@ -142,8 +134,7 @@ void CConfigMsgDispPropPg::OnStnClickedSyncframeColor()
 {
     // TODO: Add your control notification handler code here
     CColorDialog dlg(m_clrSyncFrame, CC_FULLOPEN | CC_ANYCOLOR, this);
-    if (dlg.DoModal() == IDOK)
-    {
+    if (dlg.DoModal() == IDOK) {
         m_clrSyncFrame = dlg.GetColor();
         GetDlgItem(IDC_STAT_SYNCFRAME_COLOR)->InvalidateRect(nullptr);
     }
@@ -153,8 +144,7 @@ void CConfigMsgDispPropPg::OnStnClickedStaticframeColor()
 {
     // TODO: Add your control notification handler code here
     CColorDialog dlg(m_clrStaticFrame, CC_FULLOPEN | CC_ANYCOLOR, this);
-    if (dlg.DoModal() == IDOK)
-    {
+    if (dlg.DoModal() == IDOK) {
         m_clrStaticFrame = dlg.GetColor();
         GetDlgItem(IDC_STAT_STATICFRAME_COLOR)->InvalidateRect(nullptr);
     }
@@ -164,8 +154,7 @@ void CConfigMsgDispPropPg::OnStnClickedDynamicframeColor()
 {
     // TODO: Add your control notification handler code here
     CColorDialog dlg(m_clrDynamicFrame, CC_FULLOPEN | CC_ANYCOLOR, this);
-    if (dlg.DoModal() == IDOK)
-    {
+    if (dlg.DoModal() == IDOK) {
         m_clrDynamicFrame = dlg.GetColor();
         GetDlgItem(IDC_STAT_DYNAMICFRAME_COLOR)->InvalidateRect(nullptr);
     }

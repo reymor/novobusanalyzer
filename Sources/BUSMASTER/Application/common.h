@@ -19,7 +19,8 @@
  * \copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_COMMON_H_
+#define BUSMASTER_APPLICATION_COMMON_H_
 
 enum {
     LOAD_CONFIG,
@@ -48,12 +49,10 @@ enum {
 
 #define IDC_LSTB_OUTPUT             300
 
-//#define WM_NOTIFICATION_FROM_OTHER  (WM_USER + 34)
 #define WM_RX_COMPLETE              (WM_USER + 61)
 #define WM_TX_COMPLETE              (WM_USER + 62)
 #define WM_HW_STATUS                (WM_USER + 63)
 #define WM_HW_NETWORK_STATISTICS    (WM_USER + 64)
-//#define WM_MODIFY_VISIBILITY      (WM_USER + 65)
 #define WM_UPDATE_FONT              (WM_USER + 66)
 #define WM_UPDATE_MSGWNDCFG         (WM_USER + 67)
 #define WM_WND_PROP_MODIFY          (WM_USER + 68)
@@ -69,12 +68,9 @@ enum {
 #define WM_LOAD_HW_ICON             (WM_USER + 78)
 //To manage msg colour
 #define WM_MSG_COLOR_MODIFY         (WM_USER + 79)
-//#define WM_MSG_FILTER_STATUS        (WM_USER + 30)
 #define WM_IS_HW_ACTIVE             (WM_USER + 80)
 #define WM_MSG_INTERPRETATION       (WM_USER + 81)
 #define WM_IS_SENDMSG_PRESENT       (WM_USER + 82)
-//#define WM_NOTIFICATION_FROM_OTHER    (WM_USER + 83)
-//#define WM_LOAD_SAVE_WINSTATUS      (WM_USER + 84)
 #define WM_THREADMSG_PROC           (WM_USER + 85)
 #define WM_TRACE_WND_DISP           (WM_USER + 86)
 #define WM_GET_DB_PTR               (WM_USER + 87)
@@ -105,7 +101,6 @@ enum {
 
 #define APPLICATION_NAME             "BUSMASTER"
 #define DEFAULT_PROJECT_NAME         "BUSMASTER"
-//#define defSTR_CONF_SAVE_CONFIRM     _T("Configuration File is modified \n Do you want to save this configuration?")
 
 #define BUSMASTER_APPN_VERSION_6_0          6.0
 #define BUSMASTER_APPN_VERSION_6_1          6.1
@@ -118,7 +113,6 @@ enum {
 
 #define defSTR_DEFAULT_MRU_ITEM  "Empty"
 #define defSTR_FILE_MENU_TEXT    "&File"
-//#define defSTR_RECENT_MENU_TEXT  _T("Recent File")
 
 #define RULE_FILE_EXTENSION      "xml"
 #define RULE_FILTER              "*.xml|*.xml||"
@@ -156,3 +150,5 @@ struct DisplaySettings {
     BOOL m_bFrameDisplay;
     BOOL m_bPDUDisplay;
 };
+
+#endif // BUSMASTER_APPLICATION_COMMON_H_

@@ -21,11 +21,14 @@
  *
  * CTxHandler class
  */
-#pragma once
+
+#ifndef BUSMASTER_APPLICATION_FLEXTXHANDLER_H_
+#define BUSMASTER_APPLICATION_FLEXTXHANDLER_H_
+
 #include "TxWindow/TXWindow_Extern.h"
 #include "MsgSignal.h"
-class CFlexTxHandler
-{
+
+class CFlexTxHandler {
 private:
     HMODULE m_hTxHandle;
     void vInitializeFuncPtrs();
@@ -53,3 +56,5 @@ public:
     void vSetScheduleConfig(xmlDocPtr pxmlDocPtr);
     void vGetScheduleConfig(xmlNodePtr pxmlNodePtr);
 };
+
+#endif // BUSMASTER_APPLICATION_FLEXTXHANDLER_H_

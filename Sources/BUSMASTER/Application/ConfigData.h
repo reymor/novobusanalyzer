@@ -18,7 +18,9 @@
  * @copyright Copyright (c) 2011, Robert Bosch Engineering and Business Solutions. All rights reserved.
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_CONFIGDATA_H_
+#define BUSMASTER_APPLICATION_CONFIGDATA_H_
+
 #pragma pack(8)
 
 #include <string>
@@ -50,3 +52,5 @@ public:
     BOOL bSetData(LPVOID lpVoid, int nStreamLength, std::string strSectionName);
     BOOL bGetData(void*& lpData,int& nStreamLength, std::string strSectionName);
 };
+
+#endif // BUSMASTER_APPLICATION_CONFIGDATA_H_
