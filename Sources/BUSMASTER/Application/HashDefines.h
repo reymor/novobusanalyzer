@@ -22,12 +22,11 @@
  * This header file contains the hash define
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_HASHDEFINES_H_
+#define BUSMASTER_APPLICATION_HASHDEFINES_H_
 
 #define MAX_PROTOCOL               20
 #define AVAILABLE_PROTOCOLS         5
-
-
 
 #define defDRIVER_VERSION "CAN Driver Ver %d.%.2d.%c%x"
 
@@ -75,62 +74,54 @@
 #define COLOUR_STAT_FRAME       RGB(128,   0,   0)
 #define COLOUR_SYNC_FRAME       RGB(  0,   0, 128)
 // Replay type of logged messages
-enum eREPLAYTYPE
-{
+enum eREPLAYTYPE {
     eTX_MESSAGE = 0,
     eRX_MESSAGE,
     eALL_MESSAGE
 };
 
-enum eMODES
-{
-    MD_ADD          =   0,
+enum eMODES {
+    MD_ADD = 0,
     MD_EDIT,
     MD_DELETE,
     MD_READ_ONLY,
     MD_NONE
 };
 
-enum MSG_SENT_BY
-{
-    MSG_NAME_EDIT_CTRL  =   0,
+enum MSG_SENT_BY {
+    MSG_NAME_EDIT_CTRL = 0,
     MSG_PRMVAR_EDIT_CTRL,
     MSG_PRMTYP_EDIT_CTRL
 };
 
-enum eMSG_CHANGES_IN
-{
-    MSG_NAME    =   0,
+enum eMSG_CHANGES_IN {
+    MSG_NAME = 0,
     MSG_CODE,
     MSG_LENGTH,
     MSG_FRAME_FORMAT,
     MSG_DATA_FORMAT
-
 };
 
-enum eSELTYPE
-{
+enum eSELTYPE {
     SEL_MESSAGE = 0,
     SEL_SIGNAL,
     SEL_GLOBAL_MESSAGE
 };
 
-enum eMESSAGEFROM
-{
+enum eMESSAGEFROM {
     FNTREEVIEW = 0,
     OUTWND,
     FNVIEW,
     SENDMESGBUTTON
 };
-enum eTIMEMODE
-{
+
+enum eTIMEMODE {
     eSYSTEM_MODE = 0,
     eABSOLUTE_MODE,
     eRELATIVE_MODE
 };
 
-enum eREPLAYMODE
-{
+enum eREPLAYMODE {
     REPLAY_OFF = 0,
     REPLAY_ON,
     RUN_CYCLIC,
@@ -150,8 +141,6 @@ enum eREPLAYMODE
 #define SPLT_TWO_COLS   1
 
 #define ERROR_WND_LISTCTLR_ID 20002
-
-
 
 // default fn names
 #define DEFAULT_MSG_FN_NAME     "newMessage()"
@@ -182,17 +171,13 @@ void newFuncName( )\n{\n\n}"
 
 #define defMAX_TEXT_ACCEPTANCE  2
 
-
 typedef void (*MSGFNPTR)(unsigned short, unsigned char, unsigned char*);
 typedef void (*TIMERFNPTR)();
-//For an integer list
-//typedef CList<int,int>      defomIntegerList;
 
 #define TXT_FILE_NAME           "UserFnInfoFile.txt"
 #define NEW_LINE                "\n"
 #define START_ID                "[START]"
 #define END_ID                  "[END]"
-
 
 #define SENDMSG                 "SendMsg( unsigned short Can_ID, unsigned short DLC,unsigned char *Data )"
 #define READMSG                 "ReadMsg( unsigned short *Can_ID, unsigned char *DLC, unsigned char *Data )"
@@ -219,7 +204,6 @@ typedef void (*TIMERFNPTR)();
 #define defDATATYPE_CHANNEL_NUM "\tunsigned char m_ucChannel	;\n"
 #define defDATATYPE_TIMESTAMP   "\n\tUINT m_ulTimeStamp;\n"
 #define defDATATYPE_FD_FLAG     "\tbool		     m_bCANFD        ;\n"
-//#define defDATATYPE_CANFD       "\n\tUCHAR *m_aucCANFDData;\n"
 #define defDATATYPE_MSG_DATA    "\t%-12s  %s     ;\n"
 #define defSTART_OF_STRUCT_DEF  "\n\tstruct\n\t{\n"
 #define defEND_OF_STRUCT_DEF    "\n} %s;\n"
@@ -242,7 +226,6 @@ typedef void (*TIMERFNPTR)();
 #define defDATA_LONG_ARRAY         "\tunsigned long  int m_aulData[2];\n"
 
 #define H_FILE_HEADER_START "#pragma once"
-//#define H_FILE_HEADER_START     "#ifndef %s_UNIONS_H_\n#define %s_UNIONS_H_\n#pragma pack(push,8)\n"
 #define H_FILE_HEADER_PRAGMA_PACK "\n#pragma pack(pop,8)"
 #define GLOBALS                 "Global Variable(s)"
 
@@ -268,8 +251,6 @@ typedef void (*TIMERFNPTR)();
 #define DIALOG_COLOR            RGB(150,150,150)
 #define DEFAULT_MSG_COLOUR      RGB(0, 0, 0)
 
-
-
 // default no of chars in a tab
 #define defNO_OF_CHARS_IN_TAB   4
 #define MARGIN_FOR_FILE_VIEW    5
@@ -284,8 +265,6 @@ typedef void (*TIMERFNPTR)();
     ((omDeviceContext.GetDeviceCaps (LOGPIXELSY) * 10) / 72)
 #define GET_FILE_VIEW_CHAR_WIDTH() \
     ((omDeviceContext.GetDeviceCaps (LOGPIXELSX) * 6) / 72)
-
-
 
 //Initializer constants
 #define INT_INIT                (INT)0
@@ -528,11 +507,6 @@ PLACE_HODLER_FOR_FUNCTIONNAME */"
 // Define for all Util Message Thread
 #define defOFFSET_TXMSG              1
 #define defTX_SEL_MSG_THREAD         0
-//#define defKEY_HANDLER_THREAD        0
-//#define defERROR_HANDLER_THREAD      3
-//#define defDLL_LOAD_HANDLER_THREAD   4
-//#define defDLL_UNLOAD_HANDLER_THREAD 5
-//#define defMSG_HANDLER_THREAD        6
 
 //Parameters for the CEvent objects array used in CExecuteFunc
 #define defEVENT_EXFUNC_TOTAL        5
@@ -543,15 +517,11 @@ PLACE_HODLER_FOR_FUNCTIONNAME */"
 #define defDLL_UNLOAD_HANDLER_THREAD 3
 #define defMSG_HANDLER_THREAD        4
 
-
-
-
 #define defMAX_WAIT_UTIL_THREAD 3000  // in miliseconds
 
 #define MAX_TIME_LIMIT      1000    // in miliseconds
 
-
-#define FLOOR_TX_MESSAGE_DLC          9   // 
+#define FLOOR_TX_MESSAGE_DLC          9
 
 // User defined messages defined
 #define WM_STATUSBAR                WM_USER + 1
@@ -602,11 +572,6 @@ PLACE_HODLER_FOR_FUNCTIONNAME */"
 #define WM_ENABLE_DISABLE_HANDLERS  WM_USER + 50
 #define WM_SET_UPDATE_TIMER         WM_USER + 51
 // CColourPopup messages
-//#define WM_CPN_SELCHANGE            WM_USER + 52 // Colour Picker Selection change
-//#define WM_CPN_DROPDOWN             WM_USER + 53 // Colour Picker drop down
-//#define WM_CPN_CLOSEUP              WM_USER + 54 // Colour Picker close up
-//#define WM_CPN_SELENDOK             WM_USER + 55 // Colour Picker end OK
-//#define WM_CPN_SELENDCANCEL         WM_USER + 56 // Colour Picker end (cancelled)
 #define WM_CONNECT_CHANGE           WM_USER + 57 // Connection Change Event
 #define WM_CONFIG_CHANGE            WM_USER + 58 // Configuration Change Event
 #define WM_DATABASE_CHANGE          WM_USER + 59 // Database associate/dissociate event
@@ -721,7 +686,6 @@ const int RX_MESSAGE = 0xdfffffff;  // bitwise AND to make it a Rx message
 #define MAKE_DEST_SPECIFIC_MESSAGE(MSGID, DEST) ( ((unsigned __int64)((MSGID))) | (((__int64)(DEST)) << defBITS_IN_SIX_BYTE) )
 #define MAKE_TYPE_SPECIFIC_MESSAGE(MSGID, TYPE) ( ((unsigned __int64)((MSGID))) | (((__int64)(TYPE)) << defBITS_IN_SEVEN_BYTE) )
 
-
 const int BIT_FILTER_DISPLAY =  0x1;
 const int BIT_FILTER_LOG     =  0x2;
 const int BIT_FILTER_TX_MSG  =  0x4;
@@ -745,11 +709,6 @@ const int SIZE_HASH_TABLE_DBMSGS = 199;
 #define IDC_LSTC_MESSAGE            200
 #define IDC_LSTB_OUTPUT             300
 #define IDC_LSTB_REPLAY             400
-
-// typedef
-//typedef CArray<INT, INT&> CARRAY;
-//typedef CARRAY* PCARRAY;
-
 
 #define SPACE_BET_CHAR_IN_FILE_VIEW 20
 #define SPACE_BET_LINE_IN_FILE_VIEW 5
@@ -944,15 +903,12 @@ details since message length\nfor the selected message is zero!"
 #define defCHANGEDSIMSYS           0x0000000000000001
 
 // enumerators for obtaining information from the configuration file
-enum eCONFIGDETAILS
-{
+enum eCONFIGDETAILS {
     MRU_C_FILE_NAME,    //  MRU C File
     LOG_FILE_NAME,      // log file information
     REPLAY_FILE_NAME,   // replay file information
     DATABASE_FILE_NAME, // database filename
     MRU_DLL_FILE_NAME,  // dll filename
-    //MESSAGE_NAME,           // message name
-    //MESSAGE_ID,             // message id
     SEND_MULTI_MSGS,    // multiple message
     CONTROLLER_DETAILS, // Controller information
     MSG_ATTRIBUTES,     // attributes of all the messages
@@ -1018,7 +974,6 @@ and then restart the application."
 #define defSTR_FORMAT_DISPLAY_DEC    "%-60s   [%16I64d]"
 #define defSTR_FORMAT_DISPLAY_HEX    "%-60s   [%16I64X]"
 #define defSTR_FORMAT_OL_INTRP   "         %-20s %-20s"
-//#define defSTR_SIGNAL_WATCH_FMT  _(" %-2s %-16s-> %-14s %-10s[%s]")
 #define defSTR_FORMAT_PHY_VALUE  "%.3f"
 #define defSTR_FORMAT_PHY_VALUE_WITH_UNIT  "%16s %s"
 // To have a left justified format string for interpretation to utilist visible area
@@ -1028,14 +983,6 @@ and then restart the application."
 #define defSTR_DEFAULT_DBNAME    "None"
 #define defCOLOR_WHITE           RGB(255,255,255)
 #define defSTR_MSG_SIG_SEPERATER " -> "
-//#define defSTR_FORMAT_SW_LIST    _("%s%s%s")
-
-//#define defSTR_SW_DELETE_ERROR   _("Error while deleting temporary list!!!")
-//#define defSTR_SW_DELETE_SIG_ERROR  _("Error while deleting Signal %s from Message %s !!!")
-//#define defSTR_SW_DELETE_SIG_MSGID_ERROR _("Error while deleting Signal %s from Message ID: %x !!!")
-//#define defSTR_SW_PARSE_ERROR    _("Parse Error in %s ")
-//#define defSTR_SW_SIGNAL_DETAIL_ERROR   _("Signal Not Found in the Database!!\nPlease remove the Signal")
-//#define defSTR_SW_SIGNAL_GENERIC_ERROR  _("Error showing Signal Details!!")
 
 #define defSTR_CLOSE_MENU_TEXT  "&Close"
 
@@ -1117,7 +1064,6 @@ const int LENGTH_DATASTRING = 33;
 #define defSTR_DLC      "DLC"
 #define defSTR_DATA     "Data Byte(s)"
 
-
 #define defSTR_OW_BUFFER_OVERFLOW   "Overwrite Buffer overflow occured. Please increase the Overwrite Buffer size"
 
 #define SIGNED_VAL  1
@@ -1135,8 +1081,6 @@ const int LENGTH_DATASTRING = 33;
 
 // These are all not required as it is already defined as defSTR_PHYSICAL_COLUMN
 // and defSTR_RAW_COLUMN
-//#define defSTR_SIGNAL_RAW_VALUE     _("Raw Value")
-//#define defSTR_SIGNAL_PHY_VALUE     _("Physical Value")
 #define defSTR_SIGNAL_UNIT          "Unit"
 #define def_SIG_NAME_COLUMN         0
 #define def_RAW_VALUE_COLUMN        1
@@ -1180,8 +1124,6 @@ const int LENGTH_DATASTRING = 33;
 
 #define defSTR_INVALID_SIGNAL_DEFINITION    "%s has invalid signal definition"
 #define defSTR_DATABASE_CHECK_WARN          "Please check the database file!!"
-
-
 
 #define defSIGNAL_ICON_SIZE               16
 // Message Buffer Size Related definitions
@@ -1289,7 +1231,6 @@ transmission is ON.\nDo you want to ignore the changes ?"
 #define defSTR_FORMAT_BUS_LOAD_LIN              _("%-5.2f %%")
 #define defBITS_KBUAD_RATE_LIN                  1000.0
 
-
 // These are all USB Related Definitions
 #define defSTR_DUAL_FILTERING               "\tDual Filtering\n"
 #define defSTR_WARNING_LIMIT                "\tWarning Limit\n"
@@ -1300,8 +1241,6 @@ transmission is ON.\nDo you want to ignore the changes ?"
 #define defSTR_SIMULATE_MENU_TEXT           "Simulate"
 
 #define defSTR_PEAK_USB_DEVICE              "pcan_usb"
-//#define defSTR_PEAK_NPNP_DEVICE             _("peakcan")
-//#define defSTR_PEAK_USB_DEVICE_NAME         _("PEAK USB-CAN")
 // Maximum name length is 20
 #define defSTR_PEAK_USB_HW_NET_NAME                "BUSMASTER USB Net"
 #define defSTR_PEAK_USB_SIM_NET_NAME               "BUSMASTER Sim Net"
@@ -1331,7 +1270,6 @@ transmission is ON.\nDo you want to ignore the changes ?"
 #define defCONTROLLER_ACTIVE                   1
 #define defCONTROLLER_PASSIVE                  2
 #define defCONTROLLER_BUSOFF                   3
-
 
 #define defSTR_MODE_MISMATCH                "No USB Hardware found. Switching to Simulation mode"
 #define defSTR_HW_TEST_SUCCESS              "Hardware Interface test passed successfully"
@@ -1400,7 +1338,6 @@ transmission is ON.\nDo you want to ignore the changes ?"
 
 #define defSTR_INVALID_RANGE        "Please enter valid range value"
 
-
 #define defSTR_SHOW_GRID        "Show Grid"
 #define defSTR_HIDE_GRID        "Hide Grid"
 #define defUPDATE_TIMER_ID      100
@@ -1428,15 +1365,6 @@ transmission is ON.\nDo you want to ignore the changes ?"
 
 #define defDEFAULT_LINE_WIDTH           1
 #define defSELECTED_LINE_WIDTH          2
-
-// Color Picker
-//#define defSTR_DEFAULT_TEXT         _("Automatic")
-//#define defSTR_CUSTOM_TEXT          _("More Colours...")
-
-// Color Popup
-//#define defCOLOR_BOX_SIZE           18
-
-
 
 // Default values
 #define defDEFAULT_BUFFER_SIZE      5000   // 5000 Entries
@@ -1470,8 +1398,6 @@ transmission is ON.\nDo you want to ignore the changes ?"
 #define defSTR_BAUD_RATE_FORMAT     "Channel %-2d -> %s kbps"
 
 #define defSTR_EXPORT_DIALOG_CAPTION    "Select Export Filename..."
-//#define defSTR_CSV_FORMAT_SPECIFIER _("Comma Separated Values format (*.csv)|*.csv||")
-//#define defSTR_EXPORT_CREATE_SUCCESS _("CSV report successfully generated and saved at %s")
 #define defSTR_CSV_FILE_PATH_EMPTY      "Please enter valid CSV report file path"
 
 #define defSTR_REPORT_DIALOG_CAPTION    "Select Report Filename..."
@@ -1550,9 +1476,6 @@ transmission is ON.\nDo you want to ignore the changes ?"
 #define defSTR_BUSOFF_STATE                 "Bus Off"
 #define defSTR_UNKNOWN_STATE                "Unknown"
 
-
-
-
 #define defSTR_PARAMETER_MSG_TOTAL_LIN         "Data Frames      [Total]"
 #define defSTR_PARAMETER_MSG_RATE_LIN          "Data Frames      [fr/s]"
 #define defSTR_PARAMETER_ERR_TOTAL_LIN         "Errors        [Total]"
@@ -1564,7 +1487,6 @@ transmission is ON.\nDo you want to ignore the changes ?"
 #define defSTR_TX_HEADING_LIN                  "          Transmission Statistics    "
 
 #define defSTR_PARAMETER_TX_TOTAL_LIN          "Total Tx Frames"
-
 
 #define defSTR_PARAMETER_TX_ERR_TOTAL_LIN      "TransErr         [Total]"
 #define defSTR_PARAMETER_TX_ERR_RATE_LIN       "TransErr         [Err/s]"
@@ -1586,9 +1508,6 @@ transmission is ON.\nDo you want to ignore the changes ?"
 
 #define defSTR_PARAMETER_WAKEUPS_COUNT_LIN   "WAKEUPS    [fr/s]"
 #define defSTR_PARAMETER_WAKEUPS_RATE_LIN   "WAKEUPS    [Total]"
-//#define defSTR_PARAMETER_CHIPSTATE_LIN   "CHIPSTATE     "
-
-
 
 #define defSTR_ACTIVE_STATE_LIN                 "Active"
 #define defSTR_PASSIVE_STATE_LIN                "Passive"
@@ -1755,7 +1674,6 @@ transmission is ON.\nDo you want to ignore the changes ?"
 #define defLOG_TRIGGER_STOP                 2
 #define defLOG_TRIGGER_ALL                  3
 
-
 // Filter
 #define defFILTER_TYPE_SINGLE_ID                0
 #define defFILTER_TYPE_ID_RANGE                 1
@@ -1822,12 +1740,6 @@ transmission is ON.\nDo you want to ignore the changes ?"
 #define defREPLAY_MODE_MONOSHOT          0
 #define defREPLAY_MODE_CYCLIC            1
 
-
-
-
-
-
-
 //Replay Errors
 #define defSTR_REPLAY_FILE_SELECTION_TITLE  "Select Replay File Name"
 #define defSTR_REPLAY_ERROR         "Replay failed for: %s, %s"
@@ -1845,7 +1757,6 @@ transmission is ON.\nDo you want to ignore the changes ?"
 #define defSTR_MIXED_MODE_WARNING       "Mode Mismatch\n%d session(s) cannot be replayed"
 #define defSTR_PROTOCOL_USED            "PROTOCOL "
 #define defSTR_PROTOCOL_CAN             "PROTOCOL CAN"
-
 
 //Import log file error
 #define defSTR_ERR_IMPORTLOG_PRTOCOL_MISMATCH     "Protocol mismatch unable to import log file."
@@ -1899,3 +1810,5 @@ transmission is ON.\nDo you want to ignore the changes ?"
 #define BMKEY_F10           0x96
 #define BMKEY_F11           0x97
 #define BMKEY_F12           0x98
+
+#endif // BUSMASTER_APPLICATION_HASHDEFINES_H_

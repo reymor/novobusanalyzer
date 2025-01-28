@@ -16,12 +16,13 @@
   Copyright (c) 2011, Robert Bosch Engineering and Business Solutions.  All rights reserved.
 ******************************************************************************/
 // CJ1939TimeOutCfg dialog
-#pragma once
-#include "Utility/RadixEdit.h"
-class CJ1939TimeOutCfg : public CDialog
-{
-    DECLARE_DYNAMIC(CJ1939TimeOutCfg)
+#ifndef BUSMASTER_APPLICATION_J1939TIMEOUTCFG_H_
+#define BUSMASTER_APPLICATION_J1939TIMEOUTCFG_H_
 
+#include "Utility/RadixEdit.h"
+
+class CJ1939TimeOutCfg : public CDialog {
+    DECLARE_DYNAMIC(CJ1939TimeOutCfg)
 public:
     CJ1939TimeOutCfg(CWnd* pParent = nullptr);   // standard constructor
     virtual BOOL OnInitDialog();
@@ -59,3 +60,5 @@ public:
     afx_msg void OnEnChangeEditT4();
     afx_msg void OnBnClickedOk();
 };
+
+#endif // BUSMASTER_APPLICATION_J1939TIMEOUTCFG_H_

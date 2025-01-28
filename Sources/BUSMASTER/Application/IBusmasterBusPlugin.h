@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_IBUSMASTERBUSPLUGIN_H_
+#define BUSMASTER_APPLICATION_IBUSMASTERBUSPLUGIN_H_
 
 #include "ProtocolsDefinitions.h"
 #include "IBMNetWorkService.h"
@@ -21,3 +22,5 @@ public:
     
 	virtual ~IBusmasterBusPlugin(){};
 };
+
+#endif // BUSMASTER_APPLICATION_IBUSMASTERBUSPLUGIN_H_

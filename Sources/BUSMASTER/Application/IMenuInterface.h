@@ -1,8 +1,7 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_IMENUINTERFACE_H_
+#define BUSMASTER_APPLICATION_IMENUINTERFACE_H_
 
-
-class IMenuItem
-{
+class IMenuItem {
 public:
 	virtual ~IMenuItem() {}
 	virtual void enableItem(bool) = 0;
@@ -11,9 +10,11 @@ public:
 	virtual void getName(char*, int maxlength) = 0;
     virtual void setImageIndex(int index, BOOL isLarge) = 0;
 };
-class IMenuInterface
-{
+
+class IMenuInterface {
 public:
 	virtual void OnMenuItemClicked(const char* menuId) = 0;
 	virtual void updateMenuItem(const char* menuId, IMenuItem*) = 0;
 };
+
+#endif // BUSMASTER_APPLICATION_IMENUINTERFACE_H_

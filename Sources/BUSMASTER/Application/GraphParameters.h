@@ -22,17 +22,16 @@
  * Interface file for CGraphParameters class
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_GRAPHPARAMETERS_H_
+#define BUSMASTER_APPLICATION_GRAPHPARAMETERS_H_
 
-enum eDISPLAY_TYPE
-{
+enum eDISPLAY_TYPE {
     eDISPLAY_NORMAL,
     eDISPLAY_STEPMODE_XY,
     eDISPLAY_STEPMODE_YX
 };
 
-class CGraphParameters
-{
+class CGraphParameters {
 public:
     // To serialize class members
     void vInitialize(void);
@@ -75,3 +74,5 @@ public:
     //Graph Line Display
     eDISPLAY_TYPE m_eDisplayType;
 };
+
+#endif // BUSMASTER_APPLICATION_GRAPHPARAMETERS_H_

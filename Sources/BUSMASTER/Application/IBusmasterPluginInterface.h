@@ -1,5 +1,8 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_IBUSMASTERPLUGININTERFACE_H_
+#define BUSMASTER_APPLICATION_IBUSMASTERPLUGININTERFACE_H_
+
 #include <string>
+
 #include "IBusMasterKernel.h"
 #include "BusmasterEvents.h"
 #include "IBusmasterPluginConnection.h"
@@ -19,8 +22,7 @@ using namespace VariableManager;
 #define bus_status              0x10        //extended param - nullptr, expected INFO param: 
 #define numeric_mode            0x11        //extended param - nullptr, expected INFO param: &eNumeric_mode
 
-class IBusmasterPluginInterface
-{
+class IBusmasterPluginInterface {
 public:
     virtual int getDbService( IBMNetWorkGetService** )=0;
     virtual int getDilService( ETYPE_BUS, IBusService** ) = 0;
@@ -31,10 +33,11 @@ public:
 	virtual int getVariableCommunicationLayer(IVariableLayer** variableLayer) = 0;
 };
 
-class IBusmasterBusPluginInterface : public IBusmasterPluginInterface
-{
+class IBusmasterBusPluginInterface : public IBusmasterPluginInterface {
 public:
     virtual ~IBusmasterBusPluginInterface(){};
     virtual int getDbSetService(IBMNetWorkService**) = 0;
     virtual int notifyPlugins(eBusmaster_Event, void*) = 0;
 };
+
+#endif // BUSMASTER_APPLICATION_IBUSMASTERPLUGININTERFACE_H_

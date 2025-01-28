@@ -1,5 +1,8 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_IBUSMASTERPLUGINMANAGER_H_
+#define BUSMASTER_APPLICATION_IBUSMASTERPLUGINMANAGER_H_
+
 #include <Windows.h>
+
 #include "IBusmasterPluginInterface.h"
 #include "IBusmasterPlugin.h"
 #include "IBusmasterBusPlugin.h"
@@ -13,8 +16,7 @@
 #define PLUGIN_ERR_INVALID_INTERFACE        0x800004
 #define PLUGIN_ERR_INVALID_LICENCE          0x800005
 
-struct BaseBusmasterPlugin
-{
+struct BaseBusmasterPlugin {
     HMODULE mDllHandle = nullptr;
     pluginMenuList menuList;
     std::string mPluginId = "";
@@ -24,18 +26,18 @@ struct BaseBusmasterPlugin
     IMenuInterface* mMenuInterface = nullptr;
     int mPluginLoadState = PLUGIN_ERR_INVALID_LOAD_STATE;
 };
-struct BusmasterBusPluginConfiguration : public BaseBusmasterPlugin
-{
+
+struct BusmasterBusPluginConfiguration : public BaseBusmasterPlugin {
     ETYPE_BUS mBusType;
     IBusmasterBusPlugin* mBusPluginInterface = nullptr;
 };
-struct BusmasterPluginConfiguration : public BaseBusmasterPlugin
-{
+
+struct BusmasterPluginConfiguration : public BaseBusmasterPlugin {
 	IBusmasterPlugin* mPluginInterface = nullptr;
 	IEvent* mNotifyEvent = nullptr;
 };
-class IBusmasterPluginManager
-{
+
+class IBusmasterPluginManager {
 public:
     virtual ~IBusmasterPluginManager() {};
 
@@ -57,3 +59,5 @@ public:
 };
 
 typedef int( *GetBusMaterPluginInterface )( IBusmasterPlugin* );
+
+#endif // BUSMASTER_APPLICATION_IBUSMASTERPLUGINMANAGER_H_

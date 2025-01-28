@@ -22,7 +22,9 @@
  * Declaration file for getter functions for various interfaces.
  */
 
-#pragma once
+#ifndef BUSMASTER_APPLICATION_INTERFACEGETTER_H_
+#define BUSMASTER_APPLICATION_INTERFACEGETTER_H_
+
 #include "ProtocolsDefinitions.h"
 #include "Include/ModuleID.h"
 // All forward declarations
@@ -38,7 +40,6 @@ class CBaseBusStatisticCAN;
 class CBaseBusStatisticLIN;
 class CBaseNodeSim;
 class CMsgSignal;
-
 
 // External function prototypes
 extern CBaseFrameProcessor_CAN* GetICANLogger(void);
@@ -62,3 +63,5 @@ extern CBaseNodeSim* GetILINNodeSim(void);
 extern CBaseNodeSim* GetIJ1939NodeSim(void);
 extern CMsgSignal* GetIMsgDB(void);
 extern DWORD dwGetMonitorClientID(void);
+
+#endif // BUSMASTER_APPLICATION_INTERFACEGETTER_H_

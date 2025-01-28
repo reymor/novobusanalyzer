@@ -1,7 +1,9 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_IBUSMASTERPLUGINCONNECTION_H_
+#define BUSMASTER_APPLICATION_IBUSMASTERPLUGINCONNECTION_H_
 
-class IBusmasterPluginConnection
-{
+class IBusmasterPluginConnection {
 public:
     void getPluginId(char* id);
 };
+
+#endif // BUSMASTER_APPLICATION_IBUSMASTERPLUGINCONNECTION_H_

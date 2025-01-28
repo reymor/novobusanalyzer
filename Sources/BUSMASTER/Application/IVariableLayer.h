@@ -1,36 +1,33 @@
-#pragma once
+#ifndef BUSMASTER_APPLICATION_IVARIABLELAYER_H_
+#define BUSMASTER_APPLICATION_IVARIABLELAYER_H_
+
 #include <string>
 
 #define DEF_VARIABLE_PATH_SEPERATOR		':'
 
-namespace VariableManager
-{
-	enum VariableType
-	{
+namespace VariableManager {
+	enum VariableType {
 		Invalid,
 		Signal,
 		Pdu,
 		Message
 	};
 
-	enum VariableRawValueType
-	{
+	enum VariableRawValueType {
 		Long,
 		Ulong,
 		Physical,
 		ByteArray,
 	};
 
-	class VariableRawValue
-	{
+	class VariableRawValue {
 	public:
 		VariableRawValueType mRawValueType;
 		__int64 LongValue;
 		unsigned __int64 ULongValue;
 	};
 
-	class VariableData
-	{
+	class VariableData {
 	public:
 		std::string mVariablePath;
 		VariableType mVariableType;
@@ -38,15 +35,12 @@ namespace VariableManager
 		double mPhysicalValue;
 	};
 
-	class IVariableChangeListner
-	{
+	class IVariableChangeListner {
 	public:
 		virtual void OnVariableChange(VariableData*) = 0;
 	};
 
-
-	class IVariableLayer
-	{
+	class IVariableLayer {
 	public:
 		virtual bool isVariableExists(std::string& variablePath) = 0;
 		virtual int registerVariable(std::string& variablePath, IVariableChangeListner*, bool forTx, bool onUpdateOnly) = 0;
@@ -57,3 +51,5 @@ namespace VariableManager
 		virtual int isSignalValueValid(std::string variablePath, double& physical) = 0;
 	};
 };
+
+#endif // BUSMASTER_APPLICATION_IVARIABLELAYER_H_

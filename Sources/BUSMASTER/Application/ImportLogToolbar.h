@@ -1,10 +1,11 @@
-#pragma once
-#include"CNVTCToolBar.h"
+#ifndef BUSMASTER_APPLICATION_IMPORTLOGTOOLBAR_H_
+#define BUSMASTER_APPLICATION_IMPORTLOGTOOLBAR_H_
+
+#include "CNVTCToolBar.h"
 
 // CImportLogToolbar
 
-class CImportLogToolbar : public CNVTCToolBar
-{
+class CImportLogToolbar : public CNVTCToolBar {
     DECLARE_DYNAMIC(CImportLogToolbar)
 private:
     HWND m_hWndScroll;
@@ -17,3 +18,5 @@ public:
 protected:
     DECLARE_MESSAGE_MAP()
 };
+
+#endif // BUSMASTER_APPLICATION_IMPORTLOGTOOLBAR_H_
