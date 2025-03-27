@@ -230,6 +230,7 @@ Sources/Kernel/Bin
 # build directories
 Sources/build
 Sources/Format Converter/build
+Sources/BUSMASTER/UDS_Tool/build
 # Files in BIN (except hardware specific files)
 Sources/BUSMASTER/BIN/*/*.bmp
 Sources/BUSMASTER/BIN/*/*.c
