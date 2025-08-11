@@ -4,7 +4,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core)
+find_package(Qt5 REQUIRED COMPONENTS Widgets Gui Core)
 
 ################################################################################
 # Source groups
@@ -82,9 +82,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/GeneratedFiles;"
     "${CMAKE_CURRENT_SOURCE_DIR}/.;"
     "${CMAKE_CURRENT_SOURCE_DIR}/GeneratedFiles/$<CONFIG>;"
-    ${Qt6Core_INCLUDE_DIRS}
-    ${Qt6Gui_INCLUDE_DIRS}
-    ${Qt6Widgets_INCLUDE_DIRS}
+    ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5Gui_INCLUDE_DIRS}
+    ${Qt5Widgets_INCLUDE_DIRS}
 )
 
 ################################################################################
@@ -134,14 +134,4 @@ endif()
 ################################################################################
 # Dependencies
 ################################################################################
-target_link_libraries(${PROJECT_NAME} PRIVATE ${Qt6Widgets_LIBRARIES}) 
-
-################################################################################
-# Post build events
-################################################################################
-add_custom_command(
-  TARGET ${PROJECT_NAME}
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
-)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Qt5Widgets_LIBRARIES}) 

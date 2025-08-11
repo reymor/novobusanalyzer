@@ -31,4 +31,4 @@ makensis "NovoBusAnalyzer_installer.nsi"
 
 :END
 REM pause
-exit 0
+rem exit 0

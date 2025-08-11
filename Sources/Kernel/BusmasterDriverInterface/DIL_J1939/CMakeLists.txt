@@ -111,8 +111,6 @@ if(MSVC)
             ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT}
         >
         /W3;
-        /I;
-        "$(SolutionDir)/Localization/include";
         ${DEFAULT_CXX_EXCEPTION_HANDLING};
         /Zc:wchar_t;
         /Y-
@@ -140,14 +138,4 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} 
     PUBLIC Utilities ProtocolDefinitions
-)
-
-################################################################################
-# Post build events
-################################################################################
-add_custom_command(
-    TARGET ${PROJECT_NAME}
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory ARGS ${CMAKE_SOURCE_DIR}/Sources/BUSMASTER/BIN/${CMAKE_BUILD_TYPE}/
-    COMMAND ${CMAKE_COMMAND} -E copy ARGS $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_SOURCE_DIR}/Sources/BUSMASTER/BIN/${CMAKE_BUILD_TYPE}/
 )

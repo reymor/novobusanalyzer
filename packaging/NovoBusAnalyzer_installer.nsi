@@ -364,6 +364,7 @@ Section "NovoBusAnalyzer"
   Delete "$INSTDIR\FLEXRAY_ETAS_BOA_2.dll"
   Delete "$INSTDIR\FlexRay_GIGATRONIK_flex-i.dll"
   Delete "$INSTDIR\LIN_ETAS_BOA.dll"
+  Delete "$INSTDIR\LIN_ETAS_BOA_1_5.dll"
   Delete "$INSTDIR\LIN_Kvaser.dll"
   Delete "$INSTDIR\linlib.dll"
   Delete "$INSTDIR\LIN_Vector_XL.dll"
@@ -403,7 +404,7 @@ Section "NovoBusAnalyzer"
   Delete "$INSTDIR\FormatConverter.exe"
   Delete "$INSTDIR\SigGrphWnd.dll"
   Delete "$INSTDIR\SignalDefiner.dll"
-  ;RMDir /r "$INSTDIR\ConverterPlugins"
+  RMDir /r "$INSTDIR\ConverterPlugins"
   Delete "$INSTDIR\BUSMASTER.chm"
   Delete "$INSTDIR\LDFEditor.chm"
   Delete "$INSTDIR\COPYING.LESSER.txt"
@@ -438,45 +439,21 @@ Section "NovoBusAnalyzer"
   Delete "$INSTDIR\LDFEditor.exe"
   Delete "$INSTDIR\LDFViewer.exe"
   Delete "$INSTDIR\DBManager.dll"
+  
+  RMDir /r "$INSTDIR\iconengines"
+  RMDir /r "$INSTDIR\imageformats"
+  RMDir /r "$INSTDIR\styles"
   RMDir /r "$INSTDIR\platforms"
-  Delete "$INSTDIR\icudt54.dll"
-  Delete "$INSTDIR\icuin54.dll"
-  Delete "$INSTDIR\icuuc54.dll"
-  Delete "$INSTDIR\qdds.dll"
-  Delete "$INSTDIR\qgif.dll"
-  Delete "$INSTDIR\qicns.dll"
-  Delete "$INSTDIR\qico.dll"
-  Delete "$INSTDIR\qjp2.dll"
-  Delete "$INSTDIR\qjpeg.dll"
-  Delete "$INSTDIR\qminimal.dll"
-  Delete "$INSTDIR\qmng.dll"
-  Delete "$INSTDIR\qoffscreen.dll"
-  Delete "$INSTDIR\qsvg.dll"
+  Delete "$INSTDIR\D3Dcompiler_47.dll"
+  Delete "$INSTDIR\libEGL.dll"
+  Delete "$INSTDIR\libGLESv2.dll"
+  Delete "$INSTDIR\opengl32sw.dll"
   Delete "$INSTDIR\Qt5Core.dll"
   Delete "$INSTDIR\Qt5Gui.dll"
   Delete "$INSTDIR\Qt5Widgets.dll"
-  Delete "$INSTDIR\qtga.dll"
-  Delete "$INSTDIR\qtiff.dll"
-  Delete "$INSTDIR\qwbmp.dll"
-  Delete "$INSTDIR\qwebp.dll"
+  Delete "$INSTDIR\Qt5Svg.dll"
+  
   Delete "$INSTDIR\Application.version"
-  
-  
-  Delete "$INSTDIR\ConverterPlugins\AscLogConverter.dll"
-  Delete "$INSTDIR\ConverterPlugins\BlfLibrary.dll"
-  Delete "$INSTDIR\ConverterPlugins\BlfLogConverter.dll"
-  Delete "$INSTDIR\ConverterPlugins\CAPL2CConverter.dll"
-  Delete "$INSTDIR\ConverterPlugins\CAPL2CConverterJPN.dll"
-  Delete "$INSTDIR\ConverterPlugins\DBC2DBFConverter.dll"
-  Delete "$INSTDIR\ConverterPlugins\DBC2DBFConverterLibrary.dll"
-  Delete "$INSTDIR\ConverterPlugins\DBF2DBCConverter.dll"
-  Delete "$INSTDIR\ConverterPlugins\intl.dll"
-  Delete "$INSTDIR\ConverterPlugins\J1939DBC2DBFConverter.dll"
-  Delete "$INSTDIR\ConverterPlugins\libxml2.dll"
-  Delete "$INSTDIR\ConverterPlugins\LogAscConverter.dll"
-  Delete "$INSTDIR\ConverterPlugins\LogToExcelConverter.dll"
-  Delete "$INSTDIR\ConverterPlugins\LogToExcelConverterJPN.dll"
-  Delete "$INSTDIR\ConverterPlugins\zlib1.dll"
   
   ; Delete schema file
   Delete "$INSTDIR\BusMasterPluginSchema.xsd"
@@ -492,9 +469,9 @@ Section "NovoBusAnalyzer"
   File ..\Sources\BUSMASTER\BIN\Release\BusEmulation.exe
   File ..\Sources\BUSMASTER\BIN\Release\NovoBusAnalyzer.exe
   File ..\Sources\BUSMASTER\BIN\Release\BUSMASTER.exe.manifest
-  File ..\Sources\BUSMASTER\Application\BUSMASTER.tlb
-  File ..\Sources\BUSMASTER\Application\BUSMASTER_Interface.c
-  File ..\Sources\BUSMASTER\Application\BUSMASTER_Interface.h
+  File ..\Sources\BUSMASTER\BIN\Release\BUSMASTER.tlb
+  File ..\Sources\BUSMASTER\BIN\Release\BUSMASTER_Interface.c
+  File ..\Sources\BUSMASTER\BIN\Release\BUSMASTER_Interface.h
   File ..\Sources\BUSMASTER\BIN\Release\CAN_STUB.dll
   File ..\Sources\BUSMASTER\BIN\Release\Changelog.txt
   File ..\Sources\BUSMASTER\BIN\Release\DIL_J1939.dll
@@ -518,7 +495,7 @@ Section "NovoBusAnalyzer"
   File ..\Sources\BUSMASTER\BIN\Release\zlib1.dll
   File ..\Sources\BUSMASTER\BIN\Release\intl.dll
   File ..\Sources\BUSMASTER\BIN\Release\LIN_ISOLAR_EVE_VLIN.dll
-  File ..\Sources\BUSMASTER\BIN\Release\LIN_ETAS_BOA.dll
+  File ..\Sources\BUSMASTER\BIN\Release\LIN_ETAS_BOA_1_5.dll
   File ..\Sources\BUSMASTER\BIN\Release\LIN_Kvaser.dll
   File ..\Sources\BUSMASTER\BIN\Release\linlib.dll
   File ..\Sources\BUSMASTER\BIN\Release\Controller_0.dll
@@ -528,26 +505,34 @@ Section "NovoBusAnalyzer"
   File ..\Sources\BUSMASTER\BIN\Release\LDFEditor.exe
   File ..\Sources\BUSMASTER\BIN\Release\LDFViewer.exe
   File ..\Sources\BUSMASTER\BIN\Release\DBManager.dll
-  File ..\Sources\BUSMASTER\BIN\Release\icudt54.dll
-  File ..\Sources\BUSMASTER\BIN\Release\icuin54.dll
-  File ..\Sources\BUSMASTER\BIN\Release\icuuc54.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qdds.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qgif.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qicns.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qico.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qjp2.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qjpeg.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qminimal.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qmng.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qoffscreen.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qsvg.dll
+  
+  ; Qt libraries
+  SetOutPath "$INSTDIR\iconengines"
+  File ..\Sources\BUSMASTER\BIN\Release\iconengines\qsvgicon.dll
+  SetOutPath "$INSTDIR\imageformats"
+  File ..\Sources\BUSMASTER\BIN\Release\imageformats\qgif.dll
+  File ..\Sources\BUSMASTER\BIN\Release\imageformats\qicns.dll
+  File ..\Sources\BUSMASTER\BIN\Release\imageformats\qico.dll
+  File ..\Sources\BUSMASTER\BIN\Release\imageformats\qjpeg.dll
+  File ..\Sources\BUSMASTER\BIN\Release\imageformats\qtga.dll
+  File ..\Sources\BUSMASTER\BIN\Release\imageformats\qtiff.dll
+  File ..\Sources\BUSMASTER\BIN\Release\imageformats\qwbmp.dll
+  File ..\Sources\BUSMASTER\BIN\Release\imageformats\qwebp.dll
+  File ..\Sources\BUSMASTER\BIN\Release\imageformats\qsvg.dll
+  SetOutPath "$INSTDIR\styles"
+  File ..\Sources\BUSMASTER\BIN\Release\styles\qwindowsvistastyle.dll
+  SetOutPath "$INSTDIR\platforms"
+  File /r ..\Sources\BUSMASTER\BIN\Release\platforms
+  SetOutPath $INSTDIR
+  File ..\Sources\BUSMASTER\BIN\Release\D3Dcompiler_47.dll
+  File ..\Sources\BUSMASTER\BIN\Release\libEGL.dll
+  File ..\Sources\BUSMASTER\BIN\Release\libGLESv2.dll
+  File ..\Sources\BUSMASTER\BIN\Release\opengl32sw.dll  
   File ..\Sources\BUSMASTER\BIN\Release\Qt5Core.dll
   File ..\Sources\BUSMASTER\BIN\Release\Qt5Gui.dll
   File ..\Sources\BUSMASTER\BIN\Release\Qt5Widgets.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qtga.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qtiff.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qwbmp.dll
-  File ..\Sources\BUSMASTER\BIN\Release\qwebp.dll
+  File ..\Sources\BUSMASTER\BIN\Release\Qt5Svg.dll
+  
   File ..\Sources\BUSMASTER\BIN\Release\Application.version
 
   ; PlugIn schema file
@@ -599,7 +584,7 @@ Section "NovoBusAnalyzer"
   File ..\DBManager_License.txt
   File ..\ReleaseNotes.txt
   
-  File /r ..\Sources\BUSMASTER\BIN\Release\platforms
+  
 
   ;Add dlls to ConverterPlugins
   SetOutPath "$INSTDIR\ConverterPlugins"
@@ -702,7 +687,7 @@ SectionEnd
 Section "DMGraph"
     SectionIn RO 1 2 3
     SetOutPath $INSTDIR
-    File ..\Sources\BUSMASTER\BIN\ReleaseUMinSize\DMGraph.dll
+    File ..\Sources\BUSMASTER\BIN\Release\DMGraph.dll
 SectionEnd
 
 SectionGroupEnd
@@ -719,9 +704,9 @@ SectionEnd
 Section "ETAS BOA"
   SectionIn 1 2
   SetOutPath $INSTDIR
-  File ..\Sources\BUSMASTER\BIN\Release\CAN_ETAS_BOA_1_4.dll
+;  File ..\Sources\BUSMASTER\BIN\Release\CAN_ETAS_BOA_1_4.dll
   File ..\Sources\BUSMASTER\BIN\Release\CAN_ETAS_BOA_1_5.dll
-  File ..\Sources\BUSMASTER\BIN\Release\CAN_ETAS_BOA_2.dll
+;  File ..\Sources\BUSMASTER\BIN\Release\CAN_ETAS_BOA_2.dll
 SectionEnd
 
 Section "Intrepid neoVI"

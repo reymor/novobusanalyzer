@@ -59,18 +59,10 @@ include_directories(
   ${ATL_INCLUDE_DIRS})
 
 # compiler options
-add_definitions(-Gy -GF -MT)
+add_definitions(-Gy -GF -MT -DUNICODE -D_UNICODE)
 remove_definitions(-GR -MD)
 
 # linker options
 set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:daouuid /NXCOMPAT:NO")
 target_link_libraries(${PROJECT_NAME}
   comctl32)
-
-# installer options
-add_custom_command(
-  TARGET ${PROJECT_NAME}
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
-)

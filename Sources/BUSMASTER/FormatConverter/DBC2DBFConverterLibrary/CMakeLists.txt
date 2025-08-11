@@ -33,6 +33,10 @@ set(headers
 
 add_library(${PROJECT_NAME} SHARED ${sources} ${headers})
 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/ConverterPlugins/
+  RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/ConverterPlugins/)
+
 add_custom_command(OUTPUT dbc_dbf_Lexer.c
   COMMAND ${FLEX_EXECUTABLE}
   ARGS -i -L -odbc_dbf_Lexer.c ${CMAKE_CURRENT_SOURCE_DIR}/dbc_dbf_Lexer.l
@@ -49,11 +53,3 @@ include_directories(
 target_link_libraries(${PROJECT_NAME}
   ${GETTEXT_LIBRARY}
   ${MFC_LIBRARIES} -NODEFAULTLIB:daouuid)
-
-# installer options
-add_custom_command(
-  TARGET ${PROJECT_NAME}
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-)

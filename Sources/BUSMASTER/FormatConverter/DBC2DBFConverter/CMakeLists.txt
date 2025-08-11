@@ -1,3 +1,5 @@
+set(PROJECT_NAME DBC2DBFConverter)
+
 set(sources
   DBC2DBFConverter.cpp
   DBC2DBFConverter_stdafx.cpp
@@ -11,7 +13,11 @@ set(headers
 set(resources
   DBC2DBFConverter.rc)
 
-add_library(DBC2DBFConverter SHARED ${sources} ${headers} ${resources})
+add_library(${PROJECT_NAME} SHARED ${sources} ${headers} ${resources})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/ConverterPlugins/
+  RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/ConverterPlugins/)
 
 include_directories(
   ../DBF2DBCConverter
@@ -19,15 +25,7 @@ include_directories(
   ${MFC_INCLUDE_DIRS})
 
 # linker options
-target_link_libraries(DBC2DBFConverter
+target_link_libraries(${PROJECT_NAME}
   DBC2DBFConverterLibrary
   ${GETTEXT_LIBRARY}
   ${MFC_LIBRARIES})
-
-# installer options
-add_custom_command(
-  TARGET DBC2DBFConverter
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:DBC2DBFConverter> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-)

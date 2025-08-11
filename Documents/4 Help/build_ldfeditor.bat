@@ -21,6 +21,8 @@ echo Serna not found. Build failed!
 goto END
 
 :DITA_FIND
+for /d %%i in ("%SERNA_HOME%\plugins\dita\DITA-OT1.8*") do set DITA_HOME=%%i
+if exist "%DITA_HOME%" goto DITA_1_8
 for /d %%i in ("%SERNA_HOME%\plugins\dita\DITA-OT1.5*") do set DITA_HOME=%%i
 if exist "%DITA_HOME%" goto DITA_1_5
 for /d %%i in ("%SERNA_HOME%\plugins\dita\DITA-OT1.4*") do set DITA_HOME=%%i
@@ -65,6 +67,30 @@ set ANT_OPTS=-Xmx512m %ANT_OPTS%
 set ANT_OPTS=%ANT_OPTS% -Djavax.xml.transform.TransformerFactory=net.sf.saxon.TransformerFactoryImpl
 goto HTMLHELP_FIND
 
+:DITA_1_8
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\dost.jar
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\commons-codec-1.4.jar
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\resolver.jar
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\icu4j.jar
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\saxon
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\saxon\saxon9.jar
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\saxon\saxon9-dom.jar
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\saxon\saxon9-dom4j.jar
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\saxon\saxon9-jdom.jar
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\saxon\saxon9-s9api.jar
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\saxon\saxon9-sql.jar
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\saxon\saxon9-xom.jar
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\saxon\saxon9-xpath.jar
+set CLASSPATH=%CLASSPATH%;%DITA_HOME%\lib\saxon\saxon9-xqj.jar
+set CLASSPATH=%CLASSPATH%;%~dp0\..\..\Tools\xerces-2_12_2\resolver.jar
+set CLASSPATH=%CLASSPATH%;%~dp0\..\..\Tools\xerces-2_12_2\serializer.jar
+set CLASSPATH=%CLASSPATH%;%~dp0\..\..\Tools\xerces-2_12_2\xercesImpl.jar
+set CLASSPATH=%CLASSPATH%;%~dp0\..\..\Tools\xerces-2_12_2\xml-apis.jar
+set ANT_OPTS=-Xmx512m %ANT_OPTS%
+set ANT_OPTS=%ANT_OPTS% -Djavax.xml.transform.TransformerFactory=net.sf.saxon.TransformerFactoryImpl
+goto HTMLHELP_FIND
+
 :HTMLHELP_FIND
 set HTMLHELP_HOME=%ProgramFiles%\HTML Help Workshop
 if exist "%HTMLHELP_HOME%" goto BUILD
@@ -89,4 +115,4 @@ echo CHM was not build. I try again.
 hhc out\help.hhp
 
 :END
-exit 0
+rem exit 0

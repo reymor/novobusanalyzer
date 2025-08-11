@@ -146,13 +146,3 @@ endif()
 target_link_libraries(${PROJECT_NAME} 
     PUBLIC DIL_J1939
 )
-
-################################################################################
-# Post build events
-################################################################################
-add_custom_command(
-    TARGET ${PROJECT_NAME}
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory ARGS ${CMAKE_SOURCE_DIR}/Sources/BUSMASTER/BIN/${CMAKE_BUILD_TYPE}/
-    COMMAND ${CMAKE_COMMAND} -E copy ARGS $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_SOURCE_DIR}/Sources/BUSMASTER/BIN/${CMAKE_BUILD_TYPE}/
-)

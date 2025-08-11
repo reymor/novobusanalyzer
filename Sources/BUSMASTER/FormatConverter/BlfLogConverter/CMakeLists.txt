@@ -15,6 +15,10 @@ set(resources
 
 add_library(${PROJECT_NAME} SHARED ${sources} ${headers} ${resources})
 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/ConverterPlugins/
+  RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/ConverterPlugins/)
+
 include_directories(
   ${GETTEXT_INCLUDE_DIR}
   ${MFC_INCLUDE_DIRS})
@@ -23,11 +27,3 @@ target_link_libraries(${PROJECT_NAME}
   BlfLibrary
   ${GETTEXT_LIBRARY}
   ${MFC_LIBRARIES})
-
-# installer options
-add_custom_command(
-  TARGET ${PROJECT_NAME}
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-)

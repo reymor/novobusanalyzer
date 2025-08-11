@@ -17,6 +17,10 @@ set(headers
 
 add_library(${PROJECT_NAME} SHARED ${sources} ${headers})
 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/ConverterPlugins/
+  RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug/ConverterPlugins/)
+  
 target_include_directories(${PROJECT_NAME} 
   INTERFACE Src
 )
@@ -30,11 +34,3 @@ add_definitions(-DBLFLIBRARY_EXPORTS -D_WINDLL)
 # linker options
 target_link_libraries(${PROJECT_NAME}
   ${ZLIB_LIBRARY})
-
-# installer options
-add_custom_command(
-  TARGET ${PROJECT_NAME}
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/ConverterPlugins/
-)

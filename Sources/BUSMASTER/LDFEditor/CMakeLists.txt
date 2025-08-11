@@ -4,7 +4,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 COMPONENTS Widgets Gui Core REQUIRED)
+find_package(Qt5 COMPONENTS Widgets Gui Core REQUIRED)
 
 ################################################################################
 # Source groups
@@ -143,9 +143,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/GeneratedFiles;"
     "${CMAKE_CURRENT_SOURCE_DIR}/.;"
     "${CMAKE_CURRENT_SOURCE_DIR}/GeneratedFiles/$<CONFIG>;"
-    ${Qt6Core_INCLUDE_DIRS}
-    ${Qt6Gui_INCLUDE_DIRS}
-    ${Qt6Widgets_INCLUDE_DIRS}
+    ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5Gui_INCLUDE_DIRS}
+    ${Qt5Widgets_INCLUDE_DIRS}
 )
 
 ################################################################################
@@ -192,8 +192,8 @@ endif()
 ################################################################################
 # Dependencies
 ################################################################################
-target_link_libraries(${PROJECT_NAME} PRIVATE ${Qt6Widgets_LIBRARIES} ${Qt6Gui_LIBRARIES}
-                      ${Qt6Core_LIBRARIES} ProtocolDefinitions)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Qt5Widgets_LIBRARIES} ${Qt5Gui_LIBRARIES}
+                      ${Qt5Core_LIBRARIES} ProtocolDefinitions)
 
 ################################################################################
 # Post build events
@@ -201,6 +201,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${Qt6Widgets_LIBRARIES} ${Qt6Gui_L
 add_custom_command(
   TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
+  COMMAND ${Qt5_BIN_DIR}/windeployqt --dir ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>/LDFEditor.exe
 )

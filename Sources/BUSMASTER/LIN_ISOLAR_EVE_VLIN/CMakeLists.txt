@@ -35,11 +35,3 @@ target_link_libraries(LIN_ISOLAR_EVE_VLIN
   Ws2_32
   DataTypes
   Utils)
-
-# installer options
-add_custom_command(
-  TARGET LIN_ISOLAR_EVE_VLIN
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:LIN_ISOLAR_EVE_VLIN> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
-)

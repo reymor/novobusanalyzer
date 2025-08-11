@@ -79,13 +79,3 @@ if(MSVC)
   target_link_options(${PROJECT_NAME} PRIVATE /DEBUG)
   target_compile_options(${PROJECT_NAME} PRIVATE /Zi)
 endif()
-
-################################################################################
-# Post build events
-################################################################################
-add_custom_command(
-  TARGET ${PROJECT_NAME}
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
-  COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
-)
